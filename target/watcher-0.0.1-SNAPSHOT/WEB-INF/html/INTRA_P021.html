@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<title>임시저장(목록) - 개인문서함 - (주)프로와이즈</title>
+	<link rel="stylesheet" href="/assets/css/reset.css">
+	<link rel="stylesheet" href="/assets/css/common.css">
+	<link rel="stylesheet" href="/assets/css/plugins/jquery-ui.css">
+	<link rel="stylesheet" href="/assets/css/dev.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<script src="/assets/js/plugins/jquery-3.4.1.min.js"></script>
+	<script src="/assets/js/plugins/jquery.easing.1.3.min.js"></script>
+	<script src="/assets/js/plugins/jquery-ui.min.js"></script>
+	<script src="/assets/js/plugins/jquery-ui-calendar-kor.js"></script>
+	<script src="/assets/js/common_ui.js"></script>
+	<script>
+		$(function() {
+			// 임시 스크립트
+			// LNB Depth 설정
+			depth1 = 3;
+			depth2 = 1;
+		});
+	</script>
+</head>
+<body>
+<div class="wrap">
+	<header class="mainHeader">
+		<h1><a href="/html/INTRA_M001.html">ProWise</a></h1>
+
+		<p class="userName">
+			<span>홍길동님</span>
+			<span>안녕하세요</span>
+		</p>
+
+		<a href="/html/INTRA_A001.html" class="modifyInfo">개인정보수정</a>
+		<a href="/html/ADMIN_M001.html" class="btnAdmin">관리자</a>
+	</header>
+
+	<section class="container">
+		<h2 class="tit01">전자결재</h2>
+
+		<div class="lnb"></div>
+		<!-- EOD : lnb -->
+		<script>
+			// 임시 스크립트입니다. 삭제요망
+			// lnb html 파일을 불러온다.
+			$(function() {
+				$('.lnb').load('/html/include/inc_lnb.html', function() {
+					$.getScript('/assets/js/common_ui.js');
+				});
+			});
+		</script>
+
+		<div class="contents">
+			<div class="location">
+				<a href="javascript:void(0);">개인문서함</a> <span class="gt">&gt;</span>
+				<a href="/html/INTRA_P011.html">임시저장</a>
+			</div>
+
+			<!-- EOD : location -->
+
+			<div class="searchArea">
+				<select name="" id="">
+					<option value="">문서번호</option>
+					<option value=""></option>
+				</select>
+
+				<input type="text" placeholder="검색어를 입력하세요." title="검색어를 입력하세요">
+				<button type="submit" class="btn-s-blue">검색</button>
+			</div>
+			<!-- EOD : searchArea -->
+
+			<table class="bbsList01">
+				<colgroup>
+					<col style="width:10%;">
+					<col style="width:12%;">
+					<col style="width:11%;">
+					<col style="width:11%;">
+					<col style="">
+					<col style="width:10%;">
+					<col style="width:10%;">
+				</colgroup>
+				<thead>
+				<tr>
+					<th scope="col">No.</th>
+					<th scope="col">문서번호</th>
+					<th scope="col">기안일자</th>
+					<th scope="col">결재일자</th>
+					<th scope="col">문서명</th>
+					<th scope="col">상태</th>
+					<th scope="col">의견</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td colspan="7" class="noData">조회 내용이 없습니다.</td>
+				</tr>
+				<tr>
+					<td class="count">9999</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">2</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				<tr>
+					<td class="count">9998</td>
+					<td class="num">PW20200206-012</td>
+					<td class="date">2020.02.11</td>
+					<td class="date">2020.02.11</td>
+					<td class="subject"><a href="/html/INTRA_P022.html">약관 변경 홈페이지 게시문(여신거래약정서) 약관 변경 홈페이지 게시문(여신거래약정서)</a></td>
+					<td class="status txtCenter">진행중</td>
+					<td class="opinion txtCenter">0</td>
+				</tr>
+				</tbody>
+			</table>
+
+			<div class="pagination">
+				<a href="#none" class="first" title="처음"><span>처음</span></a>
+				<a href="#none" class="prev" title="이전 10페이지">이전</a>
+				<ol>
+					<li><strong title="현재 페이지">1</strong></li>
+					<li><a href="#none">2</a></li>
+					<li><a href="#none">3</a></li>
+					<li><a href="#none">4</a></li>
+					<li><a href="#none">5</a></li>
+					<li><a href="#none">6</a></li>
+					<li><a href="#none">7</a></li>
+					<li><a href="#none">8</a></li>
+					<li><a href="#none">9</a></li>
+					<li><a href="#none">10</a></li>
+				</ol>
+
+				<a href="#none" class="next" title="다음 10페이지">다음</a>
+				<a href="#none" class="last" title="마지막"><span>마지막</span></a>
+			</div>
+			<!-- EOD : pagination -->
+		</div>
+		<!-- EOD : contents -->
+
+
+	</section>
+	<!-- EOD : container -->
+</div>
+<!-- EOD : wrap -->
+</body>
+</html>

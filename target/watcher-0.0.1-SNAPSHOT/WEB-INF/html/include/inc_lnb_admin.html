@@ -1,0 +1,22 @@
+<nav>
+	<ul class="list01">
+		<li>
+			<a href="/html/ADMIN_M001.html">사원정보</a>
+		</li>
+		<li>
+			<a href="/html/ADMIN_F001.html">서식 자료실</a>
+		</li>
+	</ul>
+</nav>
+
+<script>
+	$(function() {
+		// 임시 스크립트
+		// LNB Depth 설정
+		var lnb = $('.lnb .list01');
+		lnb.find('> li').eq(depth1).find(' > a').addClass('active')
+			.next('ul').find('li').eq(depth2).find('a').addClass('active');
+
+		lnb.find('a.active').next('ul').show();
+	});
+</script>

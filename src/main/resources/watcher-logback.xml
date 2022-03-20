@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<property name="LOG_PATH" value="/log/watcher"/>
+	<property name="LOG_FILE" value="catalina.log"/>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%logger{36}] [%-5level] - %msg%n</Pattern>
+        </layout>
+    </appender>
+	
+	<!-- Loggers -->
+	<logger name="org.springframework" level="INFO" />
+	<logger name="com.example.prowise" level="INFO" />
+
+	<root level="ERROR">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

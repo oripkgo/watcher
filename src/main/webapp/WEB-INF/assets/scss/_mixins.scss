@@ -1,0 +1,21 @@
+@mixin btn-s {display:inline-block; height:2.3rem; padding:0 1rem; border-radius:0.4rem; color:#fff; text-align:center;}
+@mixin btn-s-blue {
+	@include btn-s();
+	background-color:#0b64bf;}
+@mixin btn-s-gray {
+	@include btn-s();
+	background-color:#757575;
+}
+@mixin btn-s-dark {
+	@include btn-s();
+	background-color:#0A0357;
+}
+
+@mixin btn-b {display:inline-block; min-width:8rem; height:3rem; padding:0.6rem 1rem 0; border-radius:0.4rem; color:#fff; font-size:1.4rem;}
+@mixin btn-b-blue {
+	@include btn-b();
+	background-color:#0b64bf;}
+@mixin btn-b-gray {
+	@include btn-b();
+	background-color:#757575;
+}

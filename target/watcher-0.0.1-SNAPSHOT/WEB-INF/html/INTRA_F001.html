@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width">
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<title>서식자료실(목록) - 개인문서함 - (주)프로와이즈</title>
+	<link rel="stylesheet" href="/assets/css/reset.css">
+	<link rel="stylesheet" href="/assets/css/common.css">
+	<link rel="stylesheet" href="/assets/css/plugins/jquery-ui.css">
+	<link rel="stylesheet" href="/assets/css/dev.css">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<script src="/assets/js/plugins/jquery-3.4.1.min.js"></script>
+	<script src="/assets/js/plugins/jquery.easing.1.3.min.js"></script>
+	<script src="/assets/js/plugins/jquery-ui.min.js"></script>
+	<script src="/assets/js/plugins/jquery-ui-calendar-kor.js"></script>
+	<script src="/assets/js/common_ui.js"></script>
+	<script>
+		$(function() {
+			// 임시 스크립트
+			// LNB Depth 설정
+			depth1 = 5;
+			depth2 = null;
+		});
+	</script>
+</head>
+<body>
+<div class="wrap">
+	<header class="mainHeader">
+		<h1><a href="/html/INTRA_M001.html">ProWise</a></h1>
+
+		<p class="userName">
+			<span>홍길동님</span>
+			<span>안녕하세요</span>
+		</p>
+
+		<a href="/html/INTRA_A001.html" class="modifyInfo">개인정보수정</a>
+		<a href="/html/ADMIN_M001.html" class="btnAdmin">관리자</a>
+	</header>
+
+	<section class="container">
+		<h2 class="tit01">전자결재</h2>
+
+		<div class="lnb"></div>
+		<!-- EOD : lnb -->
+		<script>
+			// 임시 스크립트입니다. 삭제요망
+			// lnb html 파일을 불러온다.
+			$(function() {
+				$('.lnb').load('/html/include/inc_lnb.html', function() {
+					$.getScript('/assets/js/common_ui.js');
+				});
+			});
+		</script>
+
+		<div class="contents">
+			<div class="location">
+				<a href="/html/INTRA_F001.html">서식자료실</a>
+			</div>
+
+			<!-- EOD : location -->
+
+			<div class="searchArea">
+				<input type="text" placeholder="검색어를 입력하세요." title="검색어를 입력하세요">
+				<button type="submit" class="btn-s-blue">검색</button>
+			</div>
+			<!-- EOD : searchArea -->
+
+			<table class="bbsList01">
+				<colgroup>
+					<col style="width:5%;">
+					<col style="width:12%;">
+					<col style="width:11%;">
+					<col style="width:11%;">
+				</colgroup>
+				<thead>
+				<tr>
+					<th scope="col">No.</th>
+					<th scope="col">서식명</th>
+					<th scope="col">등록일</th>
+					<th scope="col">다운로드</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td colspan="4" class="noData">조회 내용이 없습니다.</td>
+				</tr>
+				<tr>
+					<td class="count">8</td>
+					<td title="설명문구 추가예정">기안서</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">7</td>
+					<td title="설명문구 추가예정">품의서</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">6</td>
+					<td title="설명문구 추가예정">지출결의서</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">5</td>
+					<td title="설명문구 추가예정">휴가계</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">4</td>
+					<td title="설명문구 추가예정">회의록</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">3</td>
+					<td title="설명문구 추가예정">발주서</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">2</td>
+					<td title="설명문구 추가예정">출장계</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				<tr>
+					<td class="count">1</td>
+					<td title="설명문구 추가예정">견적서</td>
+					<td class="date">2020.02.11</td>
+					<td class="down"><button type="button" class="btn-s-dark">download</button></td>
+				</tr>
+				</tbody>
+			</table>
+
+			<div class="pagination">
+				<a href="#none" class="first" title="처음"><span>처음</span></a>
+				<a href="#none" class="prev" title="이전 10페이지">이전</a>
+				<ol>
+					<li><strong title="현재 페이지">1</strong></li>
+					<li><a href="#none">2</a></li>
+					<li><a href="#none">3</a></li>
+					<li><a href="#none">4</a></li>
+					<li><a href="#none">5</a></li>
+					<li><a href="#none">6</a></li>
+					<li><a href="#none">7</a></li>
+					<li><a href="#none">8</a></li>
+					<li><a href="#none">9</a></li>
+					<li><a href="#none">10</a></li>
+				</ol>
+
+				<a href="#none" class="next" title="다음 10페이지">다음</a>
+				<a href="#none" class="last" title="마지막"><span>마지막</span></a>
+			</div>
+			<!-- EOD : pagination -->
+		</div>
+		<!-- EOD : contents -->
+
+
+	</section>
+	<!-- EOD : container -->
+</div>
+<!-- EOD : wrap -->
+</body>
+</html>
