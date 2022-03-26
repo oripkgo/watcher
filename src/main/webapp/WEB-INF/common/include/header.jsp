@@ -1,57 +1,113 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 
-<script>
-	Kakao.init('16039b88287b9f46f214f7449158dfde');
-	Kakao.isInitialized();
+<%@include file="globalVariable.jsp"%>
+
+<script type="text/javascript">
 
 	$(document).on("ready",function(){
 
-		$("#kakao-login-btn").on("click",function(){
-
-
-			Kakao.Auth.login({
-				success: function(authObj) {
-					alert(JSON.stringify(authObj))
-					Kakao.API.request({
-						url: '/v2/user/me',
-						success: function(res) {
-							alert(JSON.stringify(res))
-						},
-						fail: function(error) {
-							alert(
-									'login success, but failed to request user information: ' +
-									JSON.stringify(error)
-							)
-						},
-					})
-				},
-				fail: function(err) {
-					alert(JSON.stringify(err))
-				},
-			})
-
-		})
-
-		/*$("#naver_id_login").on("click",function(){
-
-			var naver_id_login = new naver_id_login("ThouS3nsCEwGnhkMwI1I", "http://localhost:8080/loginSuccess");
-			var state = naver_id_login.getUniqState();
-			naver_id_login.setButton("white", 2,40);
-			naver_id_login.setDomain("http://localhost:8080");
-			naver_id_login.setState(state);
-			naver_id_login.setPopup();
-			naver_id_login.init_naver_id_login();
-
-		});*/
+		loginProcessEvent(loginYn);
 
 	})
 
 
+	async function login_success_callback(obj){
+		console.log(JSON.stringify(obj));
+
+		let param = {}
+
+		if( obj.type == 'naver' ){
+			param.type = obj.type;
+			param.id = obj.id;
+			param.email = obj.email;
+			param.nickname = obj.nickname;
+			param.profile = obj.profile_image;
+
+		}else{
+			param.type = obj.type;
+			param.id = obj.id;
+			param.email = obj.email;
+			param.nickname = obj.properties.nickname;
+			param.profile = obj.properties.profile_image;
+
+		}
+
+		loginType = obj.type;
+		comm.request({
+			url: "/login/loginSuccessCallback",
+			data : JSON.stringify(param)
+		},function(res){
+			// 로그인 성공
+
+			//팝업 닫기
+			$("#backbg").fadeOut("slow");
+			$(".pop_wrap").hide();
+
+			loginYn = true;
+			loginType = "";
+			loginProcess(loginYn);
+
+
+		})
+
+	}
+
+	function loginProcess(loginYn){
+		// 로그인 프로필로 변경
+
+		$(".member_set.logOut").show();
+		$(".loginStart").hide();
+
+	}
+
+	function loginProcessEvent(loginYn){
+		$(".member_set").on("click",function(){
+			$(".member_app").slideToggle("fast");
+		})
+
+		$("#logout").on("click",function(){
+			comm.logOut( function(res){
+
+				$(".logOut").hide();
+				$(".loginStart").show();
+				loginYn = false;
+
+				if( loginType == 'naver' ){
+					let naver_logout_popup = window.open('https://nid.naver.com/nidlogin.logout', null, "width=10, height=10");
+					setTimeout(function () {
+						naver_logout_popup.close();
+					}, 100);
+
+				}else{
+					Kakao.API.request({
+						url: '/v1/user/unlink',
+						success: function(response) {
+							if (!Kakao.Auth.getAccessToken()) {
+								console.log('Not logged in.');
+								return;
+							}
+							Kakao.Auth.logout(function() {
+								console.log(Kakao.Auth.getAccessToken());
+							});
+						},
+						fail: function(error) {
+							console.log(error);
+						},
+					});
+
+				}
+
+			});
+		})
+
+	}
+
+
+
 </script>
+
 
 <div class="head_wrap">
 	<div class="logo">
@@ -62,7 +118,34 @@
 		<a href="/notice/list">NOTICE</a>
 	</div>
 	<div class="top_navi">
-		<a href="javascript:;" class="btn_start">시작하기</a>
+
+			<c:choose>
+				<c:when test="${!empty sessionScope.loginInfo}">
+					<a href="javascript:;" class="member_set logOut"><img src="/resources/img/member_ico_b.png"></a>
+					<div class="member_app logOut" style="display: none;">
+						<a href="javascript:;" id="myStory">내 스토리</a>
+						<a href="javascript:;" id="management">관리</a>
+						<a href="javascript:;" id="writing">글쓰기</a>
+						<a href="javascript:;" id="logout">로그아웃</a>
+					</div>
+
+					<a href="javascript:;" class="btn_start loginStart" style="display: none;">시작하기</a>
+				</c:when>
+				<c:otherwise>
+					<a href="javascript:;" class="member_set logOut" style="display: none;"><img src="/resources/img/member_ico_b.png"></a>
+					<div class="member_app logOut" style="display: none;">
+						<a href="javascript:;" id="myStory">내 스토리</a>
+						<a href="javascript:;" id="management">관리</a>
+						<a href="javascript:;" id="writing">글쓰기</a>
+						<a href="javascript:;" id="logout">로그아웃</a>
+					</div>
+
+					<a href="javascript:;" class="btn_start loginStart">시작하기</a>
+
+				</c:otherwise>
+			</c:choose>
+
+
 		<a href="javascript:;"><img src="/resources/img/btn_search.png"></a>
 	</div>
 </div>
@@ -84,10 +167,43 @@
 
 <script>
 
-	var naver_id_login = new naver_id_login("ThouS3nsCEwGnhkMwI1I", "http://localhost:8080/loginSuccess");
+	// 카카오 로그인 s
+	Kakao.init(kakaoKey);
+	Kakao.isInitialized();
+
+	$(document).on("ready",function(){
+
+		$("#kakao-login-btn").on("click",function(){
+
+			Kakao.Auth.login({
+				success: function(authObj) {
+					Kakao.API.request({
+						url: '/v2/user/me',
+						success: function(res) {
+							login_success_callback(Object.assign(res,{"type":"kakao"}));
+						},
+						fail: function(error) {
+							alert(
+									'login success, but failed to request user information: ' +
+									JSON.stringify(error)
+							)
+						},
+					})
+				},
+				fail: function(err) {
+					alert(JSON.stringify(err))
+				},
+			})
+
+		})
+
+	})
+
+	// 네이버 로그인 s
+	var naver_id_login = new naver_id_login(naverKey, origin + "/login/loginSuccess");
 	var state = naver_id_login.getUniqState();
 	naver_id_login.setButton("white", 2,40);
-	naver_id_login.setDomain("http://localhost:8080");
+	naver_id_login.setDomain(origin);
 	naver_id_login.setState(state);
 	naver_id_login.setPopup();
 	naver_id_login.is_callback = true;
@@ -98,5 +214,6 @@
 		})
 	}
 	naver_id_login.init_naver_id_login();
+	// 네이버 로그인 e
 
 </script>

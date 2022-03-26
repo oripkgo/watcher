@@ -77,7 +77,14 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		<!-- // java용 json 및 다양한 형식의 데이터를 지원하는 data-processing tool -->
-		
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20220320</version>
+		</dependency>
+
+
 		<!-- DB -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>

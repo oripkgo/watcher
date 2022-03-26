@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.watcher.dto.MemberDto;
 import com.watcher.service.MemberService;
 
 
@@ -18,9 +17,4 @@ public class MemberController {
 	@Autowired
 	MemberService memberSv;
 	
-	@RequestMapping(value="/member")
-	public @ResponseBody List<MemberDto> test() throws Exception{
-		
-		return memberSv.callMember();
-	}
 }

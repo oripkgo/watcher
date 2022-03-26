@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.watcher.dto.MemberDto;
 import com.watcher.service.MainService;
 
 
@@ -26,22 +25,9 @@ public class MainController {
 		
 		ModelAndView mav = new ModelAndView("main/main");
 
-		
-		return mav;
-	}
-
-
-
-	@RequestMapping(value={"loginSuccess"})
-	public ModelAndView loginSuccess() throws Exception {
-
-		ModelAndView mav = new ModelAndView("main/main");
-
 
 		return mav;
 	}
 
 
-	
-	
 }

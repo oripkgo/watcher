@@ -68,13 +68,15 @@
                         </tr>
                         </tbody></table>
 
-                    <div class="pagging_wrap">
-                        <a href="javascript:;"><img src="/resources/img/prev_arrow.png"></a>
-                        <a href="javascript:;" class="on">1</a>
-                        <a href="javascript:;">2</a>
-                        <a href="javascript:;">3</a>
-                        <a href="javascript:;"><img src="/resources/img/next_arrow.png"></a>
-                    </div>
+
+                    <jsp:include page="/WEB-INF/common/include/paging.jsp">
+                        <jsp:param name="form" 			value="#noticeForm"			/>
+                        <jsp:param name="url" 			value="/notice/list"		/>
+                        <jsp:param name="listCallback" 	value="listCallback"			/>
+                        <jsp:param name="pageNo" 		value="${vo.pageNo}"			/>
+                        <jsp:param name="listNo" 		value="10"						/>
+                        <jsp:param name="pagigRange" 	value="10"						/>
+                    </jsp:include>
 
                 </div>
 
