@@ -81,7 +81,6 @@ public class LoginController {
 
 		}else{
 
-
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
