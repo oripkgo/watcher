@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.MemberMapper">
+
+	<select id="callMember" resultType="memberVo">
+	 SELECT * FROM test
+	</select>
+
+
+	<insert id="insert" parameterType="memberVo" useGeneratedKeys="true" keyColumn="id">
+
+		INSERT INTO MEMBER(
+			PASSWORD,
+			MEM_ID,
+			EMAIL,
+			PHONE_NUM,
+			NAME,
+			NICKNAME,
+			MEM_TYPE,
+			REG_ID,
+			REG_DATE,
+			UPT_ID,
+			UPT_DATE
+		)
+		VALUES (
+		    #{password},
+		    #{memId},
+		    #{email},
+		    #{phoneNum},
+		    #{name},
+		    #{nickname},
+		    #{memType},
+		    #{memId},
+		    NOW(),
+		    #{memId},
+			NOW()
+		)
+
+	</insert>
+
+</mapper>

@@ -1,6 +1,8 @@
 package com.watcher.util;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -12,6 +14,9 @@ import java.util.Set;
 
 
 public class HttpUtil {
+
+
+    private final static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
 
     static public String httpRequest(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
@@ -63,10 +68,10 @@ public class HttpUtil {
 
             //http 요청 실시
             conn.connect();
-            System.out.println("http 요청 방식 : "+"GET");
-            System.out.println("http 요청 주소 : "+UrlData);
-            System.out.println("http 요청 데이터 : "+ParamData);
-            System.out.println("");
+
+            logger.debug("http 요청 방식 : "+"GET");
+            logger.debug("http 요청 주소 : "+UrlData);
+            logger.debug("http 요청 데이터 : "+ParamData);
 
 
             //--------------------------
