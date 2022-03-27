@@ -19,18 +19,20 @@
 		let param = {}
 
 		if( obj.type == 'naver' ){
-			param.type = obj.type;
-			param.id = obj.id;
-			param.email = obj.email;
-			param.nickname = obj.nickname;
-			param.profile = obj.profile_image;
+			param.type 		= obj.type;
+			param.id 		= obj.id;
+			param.email 	= obj.email;
+			param.nickname 	= obj.nickname;
+			param.name 		= obj.name;
+			param.profile 	= obj.profile_image;
 
 		}else{
-			param.type = obj.type;
-			param.id = obj.id;
-			param.email = obj.email;
-			param.nickname = obj.properties.nickname;
-			param.profile = obj.properties.profile_image;
+			param.type 		= obj.type;
+			param.id 		= obj.id;
+			param.email 	= obj.email;
+			param.name 		= obj.name;
+			param.nickname 	= obj.properties.nickname;
+			param.profile 	= obj.properties.profile_image;
 
 		}
 

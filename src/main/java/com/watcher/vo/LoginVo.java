@@ -8,6 +8,7 @@ public class LoginVo extends CommVo {
     private String type;
     private String id;
     private String email;
+    private String name;
     private String nickname;
     private String profile;
 
@@ -41,6 +42,14 @@ public class LoginVo extends CommVo {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNickname() {

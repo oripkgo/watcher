@@ -3,11 +3,14 @@ package com.watcher.vo;
 
 public class MemberVo extends CommVo {
 
-
-    private String id;
-    private String email;
-    private String nickname;
-    private String profile;
+    String id;          // key
+    String password;    // 패스워드
+    String memId;       // 회원 아이디
+    String email;       // 이메일
+    String phoneNum;    // 회원 휴대푠 번호
+    String name;        // 회원 이름
+    String nickname;    // 회원 유형별명
+    String memType;     // 회원 유형
 
     public String getId() {
         return id;
@@ -15,6 +18,22 @@ public class MemberVo extends CommVo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMemId() {
+        return memId;
+    }
+
+    public void setMemId(String memId) {
+        this.memId = memId;
     }
 
     public String getEmail() {
@@ -25,6 +44,22 @@ public class MemberVo extends CommVo {
         this.email = email;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -33,12 +68,12 @@ public class MemberVo extends CommVo {
         this.nickname = nickname;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getMemType() {
+        return memType;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setMemType(String memType) {
+        this.memType = memType;
     }
 
 }

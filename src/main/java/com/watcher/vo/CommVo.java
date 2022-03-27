@@ -14,5 +14,88 @@ public class CommVo {
     private int endPageNo;			// 끝 페이지
     private int totalCnt;			// 총 데이터 수
 
+    private String regId;       // 등록 아이디
+    private String regDate;     // 등록 일자
+    private String uptId;       // 수정 아이디
+    private String uptDate;     // 수정 일자
 
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public int getListNo() {
+        return listNo;
+    }
+
+    public void setListNo(int listNo) {
+        this.listNo = listNo;
+    }
+
+    public int getPagigRange() {
+        return pagigRange;
+    }
+
+    public void setPagigRange(int pagigRange) {
+        this.pagigRange = pagigRange;
+    }
+
+    public int getStartPageNo() {
+        return startPageNo;
+    }
+
+    public void setStartPageNo(int startPageNo) {
+        this.startPageNo = startPageNo;
+    }
+
+    public int getEndPageNo() {
+        return endPageNo;
+    }
+
+    public void setEndPageNo(int endPageNo) {
+        this.endPageNo = endPageNo;
+    }
+
+    public int getTotalCnt() {
+        return totalCnt;
+    }
+
+    public void setTotalCnt(int totalCnt) {
+        this.totalCnt = totalCnt;
+    }
+
+    public String getRegId() {
+        return regId;
+    }
+
+    public void setRegId(String regId) {
+        this.regId = regId;
+    }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+    public String getUptId() {
+        return uptId;
+    }
+
+    public void setUptId(String uptId) {
+        this.uptId = uptId;
+    }
+
+    public String getUptDate() {
+        return uptDate;
+    }
+
+    public void setUptDate(String uptDate) {
+        this.uptDate = uptDate;
+    }
 }
