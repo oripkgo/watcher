@@ -92,7 +92,6 @@ public class LoginController {
 
 
 		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
-
 		request.getSession().removeAttribute("loginInfo");
 		result.put("code","0000");
 
