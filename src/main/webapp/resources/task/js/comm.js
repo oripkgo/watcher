@@ -1,13 +1,37 @@
 let comm = {
 
-    logOut : function( callback){
-        comm.request({url:"/login/logOut",data:JSON.stringify({})},function(res){
+    logOut : function(loginType, callback){
 
-            if( callback ){
-                callback(res);
+        comm.message.confirm("로그아웃 하시겠습니까?",function(Yn){
+
+            if( Yn ){
+
+                let logOutParam = {};
+
+                if( loginType == 'naver' ){
+                    logOutParam.type = 'naver';
+                    logOutParam.access_token = localStorage.getItem("access_token");
+                }else{
+                    logOutParam.type = 'kakao';
+                }
+
+                comm.request({url:"/login/logOut",data:JSON.stringify(logOutParam)},function(res){
+
+
+                    $(".logOut").hide();
+                    $(".loginStart").show();
+                    loginYn = false;
+
+                    if( callback ){
+                        callback(res);
+                    }
+
+                })
+
             }
 
-        })
+        });
+
     },
     request: async function (opt, succCall, errCall) {
 
@@ -75,6 +99,14 @@ let comm = {
         alert: function (msg) {
             alert(msg);
         },
+        confirm : function(msg,callback){
+            if( confirm(msg) ){
+                callback(true);
+            }else{
+                callback(false);
+            }
+
+        }
     },
 
     list : function(form,url,callback,pageNo,listNo,pagigRange,sPageNo,ePageNo,totalCnt,scrollTopYn){

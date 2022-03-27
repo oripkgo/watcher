@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -62,10 +63,37 @@ public class LoginController {
 
 	) throws Exception {
 		Map<String,String> result = new HashMap<String,String>();
+
+		String logOutUrl = "";
+		Map<String, String> logOutHeaders = new LinkedHashMap<String,String>();
+		Map<String, String> logOutParam = new LinkedHashMap<String,String>();
+
+		if( "naver".equals(loginVo.getType()) ){
+
+			logOutUrl = "https://nid.naver.com/oauth2.0/token";
+
+			logOutParam.put("grant_type"		,"delete");
+			logOutParam.put("client_id"			,"ThouS3nsCEwGnhkMwI1I");
+			logOutParam.put("client_secret"		,"nWJxzTmxwr");
+			logOutParam.put("access_token"		,loginVo.getAccess_token());
+			logOutParam.put("service_provider"	,"NAVER");
+
+
+		}else{
+
+
+			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
+
+			logOutParam.put("target_id_type"	, "user_id");
+			logOutParam.put("target_id"			, ((LoginVo)request.getSession().getAttribute("loginInfo")).getId());
+
+			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
+
+		}
+
+
+		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
 		request.getSession().removeAttribute("loginInfo");
-
-
-		//HttpUtil.httpRequest("https://nid.naver.com/nidlogin.logout","");
 		result.put("code","0000");
 
 		return result;

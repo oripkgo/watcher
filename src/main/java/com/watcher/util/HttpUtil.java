@@ -3,27 +3,21 @@ package com.watcher.util;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 public class HttpUtil {
 
 
-    static public String httpRequest(String UrlData, String ParamData){
+    static public String httpRequest(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
 
         //http 요청 시 url 주소와 파라미터 데이터를 결합하기 위한 변수 선언
-        String totalUrl = "";
-        if(ParamData != null && ParamData.length() > 0 &&
-                !ParamData.equals("") && !ParamData.contains("null")) { //파라미터 값이 널값이 아닌지 확인
-            totalUrl = UrlData.trim().toString() + "?" + ParamData.trim().toString();
-        }
-        else {
-            totalUrl = UrlData.trim().toString();
-        }
+        String totalUrl = UrlData.trim().toString();
 
         //http 통신을 하기위한 객체 선언 실시
         URL url = null;
@@ -42,9 +36,30 @@ public class HttpUtil {
             url = new URL(totalUrl);
             conn = (HttpURLConnection) url.openConnection();
 
-            //http 요청에 필요한 타입 정의 실시
-            conn.setRequestProperty("Content-Type", "text/html");
-            conn.setRequestMethod("GET");
+
+            if (headersData != null) {
+
+                Set key = headersData.keySet();
+
+                for (Iterator iterator = key.iterator(); iterator.hasNext();) {
+                    String keyName = (String) iterator.next();
+                    String valueName = headersData.get(keyName);
+
+                    //http 요청에 필요한 타입 정의 실시
+                    conn.setRequestProperty(keyName, valueName);
+
+                }
+            }else{
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            }
+
+            if( !method.isEmpty() ){
+                conn.setRequestMethod(method);
+            }else{
+                conn.setRequestMethod("POST");
+            }
+
+            conn.setDoOutput(true);
 
             //http 요청 실시
             conn.connect();
@@ -53,7 +68,38 @@ public class HttpUtil {
             System.out.println("http 요청 데이터 : "+ParamData);
             System.out.println("");
 
+
+            //--------------------------
+            //   서버로 값 전송
+            //--------------------------
+            StringBuffer buffer = new StringBuffer();
+
+            //HashMap으로 전달받은 파라미터가 null이 아닌경우 버퍼에 넣어준다
+            if (ParamData != null) {
+
+                Set key = ParamData.keySet();
+
+                for (Iterator iterator = key.iterator(); iterator.hasNext();) {
+                    String keyName = (String) iterator.next();
+                    String valueName = ParamData.get(keyName);
+
+                    if( !buffer.toString().isEmpty() ){
+                        buffer.append("&");
+                    }
+
+                    buffer.append(keyName).append("=").append(valueName);
+                }
+            }
+
+            OutputStreamWriter outStream = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            PrintWriter writer = new PrintWriter(outStream);
+            writer.write(buffer.toString());
+            writer.flush();
+
+
+
             //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
+
             br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
             sb = new StringBuffer();
             while ((responseData = br.readLine()) != null) {
@@ -86,5 +132,12 @@ public class HttpUtil {
 
     }
 
+    static public String httpRequest(String UrlData, Map<String,String> ParamData, Map<String,String> headersData){
+        return httpRequest(UrlData,"",ParamData, headersData);
+    }
+
+    static public String httpRequest(String UrlData, Map<String,String> ParamData){
+        return httpRequest(UrlData,"",ParamData,null);
+    }
 
 }

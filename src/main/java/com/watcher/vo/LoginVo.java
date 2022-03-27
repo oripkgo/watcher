@@ -4,12 +4,20 @@ package com.watcher.vo;
 public class LoginVo extends CommVo {
 
 
-
+    private String access_token;
     private String type;
     private String id;
     private String email;
     private String nickname;
     private String profile;
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
 
     public String getType() {
         return type;

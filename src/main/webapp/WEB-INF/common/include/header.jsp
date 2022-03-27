@@ -46,7 +46,6 @@
 			$(".pop_wrap").hide();
 
 			loginYn = true;
-			loginType = "";
 			loginProcess(loginYn);
 
 
@@ -68,38 +67,7 @@
 		})
 
 		$("#logout").on("click",function(){
-			comm.logOut( function(res){
-
-				$(".logOut").hide();
-				$(".loginStart").show();
-				loginYn = false;
-
-				if( loginType == 'naver' ){
-					let naver_logout_popup = window.open('https://nid.naver.com/nidlogin.logout', null, "width=10, height=10");
-					setTimeout(function () {
-						naver_logout_popup.close();
-					}, 100);
-
-				}else{
-					Kakao.API.request({
-						url: '/v1/user/unlink',
-						success: function(response) {
-							if (!Kakao.Auth.getAccessToken()) {
-								console.log('Not logged in.');
-								return;
-							}
-							Kakao.Auth.logout(function() {
-								console.log(Kakao.Auth.getAccessToken());
-							});
-						},
-						fail: function(error) {
-							console.log(error);
-						},
-					});
-
-				}
-
-			});
+			comm.logOut(loginType);
 		})
 
 	}
