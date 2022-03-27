@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -19,6 +21,10 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @MapperScan(basePackages="com.watcher.mapper")
 @EnableTransactionManagement						// TransactionManager 적용에 관해 설정하는 어노테이션
 public class WatcherConfig implements WebMvcConfigurer {
+
+	@Autowired
+	ApplicationContext applicationContext;
+
 
 	// tiles (s)
 	@Bean
@@ -50,7 +56,9 @@ public class WatcherConfig implements WebMvcConfigurer {
 		
 		sessionFactory.setDataSource(dataSource);
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/*.xml"));
+		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*.xml"));
+		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:config/mybatis-config.xml"));
+
 		sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);		// ex : user_id를 userId로
 		
 		return sessionFactory.getObject();

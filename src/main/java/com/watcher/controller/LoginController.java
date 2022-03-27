@@ -3,8 +3,10 @@ package com.watcher.controller;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.watcher.service.LoginService;
 import com.watcher.service.MainService;
+import com.watcher.service.MemberService;
 import com.watcher.util.HttpUtil;
 import com.watcher.vo.LoginVo;
+import com.watcher.vo.MemberVo;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,6 +33,10 @@ public class LoginController {
 
 	@Autowired
 	LoginService loginService;
+
+
+	@Autowired
+	MemberService memberService;
 
 	@RequestMapping(value={"loginSuccess"})
 	public ModelAndView loginSuccess() throws Exception {
@@ -43,11 +51,39 @@ public class LoginController {
 	@ResponseBody
 	public Map<String,String> loginSuccessCallback(
 			HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestBody LoginVo loginVo
 
 	) throws Exception {
 
 		Map<String,String> result = new HashMap<String,String>();
+
+
+//		request.getCookies()[0].name
+
+		boolean userId_check = true;
+		for(Cookie cookie : request.getCookies()){
+			if( "userId".equals(cookie.getName()) ){
+				userId_check = false;
+				break;
+			}
+		}
+
+		if( userId_check ){
+			Cookie cookie = new Cookie("userId",loginVo.getId());
+			response.addCookie(cookie);
+
+			MemberVo memberVo = new MemberVo();
+
+			memberVo.setMemId(loginVo.getId());
+			memberVo.setMemType(( "naver".equals(loginVo.getType())?"00":"01" ));
+			memberVo.setNickname(loginVo.getNickname());
+			memberVo.setName(loginVo.getName());
+			memberVo.setEmail(loginVo.getEmail());
+
+			memberService.insertUpdate(memberVo);
+
+		}
 
 		result.putAll(loginService.loginSuccessCallback(request, loginVo));
 
@@ -59,6 +95,7 @@ public class LoginController {
 	@ResponseBody
 	public Map<String,String> logOut(
 			HttpServletRequest request,
+			HttpServletResponse response,
 			@RequestBody LoginVo loginVo
 
 	) throws Exception {
@@ -93,6 +130,9 @@ public class LoginController {
 
 		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
 		request.getSession().removeAttribute("loginInfo");
+		Cookie cookie = new Cookie("userId",null);
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
 		result.put("code","0000");
 
 		return result;
