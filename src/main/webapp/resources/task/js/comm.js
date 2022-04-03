@@ -171,7 +171,11 @@ let comm = {
 
         var param = comm.serializeJson($(form).serializeArray());
 
-        comm.request({form:form, url:url},function(data){
+        comm.request({
+            form:form
+            , url:url
+            , headers : {"Content-type":"application/x-www-form-urlencoded"}
+        },function(data){
             // result
 
             if( callback ){
@@ -206,7 +210,7 @@ let comm = {
                 ",'[pageNo]','"+pageObj.listNo+"','"+pageObj.pagigRange+"','"+pageObj.startPageNo+"','"+pageObj.endPageNo+"','"+totalCnt+"','"+scrollTopYn+"')";
 
 
-            if( wfaComm.mobile.isYn() ){
+            if( comm.mobile.isYn() ){
                 // 모바일
                 var pagination_mobile = $(".pagging_wrap",form);
 
@@ -232,17 +236,13 @@ let comm = {
                     pageHtml += '<a href="javascript:;" onclick="'+listFunc.replace("[pageNo]",pageObj.startPageNo-1)+'"><img src="/resources/img/prev_arrow.png"></a>';
                 }
 
-                pageHtml += '<ol>';
-
                 for(var i =pageObj.startPageNo;i<=pageObj.endPageNo;i++){
                     if( i == pageNo ){
-                        pageHtml += '<a href="javascript:;" className="on">'+(i)+'</a>';
+                        pageHtml += '<a href="javascript:;" class="on">'+(i)+'</a>';
                     }else{
                         pageHtml += '<a href="javascript:;" onclick="'+listFunc.replace("[pageNo]",i)+'">'+i+'</a>';
                     }
                 }
-
-                pageHtml += '</ol>';
 
                 if( pageObj.endPageNo >= lastPage ){
                     pageHtml += '<a href="javascript:;"><img src="/resources/img/next_arrow.png"></a>';
@@ -282,5 +282,12 @@ let comm = {
 
         return obj;
     },
+
+
+    mobile : {
+        isYn : function(){
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+    }
 
 };

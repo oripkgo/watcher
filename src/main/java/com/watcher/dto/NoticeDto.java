@@ -1,7 +1,7 @@
-package com.watcher.vo;
+package com.watcher.dto;
 
 
-public class NoticeVo extends CommVo {
+public class NoticeDto {
 
     private String id;
     private String title;
@@ -44,42 +44,34 @@ public class NoticeVo extends CommVo {
         this.thumbnailImgPath = thumbnailImgPath;
     }
 
-    @Override
     public String getRegId() {
         return regId;
     }
 
-    @Override
     public void setRegId(String regId) {
         this.regId = regId;
     }
 
-    @Override
     public String getRegDate() {
         return regDate;
     }
 
-    @Override
     public void setRegDate(String regDate) {
         this.regDate = regDate;
     }
 
-    @Override
     public String getUptId() {
         return uptId;
     }
 
-    @Override
     public void setUptId(String uptId) {
         this.uptId = uptId;
     }
 
-    @Override
     public String getUptDate() {
         return uptDate;
     }
 
-    @Override
     public void setUptDate(String uptDate) {
         this.uptDate = uptDate;
     }

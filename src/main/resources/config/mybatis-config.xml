@@ -5,6 +5,7 @@
 	<!-- 별칭 -->
 	<typeAliases>
 		<typeAlias type="com.watcher.vo.MemberVo" alias="memberVo"/>
+		<typeAlias type="com.watcher.vo.NoticeVo" alias="noticeVo"/>
 	</typeAliases>
 
 </configuration>

@@ -1,8 +1,11 @@
 package com.watcher.controller;
 
+import com.sun.tracing.dtrace.Attributes;
 import com.watcher.service.MainService;
+import com.watcher.service.NoticeService;
 import com.watcher.vo.LoginVo;
 import com.watcher.vo.NoticeVo;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,27 +22,34 @@ import java.util.Map;
 public class BoardController {
 
 
+	@Autowired
+	NoticeService noticeService;
 	
 	@RequestMapping(value={"notice/list"})
 	public ModelAndView noticeList(
 			HttpServletRequest request,
-			NoticeVo noticeVo
+			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
+
+
+		//mav.addObject("list",noticeService.list(noticeVo));
 
 		return mav;
 	}
 
 	@RequestMapping(value={"notice/listAsync"})
-	public Map<String,String> noticeListAsync(
+	@ResponseBody
+	public Map<String, Object> noticeListAsync(
 			HttpServletRequest request,
-			@RequestBody NoticeVo noticeVo
+			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
-		Map<String,String> result = new HashMap<String,String>();
+		Map<String, Object> result = new HashMap<String, Object>();
 
-		//result.putAll(loginService.loginSuccessCallback(request, loginVo));
+		result.put("list",noticeService.list(noticeVo));
+		result.put("vo",noticeVo);
 
 		return result;
 	}
