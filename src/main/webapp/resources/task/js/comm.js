@@ -172,8 +172,9 @@ let comm = {
         var param = comm.serializeJson($(form).serializeArray());
 
         comm.request({
-            form:form
+              form:form
             , url:url
+            , method : "GET"
             , headers : {"Content-type":"application/x-www-form-urlencoded"}
         },function(data){
             // result

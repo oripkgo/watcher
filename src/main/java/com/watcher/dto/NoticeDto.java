@@ -12,6 +12,11 @@ public class NoticeDto {
     private String uptId;
     private String uptDate;
 
+    private int viewCnt;
+    private int likeCnt;
+
+    private String tags;
+
     public String getId() {
         return id;
     }
@@ -74,5 +79,29 @@ public class NoticeDto {
 
     public void setUptDate(String uptDate) {
         this.uptDate = uptDate;
+    }
+
+    public int getViewCnt() {
+        return viewCnt;
+    }
+
+    public void setViewCnt(int viewCnt) {
+        this.viewCnt = viewCnt;
+    }
+
+    public int getLikeCnt() {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(int likeCnt) {
+        this.likeCnt = likeCnt;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

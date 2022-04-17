@@ -12,19 +12,50 @@
 
 
 	<select id="list" resultType="com.watcher.dto.NoticeDto" parameterType="noticeVo">
-		SELECT
-			 A.ID
-			,A.TITLE
-			,A.CONTENTS
-            ,A.THUMBNAIL_IMG_PATH
-            ,A.REG_ID
-            ,A.REG_DATE
-            ,A.UPT_ID
-            ,A.UPT_DATE
-		FROM NOTICE A
+		/*Notice > list*/
+		<include refid="notice_select"/>
 		WHERE 1=1
-			LIMIT ${(pageNo-1)*listNo},${listNo}
+		LIMIT ${(pageNo-1)*listNo},${listNo}
+
 	</select>
+
+
+	<select id="view" resultType="com.watcher.dto.NoticeDto" parameterType="noticeVo">
+		/*Notice > list*/
+		<include refid="notice_select"/>
+		WHERE 1=1
+		<if test="!(id==null or id=='')">
+			AND A.ID = #{id}
+		</if>
+
+	</select>
+
+	<sql id="notice_select">
+		SELECT
+			  A.ID
+			 ,A.TITLE
+			 ,A.CONTENTS
+			 ,A.THUMBNAIL_IMG_PATH
+			 ,A.REG_ID
+			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			 ,A.UPT_ID
+			 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			 ,IFNULL(B.VIEW_CNT ,0) AS VIEW_CNT
+			 ,IFNULL(C.TAGS ,'') AS TAGS
+			 ,(
+			     SELECT COUNT(*) FROM BOARD_LIKE WHERE 1=1
+			 	 AND CONTENTS_TYPE='NOTICE'
+			     AND CONTENTS_ID = A.ID
+			     AND LIKE_TYPE = '01'
+			 ) AS LIKE_CNT
+		FROM NOTICE A
+		LEFT JOIN VIEWS B ON 1=1
+			AND B.CONTENTS_TYPE='NOTICE'
+			AND B.CONTENTS_ID = A.ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+			AND C.CONTENTS_TYPE='NOTICE'
+			AND C.CONTENTS_ID = A.ID
+	</sql>
 
 
 	<!--

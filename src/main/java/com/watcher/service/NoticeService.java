@@ -29,4 +29,16 @@ public class NoticeService {
         return result;
     }
 
+    public Map<String, Object> view(NoticeVo noticeVo) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        result.put("view", noticeMapper.view(noticeVo));
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+
+        return result;
+    }
+
 }

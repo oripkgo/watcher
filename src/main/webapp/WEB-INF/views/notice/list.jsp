@@ -6,6 +6,29 @@
 
     function listCallback(data) {
 
+        $("#dataList").empty();
+
+        for( let i=0;i<data.list.length;i++ ){
+            let obj = data.list[i];
+            let listHtml = '';
+
+            listHtml += '<tr>                                                                            ';
+            listHtml += '    <td><input type="checkbox"></td>                                            ';
+            listHtml += '    <td>                                                                        ';
+            listHtml += '        <a href="/notice/view?id='+obj.id+'" class="subject_link">'+obj.title+'</a>';
+            listHtml += '    </td>                                                                       ';
+            listHtml += '    <td>' + obj.regId + '</td>';
+            listHtml += '    <td>' + obj.regDate.substring(2) + '</td>';
+            listHtml += '    <td>'+obj.viewCnt+'</td>';
+            listHtml += '</tr>                                                                           ';
+            listHtml = $(listHtml);
+
+            $(listHtml).data(obj);
+
+            $("#dataList").append(listHtml);
+
+        }
+
     }
 
 </script>
@@ -41,44 +64,15 @@
 
                     <div class="board_notice">
                         <table>
-                            <tbody>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                                </td>
-                                <td>
-                                    2021.11.11 13:44
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                                </td>
-                                <td>
-                                    2021.11.11 13:44
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                                </td>
-                                <td>
-                                    2021.11.11 13:44
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                                </td>
-                                <td>
-                                    2021.11.11 13:44
-                                </td>
-                            </tr>
-                            </tbody>
+                            <colgroup>
+                                <col/>
+                                <col/>
+                                <col width="100"/>
+                                <col width="150"/>
+                                <col width="100"/>
+                            </colgroup>
+
+                            <tbody id="dataList"></tbody>
                         </table>
 
 
