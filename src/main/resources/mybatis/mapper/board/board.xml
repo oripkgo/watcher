@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.BoardMapper">
+
+	<select id="comment_select" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			 A.ID
+			,A.CONTENTS_TYPE
+			,A.CONTENTS_ID
+			,A.TYPE_LEVEL
+			,A.REF_CONTENTS_ID
+			,A.COMENT
+			,A.CONFIRM_ID
+			,A.REG_ID
+			,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			,A.UPT_ID
+			,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			,B.MEM_PROFILE_IMG
+		FROM COMMENT A
+			LEFT JOIN MEM_DETAIL B ON 1=1
+			AND B.MEM_ID=A.CONFIRM_ID
+		WHERE 1=1
+			AND A.CONTENTS_TYPE = #{contentsType}
+			AND A.CONTENTS_ID = #{contentsId}
+
+	</select>
+
+
+	<insert id="comment_insert" parameterType="hashmap">
+		INSERT INTO COMMENT(
+			 CONTENTS_TYPE
+			,CONTENTS_ID
+			,TYPE_LEVEL
+			,REF_CONTENTS_ID
+			,COMENT
+			,CONFIRM_ID
+			,REG_ID
+			,REG_DATE
+		)VALUES(
+			 #{contentsType}
+			,#{contentsId}
+			,#{typeLevel}
+			,#{refContentsId}
+			,#{coment}
+			,#{confirmId}
+			,#{regId}
+			,NOW()
+		)
+	</insert>
+
+	<update id="comment_update" parameterType="hashmap">
+		UPDATE COMMENT SET
+			COMENT = #{coment}
+			UPT_ID = #{uptId}
+			UPT_DATE = NOW()
+		WHERE ID=#{commentId}
+
+	</update>
+
+	<insert id="views_count" parameterType="hashmap">
+		INSERT INTO VIEWS SET
+			  CONTENTS_TYPE = #{contentsType}
+			, CONTENTS_ID = #{contentsId}
+			, VIEW_CNT = 1
+			, REG_DATE = NOW()
+		ON DUPLICATE KEY UPDATE
+			  CONTENTS_TYPE = #{contentsType}
+			, CONTENTS_ID = #{contentsId}
+			, VIEW_CNT = VIEW_CNT+1
+			, UPT_DATE = NOW()
+	</insert>
+
+</mapper>

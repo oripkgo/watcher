@@ -11,11 +11,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+
 
 @Configuration
 @MapperScan(basePackages="com.watcher.mapper")
@@ -55,6 +57,8 @@ public class WatcherConfig implements WebMvcConfigurer {
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		
 		sessionFactory.setDataSource(dataSource);
+		this.transactionManager(dataSource);
+
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*.xml"));
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:config/mybatis-config.xml"));
@@ -63,7 +67,15 @@ public class WatcherConfig implements WebMvcConfigurer {
 		
 		return sessionFactory.getObject();
 	}
-	
+
+	@Bean
+	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+		DataSourceTransactionManager manager = new DataSourceTransactionManager();
+		manager.setDataSource(dataSource);
+		return manager;
+	}
+
+
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
 		
@@ -71,4 +83,5 @@ public class WatcherConfig implements WebMvcConfigurer {
 		return sqlSessionTemplate;
 	}
 	// DB 설정 (e)
+
 }

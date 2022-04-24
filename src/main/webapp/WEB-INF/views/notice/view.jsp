@@ -121,7 +121,7 @@
                 ${vo.contents}
 
                 <div class="conts_sns">
-                    <a href="javascript:;" class="zimm">공감 ${vo.likeCnt}</a>
+                    <a href="javascript:;" class="zimm like">공감 ${vo.likeCnt}</a>
                     <%--
                     <a href="javascript:;" class="sns_btn"></a>
                     <a href="javascript:;" class="read_btn">구독하기</a>
@@ -168,7 +168,7 @@
                                 <img src="/resources/img/line.png">
                                 <span>1시간</span>
                                 <img src="/resources/img/line.png">
-                                <span>신고</span>
+                                <span class="accuse">신고</span>
                                 <strong>자신에게서 해답이 있겠지요.화이팅</strong>
                                 <a href="javascript:;">답글달기</a>
                             </div>
@@ -180,7 +180,7 @@
                                 <img src="/resources/img/line.png">
                                 <span>1시간</span>
                                 <img src="/resources/img/line.png">
-                                <span>신고</span>
+                                <span class="accuse">신고</span>
                                 <strong>자신에게서 해답이 있겠지요.화이팅</strong>
                                 <a href="javascript:;">답글달기</a>
                             </div>
