@@ -57,7 +57,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		
 		sessionFactory.setDataSource(dataSource);
-		this.transactionManager(dataSource);
+//		this.transactionManager(dataSource);
 
 		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*.xml"));
@@ -68,12 +68,12 @@ public class WatcherConfig implements WebMvcConfigurer {
 		return sessionFactory.getObject();
 	}
 
-	@Bean
-	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
-		DataSourceTransactionManager manager = new DataSourceTransactionManager();
-		manager.setDataSource(dataSource);
-		return manager;
-	}
+//	@Bean
+//	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+//		DataSourceTransactionManager manager = new DataSourceTransactionManager();
+//		manager.setDataSource(dataSource);
+//		return manager;
+//	}
 
 
 	@Bean

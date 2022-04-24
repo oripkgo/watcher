@@ -1,13 +1,10 @@
 package com.watcher.service;
 
 import com.watcher.mapper.BoardMapper;
-import com.watcher.vo.NoticeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 
 @Service
@@ -17,7 +14,7 @@ public class BoardService {
     BoardMapper boardMapper;
 
 
-    public void views_count(String contentsType, String contentsId, String loginId){
+    public void views_count(String contentsType, String contentsId, String loginId) throws Exception {
 
         LinkedHashMap param = new LinkedHashMap();
 

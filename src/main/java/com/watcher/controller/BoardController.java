@@ -68,12 +68,7 @@ public class BoardController {
 
 
 		ModelAndView mav = new ModelAndView("notice/view");
-		Map<String, Object> result = new LinkedHashMap<>();
-		try {
-			result = noticeService.view(noticeVo);
-		}catch (Exception e){
-			throw e;
-		}
+		Map<String, Object> result = noticeService.view(noticeVo);
 
 		// 게시물 수정권한 여부 s
 		result.put("modify_authority_yn","N");

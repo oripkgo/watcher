@@ -35,19 +35,13 @@ public class NoticeService {
     }
 
 
-    @Transactional(value = "transactionManager")
-    public Map<String, Object> view(NoticeVo noticeVo) {
+    @Transactional
+    public Map<String, Object> view(NoticeVo noticeVo) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("view", noticeMapper.view(noticeVo));
 
         boardService.views_count("NOTICE",noticeVo.getId(),noticeVo.getRegId());
-
-        try {
-            throw new Exception();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         result.put("code", "0000");
         result.put("message", "OK");
