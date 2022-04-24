@@ -4,6 +4,7 @@ import com.watcher.mapper.NoticeMapper;
 import com.watcher.vo.NoticeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,10 @@ public class NoticeService {
 
     @Autowired
     NoticeMapper noticeMapper;
+
+    @Autowired
+    BoardService boardService;
+
 
     public Map<String, Object> list(NoticeVo noticeVo) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -29,10 +34,14 @@ public class NoticeService {
         return result;
     }
 
+
+    @Transactional
     public Map<String, Object> view(NoticeVo noticeVo) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("view", noticeMapper.view(noticeVo));
+
+        boardService.views_count("NOTICE",noticeVo.getId(),noticeVo.getRegId());
 
         result.put("code", "0000");
         result.put("message", "OK");

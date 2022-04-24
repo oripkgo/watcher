@@ -9,8 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface NoticeMapper {
-	public NoticeDto view(NoticeVo noticeVo) throws Exception;
-	public List<NoticeDto> list(NoticeVo noticeVo) throws Exception;
-	public int listCnt(NoticeVo noticeVo) throws Exception;
+	public NoticeDto view(NoticeVo noticeVo);
+	public List<NoticeDto> list(NoticeVo noticeVo);
+	public int listCnt(NoticeVo noticeVo);
 
 }

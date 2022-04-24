@@ -29,7 +29,7 @@
 		</if>
 
 	</select>
-
+	
 	<sql id="notice_select">
 		SELECT
 			  A.ID
@@ -56,7 +56,6 @@
 			AND C.CONTENTS_TYPE='NOTICE'
 			AND C.CONTENTS_ID = A.ID
 	</sql>
-
 
 	<!--
 	<insert id="insert" parameterType="memberVo" useGeneratedKeys="true" keyColumn="memId">

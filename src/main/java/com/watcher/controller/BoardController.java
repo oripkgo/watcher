@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -28,21 +30,22 @@ public class BoardController {
 	@RequestMapping(value={"notice/list"})
 	public ModelAndView noticeList(
 			HttpServletRequest request,
+			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
-
 
 		//mav.addObject("list",noticeService.list(noticeVo));
 
 		return mav;
 	}
 
-	@RequestMapping(value={"notice/listAsync"},method = RequestMethod.GET)
+	@RequestMapping(value={"notice/listAsync"}, method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> noticeListAsync(
 			HttpServletRequest request,
+			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
@@ -59,13 +62,13 @@ public class BoardController {
 	@RequestMapping(value={"notice/view"}, method = RequestMethod.GET)
 	public ModelAndView noticeView(
 			HttpServletRequest request,
+			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
+
 		ModelAndView mav = new ModelAndView("notice/view");
-
 		Map<String, Object> result = noticeService.view(noticeVo);
-
 
 		// 게시물 수정권한 여부 s
 		result.put("modify_authority_yn","N");
@@ -73,9 +76,6 @@ public class BoardController {
 
 
 		mav.addObject("result", result);
-
-
-
 
 		return mav;
 	}

@@ -11,12 +11,14 @@
         for( let i=0;i<data.list.length;i++ ){
             let obj = data.list[i];
             let listHtml = '';
+            let listNum = ((data.vo.pageNo-1)*data.vo.listNo) + (i+1);
 
-            listHtml += '<tr>                                                                            ';
-            listHtml += '    <td><input type="checkbox"></td>                                            ';
-            listHtml += '    <td>                                                                        ';
+            listHtml += '<tr>                                                                               ';
+            // listHtml += '    <td><input type="checkbox"></td>                                            ';
+            listHtml += '    <td>'+ listNum +'</td>                                                         ';
+            listHtml += '    <td>                                                                           ';
             listHtml += '        <a href="/notice/view?id='+obj.id+'" class="subject_link">'+obj.title+'</a>';
-            listHtml += '    </td>                                                                       ';
+            listHtml += '    </td>                                                                          ';
             listHtml += '    <td>' + obj.regId + '</td>';
             listHtml += '    <td>' + obj.regDate.substring(2) + '</td>';
             listHtml += '    <td>'+obj.viewCnt+'</td>';
@@ -62,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="board_notice">
+                    <div class="board_notice list">
                         <table>
                             <colgroup>
                                 <col/>
@@ -71,6 +73,17 @@
                                 <col width="150"/>
                                 <col width="100"/>
                             </colgroup>
+
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">작성자</th>
+                                    <th scope="col">작성일</th>
+                                    <th scope="col">조회수</th>
+                                </tr>
+                            </thead>
 
                             <tbody id="dataList"></tbody>
                         </table>
