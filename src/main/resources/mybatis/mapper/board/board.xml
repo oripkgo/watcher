@@ -3,6 +3,27 @@
 
 <mapper namespace="com.watcher.mapper.BoardMapper">
 
+	<select id="view_tags_select" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			IFNULL(TAGS ,'') AS TAGS
+		FROM BOARD_TAGS
+		WHERE 1=1
+		  AND CONTENTS_TYPE = #{contentsType}
+		  AND CONTENTS_ID = #{contentsId}
+
+	</select>
+
+	<select id="view_like_yn_select" resultType="hashmap" parameterType="hashmap">
+		SELECT
+			IF(COUNT(*)>0,'Y','N') AS LIKE_YN
+		FROM BOARD_LIKE
+		WHERE 1=1
+			AND CONTENTS_TYPE = #{contentsType}
+			AND CONTENTS_ID = #{contentsId}
+			AND MEMBER_ID = #{memberId}
+
+	</select>
+
 	<select id="comment_select" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			 A.ID

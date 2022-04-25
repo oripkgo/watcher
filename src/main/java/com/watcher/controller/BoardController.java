@@ -1,6 +1,7 @@
 package com.watcher.controller;
 
 import com.sun.tracing.dtrace.Attributes;
+import com.watcher.service.BoardService;
 import com.watcher.service.MainService;
 import com.watcher.service.NoticeService;
 import com.watcher.vo.LoginVo;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,6 +28,9 @@ public class BoardController {
 
 	@Autowired
 	NoticeService noticeService;
+
+	@Autowired
+	BoardService boardService;
 	
 	@RequestMapping(value={"notice/list"})
 	public ModelAndView noticeList(
@@ -43,13 +48,13 @@ public class BoardController {
 
 	@RequestMapping(value={"notice/listAsync"}, method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> noticeListAsync(
+	public LinkedHashMap<String, Object> noticeListAsync(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeVo noticeVo
 	) throws Exception {
 
-		Map<String, Object> result = new HashMap<String, Object>();
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 		result.putAll(noticeService.list(noticeVo));
 		result.put("vo",noticeVo);
@@ -79,6 +84,40 @@ public class BoardController {
 
 		return mav;
 	}
+
+	@RequestMapping(value={"board/view/init"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap board_view_init(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		String loginId = "";
+
+		if( request.getSession().getAttribute("loginInfo") != null ){
+			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+
+			loginId = loginVo.getId();
+
+		}
+
+
+		String contentsType = String.valueOf(param.get("contentsType"));
+		String contentsId = String.valueOf(param.get("contentsId"));
+
+		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
+		result.putAll(boardService.view_tags_select(contentsType, contentsId));
+		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
+
+
+		return result;
+	}
+
+
+
 
 
 }

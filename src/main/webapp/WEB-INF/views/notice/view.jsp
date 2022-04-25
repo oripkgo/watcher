@@ -6,13 +6,14 @@
 
 <script>
 
+    let type = 'NOTICE';
+    let id = '${vo.id}';
 
     $(document).ready(function(){
 
-
         // 지난 시간 세팅 s
         let regDate = '${vo.regDate}'
-        $("#last_time").html( last_time_cal(regDate.split(" ")[0]) );
+        $("#last_time").html( comm.last_time_cal(regDate.split(" ")[0]) );
         // 지난 시간 세팅 e
 
 
@@ -24,6 +25,14 @@
         }
         // 태그 세팅 e
 
+        comm.board_view_init(type, id, function(resp){
+            let tags = resp.tagsHtml;
+            if( tags ){
+                $('.conts_tag').show();
+                $('.conts_tag').append(tags);
+            }
+
+        },{"likeTarget":".like"});
 
     })
 
@@ -122,6 +131,7 @@
 
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm like">공감 ${vo.likeCnt}</a>
+
                     <%--
                     <a href="javascript:;" class="sns_btn"></a>
                     <a href="javascript:;" class="read_btn">구독하기</a>

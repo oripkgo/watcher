@@ -1,5 +1,82 @@
 let comm = {
 
+
+    board_view_init : function(viewType, viewId, callback, option){
+        let param = {
+            "contentsType"  : viewType,
+            "contentsId"    : viewId,
+        };
+
+        comm.request({url:"/board/view/init",data:JSON.stringify(param)},function(resp){
+            if( callback ){
+                let call_resp_obj = resp;
+
+                call_resp_obj.tagsHtml = this.tags_setting_val(call_resp_obj.tags);
+
+
+               // commentTarget, commentInsertBtn, tagsTarget, likeTarget
+
+                if( option && option.likeTarget ){
+
+                    if( call_resp_obj.LIKE_YN == 'N' ){
+                        $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
+                    }else{
+                        $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
+                    }
+
+                }
+
+                callback(call_resp_obj);
+
+            }
+
+        })
+
+    },
+
+    tags_setting_val : function(tags){
+
+        if( !tags ){
+            return '';
+        }
+
+        let tags_arr = tags.split(",");
+
+        let tagsHtml = '';
+        for( let i=0;i<tags_arr.length;i++ ){
+            tagsHtml += '<a href="javascript:;">#'+tags_arr[i]+'</a>';
+        }
+
+        return tagsHtml;
+    },
+
+    last_time_cal : function(last_date){
+        let write_date = new Date(last_date) ;
+        let now_date = new Date();
+        let last_time_result = now_date.getTime() - write_date.getTime();
+        let floor = function(num){
+            return Math.floor(num*1);
+        }
+        if( ( last_time_result/1000 ) < 60 ){
+            return floor(( last_time_result/1000 ))+"초 전";
+        }
+
+        if( ( last_time_result/1000/60 ) < 60 ){
+            return floor(( last_time_result/1000/60 ))+'분 전';
+        }
+
+        if( ( last_time_result/1000/60/60 ) < 60 ){
+            return floor(( last_time_result/1000/60/60 ))+'시간 전';
+        }
+
+        if( ( last_time_result/1000/60/60/24 ) < 365 ){
+            return floor(( last_time_result/1000/60/60/24 ))+'일 전';
+        }
+
+        return floor(( last_time_result/1000/60/60/24/365 ))+'년 전';
+
+    },
+
     logOut : function(loginType, callback){
 
         comm.message.confirm("로그아웃 하시겠습니까?",function(Yn){

@@ -196,7 +196,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .conts_wrap2 {padding:0px 0px 30px 0px;min-height:580px;}
 .conts_txt {display:block;font-size:15px;color:#333;font-weight:400;padding:20px 0px;line-height:26px;}
 .conts_sns {margin:20px 0px;position:relative;}
-.zimm {display:inline-block;vertical-align:middle;font-size:13px;color:#878787;font-weight:400;line-height:18px;padding:0px 10px 0px 28px;background:url('../img/zim_ico.png') no-repeat left center;}
+.zimm {display:inline-block;vertical-align:middle;font-size:13px;color:#878787;font-weight:400;line-height:18px;padding:0px 10px 0px 28px;/*background:url('../img/zim_ico.png') no-repeat left center;*/}
 .sns_btn {display:inline-block;vertical-align:middle;background:url('../img/sns_ico.png') no-repeat center;width:19px;height:21px;margin:0px 20px 0px 5px;}
 .read_btn {display:inline-block;vertical-align:middle;height:30px;line-height:28px;font-size:13px;color:#878787;font-weight:400;border:1px solid #ddd;border-radius:15px;overflow:hidden;padding:0px 15px;}
 
