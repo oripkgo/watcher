@@ -11,11 +11,15 @@ let comm = {
             if( callback ){
                 let call_resp_obj = resp;
 
+                // 태그 세팅 s
                 call_resp_obj.tagsHtml = this.tags_setting_val(call_resp_obj.tags);
+                if( option && option.tagsTarget && call_resp_obj.tagsHtml ){
+                    $('.conts_tag').show();
+                    $('.conts_tag').append(call_resp_obj.tagsHtml);
+                }
+                // 태그 세팅 e
 
-
-               // commentTarget, commentInsertBtn, tagsTarget, likeTarget
-
+                // 공감하기 세팅 s
                 if( option && option.likeTarget ){
 
                     if( call_resp_obj.LIKE_YN == 'N' ){
@@ -23,8 +27,20 @@ let comm = {
                     }else{
                         $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
                     }
+                }
+                // 공감하기 세팅 e
+
+                // 댓글 목록 세팅 s
+                if( option && option.commentTarget ){
 
                 }
+                // 댓글 목록 세팅 e
+
+                // 댓글 등록 세팅 s
+                if( option && option.commentInsertBtn ){
+
+                }
+                // 댓글 등록 세팅 e
 
                 callback(call_resp_obj);
 
