@@ -14,18 +14,32 @@
 	</select>
 
 	<select id="view_like_yn_select" resultType="hashmap" parameterType="hashmap">
+
 		SELECT
-		    ID AS LIKE_ID,
-			IF(COUNT(*)>0,'Y','N') AS LIKE_YN
-		FROM BOARD_LIKE
-		WHERE 1=1
-			AND CONTENTS_TYPE = #{contentsType}
-			AND CONTENTS_ID = #{contentsId}
-			AND MEMBER_ID = #{memberId}
-			AND CANCEL_YN = 'N'
+			(
+				SELECT
+					A.ID
+				FROM BOARD_LIKE A
+				WHERE 1=1
+				  AND A.CONTENTS_TYPE = #{contentsType}
+				  AND A.CONTENTS_ID = #{contentsId}
+				  AND A.MEMBER_ID = #{memberId}
+				  AND A.CANCEL_YN = 'N'
+				ORDER BY A.REG_DATE DESC
+				LIMIT 1
+			) AS LIKE_ID,
+			(
+				SELECT IF(COUNT(B.ID)>0,'Y','N')  FROM BOARD_LIKE B WHERE 1=1
+				AND B.CONTENTS_TYPE = #{contentsType}
+				AND B.CONTENTS_ID = #{contentsId}
+				AND B.MEMBER_ID = #{memberId}
+				AND B.CANCEL_YN = 'N'
+			)  AS LIKE_YN
+		FROM DUAL
+
 	</select>
 
-	<insert id="like_insert" parameterType="hashmap">
+	<insert id="like_insert" parameterType="hashmap" keyProperty="like_id" useGeneratedKeys="true">
 		INSERT INTO BOARD_LIKE(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -47,9 +61,9 @@
 
 	<update id="like_update" parameterType="hashmap">
 		UPDATE BOARD_LIKE SET
-			CANCEL_YN = IF(CANCEL_YN='N','Y','N')
-			UPT_ID = #{uptId}
-			UPT_DATE = NOW()
+			 CANCEL_YN = IF(CANCEL_YN='N','Y','N')
+			,UPT_ID = #{uptId}
+			,UPT_DATE = NOW()
 		WHERE ID=#{likeId}
 
 	</update>

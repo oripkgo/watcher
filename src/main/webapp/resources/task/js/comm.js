@@ -177,12 +177,16 @@ let comm = {
                                 $($this).text( '공감 ' + likecnt );
                                 $($this).data('likecnt',likecnt);
 
+                                delete $($this).data().likeId;
+
                                 $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
                             }else{
 
                                 let likecnt = ($($this).data('likecnt')*1)+1
                                 $($this).text( '공감 ' + likecnt );
                                 $($this).data('likecnt',likecnt);
+
+                                $($this).data().likeId = resp.like_id;
 
                                 $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
                             }

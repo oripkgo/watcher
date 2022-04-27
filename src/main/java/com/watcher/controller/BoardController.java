@@ -4,7 +4,6 @@ import com.sun.tracing.dtrace.Attributes;
 import com.watcher.service.BoardService;
 import com.watcher.service.MainService;
 import com.watcher.service.NoticeService;
-import com.watcher.vo.CommVo;
 import com.watcher.vo.LoginVo;
 import com.watcher.vo.NoticeVo;
 import org.json.JSONObject;
@@ -91,7 +90,6 @@ public class BoardController {
 	public LinkedHashMap board_view_init(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 
@@ -105,97 +103,18 @@ public class BoardController {
 			loginId = loginVo.getId();
 
 		}
+
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
 		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
 		result.putAll(boardService.view_tags_select(contentsType, contentsId));
-
-		result.put("loginYn","Y");
-		if( loginId.isEmpty() ){
-			result.put("loginYn","N");
-		}
+		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
 
 
 		return result;
 	}
-
-
-	@RequestMapping(value={"board/select/comment"}, method = RequestMethod.GET)
-	@ResponseBody
-	public LinkedHashMap getComment_select(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
-			@RequestParam Map<String,Object> param
-	) throws Exception {
-
-		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
-		String contentsType = String.valueOf(param.get("contentsType"));
-		String contentsId = String.valueOf(param.get("contentsId"));
-
-
-		LinkedHashMap comment_select_param = new LinkedHashMap();
-
-		comment_select_param.put("contentsType"	, contentsType  		);
-		comment_select_param.put("contentsId"  	, contentsId    		);
-		comment_select_param.put("pageNo"  		, commVo.getPageNo()    );
-		comment_select_param.put("listNo"  		, commVo.getListNo()	);
-
-
-		Map<String, Object> comment_obj = boardService.comment_select_info(comment_select_param);
-		result.put("comment", comment_obj);
-
-		commVo.setTotalCnt((int)comment_obj.get("cnt"));
-		result.put("vo", commVo);
-
-		return result;
-	}
-
-
-	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
-	@ResponseBody
-	public LinkedHashMap getComment_insert(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
-			@RequestBody Map<String,Object> param
-	) throws Exception {
-
-		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
-		String loginId = "";
-		String nickName = "";
-
-		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
-
-			loginId = loginVo.getId();
-			nickName = loginVo.getNickname();
-
-		}
-
-		LinkedHashMap comment_insert_param = new LinkedHashMap();
-
-		comment_insert_param.put("contentsType"		, param.get("contentsType") );
-		comment_insert_param.put("contentsId"  		, param.get("contentsId")   );
-		comment_insert_param.put("refContentsId"  	, param.get("refContentsId"));
-		comment_insert_param.put("coment"  			, param.get("coment")    	);
-		comment_insert_param.put("confirmId"  		, loginId    				);
-		comment_insert_param.put("regId"  			, loginId					);
-		comment_insert_param.put("nickName"  		, nickName					);
-
-
-		result.put("comment", boardService.comment_insert(comment_insert_param));
-		result.put("code","0000");
-
-		return result;
-	}
-
-
-
 
 	@RequestMapping(value={"board/like/modify"}, method = RequestMethod.POST)
 	@ResponseBody
@@ -221,7 +140,7 @@ public class BoardController {
 		}
 
 
-		if( param.containsKey("param") && param.get("likeId") != null ){
+		if( param.containsKey("likeId") && param.get("likeId") != null ){
 
 			svc_param.put("likeId"	, param.get("likeId")	);
 			svc_param.put("uptId"	, loginId				);
@@ -236,7 +155,33 @@ public class BoardController {
 			svc_param.put("regId"			, loginId					);
 
 			boardService.like_insert(svc_param);
+
+			if( svc_param.containsKey("like_id") ){
+				result.put("like_id", svc_param.get("like_id"));
+			}
+
 		}
+
+//		String loginId = "";
+//
+//		if( request.getSession().getAttribute("loginInfo") != null ){
+//			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+//
+//			loginId = loginVo.getId();
+//
+//		}
+//
+//
+//		String contentsType = String.valueOf(param.get("contentsType"));
+//		String contentsId = String.valueOf(param.get("contentsId"));
+//
+//		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
+//		result.putAll(boardService.view_tags_select(contentsType, contentsId));
+//		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
+
+
+
+
 
 		return result;
 	}
