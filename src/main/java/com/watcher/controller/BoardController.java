@@ -140,7 +140,7 @@ public class BoardController {
 		}
 
 
-		if( param.containsKey("param") && param.get("likeId") != null ){
+		if( param.containsKey("likeId") && param.get("likeId") != null ){
 
 			svc_param.put("likeId"	, param.get("likeId")	);
 			svc_param.put("uptId"	, loginId				);
@@ -155,9 +155,12 @@ public class BoardController {
 			svc_param.put("regId"			, loginId					);
 
 			boardService.like_insert(svc_param);
+
+			if( svc_param.containsKey("like_id") ){
+				result.put("like_id", svc_param.get("like_id"));
+			}
+
 		}
-
-
 
 //		String loginId = "";
 //
