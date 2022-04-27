@@ -116,6 +116,72 @@ public class BoardController {
 		return result;
 	}
 
+	@RequestMapping(value={"board/like/modify"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap board_like_modify(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> svc_param = new LinkedHashMap<>();
+
+		String contentsType = String.valueOf(param.get("contentsType"));
+		String contentsId = String.valueOf(param.get("contentsId"));
+
+		String loginId = "";
+
+		if( request.getSession().getAttribute("loginInfo") != null ){
+			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+
+			loginId = loginVo.getId();
+
+		}
+
+
+		if( param.containsKey("param") && param.get("likeId") != null ){
+
+			svc_param.put("likeId"	, param.get("likeId")	);
+			svc_param.put("uptId"	, loginId				);
+
+			boardService.like_update(svc_param);
+		}else{
+
+			svc_param.put("contentsType"	, param.get("contentsType")	);
+			svc_param.put("contentsId"		, param.get("contentsId")	);
+			svc_param.put("memberId"		, loginId					);
+			svc_param.put("likeType"		, param.get("likeType")	);
+			svc_param.put("regId"			, loginId					);
+
+			boardService.like_insert(svc_param);
+		}
+
+
+
+//		String loginId = "";
+//
+//		if( request.getSession().getAttribute("loginInfo") != null ){
+//			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+//
+//			loginId = loginVo.getId();
+//
+//		}
+//
+//
+//		String contentsType = String.valueOf(param.get("contentsType"));
+//		String contentsId = String.valueOf(param.get("contentsId"));
+//
+//		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
+//		result.putAll(boardService.view_tags_select(contentsType, contentsId));
+//		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
+
+
+
+
+
+		return result;
+	}
 
 
 

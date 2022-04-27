@@ -15,14 +15,44 @@
 
 	<select id="view_like_yn_select" resultType="hashmap" parameterType="hashmap">
 		SELECT
+		    ID AS LIKE_ID,
 			IF(COUNT(*)>0,'Y','N') AS LIKE_YN
 		FROM BOARD_LIKE
 		WHERE 1=1
 			AND CONTENTS_TYPE = #{contentsType}
 			AND CONTENTS_ID = #{contentsId}
 			AND MEMBER_ID = #{memberId}
-
+			AND CANCEL_YN = 'N'
 	</select>
+
+	<insert id="like_insert" parameterType="hashmap">
+		INSERT INTO BOARD_LIKE(
+			 CONTENTS_TYPE
+			,CONTENTS_ID
+			,MEMBER_ID
+			,LIKE_TYPE
+			,CANCEL_YN
+			,REG_ID
+			,REG_DATE
+		)VALUES(
+			 #{contentsType}
+			,#{contentsId}
+			,#{memberId}
+			,#{likeType}
+			,'N'
+			,#{regId}
+			,NOW()
+		)
+	</insert>
+
+	<update id="like_update" parameterType="hashmap">
+		UPDATE BOARD_LIKE SET
+			CANCEL_YN = IF(CANCEL_YN='N','Y','N')
+			UPT_ID = #{uptId}
+			UPT_DATE = NOW()
+		WHERE ID=#{likeId}
+
+	</update>
 
 	<select id="comment_select" resultType="hashmap" parameterType="hashmap">
 		SELECT

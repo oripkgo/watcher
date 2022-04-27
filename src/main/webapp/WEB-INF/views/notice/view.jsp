@@ -73,7 +73,7 @@
                 ${vo.contents}
 
                 <div class="conts_sns">
-                    <a href="javascript:;" class="zimm like">공감 ${vo.likeCnt}</a>
+                    <a href="javascript:;" class="zimm like" data-likecnt="${vo.likeCnt}">공감 ${vo.likeCnt}</a>
 
                     <%--
                     <a href="javascript:;" class="sns_btn"></a>

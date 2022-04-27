@@ -79,4 +79,13 @@ public class BoardService {
 
     }
 
+    public void like_insert(Map<String, Object> param) throws Exception {
+        boardMapper.like_insert(param);
+    }
+
+    public void like_update(Map<String, Object> param) throws Exception {
+        boardMapper.like_update(param);
+
+    }
+
 }

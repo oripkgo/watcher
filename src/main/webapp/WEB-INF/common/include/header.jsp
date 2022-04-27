@@ -9,28 +9,6 @@
 
 		loginProcessEvent(loginYn);
 
-
-		$(".like").on("click", function(){
-
-			// confirm : function(msg,callback){
-			// 	if( confirm(msg) ){
-			// 		callback(true);
-			// 	}else{
-			// 		callback(false);
-			// 	}
-			//
-			// }
-			if( !loginYn ){
-				comm.message.confirm("해당 콘텐츠가 마음에 드시나요? 로그인 후 의견을 알려주세요.\n\n로그인 하시겠습니까?", function(Yn){
-					if( Yn ){
-						$(".btn_start").click();
-					}
-				});
-			}
-
-
-		})
-
 	})
 
 
@@ -70,6 +48,8 @@
 
 			loginYn = true;
 			loginProcess(loginYn);
+
+			window.location.reload();
 
 
 		})

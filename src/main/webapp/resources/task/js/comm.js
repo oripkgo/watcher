@@ -12,7 +12,7 @@ let comm = {
                 let call_resp_obj = resp;
 
                 // 태그 세팅 s
-                call_resp_obj.tagsHtml = this.tags_setting_val(call_resp_obj.tags);
+                call_resp_obj.tagsHtml = comm.tags_setting_val(call_resp_obj.tags);
                 if( option && option.tagsTarget && call_resp_obj.tagsHtml ){
                     $('.conts_tag').show();
                     $('.conts_tag').append(call_resp_obj.tagsHtml);
@@ -22,12 +22,71 @@ let comm = {
                 // 공감하기 세팅 s
                 if( option && option.likeTarget ){
 
+                    $(option.likeTarget).data({
+                        "likeId"        : call_resp_obj.LIKE_ID,
+                        "contentsType"  : param.contentsType,
+                        "contentsId"    : param.contentsId,
+                        "likeType"      : '01',
+                        "likeYn"        : call_resp_obj.LIKE_YN,
+                    });
+
+
                     if( call_resp_obj.LIKE_YN == 'N' ){
                         $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
                     }else{
                         $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
                     }
                 }
+
+                $( (option.likeTarget?option.likeTarget:".like") ).on("click", function(){
+                    let $this = $(this);
+                    let obj = $($this).data();
+
+                    if( loginYn ){
+                        let param = obj;
+
+                        comm.request({url:"/board/like/modify",data:JSON.stringify(param)},function(resp){
+
+                            $($this).data().likeYn = obj.likeYn = ( $($this).data().likeYn=='Y'?'N':'Y' );
+
+                            if( obj.likeYn == 'N' ){
+
+                                let likecnt = ($($this).data('likecnt')*1)-1
+
+                                if( likecnt < 0 ){
+                                    likecnt = 0;
+                                }
+
+                                $($this).text( '공감 ' + likecnt );
+                                $($this).data('likecnt',likecnt);
+
+                                $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
+                            }else{
+
+                                let likecnt = ($($this).data('likecnt')*1)+1
+                                $($this).text( '공감 ' + likecnt );
+                                $($this).data('likecnt',likecnt);
+
+                                $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
+                            }
+
+                        });
+
+
+                    }else{
+
+                        comm.message.confirm("해당 콘텐츠가 마음에 드시나요? 로그인 후 의견을 알려주세요.\n\n로그인 하시겠습니까?", function(Yn){
+                            if( Yn ){
+                                $(".btn_start").click();
+                            }
+                        });
+
+                    }
+
+
+                })
+
+
                 // 공감하기 세팅 e
 
                 // 댓글 목록 세팅 s
@@ -118,6 +177,8 @@ let comm = {
                     if( callback ){
                         callback(res);
                     }
+
+                    window.location.reload();
 
                 })
 
