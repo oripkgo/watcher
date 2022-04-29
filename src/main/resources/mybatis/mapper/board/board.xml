@@ -54,6 +54,18 @@
 
 	</update>
 
+	<select id="comment_select_cnt" resultType="int" parameterType="hashmap">
+		SELECT
+			COUNT(A.ID)
+		FROM COMMENT A
+				 LEFT JOIN MEM_DETAIL B ON 1=1
+			AND B.MEM_ID=A.CONFIRM_ID
+		WHERE 1=1
+		  AND A.CONTENTS_TYPE = #{contentsType}
+		  AND A.CONTENTS_ID = #{contentsId}
+	</select>
+
+
 	<select id="comment_select" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			 A.ID
@@ -74,6 +86,7 @@
 		WHERE 1=1
 			AND A.CONTENTS_TYPE = #{contentsType}
 			AND A.CONTENTS_ID = #{contentsId}
+		LIMIT ${(pageNo-1)*listNo},${listNo}
 
 	</select>
 

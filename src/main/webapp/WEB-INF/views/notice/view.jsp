@@ -18,7 +18,7 @@
         comm.board_view_init(type, id, function(resp){
 
 
-        },{"likeTarget":".like", "tagsTarget":".conts_tag"});
+        },{"likeTarget":".like", "tagsTarget":".conts_tag", "commentTarget":".conts_review"});
 
     })
 
@@ -112,7 +112,7 @@
 
 
                 <div class="conts_review">
-                    <strong class="conts_tit">댓글<em>2</em></strong>
+                    <%--<strong class="conts_tit">댓글<em>2</em></strong>
                     <ul>
                         <li>
                             <div class="member_re"><img src="/resources/img/member_ico.png"></div>
@@ -138,13 +138,15 @@
                                 <a href="javascript:;">답글달기</a>
                             </div>
                         </li>
-                    </ul>
+                    </ul>--%>
                 </div>
 
+                <%--
                 <div class="write_wrap">
                     <textarea placeholder="로그인하고 댓글을 입력해보세요!"></textarea>
                     <a href="javascript:;">확인</a>
                 </div>
+                --%>
 
              <%--
                 <div class="ad_banner">

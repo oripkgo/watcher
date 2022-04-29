@@ -4,6 +4,7 @@ import com.watcher.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,14 +29,21 @@ public class BoardService {
     }
 
 
-    public List<Map<String, String>> comment_select(String contentsType, String contentsId) throws Exception {
+    public Map<String, Object> comment_select(LinkedHashMap param) throws Exception {
 
-        LinkedHashMap param = new LinkedHashMap();
+        Map<String, Object> result = new LinkedHashMap<>();
 
-        param.put("contentsType", contentsType  );
-        param.put("contentsId"  , contentsId    );
+        result.put("cnt", boardMapper.comment_select_cnt(param));
 
-        return boardMapper.comment_select(param);
+
+        List<Map<String,String>> list = boardMapper.comment_select(param);
+        if( result == null ){
+            list = new ArrayList<>();
+        }
+
+        result.put("list", list);
+
+        return result;
 
     }
 

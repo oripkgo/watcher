@@ -4,6 +4,7 @@ import com.sun.tracing.dtrace.Attributes;
 import com.watcher.service.BoardService;
 import com.watcher.service.MainService;
 import com.watcher.service.NoticeService;
+import com.watcher.vo.CommVo;
 import com.watcher.vo.LoginVo;
 import com.watcher.vo.NoticeVo;
 import org.json.JSONObject;
@@ -90,6 +91,7 @@ public class BoardController {
 	public LinkedHashMap board_view_init(
 			HttpServletRequest request,
 			HttpServletResponse response,
+			@ModelAttribute("vo") CommVo commVo,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 
@@ -104,13 +106,21 @@ public class BoardController {
 
 		}
 
-
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
 		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
 		result.putAll(boardService.view_tags_select(contentsType, contentsId));
-		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
+
+
+		LinkedHashMap comment_select_param = new LinkedHashMap();
+
+		comment_select_param.put("contentsType"	, contentsType  		);
+		comment_select_param.put("contentsId"  	, contentsId    		);
+		comment_select_param.put("pageNo"  		, commVo.getPageNo()    );
+		comment_select_param.put("listNo"  		, commVo.getListNo()	);
+
+		result.put("comment", boardService.comment_select(comment_select_param));
 
 
 		return result;
