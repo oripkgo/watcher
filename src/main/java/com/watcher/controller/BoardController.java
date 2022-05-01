@@ -112,6 +112,30 @@ public class BoardController {
 		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
 		result.putAll(boardService.view_tags_select(contentsType, contentsId));
 
+		result.put("loginYn","Y");
+		if( loginId.isEmpty() ){
+			result.put("loginYn","N");
+		}
+
+
+		return result;
+	}
+
+
+	@RequestMapping(value={"board/select/comment"}, method = RequestMethod.GET)
+	@ResponseBody
+	public LinkedHashMap getComment_select(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommVo commVo,
+			@RequestParam Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		String contentsType = String.valueOf(param.get("contentsType"));
+		String contentsId = String.valueOf(param.get("contentsId"));
+
 
 		LinkedHashMap comment_select_param = new LinkedHashMap();
 
@@ -120,11 +144,58 @@ public class BoardController {
 		comment_select_param.put("pageNo"  		, commVo.getPageNo()    );
 		comment_select_param.put("listNo"  		, commVo.getListNo()	);
 
-		result.put("comment", boardService.comment_select(comment_select_param));
 
+		Map<String, Object> comment_obj = boardService.comment_select_info(comment_select_param);
+		result.put("comment", comment_obj);
+
+		commVo.setTotalCnt((int)comment_obj.get("cnt"));
+		result.put("vo", commVo);
 
 		return result;
 	}
+
+
+	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap getComment_insert(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommVo commVo,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		String loginId = "";
+		String nickName = "";
+
+		if( request.getSession().getAttribute("loginInfo") != null ){
+			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+
+			loginId = loginVo.getId();
+			nickName = loginVo.getNickname();
+
+		}
+
+		LinkedHashMap comment_insert_param = new LinkedHashMap();
+
+		comment_insert_param.put("contentsType"		, param.get("contentsType") );
+		comment_insert_param.put("contentsId"  		, param.get("contentsId")   );
+		comment_insert_param.put("refContentsId"  	, param.get("refContentsId"));
+		comment_insert_param.put("coment"  			, param.get("coment")    	);
+		comment_insert_param.put("confirmId"  		, loginId    				);
+		comment_insert_param.put("regId"  			, loginId					);
+		comment_insert_param.put("nickName"  		, nickName					);
+
+
+		result.put("comment", boardService.comment_insert(comment_insert_param));
+		result.put("code","0000");
+
+		return result;
+	}
+
+
+
 
 	@RequestMapping(value={"board/like/modify"}, method = RequestMethod.POST)
 	@ResponseBody
@@ -166,29 +237,6 @@ public class BoardController {
 
 			boardService.like_insert(svc_param);
 		}
-
-
-
-//		String loginId = "";
-//
-//		if( request.getSession().getAttribute("loginInfo") != null ){
-//			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
-//
-//			loginId = loginVo.getId();
-//
-//		}
-//
-//
-//		String contentsType = String.valueOf(param.get("contentsType"));
-//		String contentsId = String.valueOf(param.get("contentsId"));
-//
-//		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
-//		result.putAll(boardService.view_tags_select(contentsType, contentsId));
-//		result.put("comment_list", boardService.comment_select(contentsType, contentsId));
-
-
-
-
 
 		return result;
 	}

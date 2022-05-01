@@ -28,13 +28,14 @@ public class BoardService {
 
     }
 
+    public int comment_select_cnt(LinkedHashMap param) throws Exception {
+        return boardMapper.comment_select_cnt(param);
+
+    }
 
     public Map<String, Object> comment_select(LinkedHashMap param) throws Exception {
 
         Map<String, Object> result = new LinkedHashMap<>();
-
-        result.put("cnt", boardMapper.comment_select_cnt(param));
-
 
         List<Map<String,String>> list = boardMapper.comment_select(param);
         if( result == null ){
@@ -45,6 +46,25 @@ public class BoardService {
 
         return result;
 
+    }
+
+    public Map<String, Object> comment_select_info(LinkedHashMap param) throws Exception {
+
+        Map<String, Object> result = new LinkedHashMap<>();
+
+        result.put("cnt", comment_select_cnt(param));
+        result.putAll(comment_select(param));
+
+        return result;
+
+    }
+
+    public Map<String, String> comment_insert(LinkedHashMap param) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+        boardMapper.comment_insert(param);
+        result.putAll(param);
+
+        return result;
     }
 
     public Map<String, String> view_tags_select(String contentsType, String contentsId) throws Exception {

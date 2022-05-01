@@ -58,9 +58,6 @@ public class LoginController {
 
 		Map<String,String> result = new HashMap<String,String>();
 
-
-//		request.getCookies()[0].name
-
 		boolean userId_check = true;
 		for(Cookie cookie : request.getCookies()){
 			if( "userId".equals(cookie.getName()) ){

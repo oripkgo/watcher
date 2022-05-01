@@ -16,6 +16,7 @@ public interface BoardMapper {
 
 	public int comment_select_cnt(Map<String,Object> param);
 	public List<Map<String, String>> comment_select(Map<String,Object> param);
+	public void comment_insert(Map<String,Object> param);
 
 	public void views_count(Map<String,Object> param);
 	public Map<String, String> view_like_yn_select(Map<String,Object> param);

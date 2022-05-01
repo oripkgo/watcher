@@ -1,4 +1,124 @@
+const kakaoKey = '16039b88287b9f46f214f7449158dfde';
+const naverKey = 'ThouS3nsCEwGnhkMwI1I';
+
+
+let comment_li = '';
+
+comment_li += '<li>';
+comment_li += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+comment_li += '    <div class="review_info">';
+comment_li += '        <em>gauni1229</em>';
+comment_li += '        <img src="/resources/img/line.png">';
+comment_li += '            <span>1시간</span>';
+comment_li += '            <img src="/resources/img/line.png">';
+comment_li += '                <span class="accuse">신고</span>';
+comment_li += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
+comment_li += '                <a href="javascript:;">답글보기</a>';
+comment_li += '                <a href="javascript:;">답글달기</a>';
+comment_li += '    </div>';
+comment_li += '</li>';
+
+
 let comm = {
+
+    comment_setting : function(contents_type, contents_id, target, cnt, list, login_yn){
+
+        let $conts_review = $('<div class="conts_review" id="conts_review"></div>');
+
+        $($conts_review).html('<strong class="conts_tit">댓글<em>'+cnt+'</em></strong>');
+
+        if( login_yn == 'N' ){
+            $($conts_review).append('<div class="write_wrap"><textarea placeholder="로그인하고 댓글을 입력해보세요!"></textarea><a href="javascript:;">확인</a></div>');
+
+            $($conts_review).find('.write_wrap').on("focus click", function(){
+
+                comm.loginObj.popup.open();
+            });
+
+        }else{
+            $($conts_review).append('<div class="write_wrap"><textarea placeholder="댓글 입력" name="coment"></textarea><a href="javascript:;" id="coment_insert">확인</a></div>');
+
+            // 댓글 등록
+            $($conts_review).find('#coment_insert').on("click", function(){
+
+                contents_type, contents_id
+
+                let comment_insert_param = {
+                    "contentsType":contents_type,
+                    "contentsId":contents_id,
+                    "refContentsId":"0",
+
+                };
+
+                // comm.message.confirm(
+                //     '댓글을 등록하시겠습니까?'
+                // )
+
+                comment_insert_param.coment = $(target).find("[name='coment']").val().replace(/[\n]/g,'<br>')
+                comm.request({url:"/board/insert/comment",data:JSON.stringify(comment_insert_param)},function(resp){
+
+                    // 등록성공
+                    if( resp.code == '0000'){
+                        let comment_obj_html = '';
+                        comment_obj_html += '<li>';
+                        comment_obj_html += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+                        comment_obj_html += '    <div class="review_info">';
+                        comment_obj_html += '        <em>gauni1229</em>';
+                        comment_obj_html += '        <img src="/resources/img/line.png">';
+                        comment_obj_html += '            <span>1111111시간</span>';
+                        comment_obj_html += '            <img src="/resources/img/line.png">';
+                        comment_obj_html += '                <span class="accuse">신고</span>';
+                        comment_obj_html += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
+                        comment_obj_html += '                <a href="javascript:;">답글보기</a>';
+                        comment_obj_html += '                <a href="javascript:;">답글달기</a>';
+                        comment_obj_html += '    </div>';
+                        comment_obj_html += '</li>';
+
+                        $(target).find(".reviewList","#conts_review").prepend(comment_obj_html);
+
+                    }
+                })
+
+            });
+
+        }
+
+        $($conts_review).append('<ul class="reviewList"></ul>');
+        list.push({});
+
+        if( list && list.length > 0 ){
+
+            let comment_obj_html = '';
+            for(let i=0;i<list.length;i++){
+                let comment_obj = list[i];
+
+                comment_obj_html += '<li>';
+                comment_obj_html += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+                comment_obj_html += '    <div class="review_info">';
+                comment_obj_html += '        <em>gauni1229</em>';
+                comment_obj_html += '        <img src="/resources/img/line.png">';
+                comment_obj_html += '            <span>1시간</span>';
+                comment_obj_html += '            <img src="/resources/img/line.png">';
+                comment_obj_html += '                <span class="accuse">신고</span>';
+                comment_obj_html += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
+                comment_obj_html += '                <a href="javascript:;">답글보기</a>';
+                comment_obj_html += '                <a href="javascript:;">답글달기</a>';
+                comment_obj_html += '    </div>';
+                comment_obj_html += '</li>';
+
+
+            }
+            $('.reviewList', $conts_review).html(comment_obj_html);
+        }
+
+
+        $(target).replaceWith($conts_review);
+
+        if( list && list.length > 0 ){
+            $(target).append('<div class="pagging_wrap"></div>');
+        }
+
+    },
 
     board_view_init : function(viewType, viewId, callback, option){
         let param = {
@@ -41,10 +161,10 @@ let comm = {
                     let $this = $(this);
                     let obj = $($this).data();
 
-                    if( loginYn ){
+                    if( call_resp_obj.loginYn == 'Y' ){
                         let param = obj;
 
-                        comm.request({url:"/board/like/modify",data:JSON.stringify(param)},function(resp){
+                        comm.request({url:"/board/like/modify",data:JSON.stringify(param)},function(like_resp){
 
                             $($this).data().likeYn = obj.likeYn = ( $($this).data().likeYn=='Y'?'N':'Y' );
 
@@ -76,7 +196,7 @@ let comm = {
 
                         comm.message.confirm("해당 콘텐츠가 마음에 드시나요? 로그인 후 의견을 알려주세요.\n\n로그인 하시겠습니까?", function(Yn){
                             if( Yn ){
-                                $(".btn_start").click();
+                                comm.loginObj.popup.open();
                             }
                         });
 
@@ -91,44 +211,24 @@ let comm = {
                 // 댓글 목록 세팅 s
                 if( option && option.commentTarget ){
 
-                    let $conts_review = $('<div class="conts_review" id="conts_review"></div>');
+                    let _pageForm 		= $(option.commentTarget).parents('form');
 
-                    $($conts_review).html('<strong class="conts_tit">댓글<em>'+resp.comment.cnt+'</em></strong><ul class="reviewList"></ul>');
+                    comm.appendInput(_pageForm, "contentsType"  , param.contentsType    );
+                    comm.appendInput(_pageForm, "contentsId"    , param.contentsId      );
 
-                    resp.comment.list.push({});
+                    //function(form,url,callback,pageNo,totalCnt,sPageNo,ePageNo,listNo,pagigRange){
+                    comm.list(_pageForm, "/board/select/comment", function(comment_resp){
 
-                    if( resp.comment.list && resp.comment.list.length > 0 ){
+                        comm.comment_setting(
+                            param.contentsType,
+                            param.contentsId,
+                            option.commentTarget,
+                            comment_resp.comment.cnt,
+                            comment_resp.comment.list,
+                            call_resp_obj.loginYn
+                        );
 
-                        let comment_obj_html = '';
-                        for(let i=0;i<resp.comment.list.length;i++){
-                            let comment_obj = resp.comment.list[i];
-
-                            comment_obj_html += '<li>';
-                            comment_obj_html += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
-                            comment_obj_html += '    <div class="review_info">';
-                            comment_obj_html += '        <em>gauni1229</em>';
-                            comment_obj_html += '        <img src="/resources/img/line.png">';
-                            comment_obj_html += '            <span>1시간</span>';
-                            comment_obj_html += '            <img src="/resources/img/line.png">';
-                            comment_obj_html += '                <span class="accuse">신고</span>';
-                            comment_obj_html += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
-                            comment_obj_html += '                <a href="javascript:;">답글달기</a>';
-                            comment_obj_html += '    </div>';
-                            comment_obj_html += '</li>';
-
-
-                        }
-                        $('.reviewList', $conts_review).html(comment_obj_html);
-                    }
-
-
-                    $(option.commentTarget).replaceWith($conts_review);
-
-                    if( resp.comment.list && resp.comment.list.length > 0 ){
-                        $(option.commentTarget).append('<div class="pagging_wrap"><a href="javascript:;"><img src="/resources/img/prev_arrow.png"></a><a href="javascript:;" class="on">1</a><a href="javascript:;"><img src="/resources/img/next_arrow.png"></a></div>');
-                    }
-
-                    $(option.commentTarget).append('<div class="write_wrap"><textarea placeholder="로그인하고 댓글을 입력해보세요!"></textarea><a href="javascript:;">확인</a></div>');
+                    });
 
                 }
                 // 댓글 목록 세팅 e
@@ -190,35 +290,18 @@ let comm = {
 
     },
 
-
     loginObj : {
         init : function(type){
-
-            let loginHtml = '';
-            loginHtml += '<div class="pop_wrap" id="loginHtmlObj">';
-            loginHtml += '	<a href="javascript:;" class="btn_close"></a>';
-            loginHtml += '	<div class="pop_tit">로그인</div>';
-            loginHtml += '	<div class="btn_pop">';
-            loginHtml += '		<a href="javascript:;" id="kakao-login-btn"><img src="/resources/img/login_kakao.png"></a>';
-            loginHtml += '		<a href="javascript:;" id="naver_id_login"><img src="/resources/img/login_naver.png"></a>';
-            loginHtml += '	</div>';
-            loginHtml += '</div>';
-
-            if( $("#loginHtmlObj").length > 0 ){
-                $("#loginHtmlObj").remove();
-            }
-
-            $("body").append(loginHtml);
-
-            window['login_success_callback'] = this.login_success_callback;
+            this.popup.init();
 
             this.loginProcessEvent(type);
+            window['login_success_callback'] = this.login_success_callback;
 
         },
 
         kakaoInit : function(kakaoObj){
 
-            const kakaoKey = '16039b88287b9f46f214f7449158dfde';
+
 
             kakaoObj.init(kakaoKey);
             kakaoObj.isInitialized();
@@ -255,9 +338,8 @@ let comm = {
         },
 
         naverInit : function(naverObj){
-            const naverKey = 'ThouS3nsCEwGnhkMwI1I';
 
-            var naver_id_login = new naverObj(naverKey, window.location.origin + "/login/loginSuccess");
+            const naver_id_login = new naverObj(naverKey, window.location.origin + "/login/loginSuccess");
             let state = naver_id_login.getUniqState();
             naver_id_login.setButton("white", 2,40);
             naver_id_login.setDomain(window.location.origin);
@@ -306,11 +388,10 @@ let comm = {
                 // 로그인 성공
 
                 //팝업 닫기
-                $("#backbg").fadeOut("slow");
-                $(".pop_wrap").hide();
-
-                $(".member_set.logOut").show();
-                $(".loginStart").hide();
+                // comm.loginObj.popup.close();
+                //
+                // $(".member_set.logOut").show();
+                // $(".loginStart").hide();
 
                 window.location.reload();
 
@@ -345,6 +426,46 @@ let comm = {
 
 
             })
+        },
+
+        popup : {
+            init : function(){
+
+                let loginHtml = '';
+                loginHtml += '<div class="pop_wrap" id="loginHtmlObj">';
+                loginHtml += '	<a href="javascript:;" class="btn_close"></a>';
+                loginHtml += '	<div class="pop_tit">로그인</div>';
+                loginHtml += '	<div class="btn_pop">';
+                loginHtml += '		<a href="javascript:;" id="kakao-login-btn"><img src="/resources/img/login_kakao.png"></a>';
+                loginHtml += '		<a href="javascript:;" id="naver_id_login"><img src="/resources/img/login_naver.png"></a>';
+                loginHtml += '	</div>';
+                loginHtml += '</div>';
+
+                if( $("#loginHtmlObj").length > 0 ){
+                    $("#loginHtmlObj").remove();
+                }
+
+                $("body").append(loginHtml);
+
+
+                $(".btn_start").click(function () {
+                    $("#backbg").fadeIn("slow");
+                    $(".pop_wrap").show();
+                });
+                $(".btn_close").click(function () {
+                    $("#backbg").fadeOut("slow");
+                    $(".pop_wrap").hide();
+                });
+            },
+
+            open : function(){
+                $("#backbg").fadeIn("slow");
+                $(".pop_wrap").show();
+            },
+            close : function(){
+                $("#backbg").fadeOut("slow");
+                $(".pop_wrap").hide();
+            },
         },
 
         logOut : function(loginType, callback){
@@ -383,7 +504,6 @@ let comm = {
 
 
     },
-
 
     request: async function (opt, succCall, errCall) {
 
@@ -636,6 +756,11 @@ let comm = {
         return obj;
     },
 
+    appendInput : function(form, name, value){
+        $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+        $(form).find("input[name='"+name+"']").val(value);
+        return $(form).find("input[name='"+name+"']");
+    },
 
     mobile : {
         isYn : function(){
