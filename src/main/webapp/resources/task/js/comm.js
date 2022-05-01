@@ -41,8 +41,6 @@ let comm = {
             // 댓글 등록
             $($conts_review).find('#coment_insert').on("click", function(){
 
-                contents_type, contents_id
-
                 let comment_insert_param = {
                     "contentsType":contents_type,
                     "contentsId":contents_id,
