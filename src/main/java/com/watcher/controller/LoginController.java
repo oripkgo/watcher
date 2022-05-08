@@ -1,16 +1,11 @@
 package com.watcher.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.watcher.service.LoginService;
-import com.watcher.service.MainService;
 import com.watcher.service.MemberService;
 import com.watcher.util.HttpUtil;
 import com.watcher.vo.LoginVo;
 import com.watcher.vo.MemberVo;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
