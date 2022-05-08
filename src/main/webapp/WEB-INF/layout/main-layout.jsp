@@ -42,17 +42,6 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
-        $(".btn_start").click(function () {
-            $("#backbg").fadeIn("slow");
-            $(".pop_wrap").show();
-        });
-        $(".btn_close").click(function () {
-            $("#backbg").fadeOut("slow");
-            $(".pop_wrap").hide();
-        });
-    });
-
     jQuery.fn.anchorAnimate = function (settings) {
         settings = jQuery.extend({
             speed: 1000
