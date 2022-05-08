@@ -186,6 +186,7 @@ let comm = {
                                 $($this).data('likecnt',likecnt);
 
                                 $($this).data().likeId = like_resp.like_id;
+
                                 $($this).data().likeYn = "Y";
 
                                 $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
