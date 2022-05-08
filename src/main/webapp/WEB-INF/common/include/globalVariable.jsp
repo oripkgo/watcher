@@ -5,8 +5,8 @@
 
 
 <script type="text/javascript">
-    const origin = location.origin;
-    const loginYn = '${sessionScope.loginInfo.id}'    ?   true    :   false;
-    const loginType = '${sessionScope.loginInfo.type}' || "";
+    const origin        = location.origin;
+    const loginYn       = '${sessionScope.loginInfo.id}'    ?   true    :   false;
+    const loginType     = '${sessionScope.loginInfo.type}' || "";
 
 </script>

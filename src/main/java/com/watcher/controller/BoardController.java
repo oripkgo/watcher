@@ -221,7 +221,7 @@ public class BoardController {
 		}
 
 
-		if( param.containsKey("param") && param.get("likeId") != null ){
+		if( param.containsKey("likeId") && param.get("likeId") != null ){
 
 			svc_param.put("likeId"	, param.get("likeId")	);
 			svc_param.put("uptId"	, loginId				);
@@ -232,10 +232,11 @@ public class BoardController {
 			svc_param.put("contentsType"	, param.get("contentsType")	);
 			svc_param.put("contentsId"		, param.get("contentsId")	);
 			svc_param.put("memberId"		, loginId					);
-			svc_param.put("likeType"		, param.get("likeType")	);
+			svc_param.put("likeType"		, param.get("likeType")		);
 			svc_param.put("regId"			, loginId					);
 
 			boardService.like_insert(svc_param);
+			result.putAll(svc_param);
 		}
 
 		return result;

@@ -147,7 +147,6 @@ let comm = {
                         "likeYn"        : call_resp_obj.LIKE_YN,
                     });
 
-
                     if( call_resp_obj.LIKE_YN == 'N' ){
                         $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
                     }else{
@@ -186,7 +185,8 @@ let comm = {
                                 $($this).text( '공감 ' + likecnt );
                                 $($this).data('likecnt',likecnt);
 
-                                $($this).data().likeId = resp.like_id;
+                                $($this).data().likeId = like_resp.like_id;
+                                $($this).data().likeYn = "Y";
 
                                 $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
                             }
@@ -221,6 +221,7 @@ let comm = {
                     //function(form,url,callback,pageNo,totalCnt,sPageNo,ePageNo,listNo,pagigRange){
                     comm.list(_pageForm, "/board/select/comment", function(comment_resp){
 
+
                         comm.comment_setting(
                             param.contentsType,
                             param.contentsId,
@@ -230,7 +231,7 @@ let comm = {
                             call_resp_obj.loginYn
                         );
 
-                    });
+                    },null,10);
 
                 }
                 // 댓글 목록 세팅 e
@@ -583,7 +584,19 @@ let comm = {
         }
     },
 
-    list : function(form,url,callback,pageNo,listNo,pagigRange,sPageNo,ePageNo,totalCnt,scrollTopYn){
+    list : function(formObj,url,callback,pageNo,listNo,pagigRange,sPageNo,ePageNo,totalCnt,scrollTopYn){
+
+        var form = formObj;
+
+        if( typeof formObj == 'object' ){
+
+            if( $(formObj).attr("id") ){
+                form = "#" + $(formObj).attr("id");
+            }else{
+                form = "#" + "commListForm" + $("form").index($(formObj));
+            }
+
+        }
 
         var _pageNo =1;			// 현재 페이지 번호
         var _listNo = 20;		// 한 페이지에 보여지는 목록 갯수
