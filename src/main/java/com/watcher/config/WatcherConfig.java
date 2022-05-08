@@ -7,17 +7,19 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-
 
 @Configuration
 @MapperScan(basePackages="com.watcher.mapper")
@@ -26,6 +28,17 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Autowired
 	ApplicationContext applicationContext;
+
+
+
+	@Value("${db.url}")
+	String url;
+	@Value("${db.username}")
+	String username;
+	@Value("${db.password}")
+	String password;
+	@Value("${db.driver-class-name}")
+	String driverClassName;
 
 
 	// tiles (s)
@@ -51,8 +64,22 @@ public class WatcherConfig implements WebMvcConfigurer {
 	
 	
 	// DB 설정 (s)
+
 	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+	@Qualifier("mariaDBDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource")
+	public DataSource mysqlDataSource() {
+		return DataSourceBuilder.create()
+				.url(url)
+				.username(username)
+				.password(password)
+				.driverClassName(driverClassName)
+				.build();
+	}
+
+
+	@Bean
+	public SqlSessionFactory sqlSessionFactory(@Qualifier("mariaDBDataSource") DataSource dataSource) throws Exception {
 		
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		
@@ -69,7 +96,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 	}
 
 //	@Bean
-//	public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+//	public DataSourceTransactionManager transactionManager(@Qualifier("mariaDBDataSource") DataSource dataSource) {
 //		DataSourceTransactionManager manager = new DataSourceTransactionManager();
 //		manager.setDataSource(dataSource);
 //		return manager;

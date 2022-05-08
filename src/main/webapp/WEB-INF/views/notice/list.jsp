@@ -64,6 +64,7 @@
                         </div>
                     </div>
 
+
                     <div class="board_notice list">
                         <table>
                             <colgroup>
