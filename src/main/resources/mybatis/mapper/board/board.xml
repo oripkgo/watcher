@@ -102,6 +102,7 @@
 			AND A.CONTENTS_TYPE = #{contentsType}
 			AND A.CONTENTS_ID = #{contentsId}
 		  	AND A.DELETE_YN = 'N'
+		ORDER BY REG_DATE DESC
 		LIMIT ${(pageNo-1)*listNo},${listNo}
 
 	</select>

@@ -16,6 +16,7 @@ public class NoticeDto {
     private int likeCnt;
 
     private String tags;
+    private String nickname;
 
     public String getId() {
         return id;
@@ -103,5 +104,13 @@ public class NoticeDto {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

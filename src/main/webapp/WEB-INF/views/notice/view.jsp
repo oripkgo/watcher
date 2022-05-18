@@ -33,7 +33,7 @@
             <div class="detail_kind">공지사항</div>
             <strong>${vo.title}</strong>
             <div class="detail_memo">
-                <em>by ${vo.regId}</em>
+                <em>by ${vo.nickname}</em>
                 <img src="/resources/img/line.png">
                 <span id="last_time">1시간전</span>
 

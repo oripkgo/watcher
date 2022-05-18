@@ -56,24 +56,31 @@ let comm = {
                 comment_insert_param.coment = $(target).find("[name='coment']").val().replace(/[\n]/g,'<br>')
                 comm.request({url:"/board/insert/comment",data:JSON.stringify(comment_insert_param)},function(resp){
 
+                    let profile_img = "/resources/img/member_ico.png";
+
+                    if( resp.comment['profile'] ){
+                        profile_img = resp.comment['profile'];
+                    }
+
                     // 등록성공
                     if( resp.code == '0000'){
                         let comment_obj_html = '';
                         comment_obj_html += '<li>';
-                        comment_obj_html += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+                        comment_obj_html += '    <div class="member_re"><img src="'+profile_img+'"></div>';
                         comment_obj_html += '    <div class="review_info">';
-                        comment_obj_html += '        <em>gauni1229</em>';
+                        comment_obj_html += '        <em>'+resp.comment['nickName']+'</em>';
                         comment_obj_html += '        <img src="/resources/img/line.png">';
-                        comment_obj_html += '            <span>1111111시간</span>';
+                        comment_obj_html += '            <span>지금</span>';
                         comment_obj_html += '            <img src="/resources/img/line.png">';
                         comment_obj_html += '                <span class="accuse">신고</span>';
-                        comment_obj_html += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
+                        comment_obj_html += '                <strong>'+resp.comment['coment']+'</strong>';
                         comment_obj_html += '                <a href="javascript:;">답글보기</a>';
                         comment_obj_html += '                <a href="javascript:;">답글달기</a>';
                         comment_obj_html += '    </div>';
                         comment_obj_html += '</li>';
 
                         $(target).find(".reviewList","#conts_review").prepend(comment_obj_html);
+                        $("[name='coment']",target).val('');
 
                     }
                 })
@@ -83,7 +90,6 @@ let comm = {
         }
 
         $($conts_review).append('<ul class="reviewList"></ul>');
-        list.push({});
 
         if( list && list.length > 0 ){
 
@@ -91,20 +97,25 @@ let comm = {
             for(let i=0;i<list.length;i++){
                 let comment_obj = list[i];
 
+                let profile_img_arr = "/resources/img/member_ico.png";
+
+                if( comment_obj['MEM_PROFILE_IMG'] ){
+                    profile_img_arr = comment_obj['MEM_PROFILE_IMG'];
+                }
+
                 comment_obj_html += '<li>';
-                comment_obj_html += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+                comment_obj_html += '    <div class="member_re"><img src="'+profile_img_arr+'"></div>';
                 comment_obj_html += '    <div class="review_info">';
-                comment_obj_html += '        <em>gauni1229</em>';
+                comment_obj_html += '        <em>'+comment_obj['NICKNAME']+'</em>';
                 comment_obj_html += '        <img src="/resources/img/line.png">';
-                comment_obj_html += '            <span>1시간</span>';
+                comment_obj_html += '            <span>'+comm.last_time_cal( comment_obj['REG_DATE'].split(" ")[0] )+'</span>';
                 comment_obj_html += '            <img src="/resources/img/line.png">';
                 comment_obj_html += '                <span class="accuse">신고</span>';
-                comment_obj_html += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
+                comment_obj_html += '                <strong>'+(comment_obj['COMENT']?comment_obj['COMENT']:"")+'</strong>';
                 comment_obj_html += '                <a href="javascript:;">답글보기</a>';
                 comment_obj_html += '                <a href="javascript:;">답글달기</a>';
                 comment_obj_html += '    </div>';
                 comment_obj_html += '</li>';
-
 
             }
             $('.reviewList', $conts_review).html(comment_obj_html);
@@ -222,7 +233,6 @@ let comm = {
 
                     //function(form,url,callback,pageNo,totalCnt,sPageNo,ePageNo,listNo,pagigRange){
                     comm.list(_pageForm, "/board/select/comment", function(comment_resp){
-
 
                         comm.comment_setting(
                             param.contentsType,

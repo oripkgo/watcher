@@ -168,12 +168,14 @@ public class BoardController {
 
 		String loginId = "";
 		String nickName = "";
+		String profile = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
 			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
 
 			loginId = loginVo.getId();
 			nickName = loginVo.getNickname();
+			profile = loginVo.getProfile();
 
 		}
 
@@ -186,7 +188,7 @@ public class BoardController {
 		comment_insert_param.put("confirmId"  		, loginId    				);
 		comment_insert_param.put("regId"  			, loginId					);
 		comment_insert_param.put("nickName"  		, nickName					);
-
+		comment_insert_param.put("profile"  		, profile					);
 
 		result.put("comment", boardService.comment_insert(comment_insert_param));
 		result.put("code","0000");

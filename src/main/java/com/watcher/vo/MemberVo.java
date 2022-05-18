@@ -11,6 +11,7 @@ public class MemberVo extends CommVo {
     String name;        // 회원 이름
     String nickname;    // 회원 유형별명
     String memType;     // 회원 유형
+    String memProfileImg;     // 회원 프로필
 
     public String getId() {
         return id;
@@ -76,4 +77,11 @@ public class MemberVo extends CommVo {
         this.memType = memType;
     }
 
+    public String getMemProfileImg() {
+        return memProfileImg;
+    }
+
+    public void setMemProfileImg(String memProfileImg) {
+        this.memProfileImg = memProfileImg;
+    }
 }

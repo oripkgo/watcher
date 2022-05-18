@@ -19,7 +19,7 @@
             listHtml += '    <td>                                                                           ';
             listHtml += '        <a href="/notice/view?id='+obj.id+'" class="subject_link">'+obj.title+'</a>';
             listHtml += '    </td>                                                                          ';
-            listHtml += '    <td>' + obj.regId + '</td>';
+            listHtml += '    <td>' + obj.nickname + '</td>';
             listHtml += '    <td>' + obj.regDate.substring(2) + '</td>';
             listHtml += '    <td>'+obj.viewCnt+'</td>';
             listHtml += '</tr>                                                                           ';

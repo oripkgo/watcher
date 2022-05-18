@@ -13,6 +13,7 @@
 			,NAME
 			,NICKNAME
 			,MEM_TYPE
+			,MEM_PROFILE_IMG
 			,REG_ID
 			,REG_DATE
 			,UPT_ID
@@ -26,6 +27,7 @@
 			,#{name}
 			,#{nickname}
 			,#{memType}
+			,#{memProfileImg}
 			,#{memId}
 			,NOW()
 			,#{memId}

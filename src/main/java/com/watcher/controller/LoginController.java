@@ -72,6 +72,7 @@ public class LoginController {
 			memberVo.setNickname(loginVo.getNickname());
 			memberVo.setName(loginVo.getName());
 			memberVo.setEmail(loginVo.getEmail());
+			memberVo.setMemProfileImg(loginVo.getProfile());
 
 			memberService.insertUpdate(memberVo);
 
