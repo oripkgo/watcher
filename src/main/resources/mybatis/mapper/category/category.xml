@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.CategoryMapper">
+
+
+	<select id="category_list" resultType="map" parameterType="categoryParam">
+		/*Notice > list*/
+		SELECT
+			 ID
+			,REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
+			,CATEGORY_NM
+			,CATEGORY_COMENTS
+			,CATEGORY_IMG_PATH
+			,SORT
+		FROM CATEGORY
+		WHERE 1=1
+		AND SHOW_YN = 'Y'
+		ORDER BY SORT ASC
+
+	</select>
+
+
+	<select id="view" resultType="map" parameterType="noticeParam">
+		/*Notice > list*/
+		<include refid="notice_select"/>
+		WHERE 1=1
+		<if test="!(id==null or id=='')">
+			AND A.ID = #{id}
+		</if>
+
+	</select>
+	
+	<sql id="notice_select">
+		SELECT
+			  A.ID
+			 ,A.TITLE
+			 ,A.CONTENTS
+			 ,A.THUMBNAIL_IMG_PATH
+			 ,A.REG_ID
+			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			 ,A.UPT_ID
+			 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			 ,IFNULL(B.VIEW_CNT ,0) AS VIEW_CNT
+			 ,IFNULL(C.TAGS ,'') AS TAGS
+			 ,(
+			     SELECT COUNT(*) FROM BOARD_LIKE WHERE 1=1
+			 	 AND CONTENTS_TYPE='NOTICE'
+			     AND CONTENTS_ID = A.ID
+			     AND LIKE_TYPE = '01'
+				 AND CANCEL_YN = 'N'
+			 ) AS LIKE_CNT
+		     ,D.NICKNAME
+		FROM NOTICE A
+		LEFT JOIN VIEWS B ON 1=1
+			AND B.CONTENTS_TYPE='NOTICE'
+			AND B.CONTENTS_ID = A.ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+			AND C.CONTENTS_TYPE='NOTICE'
+			AND C.CONTENTS_ID = A.ID
+		LEFT JOIN MEMBER D ON 1=1
+			AND D.MEM_ID = A.REG_ID
+	</sql>
+
+	<!--
+	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
+
+		INSERT INTO MEMBER(
+			 MEM_ID
+			,PASSWORD
+			,EMAIL
+			,PHONE_NUM
+			,NAME
+			,NICKNAME
+			,MEM_TYPE
+			,REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
+		)
+		VALUES (
+			 #{memId}
+			,#{password}
+			,#{email}
+			,#{phoneNum}
+			,#{name}
+			,#{nickname}
+			,#{memType}
+			,#{memId}
+			,NOW()
+			,#{memId}
+			,NOW()
+		)
+		ON DUPLICATE KEY UPDATE
+			<if test="password != null and password != ''">
+				PASSWORD 	= #{password} ,
+			</if>
+
+			<if test="email != null and email != ''">
+				EMAIL 		= #{email} ,
+			</if>
+
+			<if test="phoneNum != null and phoneNum != ''">
+				PHONE_NUM 	= #{phoneNum} ,
+			</if>
+
+			<if test="name != null and name != ''">
+				NAME 		= #{name} ,
+			</if>
+
+			<if test="nickname != null and nickname != ''">
+				NICKNAME 	= #{nickname} ,
+			</if>
+
+			<if test="memType != null and memType != ''">
+				MEM_TYPE 	= #{memType} ,
+			</if>
+
+			UPT_ID 	= #{memId} ,
+			UPT_DATE 	= NOW()
+	</insert>
+	-->
+
+</mapper>
