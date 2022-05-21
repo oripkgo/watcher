@@ -42,7 +42,7 @@
 
 	<select id="view" resultType="map" parameterType="storyParam">
 		/*Notice > list*/
-		<include refid="notice_select"/>
+		<include refid="story_select"/>
 		WHERE 1=1
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
