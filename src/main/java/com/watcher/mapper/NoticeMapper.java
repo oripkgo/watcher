@@ -1,16 +1,16 @@
 package com.watcher.mapper;
 
-import com.watcher.dto.NoticeDto;
-import com.watcher.vo.NoticeVo;
+import com.watcher.param.NoticeParam;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Mapper
 public interface NoticeMapper {
-	public NoticeDto view(NoticeVo noticeVo);
-	public List<NoticeDto> list(NoticeVo noticeVo);
-	public int listCnt(NoticeVo noticeVo);
+	public Map<String,Object> view(NoticeParam noticeParam);
+	public List<Map<String,Object>> list(NoticeParam noticeParam);
+	public int listCnt(NoticeParam noticeParam);
 
 }

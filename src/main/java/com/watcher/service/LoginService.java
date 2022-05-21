@@ -1,6 +1,6 @@
 package com.watcher.service;
 
-import com.watcher.vo.LoginVo;
+import com.watcher.param.LoginParam;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import java.util.Map;
 public class LoginService {
 
 
-    public Map<String,String> loginSuccessCallback(HttpServletRequest request, LoginVo loginVo) throws Exception{
+    public Map<String,String> loginSuccessCallback(HttpServletRequest request, LoginParam loginVo) throws Exception{
         Map<String,String> result = new HashMap<String,String>();
 
         if( !( loginVo.getId() == null || loginVo.getId().isEmpty() ) ){

@@ -5,16 +5,16 @@ const naverKey = 'ThouS3nsCEwGnhkMwI1I';
 let comment_li = '';
 
 comment_li += '<li>';
-comment_li += '    <div class="member_re"><img src="/resources/img/member_ico.png"></div>';
+comment_li += '    <div class="member_re"><img class="profile" src="/resources/img/member_ico.png"></div>';
 comment_li += '    <div class="review_info">';
-comment_li += '        <em>gauni1229</em>';
+comment_li += '        <em class="writer"></em>';
 comment_li += '        <img src="/resources/img/line.png">';
-comment_li += '            <span>1시간</span>';
+comment_li += '            <span class="writer_time"></span>';
 comment_li += '            <img src="/resources/img/line.png">';
 comment_li += '                <span class="accuse">신고</span>';
-comment_li += '                <strong>자신에게서 해답이 있겠지요.화이팅</strong>';
-comment_li += '                <a href="javascript:;">답글보기</a>';
-comment_li += '                <a href="javascript:;">답글달기</a>';
+comment_li += '                <strong class="contents"></strong>';
+// comment_li += '                <a href="javascript:;" class="see_replies">답글보기</a>';
+// comment_li += '                <a href="javascript:;" class="Write_a_reply">답글달기</a>';
 comment_li += '    </div>';
 comment_li += '</li>';
 
@@ -64,22 +64,14 @@ let comm = {
 
                     // 등록성공
                     if( resp.code == '0000'){
-                        let comment_obj_html = '';
-                        comment_obj_html += '<li>';
-                        comment_obj_html += '    <div class="member_re"><img src="'+profile_img+'"></div>';
-                        comment_obj_html += '    <div class="review_info">';
-                        comment_obj_html += '        <em>'+resp.comment['nickName']+'</em>';
-                        comment_obj_html += '        <img src="/resources/img/line.png">';
-                        comment_obj_html += '            <span>지금</span>';
-                        comment_obj_html += '            <img src="/resources/img/line.png">';
-                        comment_obj_html += '                <span class="accuse">신고</span>';
-                        comment_obj_html += '                <strong>'+resp.comment['coment']+'</strong>';
-                        comment_obj_html += '                <a href="javascript:;">답글보기</a>';
-                        comment_obj_html += '                <a href="javascript:;">답글달기</a>';
-                        comment_obj_html += '    </div>';
-                        comment_obj_html += '</li>';
+                        let comment_obj = $(comment_li);
 
-                        $(target).find(".reviewList","#conts_review").prepend(comment_obj_html);
+                        $(".profile"    , comment_obj).attr("src",profile_img);
+                        $(".writer"     , comment_obj).html(resp.comment['nickName']);
+                        $(".writer_time", comment_obj).html("지금");
+                        $(".contents"   , comment_obj).html(resp.comment['coment']);
+
+                        $(target).find(".reviewList","#conts_review").prepend(comment_obj);
                         $("[name='coment']",target).val('');
 
                     }
@@ -95,28 +87,21 @@ let comm = {
 
             let comment_obj_html = '';
             for(let i=0;i<list.length;i++){
-                let comment_obj = list[i];
+                let listObj = list[i];
+                let comment_obj = $("<div>"+comment_li+"</div>");
 
                 let profile_img_arr = "/resources/img/member_ico.png";
 
-                if( comment_obj['MEM_PROFILE_IMG'] ){
-                    profile_img_arr = comment_obj['MEM_PROFILE_IMG'];
+                if( listObj['MEM_PROFILE_IMG'] ){
+                    profile_img_arr = listObj['MEM_PROFILE_IMG'];
                 }
 
-                comment_obj_html += '<li>';
-                comment_obj_html += '    <div class="member_re"><img src="'+profile_img_arr+'"></div>';
-                comment_obj_html += '    <div class="review_info">';
-                comment_obj_html += '        <em>'+comment_obj['NICKNAME']+'</em>';
-                comment_obj_html += '        <img src="/resources/img/line.png">';
-                comment_obj_html += '            <span>'+comm.last_time_cal( comment_obj['REG_DATE'].split(" ")[0] )+'</span>';
-                comment_obj_html += '            <img src="/resources/img/line.png">';
-                comment_obj_html += '                <span class="accuse">신고</span>';
-                comment_obj_html += '                <strong>'+(comment_obj['COMENT']?comment_obj['COMENT']:"")+'</strong>';
-                comment_obj_html += '                <a href="javascript:;">답글보기</a>';
-                comment_obj_html += '                <a href="javascript:;">답글달기</a>';
-                comment_obj_html += '    </div>';
-                comment_obj_html += '</li>';
+                $(".profile"    , comment_obj).attr("src",profile_img_arr);
+                $(".writer"     , comment_obj).html(listObj['NICKNAME']);
+                $(".writer_time", comment_obj).html(comm.last_time_cal( listObj['REG_DATE'].split(" ")[0] ));
+                $(".contents"   , comment_obj).html((listObj['COMENT']?listObj['COMENT']:""));
 
+                comment_obj_html += $(comment_obj).html();
             }
             $('.reviewList', $conts_review).html(comment_obj_html);
         }
@@ -243,7 +228,7 @@ let comm = {
                             call_resp_obj.loginYn
                         );
 
-                    },null,10);
+                    },1,10);
 
                 }
                 // 댓글 목록 세팅 e
@@ -784,7 +769,10 @@ let comm = {
     },
 
     appendInput : function(form, name, value){
-        $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+        if( $("#"+name).length == 0 ){
+            $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+        }
+
         $(form).find("input[name='"+name+"']").val(value);
         return $(form).find("input[name='"+name+"']");
     },

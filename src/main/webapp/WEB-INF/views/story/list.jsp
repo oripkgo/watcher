@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <div class="section">
@@ -12,14 +12,12 @@
             <span>다양한 지식을 공유 해보세요</span>
             <div class="story_search">
                 <select>
-                    <option>카테고리</option>
-                    <option>여행</option>
-                    <option>맛집</option>
-                    <option>문화</option>
-                    <option>연애</option>
-                    <option>IT</option>
-                    <option>게임</option>
-                    <option>스포츠</option>
+                    <option value="">카테고리</option>
+                    <c:if test="${ !((empty category_list) || fn:length(category_list) == 0) }">
+                        <c:forEach var="obj" items="${category_list}" varStatus="status">
+                            <option value="${obj.ID}">${obj.CATEGORY_NM}</option>
+                        </c:forEach>
+                    </c:if>
                 </select>
                 <input type="text" placeholder="">
                 <a href="javascript:;"><img src="/resources/img/btn_search_b.png"></a>
@@ -37,14 +35,18 @@
             <!--탭메뉴-->
             <div id="tab_box">
                 <div id="tab_cnt">
-                    <a href="javascript:;" class="tab_ov"><span>라이프</span></a>
-                    <a href="javascript:;"><span>여행</span></a>
-                    <a href="javascript:;"><span>맛집</span></a>
-                    <a href="javascript:;"><span>문화</span></a>
-                    <a href="javascript:;"><span>연애</span></a>
-                    <a href="javascript:;"><span>IT</span></a>
-                    <a href="javascript:;"><span>게임</span></a>
-                    <a href="javascript:;"><span>스포츠</span></a>
+                    <c:if test="${ !((empty category_list) || fn:length(category_list) == 0) }">
+                        <c:forEach var="obj" items="${category_list}" varStatus="status">
+                            <c:choose>
+                                <c:when test="${status.index == 0}">
+                                    <a href="javascript:;" class="tab_ov"><span>${obj.CATEGORY_NM}</span></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="javascript:;"><span>${obj.CATEGORY_NM}</span></a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </c:if>
                 </div>
                 <div class="grap">
                     <div class="obj">
@@ -57,12 +59,21 @@
                                     <span>넓은 의미에서 지구온난화는 장기간에 걸쳐 전지구 평균 지표면온이 상승하는 것을 의미한다. 하지만 좀더 일반적으로 지구온...</span>
                                 </a>
                                 <div class="story_key">
-                                    <a href="javascript:;">#컬처</a>
-                                    <a href="javascript:;">#영화</a>
-                                    <a href="javascript:;">#영화컬처</a>
                                     <span>1시간전</span>
                                     <span>공감21</span>
                                     <em>by gauni1229</em>
+                                    <a href="javascript:;">#컬처</a>
+                                    <a href="javascript:;">#영화</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
+                                    <a href="javascript:;">#영화컬처</a>
                                 </div>
                             </li>
                             <li>

@@ -274,6 +274,13 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .board_title {font-size:15px;color:#000;font-weight:600;border-bottom:4px solid #333;position:relative;padding:10px 0px;}
 .board_title a {display:inline-block;float:right;font-size:13px;color:#000;font-weight:300;}
 
+
+/*.notice_title_opt {display:flex;margin-top: 20px;}
+.notice_title_opt div.search_right_box {margin-left: auto;}
+.notice_title_opt .btn_tb_wrap {margin-left: 20px;}
+.notice_title_opt .btn_tb_wrap, .search_right_box  {position: initial !important;}*/
+
+
 .notice_list {margin-bottom:30px;}
 .notice_list:after {display:block;visibility:hidden;clear:both;content:""}
 .notice_list li {float:none;border-bottom:1px solid #ddd;}

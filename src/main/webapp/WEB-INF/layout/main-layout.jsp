@@ -42,6 +42,10 @@
 
 <script type="text/javascript">
 
+    var animateQueue = new Array();
+    var ready = true;
+
+
     jQuery.fn.anchorAnimate = function (settings) {
         settings = jQuery.extend({
             speed: 1000
@@ -61,16 +65,6 @@
             })
         })
     }
-
-
-    //스크롤 페이드인
-    $(document).ready(function () {
-
-        triggerJqueryFadeIn()
-        $(window).scroll(triggerJqueryFadeIn);
-    });
-    var animateQueue = new Array();
-    var ready = true;
 
     function triggerJqueryFadeIn() {
         $('.ani-in').each(function () {
@@ -92,12 +86,18 @@
     }
 
 
-    $(function () {
+    //스크롤 페이드인
+    $(document).ready(function () {
+
+        triggerJqueryFadeIn()
+        $(window).scroll(triggerJqueryFadeIn);
+
         $("#to_top").on("click", function () {
             $("html, body").animate({scrollTop: 0}, '500');
             return false;
         });
     });
+
 </script>
 </body>
 </html>

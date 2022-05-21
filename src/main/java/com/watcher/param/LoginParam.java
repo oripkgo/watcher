@@ -1,7 +1,9 @@
-package com.watcher.vo;
+package com.watcher.param;
 
 
-public class LoginVo extends CommVo {
+import com.watcher.dto.CommDto;
+
+public class LoginParam extends CommDto {
 
 
     private String access_token;

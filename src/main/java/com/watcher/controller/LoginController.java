@@ -1,10 +1,10 @@
 package com.watcher.controller;
 
+import com.watcher.param.MemberParam;
 import com.watcher.service.LoginService;
 import com.watcher.service.MemberService;
 import com.watcher.util.HttpUtil;
-import com.watcher.vo.LoginVo;
-import com.watcher.vo.MemberVo;
+import com.watcher.param.LoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +47,7 @@ public class LoginController {
 	public Map<String,String> loginSuccessCallback(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody LoginVo loginVo
+			@RequestBody LoginParam loginVo
 
 	) throws Exception {
 
@@ -65,16 +65,16 @@ public class LoginController {
 			Cookie cookie = new Cookie("userId",loginVo.getId());
 			response.addCookie(cookie);
 
-			MemberVo memberVo = new MemberVo();
+			MemberParam memberParam = new MemberParam();
 
-			memberVo.setMemId(loginVo.getId());
-			memberVo.setMemType(( "naver".equals(loginVo.getType())?"00":"01" ));
-			memberVo.setNickname(loginVo.getNickname());
-			memberVo.setName(loginVo.getName());
-			memberVo.setEmail(loginVo.getEmail());
-			memberVo.setMemProfileImg(loginVo.getProfile());
+			memberParam.setMemId(loginVo.getId());
+			memberParam.setMemType(( "naver".equals(loginVo.getType())?"00":"01" ));
+			memberParam.setNickname(loginVo.getNickname());
+			memberParam.setName(loginVo.getName());
+			memberParam.setEmail(loginVo.getEmail());
+			memberParam.setMemProfileImg(loginVo.getProfile());
 
-			memberService.insertUpdate(memberVo);
+			memberService.insertUpdate(memberParam);
 
 		}
 
@@ -89,7 +89,7 @@ public class LoginController {
 	public Map<String,String> logOut(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody LoginVo loginVo
+			@RequestBody LoginParam loginVo
 
 	) throws Exception {
 		Map<String,String> result = new HashMap<String,String>();
@@ -114,7 +114,7 @@ public class LoginController {
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
-			logOutParam.put("target_id"			, ((LoginVo)request.getSession().getAttribute("loginInfo")).getId());
+			logOutParam.put("target_id"			, ((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
 
 			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
 

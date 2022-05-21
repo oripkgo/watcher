@@ -7,8 +7,8 @@
 <script>
 
     let type    = 'NOTICE';
-    let id      = '${vo.id}';
-    let regDate = '${vo.regDate}'
+    let id      = '${vo.ID}';
+    let regDate = '${vo.REG_DATE}'
 
     $(document).ready(function(){
 
@@ -31,11 +31,11 @@
 
         <div class="detail_top ani_y delay1">
             <div class="detail_kind">공지사항</div>
-            <strong>${vo.title}</strong>
+            <strong>${vo.TITLE}</strong>
             <div class="detail_memo">
-                <em>by ${vo.nickname}</em>
+                <em>by ${vo.NICKNAME}</em>
                 <img src="/resources/img/line.png">
-                <span id="last_time">1시간전</span>
+                <span id="last_time"></span>
 
                 <c:if test="${result.modify_authority_yn eq 'Y'}">
                     <div class="btn_basic">
@@ -70,10 +70,10 @@
 
             <div class="conts_wrap ani_y delay2">
 
-                ${vo.contents}
+                ${vo.CONTENTS}
 
                 <div class="conts_sns">
-                    <a href="javascript:;" class="zimm like" data-likecnt="${vo.likeCnt}">공감 ${vo.likeCnt}</a>
+                    <a href="javascript:;" class="zimm like" data-likecnt="${vo.LIKE_CNT}">공감 ${vo.LIKE_CNT}</a>
 
                     <%--
                     <a href="javascript:;" class="sns_btn"></a>

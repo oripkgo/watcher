@@ -3,7 +3,7 @@
 
 <mapper namespace="com.watcher.mapper.MemberMapper">
 
-	<insert id="insert" parameterType="memberVo" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
 
 		INSERT INTO MEMBER(
 			 MEM_ID
