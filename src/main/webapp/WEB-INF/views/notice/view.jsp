@@ -13,7 +13,7 @@
     $(document).ready(function(){
 
         // 지난 시간 세팅
-        $("#last_time").html( comm.last_time_cal(regDate.split(" ")[0]) );
+        $("#last_time").html( comm.last_time_cal(regDate) );
 
         comm.board_view_init(type, id, function(resp){
 

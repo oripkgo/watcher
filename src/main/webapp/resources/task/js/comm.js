@@ -98,7 +98,7 @@ let comm = {
 
                 $(".profile"    , comment_obj).attr("src",profile_img_arr);
                 $(".writer"     , comment_obj).html(listObj['NICKNAME']);
-                $(".writer_time", comment_obj).html(comm.last_time_cal( listObj['REG_DATE'].split(" ")[0] ));
+                $(".writer_time", comment_obj).html(comm.last_time_cal( listObj['REG_DATE'] ));
                 $(".contents"   , comment_obj).html((listObj['COMENT']?listObj['COMENT']:""));
 
                 comment_obj_html += $(comment_obj).html();
@@ -263,9 +263,34 @@ let comm = {
         return tagsHtml;
     },
 
+
+    getDate : function(date,format){
+
+        let date_format = format || ''
+
+        let year = date.getFullYear(); // 년도
+        let month = date.getMonth() + 1;  // 월
+        let dt = date.getDate();  // 날짜
+        let day = date.getDay();  // 요일
+
+        month = ( "00"+month )
+        month = month.substring(month.length-2,month.length);
+
+        dt = ( "00"+dt )
+        dt = dt.substring(dt.length-2,dt.length);
+
+        return year + date_format + month + date_format + dt;
+
+    },
+
     last_time_cal : function(last_date){
         let write_date = new Date(last_date) ;
         let now_date = new Date();
+
+        if( this.getDate(now_date) != this.getDate(write_date)){
+            write_date = new Date(this.getDate(write_date,'-')) ;
+        }
+
         let last_time_result = now_date.getTime() - write_date.getTime();
         let floor = function(num){
             return Math.floor(num*1);

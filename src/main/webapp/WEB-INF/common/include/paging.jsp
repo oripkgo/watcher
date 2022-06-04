@@ -12,16 +12,16 @@
 
 
 <script>
-	let _pageForm 		= '${param.form}';
-	let _url 			= '${param.url}';
-	let _listCallback	= '${param.listCallback}';
-	let _totalCnt 		= '${param.totalCnt}'?'${param.totalCnt}'*1:"";
-	let _pageNo 		= '${param.pageNo}'?'${param.pageNo}'*1:"1";
-	let _listNo 		= '${param.listNo}'?'${param.listNo}'*1:"";
-	let _pagigRange 	= '${param.pagigRange}'?'${param.pagigRange}'*1:"";
-	let _startPageNo 	= '${param.startPageNo}'?'${param.startPageNo}'*1:"";
-	let _endPageNo 		= '${param.endPageNo}'?'${param.endPageNo}'*1:"";
-	let _scrollTopYn 	= '${param.scrollTopYn}';
+	var _pageForm 		= '${param.form}';
+	var _url 			= '${param.url}';
+	var _listCallback	= '${param.listCallback}';
+	var _totalCnt 		= '${param.totalCnt}'?'${param.totalCnt}'*1:"";
+	var _pageNo 		= '${param.pageNo}'?'${param.pageNo}'*1:"1";
+	var _listNo 		= '${param.listNo}'?'${param.listNo}'*1:"";
+	var _pagigRange 	= '${param.pagigRange}'?'${param.pagigRange}'*1:"";
+	var _startPageNo 	= '${param.startPageNo}'?'${param.startPageNo}'*1:"";
+	var _endPageNo 		= '${param.endPageNo}'?'${param.endPageNo}'*1:"";
+	var _scrollTopYn 	= '${param.scrollTopYn}';
 
 
 	//function(form,url,callback,pageNo,totalCnt,sPageNo,ePageNo,listNo,pagigRange){

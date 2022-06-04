@@ -6,7 +6,9 @@
 	<select id="listCnt" resultType="int" parameterType="storyParam">
 		SELECT
 			COUNT(*)
-		FROM NOTICE A
+		FROM STORY A
+		LEFT JOIN MEMBER B ON 1 = 1
+		AND B.MEM_ID = A.REG_ID
 		WHERE 1=1
 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
@@ -35,6 +37,18 @@
 				</otherwise>
 			</choose>
 		</if>
+
+		<if test="!(SortByRecommendationYn==null or SortByRecommendationYn=='')">
+			<choose>
+				<when test="SortByRecommendationYn == 'YY'">
+					ORDER BY LIKE_CNT DESC, REG_DATE DESC
+				</when>
+				<otherwise>
+					ORDER BY REG_DATE DESC
+				</otherwise>
+			</choose>
+		</if>
+
 		LIMIT ${(pageNo-1)*listNo},${listNo}
 
 	</select>
@@ -47,7 +61,6 @@
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
 		</if>
-
 	</select>
 
 	<sql id="story_select">
@@ -57,6 +70,7 @@
 			A.TITLE,
 			A.CONTENTS,
 			A.THUMBNAIL_IMG_PATH,
+		    A.SUMMARY,
 			A.REG_ID,
 			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
 			A.UPT_ID,
