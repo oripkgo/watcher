@@ -537,6 +537,8 @@ let comm = {
             opt.data = comm.serializeJson($(opt.form).serializeArray());
 
         }
+
+
         $.ajax({
 
             url: opt.url,

@@ -7,6 +7,8 @@ public class StoryParam extends StoryDto {
     String search_id;
     String search_keyword;
     String SortByRecommendationYn;
+    String limitNum;
+    String category_id;
 
     public String getSearch_id() {
         return search_id;
@@ -30,5 +32,21 @@ public class StoryParam extends StoryDto {
 
     public void setSortByRecommendationYn(String sortByRecommendationYn) {
         SortByRecommendationYn = sortByRecommendationYn;
+    }
+
+    public String getLimitNum() {
+        return limitNum;
+    }
+
+    public void setLimitNum(String limitNum) {
+        this.limitNum = limitNum;
+    }
+
+    public String getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(String category_id) {
+        this.category_id = category_id;
     }
 }

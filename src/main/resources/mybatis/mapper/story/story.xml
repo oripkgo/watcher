@@ -27,6 +27,10 @@
 		/*Notice > list*/
 		<include refid="story_select"/>
 		WHERE 1=1
+		<if test="category_id != null and category_id != ''">
+			AND A.CATEGORY_ID = #{category_id}
+		</if>
+
 -- 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
 				<when test="search_id == '01'">
@@ -42,14 +46,16 @@
 			<choose>
 				<when test="SortByRecommendationYn == 'YY'">
 					ORDER BY LIKE_CNT DESC, REG_DATE DESC
+					LIMIT ${limitNum}
 				</when>
 				<otherwise>
 					ORDER BY REG_DATE DESC
+					LIMIT ${(pageNo-1)*listNo},${listNo}
 				</otherwise>
 			</choose>
 		</if>
 
-		LIMIT ${(pageNo-1)*listNo},${listNo}
+
 
 	</select>
 

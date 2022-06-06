@@ -3,6 +3,7 @@ package com.watcher.controller;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,7 +32,8 @@ public class StoryController {
     public ModelAndView list() throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
-        mav.addObject("category_list",categoryService.category_list());
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+        mav.addObject("category_list", jsonArray);
 
         return mav;
     }
