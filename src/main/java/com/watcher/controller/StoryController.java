@@ -28,7 +28,23 @@ public class StoryController {
     @Autowired
     StoryService storyService;
 
-    @RequestMapping(value={"list"})
+    @RequestMapping(value={"/write"})
+    public ModelAndView write(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") StoryParam storyParam
+
+    ) throws Exception {
+        ModelAndView mav = new ModelAndView("story/write");
+
+//        JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+//        mav.addObject("category_list", jsonArray);
+
+        return mav;
+    }
+
+
+    @RequestMapping(value={"/list"})
     public ModelAndView list() throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
