@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<style>
+<%--<style>
 
     .ck-editor__editable_inline { height: 400px; width:100%; }
     .ck-content { font-size: 16px; }
@@ -23,6 +23,17 @@
             } );
 
     })
+</script>--%>
+
+
+<script src="https://cdn.ckeditor.com/4.19.0/standard-all/ckeditor.js"></script>
+<script>
+    $(document).on("ready",function(){
+        CKEDITOR.replace('editor', {
+            height: 400,
+            removeButtons: 'PasteFromWord'
+        });
+    });
 </script>
 
 <div class="section uline2">
@@ -41,7 +52,7 @@
 
                 <div class="story_title"><input type="text" placeholder="제목을 입력하세요"></div>
                 <div class="story_contents">
-                    <textarea class="editor"></textarea>
+                    <textarea class="editor" id="editor"></textarea>
                 </div>
 
                 <%--<table>
