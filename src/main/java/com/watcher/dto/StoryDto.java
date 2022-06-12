@@ -4,6 +4,7 @@ package com.watcher.dto;
 public class StoryDto extends CommDto {
     String id;
     String categoryId;
+    String memberCategoryId;
     String title;
     String contents;
     String thumbnailImgPath;
@@ -22,6 +23,14 @@ public class StoryDto extends CommDto {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getMemberCategoryId() {
+        return memberCategoryId;
+    }
+
+    public void setMemberCategoryId(String memberCategoryId) {
+        this.memberCategoryId = memberCategoryId;
     }
 
     public String getTitle() {

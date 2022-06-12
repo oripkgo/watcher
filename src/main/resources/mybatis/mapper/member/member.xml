@@ -62,4 +62,33 @@
 			UPT_DATE 	= NOW()
 	</insert>
 
+	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
+
+		INSERT INTO MEM_DETAIL(
+		 MEM_ID
+		,REG_ID
+		,REG_DATE
+		,UPT_ID
+		,UPT_DATE
+		)
+		VALUES (
+		 #{memId}
+		,#{memId}
+		,NOW()
+		,#{memId}
+		,NOW()
+		)
+		ON DUPLICATE KEY UPDATE
+		<if test="level != null and level != ''">
+			LEVEL 	= #{level} ,
+		</if>
+
+		<if test="commentYn != null and commentYn != ''">
+			COMMENT_YN 		= #{commentYn} ,
+		</if>
+
+		UPT_ID 	= #{memId} ,
+		UPT_DATE 	= NOW()
+	</insert>
+
 </mapper>

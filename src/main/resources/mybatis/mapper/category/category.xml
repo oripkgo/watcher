@@ -5,17 +5,19 @@
 
 
 	<select id="category_list" resultType="map" parameterType="categoryParam">
-		/*Notice > list*/
+		/*category > category_list*/
 		SELECT
 			 ID
 			,REG_ID
-			,REG_DATE
+			,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
 			,UPT_ID
-			,UPT_DATE
+			,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
 			,CATEGORY_NM
 			,CATEGORY_COMENTS
 			,CATEGORY_IMG_PATH
+		    ,SHOW_YN
 			,SORT
+		    ,'default' AS CATEGORY_TYPE
 		FROM CATEGORY
 		WHERE 1=1
 		AND SHOW_YN = 'Y'
@@ -24,46 +26,34 @@
 	</select>
 
 
-	<select id="view" resultType="map" parameterType="noticeParam">
-		/*Notice > list*/
-		<include refid="notice_select"/>
-		WHERE 1=1
-		<if test="!(id==null or id=='')">
-			AND A.ID = #{id}
-		</if>
-
-	</select>
-	
-	<sql id="notice_select">
+	<select id="member_category_list" resultType="map" parameterType="categoryParam">
+		/*category > member_category_list*/
 		SELECT
-			  A.ID
-			 ,A.TITLE
-			 ,A.CONTENTS
-			 ,A.THUMBNAIL_IMG_PATH
-			 ,A.REG_ID
-			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
-			 ,A.UPT_ID
-			 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-			 ,IFNULL(B.VIEW_CNT ,0) AS VIEW_CNT
-			 ,IFNULL(C.TAGS ,'') AS TAGS
-			 ,(
-			     SELECT COUNT(*) FROM BOARD_LIKE WHERE 1=1
-			 	 AND CONTENTS_TYPE='NOTICE'
-			     AND CONTENTS_ID = A.ID
-			     AND LIKE_TYPE = '01'
-				 AND CANCEL_YN = 'N'
-			 ) AS LIKE_CNT
-		     ,D.NICKNAME
-		FROM NOTICE A
-		LEFT JOIN VIEWS B ON 1=1
-			AND B.CONTENTS_TYPE='NOTICE'
-			AND B.CONTENTS_ID = A.ID
-		LEFT JOIN BOARD_TAGS C ON 1=1
-			AND C.CONTENTS_TYPE='NOTICE'
-			AND C.CONTENTS_ID = A.ID
-		LEFT JOIN MEMBER D ON 1=1
-			AND D.MEM_ID = A.REG_ID
-	</sql>
+			  ID
+			 ,REG_ID
+			 ,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			 ,UPT_ID
+			 ,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			 ,DEFALUT_CATEG_ID
+			 ,MEM_ID
+			 ,CATEGORY_NM
+			 ,CATEGORY_COMENTS
+			 ,CATEGORY_IMG_PATH
+			 ,SHOW_YN
+			 ,'member' AS CATEGORY_TYPE
+		FROM MEM_DEFINE_MENU_CATEG
+		WHERE 1=1
+		<if test="!(memId==null or memId=='')">
+			AND MEM_ID = #{memId}
+		</if>
+		<if test="!(showYn==null or showYn=='')">
+			AND SHOW_YN = #{showYn}
+		</if>
+	</select>
+
+
+
+
 
 	<!--
 	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">

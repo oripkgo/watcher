@@ -10,7 +10,6 @@ import java.util.Map;
 public interface CategoryMapper {
 
 	public List<Map<String, String>> category_list(Map<String,Object> param);
-
-
+	public List<Map<String, String>> member_category_list(Map<String,Object> param);
 
 }

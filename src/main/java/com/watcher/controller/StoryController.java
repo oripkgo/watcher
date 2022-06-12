@@ -1,5 +1,6 @@
 package com.watcher.controller;
 
+import com.watcher.param.LoginParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
@@ -15,9 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping(value="/story")
+@RequestMapping(value = "/story")
 
 public class StoryController {
 
@@ -28,7 +30,7 @@ public class StoryController {
     @Autowired
     StoryService storyService;
 
-    @RequestMapping(value={"/write"})
+    @RequestMapping(value = {"/write"})
     public ModelAndView write(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -37,14 +39,21 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mav = new ModelAndView("story/write");
 
-//        JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
-//        mav.addObject("category_list", jsonArray);
+        LinkedHashMap param = new LinkedHashMap();
+
+
+        param.put("showYn"  ,"Y");
+        param.put("memId"   ,((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch(param));
+
+        mav.addObject("category_list", jsonArray);
 
         return mav;
     }
 
 
-    @RequestMapping(value={"/list"})
+    @RequestMapping(value = {"/list"})
     public ModelAndView list() throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
@@ -54,7 +63,7 @@ public class StoryController {
         return mav;
     }
 
-    @RequestMapping(value={"listAsync"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"listAsync"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> listAsync(
             HttpServletRequest request,

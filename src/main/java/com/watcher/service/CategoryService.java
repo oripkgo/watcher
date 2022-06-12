@@ -2,6 +2,7 @@ package com.watcher.service;
 
 import com.watcher.mapper.BoardMapper;
 import com.watcher.mapper.CategoryMapper;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,34 @@ public class CategoryService {
         List<Map<String,Object>> list = categoryMapper.category_list(param);
         if( list == null ){
             list = new ArrayList<>();
+        }
+
+        return list;
+
+    }
+
+
+    public List<Map<String, Object>> member_category_list(LinkedHashMap param) throws Exception {
+
+        List<Map<String,Object>> list = categoryMapper.member_category_list(param);
+        if( list == null ){
+            list = new ArrayList<>();
+        }
+
+        return list;
+
+    }
+
+
+    public List<Map<String, Object>> story_category_serarch(LinkedHashMap param) throws Exception {
+
+        List<Map<String,Object>> list = categoryMapper.member_category_list(param);
+        if( list == null ){
+            list = new ArrayList<>();
+        }
+
+        if( list.size() <= 0 ){
+            list = this.category_list();
         }
 
         return list;

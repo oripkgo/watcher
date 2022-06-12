@@ -28,65 +28,83 @@
 
 <script src="https://cdn.ckeditor.com/4.19.0/standard-all/ckeditor.js"></script>
 <script>
+    let category_list = JSON.parse('${category_list}');
+
     $(document).on("ready",function(){
-        CKEDITOR.replace('editor', {
+
+        category_list.forEach(function(obj,idx){
+            let option = $("<option></option>");
+
+            option.attr("value",obj['ID']);
+            option.text(obj['CATEGORY_NM']);
+
+            option.data(obj);
+            $("#story_category").append(option);
+
+        });
+
+        CKEDITOR.replace('contents', {
             height: 400,
             removeButtons: 'PasteFromWord'
         });
     });
 </script>
 
-<div class="section uline2">
-    <div class="ani-in manage_layout">
+<form id="story_write_form">
 
-        <div class="manage_conts">
+    <input type="hidden" name="categoryId"          id="categoryId "        >
+    <input type="hidden" name="memberCategoryId"    id="memberCategoryId"   >
 
-            <div class="story_top">
-                <select>
-                    <option>카테고리</option>
-                    <option>공지사항</option>
-                    <option>스토리</option>
-                </select>
-            </div>
-            <div class="story_tb">
+    <div class="section uline2">
+        <div class="ani-in manage_layout">
 
-                <div class="story_title"><input type="text" placeholder="제목을 입력하세요"></div>
-                <div class="story_contents">
-                    <textarea class="editor" id="editor"></textarea>
+            <div class="manage_conts">
+
+                <div class="story_top">
+                    <select id="story_category">
+                        <option value="">카테고리</option>
+                    </select>
+                </div>
+                <div class="story_tb">
+
+                    <div class="story_title"><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></div>
+                    <div class="story_contents">
+                        <textarea class="editor" id="contents" name="contents"></textarea>
+                    </div>
+
+                    <%--<table>
+                        <tr>
+                            &lt;%&ndash;<th>제목 <input type="checkbox" name="not" id="not"><label for="not">공지</label></th>&ndash;%&gt;
+
+                            <td colspan="2"><input type="text" placeholder="제목을 입력하세요"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+
+                            </td>
+                        </tr>
+                       &lt;%&ndash; <tr>
+                            <th class="non">관련링크</th>
+                            <td class="non"><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <th class="non">첨부파일1</th>
+                            <td class="non"><input type="file"></td>
+                        </tr>
+                        <tr>
+                            <th>첨부파일2</th>
+                            <td><input type="file"></td>
+                        </tr>&ndash;%&gt;
+                    </table>--%>
                 </div>
 
-                <%--<table>
-                    <tr>
-                        &lt;%&ndash;<th>제목 <input type="checkbox" name="not" id="not"><label for="not">공지</label></th>&ndash;%&gt;
+                <div class="not_btn">
+                    <a href="javascript:;" class="on">작성완료</a>
+                    <a href="javascript:;">작성취소</a>
+                </div>
 
-                        <td colspan="2"><input type="text" placeholder="제목을 입력하세요"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
+            </div><!-------------//manage_conts------------->
 
-                        </td>
-                    </tr>
-                   &lt;%&ndash; <tr>
-                        <th class="non">관련링크</th>
-                        <td class="non"><input type="text"></td>
-                    </tr>
-                    <tr>
-                        <th class="non">첨부파일1</th>
-                        <td class="non"><input type="file"></td>
-                    </tr>
-                    <tr>
-                        <th>첨부파일2</th>
-                        <td><input type="file"></td>
-                    </tr>&ndash;%&gt;
-                </table>--%>
-            </div>
-
-            <div class="not_btn">
-                <a href="javascript:;" class="on">작성완료</a>
-                <a href="javascript:;">작성취소</a>
-            </div>
-
-        </div><!-------------//manage_conts------------->
-
+        </div>
     </div>
-</div>
+</form>

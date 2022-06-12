@@ -1,3 +1,4 @@
+
 const kakaoKey = '16039b88287b9f46f214f7449158dfde';
 const naverKey = 'ThouS3nsCEwGnhkMwI1I';
 
@@ -17,6 +18,16 @@ comment_li += '                <strong class="contents"></strong>';
 // comment_li += '                <a href="javascript:;" class="Write_a_reply">답글달기</a>';
 comment_li += '    </div>';
 comment_li += '</li>';
+
+
+let loginProcessEventHtml = '';
+
+loginProcessEventHtml += '<div class="member_app logOut" style="display: none;">';
+loginProcessEventHtml += '    <a href="javascript:;" id="myStory">내 스토리</a>';
+loginProcessEventHtml += '    <a href="javascript:;" id="management">관리</a>';
+loginProcessEventHtml += '    <a href="/story/write" id="writing">글쓰기</a>';
+loginProcessEventHtml += '    <a href="javascript:;" id="logout">로그아웃</a>';
+loginProcessEventHtml += '</div>';
 
 
 let comm = {
@@ -427,15 +438,6 @@ let comm = {
 
 
         loginProcessEvent : function(type){
-
-            let loginProcessEventHtml = '';
-
-            loginProcessEventHtml += '<div class="member_app logOut" style="display: none;">';
-            loginProcessEventHtml += '    <a href="javascript:;" id="myStory">내 스토리</a>';
-            loginProcessEventHtml += '    <a href="javascript:;" id="management">관리</a>';
-            loginProcessEventHtml += '    <a href="javascript:;" id="writing">글쓰기</a>';
-            loginProcessEventHtml += '    <a href="javascript:;" id="logout">로그아웃</a>';
-            loginProcessEventHtml += '</div>';
 
             $(document).on("ready",function(){
 

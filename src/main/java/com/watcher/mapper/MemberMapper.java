@@ -8,5 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MemberMapper {
 	
 	public void insert(MemberParam memberParam);
+	public void insertDetail(MemberParam memberParam);
 
 }
