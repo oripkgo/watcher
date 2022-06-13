@@ -75,14 +75,11 @@
                         <%--<textarea class="editor" id="contents" name="contents"></textarea>--%>
 
                         <div id="contents" class="editor"></div>
-
-                            <!-- Include the Quill library -->
+                            <!-- Main Quill library -->
                             <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-                            <!-- Initialize Quill editor -->
-                            <script>
+                            <script type="text/javascript">
 
-/*
-                                const toolbarOptions = [
+                                let toolbarOptions = [
                                     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
                                     ['blockquote', 'code-block'],
 
@@ -100,16 +97,27 @@
                                     [{ 'align': [] }],
 
                                     ['clean']                                         // remove formatting button
-                                ];*/
+                                ];
 
-                                let quill = new Quill('#contents', {
-                                    /*modules: {
-                                        toolbar: toolbarOptions
-                                    },*/
-                                    theme: 'snow'
+                                $(document).on("ready",function(){
+                                    let quill = new Quill('#contents', {
+
+                                        modules: {
+                                            //toolbar: '#toolbar-container',
+                                            toolbar: toolbarOptions
+                                        },
+
+                                        theme: 'snow'
+                                    });
+
+
+                                    var toolbar = quill.getModule('toolbar');
+                                    toolbar.addHandler('italic', function(obj,data2){
+                                        return true;
+                                    });
                                 });
-                            </script>
 
+                            </script>
 
                     </div>
 
@@ -143,6 +151,9 @@
                     <a href="javascript:;" class="on">작성완료</a>
                     <a href="javascript:;">작성취소</a>
                 </div>
+
+
+
 
             </div><!-------------//manage_conts------------->
 
