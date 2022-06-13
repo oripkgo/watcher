@@ -60,7 +60,7 @@
 	<a href="javascript:;" id="to_top"><img src="/resources/img/btn_top.png"></a>
 </div>
 
-<script>
+<script type="text/javascript">
 
 	comm.loginObj.init(loginType);
 	comm.loginObj.kakaoInit(Kakao);

@@ -12,10 +12,19 @@
 	// 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
 
     function naverSignInCallback() {
-        if( window.opener.login_success_callback ){
-            window.opener.login_success_callback(Object.assign(inner_profileParams,{"type":"naver"}));
+
+        if (window.opener) {
+            window.opener = window.opener;
+        } else {   //IE11
+            window.opener = window.open('', 'parentWindow');
         }
+
+        if( window.opener.login_success_callback ){
+            window.opener.login_success_callback($.extend(inner_profileParams,{"type":"naver"}));
+        }
+
         window.close();
+
     }
 
 </script>

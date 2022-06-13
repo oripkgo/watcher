@@ -375,6 +375,7 @@ let comm = {
 
         naverInit : function(naverObj){
 
+            window.name = 'parentWindow';
             const naver_id_login = new naverObj(naverKey, window.location.origin + "/login/loginSuccess");
             let state = naver_id_login.getUniqState();
             naver_id_login.setButton("white", 2,40);
@@ -394,7 +395,7 @@ let comm = {
 
         },
 
-        login_success_callback : async function(obj){
+        login_success_callback : function(obj){
             console.log(JSON.stringify(obj));
 
             let param = {}
@@ -430,7 +431,6 @@ let comm = {
                 // $(".loginStart").hide();
 
                 window.location.reload();
-
 
             })
 
@@ -532,14 +532,13 @@ let comm = {
 
     },
 
-    request: async function (opt, succCall, errCall) {
+    request: function (opt, succCall, errCall) {
 
         if( opt.form ){
 
             opt.data = comm.serializeJson($(opt.form).serializeArray());
 
         }
-
 
         $.ajax({
 

@@ -26,7 +26,7 @@
 </script>--%>
 
 
-<script src="https://cdn.ckeditor.com/4.19.0/standard-all/ckeditor.js"></script>
+<%--<script src="https://cdn.ckeditor.com/4.19.0/standard-all/ckeditor.js"></script>
 <script>
     let category_list = JSON.parse('${category_list}');
 
@@ -48,7 +48,10 @@
             removeButtons: 'PasteFromWord'
         });
     });
-</script>
+</script>--%>
+
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 <form id="story_write_form">
 
@@ -69,7 +72,45 @@
 
                     <div class="story_title"><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></div>
                     <div class="story_contents">
-                        <textarea class="editor" id="contents" name="contents"></textarea>
+                        <%--<textarea class="editor" id="contents" name="contents"></textarea>--%>
+
+                        <div id="contents" class="editor"></div>
+
+                            <!-- Include the Quill library -->
+                            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                            <!-- Initialize Quill editor -->
+                            <script>
+
+/*
+                                const toolbarOptions = [
+                                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                                    ['blockquote', 'code-block'],
+
+                                    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+                                    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+                                    [{ 'direction': 'rtl' }],                         // text direction
+
+                                    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+                                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+                                    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                                    [{ 'font': [] }],
+                                    [{ 'align': [] }],
+
+                                    ['clean']                                         // remove formatting button
+                                ];*/
+
+                                let quill = new Quill('#contents', {
+                                    /*modules: {
+                                        toolbar: toolbarOptions
+                                    },*/
+                                    theme: 'snow'
+                                });
+                            </script>
+
+
                     </div>
 
                     <%--<table>
