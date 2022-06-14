@@ -14,7 +14,7 @@ img, fieldset {border:none;}
 img {vertical-align:middle;} 
 table {border-collapse:collapse;}
 ul, ol, li {list-style:none;}
-address, em {font-style:normal;}
+address, em:not(.ql-editor em) {font-style:normal;}
 input, select, textarea, form img, li img, object{vertical-align:middle;}
 select {height:32px;border:1px solid #d9d9d9;line-height:auto;background:url('../img/s_arrow.png') no-repeat 96% center #fff;padding:0px 25px 0px 10px;-webkit-appearance: none; -moz-appearance: none;appearance: none;}
 select::-ms-expand {display:none;}
