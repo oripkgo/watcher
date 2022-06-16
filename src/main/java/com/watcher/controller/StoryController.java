@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/story")
@@ -29,6 +28,24 @@ public class StoryController {
 
     @Autowired
     StoryService storyService;
+
+
+    @RequestMapping(value = {"/writeInsert"})
+    @ResponseBody
+    public LinkedHashMap<String, Object> writeInsert(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") StoryParam storyParam
+
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.putAll(storyService.story_insert(storyParam));
+
+        return result;
+    }
+
+
 
     @RequestMapping(value = {"/write"})
     public ModelAndView write(

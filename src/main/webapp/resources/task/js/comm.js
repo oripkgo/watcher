@@ -596,8 +596,13 @@ let comm = {
     },
 
     message: {
-        alert: function (msg) {
+        alert: function (msg,callback) {
             alert(msg);
+
+            if( callback ){
+                callback();
+            }
+
         },
         confirm : function(msg,callback){
             if( confirm(msg) ){

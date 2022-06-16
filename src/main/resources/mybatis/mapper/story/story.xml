@@ -97,63 +97,67 @@
 		AND B.MEM_ID = A.REG_ID
 	</sql>
 
-	<!--
-	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
 
-		INSERT INTO MEMBER(
-			 MEM_ID
-			,PASSWORD
-			,EMAIL
-			,PHONE_NUM
-			,NAME
-			,NICKNAME
-			,MEM_TYPE
-			,REG_ID
+	<update id="update" parameterType="storyParam">
+
+		UPDATE STORY SET
+		<if test="categoryId != null and categoryId != ''">
+			CATEGORY_ID = #{categoryId} ,
+		</if>
+
+		<if test="memberCategoryId != null and memberCategoryId != ''">
+			MEMBER_CATEGORY_ID = #{memberCategoryId} ,
+		</if>
+
+		<if test="title != null and title != ''">
+			TITLE = #{title} ,
+		</if>
+
+
+		<if test="contents != null and contents != ''">
+			CONTENTS = #{contents} ,
+		</if>
+
+		<if test="thumbnailImgPath != null and thumbnailImgPath != ''">
+			THUMBNAIL_IMG_PATH = #{thumbnailImgPath} ,
+		</if>
+
+		<if test="summary != null and summary != ''">
+			SUMMARY = #{summary} ,
+		</if>
+
+		UPT_ID = #{uptId},
+		UPT_DATE = NOW()
+		WHERE ID=#{id}
+
+	</update>
+
+	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyColumn="memId">
+
+		INSERT INTO STORY(
+			 REG_ID
 			,REG_DATE
 			,UPT_ID
 			,UPT_DATE
+			,CATEGORY_ID
+			,MEMBER_CATEGORY_ID
+			,TITLE
+			,CONTENTS
+			,THUMBNAIL_IMG_PATH
+			,SUMMARY
 		)
 		VALUES (
-			 #{memId}
-			,#{password}
-			,#{email}
-			,#{phoneNum}
-			,#{name}
-			,#{nickname}
-			,#{memType}
-			,#{memId}
+			 #{regId}
 			,NOW()
-			,#{memId}
+			,#{uptId}
 			,NOW()
+			,#{categoryId}
+			,#{memberCategoryId}
+			,#{title}
+			,#{contents}
+			,#{thumbnailImgPath}
+			,#{summary}
 		)
-		ON DUPLICATE KEY UPDATE
-			<if test="password != null and password != ''">
-				PASSWORD 	= #{password} ,
-			</if>
-
-			<if test="email != null and email != ''">
-				EMAIL 		= #{email} ,
-			</if>
-
-			<if test="phoneNum != null and phoneNum != ''">
-				PHONE_NUM 	= #{phoneNum} ,
-			</if>
-
-			<if test="name != null and name != ''">
-				NAME 		= #{name} ,
-			</if>
-
-			<if test="nickname != null and nickname != ''">
-				NICKNAME 	= #{nickname} ,
-			</if>
-
-			<if test="memType != null and memType != ''">
-				MEM_TYPE 	= #{memType} ,
-			</if>
-
-			UPT_ID 	= #{memId} ,
-			UPT_DATE 	= NOW()
 	</insert>
-	-->
 
 </mapper>

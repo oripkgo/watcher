@@ -7,7 +7,7 @@
 <!-- Main Quill library -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script type="text/javascript">
-    const contents_obj = '#contents';
+    const contents_obj = '#editor';
     let quill;
     let toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -33,6 +33,52 @@
     let category_list = JSON.parse('${category_list}');
 
     $(document).on("ready",function(){
+
+        $(".write_confirm").on("click",function(){
+
+            if($("#story_category").val() == ''){
+                comm.message.alert("카테고리를 선택해주세요.");
+                return;
+            }
+
+            if($("#title").val() == ''){
+                comm.message.alert("제목을 입력해주세요.");
+                return;
+            }
+
+
+            let category_obj = $("#story_category option:selected").data();
+
+            if( category_obj['CATEGORY_TYPE'] == 'default' ){
+               $("#categoryId").val(category_obj['ID']);
+            }else{
+                $("#categoryId").val(category_obj['DEFALUT_CATEG_ID']);
+                $("#memberCategoryId").val(category_obj['ID']);
+            }
+
+            $("#contents").val($(".ql-editor","#editor").html());
+
+            comm.request({
+                url: "/story/writeInsert",
+                form : $("#story_write_form"),
+                headers : {"Content-type":"application/x-www-form-urlencoded"}
+            },function(res){
+                // 성공
+
+                if( res.code == '0000' ){
+                    comm.message.alert('스토리가 등록되었습니다.', function(){
+                        location.href="/story/list";
+                    });
+                }
+
+            })
+
+        });
+
+        $(".write_cancel").on("click",function(){
+            history.back();
+        });
+
 
         category_list.forEach(function(obj,idx){
             let option = $("<option></option>");
@@ -64,8 +110,9 @@
 
 <form id="story_write_form">
 
-    <input type="hidden" name="categoryId"          id="categoryId "        >
+    <input type="hidden" name="categoryId"          id="categoryId"         >
     <input type="hidden" name="memberCategoryId"    id="memberCategoryId"   >
+    <input type="hidden" name="contents"            id="contents"           >
 
     <div class="section uline2">
         <div class="ani-in manage_layout">
@@ -83,7 +130,7 @@
                     <div class="story_contents">
                         <%--<textarea class="editor" id="contents" name="contents"></textarea>--%>
 
-                        <div id="contents" class="editor"></div>
+                        <div id="editor" class="editor"></div>
 
                     </div>
 
@@ -114,8 +161,8 @@
                 </div>
 
                 <div class="not_btn">
-                    <a href="javascript:;" class="on">작성완료</a>
-                    <a href="javascript:;">작성취소</a>
+                    <a href="javascript:;" class="on write_confirm">작성완료</a>
+                    <a href="javascript:;" class="write_cancel">작성취소</a>
                 </div>
 
 
@@ -127,75 +174,3 @@
     </div>
 </form>
 
-
-
-<!-- Create the editor container -->
-<div class="ql-editor" data-gramm="false" contenteditable="true" style=" border: 4px dashed #bcbcbc;">
-    <h1>
-        <strong>Hello <em>Wo</em>rld!</strong>
-    </h1>
-    <p>
-        <strong>Some initial <p>bold</p> tex</strong>t
-    </p>
-    <p>
-        <br>
-    </p>
-</div>
-
-
-<script type="text/javascript">
-
-    var selObj = window.getSelection();
-    var first_tag = selObj.anchorNode.parentElement;
-    var last_tag = selObj.focusNode.parentElement;
-    var selRange = selObj.getRangeAt(0);
-    var childChecker = function(obj, selRange_obj){
-        let exec_yn = false;
-        let startObj = selRange.startContainer;
-        let startOffset = selRange.startOffset;
-        let endObj = selRange.endContainer;
-        let endOffset = selRange.endOffset;
-
-        if( obj.childNodes.length > 0 ){
-            obj.childNodes.forEach(function(nodeObj,index){
-
-                if( nodeObj.childNodes.length > 0 ){
-                    debugger;
-                    childChecker(nodeObj, selRange_obj);
-                }
-
-
-                if( nodeObj === startObj ){
-                    debugger;
-                    exec_yn = true;
-                }else if( nodeObj === endObj ){
-
-                    exec_yn = false;
-                    debugger;
-                }else if( exec_yn ){
-
-                }
-
-            })
-        }else{
-            // 같은 요소를 블록으로 잡았을 경우
-
-debugger;
-            let html = obj.parentElement.innerHTML;
-            let key = new Date().getTime();
-
-            html = html.substring(0,startOffset) +'<em id="key_'+key+'">'+ html.substring(startOffset,endOffset) +'</em>' + html.substring(endOffset);
-
-
-            /*
-            obj.parentElement.innerHTML = html;
-
-            document.getSelection().setBaseAndExtent(document.querySelector("#key_"+key),0,document.querySelector("#key_"+key),1);
-*/
-            obj.nodeValue = html;
-
-        }
-
-    };
-
-</script>

@@ -75,21 +75,21 @@
                 let listHtml = '';
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
-                listNum += '<li>';
-                listNum += '    <a href="/notice/view?id=' + obj.ID + '">';
-                listNum += '        <div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
-                listNum += '        <strong>'+obj.TITLE+'</strong>';
-                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
-                listNum += '    </a>';
-                listNum += '    <div class="story_key">';
-                listNum += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'전</span>';
-                listNum += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
-                listNum += '        <em>by ' + obj.NICKNAME + '</em>';
-                // listNum += '        <a href="javascript:;">#컬처</a>';
-                // listNum += '        <a href="javascript:;">#영화</a>';
-                // listNum += '        <a href="javascript:;">#영화컬처</a>';
-                listNum += '    </div>';
-                listNum += '</li>';
+                listHtml += '<li>';
+                listHtml += '    <a href="/notice/view?id=' + obj.ID + '">';
+                listHtml += '        <div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
+                listHtml += '        <strong>'+obj.TITLE+'</strong>';
+                listHtml += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
+                listHtml += '    </a>';
+                listHtml += '    <div class="story_key">';
+                listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'전</span>';
+                listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+                listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
+                // listHtml += '        <a href="javascript:;">#컬처</a>';
+                // listHtml += '        <a href="javascript:;">#영화</a>';
+                // listHtml += '        <a href="javascript:;">#영화컬처</a>';
+                listHtml += '    </div>';
+                listHtml += '</li>';
                 listHtml = $(listHtml);
 
                 $(listHtml).data(obj);
@@ -114,22 +114,22 @@
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
 
-                listNum += '<li>';
-                listNum += '    <a href="/notice/view?id=' + obj.ID + '">';
-                listNum += '        <strong>'+obj.TITLE+'</strong>';
-                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
-                listNum += '        <img src="'+obj.THUMBNAIL_IMG_PATH+'">';
-                listNum += '    </a>';
-                listNum += '    <div class="story_key">';
-                // listNum += '        <a href="javascript:;">#컬처</a>';
-                // listNum += '        <a href="javascript:;">#영화</a>';
-                // listNum += '        <a href="javascript:;">#영화컬처</a>';
-                listNum += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'전</span>';
-                listNum += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
-                listNum += '        <em>by ' + obj.NICKNAME + '</em>';
-                listNum += '    </div>';
-                listNum += '</li>';
-                listNum += '';
+                listHtml += '<li>';
+                listHtml += '    <a href="/notice/view?id=' + obj.ID + '">';
+                listHtml += '        <strong>'+obj.TITLE+'</strong>';
+                listHtml += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
+                listHtml += '        <img src="'+obj.THUMBNAIL_IMG_PATH+'">';
+                listHtml += '    </a>';
+                listHtml += '    <div class="story_key">';
+                // listHtml += '        <a href="javascript:;">#컬처</a>';
+                // listHtml += '        <a href="javascript:;">#영화</a>';
+                // listHtml += '        <a href="javascript:;">#영화컬처</a>';
+                listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'전</span>';
+                listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+                listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
+                listHtml += '    </div>';
+                listHtml += '</li>';
+                listHtml += '';
 
                 listHtml = $(listHtml);
 

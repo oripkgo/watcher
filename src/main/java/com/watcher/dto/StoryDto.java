@@ -2,12 +2,14 @@ package com.watcher.dto;
 
 
 public class StoryDto extends CommDto {
+
     String id;
     String categoryId;
     String memberCategoryId;
     String title;
     String contents;
     String thumbnailImgPath;
+    String summary;
 
     public String getId() {
         return id;
@@ -55,5 +57,13 @@ public class StoryDto extends CommDto {
 
     public void setThumbnailImgPath(String thumbnailImgPath) {
         this.thumbnailImgPath = thumbnailImgPath;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }
