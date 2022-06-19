@@ -159,4 +159,29 @@
 			, UPT_DATE = NOW()
 	</insert>
 
+
+	<insert id="tag_insert" parameterType="hashmap">
+		INSERT INTO BOARD_TAGS
+			(CONTENTS_TYPE, CONTENTS_ID, TAGS, REG_ID, REG_DATE, UPT_ID, UPT_DATE)
+		VALUES (#{contentsType}, #{contentsId}, #{tags}, #{regId}, NOW(), #{uptId},
+				NOW());
+	</insert>
+
+	<update id="tag_update" parameterType="hashmap">
+		UPDATE BOARD_TAGS SET
+			<if test="tags != null and tags != ''">
+				TAGS=#{tags}
+			</if>
+			UPT_ID=#{uptId},
+			UPT_DATE=NOW()
+		WHERE 1=1
+		AND CONTENTS_ID=#{contentsId}
+		AND CONTENTS_TYPE=#{contentsType}
+	</update>
+
+
+
+
+
+
 </mapper>

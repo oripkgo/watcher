@@ -18,10 +18,23 @@ public class StoryService {
     @Autowired
     StoryMapper storyMapper;
 
+    @Autowired
+    BoardMapper boardMapper;
+
     @Transactional
     public Map<String, String> story_insert(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
+
         storyMapper.insert(storyParam);
+
+        Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
+        tag_insert_param.put("contentsType" , "STORY"                   );
+        tag_insert_param.put("contentsId"   , storyParam.getId()        );
+        tag_insert_param.put("tags"         , storyParam.getTags()      );
+        tag_insert_param.put("regId"        , storyParam.getRegId()     );
+        tag_insert_param.put("uptId"        , storyParam.getUptId()     );
+
+        boardMapper.tag_insert(tag_insert_param);
 
 
         result.put("code", "0000");

@@ -9,6 +9,7 @@ public class StoryParam extends StoryDto {
     String SortByRecommendationYn;
     String limitNum;
     String category_id;
+    String tags;
 
     public String getSearch_id() {
         return search_id;
@@ -49,4 +50,13 @@ public class StoryParam extends StoryDto {
     public void setCategory_id(String category_id) {
         this.category_id = category_id;
     }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
 }

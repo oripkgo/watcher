@@ -9,6 +9,9 @@
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
 		AND B.MEM_ID = A.REG_ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE = 'STORY'
+		AND C.CONTENTS_ID = A.ID
 		WHERE 1=1
 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
@@ -91,10 +94,15 @@
 					AND LIKE_TYPE = '01'
 					AND CANCEL_YN = 'N'
 			) AS LIKE_CNT,
-			B.NICKNAME
+			B.NICKNAME,
+		    C.TAGS
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
 		AND B.MEM_ID = A.REG_ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE = 'STORY'
+		AND C.CONTENTS_ID = A.ID
+
 	</sql>
 
 
@@ -132,7 +140,7 @@
 
 	</update>
 
-	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyProperty="id">
 
 		INSERT INTO STORY(
 			 REG_ID

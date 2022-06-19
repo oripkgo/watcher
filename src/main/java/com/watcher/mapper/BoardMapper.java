@@ -20,6 +20,8 @@ public interface BoardMapper {
 	public Map<String, String> view_like_yn_select(Map<String,Object> param);
 	public Map<String, String> view_tags_select(Map<String,Object> param);
 
+	public void tag_insert(Map<String,Object> param);
+	public void tag_update(Map<String,Object> param);
 
 
 }

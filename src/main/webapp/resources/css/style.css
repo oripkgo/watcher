@@ -454,9 +454,39 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .story_top select {width:300px;height:45px;}
 .story_tb {border-top:3px solid #000;border-bottom:1px solid #000;}
 
-.story_tb .story_title {padding:15px 10px 15px 10px;}
+.story_tb .story_title {padding:0px 10px 16px 10px;}
 .story_tb .story_contents {padding:0px 10px 15px 10px;}
 
+
+.story_tag {padding:15px 10px 15px 10px;}
+.story_tag input[type=text]{
+	height: 45px;
+	font-size: 16px;
+	color: #000;
+}
+
+
+.story_thumbnailImg {padding:15px 10px 15px 10px;}
+
+.story_thumbnailImg input[type=file] {
+	display: none;
+}
+
+
+.story_thumbnailImg input[type=text] {
+	height: 45px;
+	font-size: 16px;
+	color: #000;
+	margin-top:15px;
+}
+
+.input-file-button{
+   padding: 6px 25px;
+   background-color:#000;
+   border-radius: 4px;
+   color: white;
+   cursor: pointer;
+}
 
 
 /*.story_tb table {width:100%;}

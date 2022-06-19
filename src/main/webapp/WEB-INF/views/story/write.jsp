@@ -58,6 +58,10 @@
 
             $("#contents").val($(".ql-editor","#editor").html());
 
+            comm.appendInput('#story_write_form'    , 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
+            comm.appendInput('#story_write_form'    , 'regId'   ,loginId                            );
+            comm.appendInput('#story_write_form'    , 'uptId'   ,loginId                            );
+
             comm.request({
                 url: "/story/writeInsert",
                 form : $("#story_write_form"),
@@ -78,6 +82,14 @@
         $(".write_cancel").on("click",function(){
             history.back();
         });
+
+
+        $("#thumbnailImgPath").on("change",function(e){
+            $("#thumbnailImgPath_text").val(this.value);
+        });
+
+        // <input type="file" name="thumbnailImgPath" id="thumbnailImgPath">
+        //     <input type="text" name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
 
 
         category_list.forEach(function(obj,idx){
@@ -124,7 +136,13 @@
                         <option value="">카테고리</option>
                     </select>
                 </div>
+
                 <div class="story_tb">
+                    <div class="story_thumbnailImg">
+                        <label for="thumbnailImgPath" class="input-file-button">썸네일 이미지</label>
+                        <input type="file" name="thumbnailImgPath" id="thumbnailImgPath" accept="image/gif, image/jpeg, image/png">
+                        <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
+                    </div>
 
                     <div class="story_title"><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></div>
                     <div class="story_contents">
@@ -159,6 +177,7 @@
                         </tr>&ndash;%&gt;
                     </table>--%>
                 </div>
+                <div class="story_tag"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></div>
 
                 <div class="not_btn">
                     <a href="javascript:;" class="on write_confirm">작성완료</a>
