@@ -14,6 +14,27 @@
 
     $(document).on('ready',function(){
 
+
+        $("#search").on("click", function () {
+
+            let id = $("#seachCategory").val();
+
+            if( !id ){
+                if( story_type_list.length > 0 ){
+                    id = story_type_list[0]['ID'];
+                }
+            }
+
+            let keyword = $("#searchForm").find("#keyword").val();
+
+            comm.appendInput($('#defaultListForm'+id),'search_keyword',keyword);
+
+            // 기본 목록
+            defaultList(id);
+
+        });
+
+
         story_type_list.forEach(function(obj,idx){
 
             const id = obj['ID'];
@@ -98,9 +119,6 @@
                 listHtml += '        </span>';
                 listHtml += '    </a>';
                 listHtml += '    <div class="story_key">';
-                listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
-                listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
-                listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
 
                 if( obj.TAGS ){
                     let tag_arr = obj.TAGS.split(',');
@@ -109,6 +127,11 @@
                         listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
                     })
                 }
+
+                listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
+                listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+                listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
+
 
                 // listHtml += '        <a href="javascript:;">#컬처</a>';
                 // listHtml += '        <a href="javascript:;">#영화</a>';
@@ -262,9 +285,6 @@
             listNum += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
             listNum += '    </a>';
             listNum += '    <div class="story_key">';
-            listNum += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
-            listNum += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
-            listNum += '        <em>by ' + obj.NICKNAME + '</em>';
 
             if( obj.TAGS ){
                 let tag_arr = obj.TAGS.split(',');
@@ -273,6 +293,11 @@
                     listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
                 })
             }
+
+            listNum += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
+            listNum += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+            listNum += '        <em>by ' + obj.NICKNAME + '</em>';
+
 
             // listNum += '        <a href="javascript:;">#컬처</a>';
             // listNum += '        <a href="javascript:;">#영화</a>';
@@ -349,18 +374,23 @@
         <div class="story_search_wrap ani_y delay1">
             <div class="sub_title">Story</div>
             <span>다양한 지식을 공유 해보세요</span>
-            <div class="story_search">
-                <select id="seachCategory">
-                    <option value="">카테고리</option>
-<%--                    <c:if test="${ !((empty category_list) || fn:length(category_list) == 0) }">--%>
-<%--                        <c:forEach var="obj" items="${category_list}" varStatus="status">--%>
-<%--                            <option value="${obj.ID}">${obj.CATEGORY_NM}</option>--%>
-<%--                        </c:forEach>--%>
-<%--                    </c:if>--%>
-                </select>
-                <input type="text" placeholder="">
-                <a href="javascript:;"><img src="/resources/img/btn_search_b.png"></a>
-            </div>
+            <form name="searchForm" id="searchForm">
+                <div class="story_search">
+
+                        <select id="seachCategory">
+                            <option value="">카테고리</option>
+        <%--                    <c:if test="${ !((empty category_list) || fn:length(category_list) == 0) }">--%>
+        <%--                        <c:forEach var="obj" items="${category_list}" varStatus="status">--%>
+        <%--                            <option value="${obj.ID}">${obj.CATEGORY_NM}</option>--%>
+        <%--                        </c:forEach>--%>
+        <%--                    </c:if>--%>
+                        </select>
+                        <input type="text" id="keyword" placeholder="검색 키워드 입력">
+
+
+                    <a href="javascript:;" id="search"><img src="/resources/img/btn_search_b.png"></a>
+                </div>
+            </form>
         </div>
 
     </div>

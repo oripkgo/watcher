@@ -131,53 +131,51 @@
 
             <div class="manage_conts">
 
-                <div class="story_top">
+                <%--<div class="story_top">
                     <select id="story_category">
                         <option value="">카테고리</option>
                     </select>
-                </div>
+                </div>--%>
 
                 <div class="story_tb">
-                    <div class="story_thumbnailImg">
-                        <label for="thumbnailImgPath" class="input-file-button">썸네일 이미지</label>
-                        <input type="file" name="thumbnailImgPath" id="thumbnailImgPath" accept="image/gif, image/jpeg, image/png">
-                        <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
-                    </div>
 
-                    <div class="story_title"><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></div>
-                    <div class="story_contents">
-                        <%--<textarea class="editor" id="contents" name="contents"></textarea>--%>
-
-                        <div id="editor" class="editor"></div>
-
-                    </div>
-
-                    <%--<table>
+                    <table>
+                        <tbody>
                         <tr>
-                            &lt;%&ndash;<th>제목 <input type="checkbox" name="not" id="not"><label for="not">공지</label></th>&ndash;%&gt;
-
-                            <td colspan="2"><input type="text" placeholder="제목을 입력하세요"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
+                            <th>카테고리</th>
+                            <td class="story_top">
+                                <select id="story_category">
+                                    <option value="">카테고리</option>
+                                </select>
 
                             </td>
                         </tr>
-                       &lt;%&ndash; <tr>
-                            <th class="non">관련링크</th>
-                            <td class="non"><input type="text"></td>
+                        <tr>
+                            <th>제목</th>
+                            <td><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="editor" class="editor"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="non">태그</th>
+                            <td class="non"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></td>
                         </tr>
                         <tr>
                             <th class="non">첨부파일1</th>
-                            <td class="non"><input type="file"></td>
+                            <td class="non story_thumbnailImg">
+                                <label for="thumbnailImgPath" class="input-file-button">썸네일 이미지</label>
+                                <input type="file" name="thumbnailImgPath" id="thumbnailImgPath" accept="image/gif, image/jpeg, image/png">
+                                <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
+                            </td>
                         </tr>
-                        <tr>
-                            <th>첨부파일2</th>
-                            <td><input type="file"></td>
-                        </tr>&ndash;%&gt;
-                    </table>--%>
+                        </tbody></table>
+
                 </div>
-                <div class="story_tag"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></div>
+
+                <%--<div class="story_tag"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></div>--%>
 
                 <div class="not_btn">
                     <a href="javascript:;" class="on write_confirm">작성완료</a>

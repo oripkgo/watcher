@@ -739,9 +739,9 @@ let comm = {
                 if( pageObj.pageNo >= lastPage ){
                     $(pagination_mobile).hide();
                 }else{
-                    $(pagination_mobile).html('<button type="button" class="more" onclick="'+listFunc.replace("[pageNo]",((pageObj.pageNo*1)+1))+'">+ 더보기</button>');
+                    $(pagination_mobile).replaceWith('<a href="javascript:;" class="btn_story2" onclick="'+listFunc.replace("[pageNo]",((pageObj.pageNo*1)+1))+'">더보기</a>');
+                    // $(pagination_mobile).html('<button type="button" class="more" onclick="'+listFunc.replace("[pageNo]",((pageObj.pageNo*1)+1))+'">+ 더보기</button>');
                 }
-
 
             }else{
                 // pc

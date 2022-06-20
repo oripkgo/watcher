@@ -13,15 +13,11 @@
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
 		WHERE 1=1
+		<if test="category_id != null and category_id != ''">
+			AND A.CATEGORY_ID = #{category_id}
+		</if>
 		<if test="search_keyword != null and search_keyword != ''">
-			<choose>
-				<when test="search_id == '01'">
-					AND TITLE LIKE '%${search_keyword}%'
-				</when>
-				<otherwise>
-					AND CONTENTS LIKE '%${search_keyword}%'
-				</otherwise>
-			</choose>
+		  	AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 	</select>
 
@@ -35,14 +31,7 @@
 		</if>
 
 -- 		<if test="search_keyword != null and search_keyword != ''">
-			<choose>
-				<when test="search_id == '01'">
-					AND TITLE LIKE '%${search_keyword}%'
-				</when>
-				<otherwise>
-					AND CONTENTS LIKE '%${search_keyword}%'
-				</otherwise>
-			</choose>
+			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 
 		<if test="!(SortByRecommendationYn==null or SortByRecommendationYn=='')">

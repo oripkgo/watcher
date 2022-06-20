@@ -71,7 +71,7 @@ public class StoryController {
 
 
     @RequestMapping(value = {"/list"})
-    public ModelAndView list() throws Exception {
+    public ModelAndView list(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
