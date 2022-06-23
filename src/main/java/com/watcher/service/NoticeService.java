@@ -50,4 +50,17 @@ public class NoticeService {
         return result;
     }
 
+    @Transactional
+    public Map<String, Object> delete(NoticeParam noticeParam) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        noticeMapper.update(noticeParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+
+        return result;
+    }
+
 }

@@ -10,6 +10,7 @@ public class StoryDto extends CommDto {
     String contents;
     String thumbnailImgPath;
     String summary;
+    String deleteYn;
 
     public String getId() {
         return id;
@@ -65,5 +66,13 @@ public class StoryDto extends CommDto {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getDeleteYn() {
+        return deleteYn;
+    }
+
+    public void setDeleteYn(String deleteYn) {
+        this.deleteYn = deleteYn;
     }
 }

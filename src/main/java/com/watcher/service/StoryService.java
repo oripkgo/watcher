@@ -25,17 +25,34 @@ public class StoryService {
     public Map<String, String> story_insert(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        storyMapper.insert(storyParam);
 
-        Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
-        tag_insert_param.put("contentsType" , "STORY"                   );
-        tag_insert_param.put("contentsId"   , storyParam.getId()        );
-        tag_insert_param.put("tags"         , storyParam.getTags()      );
-        tag_insert_param.put("regId"        , storyParam.getRegId()     );
-        tag_insert_param.put("uptId"        , storyParam.getUptId()     );
+        if( storyParam.getId() == null || storyParam.getId().isEmpty() ){
+            storyMapper.insert(storyParam);
 
-        boardMapper.tag_insert(tag_insert_param);
+            Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
+            tag_insert_param.put("contentsType" , "STORY"                   );
+            tag_insert_param.put("contentsId"   , storyParam.getId()        );
+            tag_insert_param.put("tags"         , storyParam.getTags()      );
+            tag_insert_param.put("regId"        , storyParam.getRegId()     );
+            tag_insert_param.put("uptId"        , storyParam.getUptId()     );
 
+            boardMapper.tag_insert(tag_insert_param);
+
+        }else{
+
+            storyParam.setUptId(storyParam.getRegId());
+            storyMapper.update(storyParam);
+
+            Map<String,Object> tag_update_param = new LinkedHashMap<String,Object>();
+            tag_update_param.put("contentsType" , "STORY"                   );
+            tag_update_param.put("contentsId"   , storyParam.getId()        );
+            tag_update_param.put("tags"         , storyParam.getTags()      );
+            tag_update_param.put("regId"        , storyParam.getRegId()     );
+            tag_update_param.put("uptId"        , storyParam.getUptId()     );
+
+            boardMapper.tag_update(tag_update_param);
+
+        }
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -47,7 +64,6 @@ public class StoryService {
     public Map<String, String> story_update(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
         storyMapper.update(storyParam);
-
 
         result.put("code", "0000");
         result.put("message", "OK");

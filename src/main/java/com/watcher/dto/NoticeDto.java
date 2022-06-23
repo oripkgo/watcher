@@ -7,7 +7,7 @@ public class NoticeDto extends CommDto {
     private String title;
     private String contents;
     private String thumbnailImgPath;
-
+    private String deleteYn;
 
     public String getId() {
         return id;
@@ -39,5 +39,13 @@ public class NoticeDto extends CommDto {
 
     public void setThumbnailImgPath(String thumbnailImgPath) {
         this.thumbnailImgPath = thumbnailImgPath;
+    }
+
+    public String getDeleteYn() {
+        return deleteYn;
+    }
+
+    public void setDeleteYn(String deleteYn) {
+        this.deleteYn = deleteYn;
     }
 }

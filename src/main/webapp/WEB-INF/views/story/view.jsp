@@ -20,6 +20,33 @@
 
         },{"likeTarget":".like", "tagsTarget":".conts_tag", "commentTarget":".conts_review"});
 
+
+        // 수정
+        $("#story_update").on("click",function(){
+            location.href="/story/update?id="+id;
+        });
+
+        // 삭제
+        $("#story_delete").on("click",function(){
+            comm.request({
+                url:"/story/delete",
+                data:JSON.stringify({id:id})
+            },function(resp){
+                if( resp.code == '0000'){
+                    comm.message.alert('삭제가 완료되었습니다.',function(){
+                        location.href = '/story/list';
+                    });
+                }
+
+            });
+        });
+
+        // sic">
+        // <a href="javascript:;" id="story_update">수정</a>
+        // <img src="/resources/img/line.png">
+        //     <a href="javascript:;" id="story_delete">삭제</a>
+        //
+
     })
 
 </script>
@@ -40,9 +67,9 @@
 
                 <c:if test="${result.modify_authority_yn eq 'Y'}">
                     <div class="btn_basic">
-                        <a href="javascript:;">수정</a>
+                        <a href="javascript:;" id="story_update">수정</a>
                         <img src="/resources/img/line.png">
-                        <a href="javascript:;">삭제</a>
+                        <a href="javascript:;" id="story_delete">삭제</a>
                     </div>
                 </c:if>
 

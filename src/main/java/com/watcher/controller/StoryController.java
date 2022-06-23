@@ -7,10 +7,7 @@ import com.watcher.service.StoryService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +57,26 @@ public class StoryController {
     }
 
 
+    @RequestMapping(value = {"/delete"})
+    @ResponseBody
+    public LinkedHashMap<String, Object> storyRemove(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        storyParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+        storyParam.setDeleteYn("Y");
+
+        result.putAll(storyService.story_update(storyParam));
+        result.put("vo",storyParam);
+
+        return result;
+    }
+
+
 
     @RequestMapping(value = {"/writeInsert"})
     @ResponseBody
@@ -71,6 +88,8 @@ public class StoryController {
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        storyParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
         result.putAll(storyService.story_insert(storyParam));
 
         return result;
@@ -78,7 +97,7 @@ public class StoryController {
 
 
 
-    @RequestMapping(value = {"/write"})
+    @RequestMapping(value = {"/write","/update"})
     public ModelAndView write(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -94,8 +113,13 @@ public class StoryController {
         param.put("memId"   ,((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch(param));
-
         mav.addObject("category_list", jsonArray);
+
+
+        if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
+            mav.addAllObjects(storyService.view(storyParam));
+        }
+
 
         return mav;
     }
@@ -111,7 +135,7 @@ public class StoryController {
         return mav;
     }
 
-    @RequestMapping(value = {"listAsync"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> listAsync(
             HttpServletRequest request,

@@ -68,6 +68,7 @@
 		SELECT
 			A.ID,
 			A.CATEGORY_ID,
+			A.MEMBER_CATEGORY_ID,
 			A.TITLE,
 			A.CONTENTS,
 			A.THUMBNAIL_IMG_PATH,
@@ -126,9 +127,15 @@
 			SUMMARY = #{summary} ,
 		</if>
 
+		<if test="deleteYn != null and deleteYn != ''">
+			DELETE_YN = #{deleteYn} ,
+		</if>
+
 		UPT_ID = #{uptId},
 		UPT_DATE = NOW()
-		WHERE ID=#{id}
+		WHERE 1=1
+		AND ID=#{id}
+		AND REG_ID=#{regId}
 
 	</update>
 
@@ -145,6 +152,7 @@
 			,CONTENTS
 			,THUMBNAIL_IMG_PATH
 			,SUMMARY
+			,DELETE_YN
 		)
 		VALUES (
 			 #{regId}
@@ -157,6 +165,7 @@
 			,#{contents}
 			,#{thumbnailImgPath}
 			,#{summary}
+			,'N'
 		)
 	</insert>
 

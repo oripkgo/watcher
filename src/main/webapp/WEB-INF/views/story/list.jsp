@@ -110,10 +110,10 @@
                     obj.SUMMARY = '';
                 }
 
-                if( obj.SUMMARY.length < 50 ){
+                if( obj.SUMMARY.length < 200 ){
                     listHtml += obj.SUMMARY;
                 }else{
-                    listHtml += (obj.SUMMARY || '').substring(0,50)+' ...';
+                    listHtml += (obj.SUMMARY || '').substring(0,200)+' ...';
                 }
 
                 listHtml += '        </span>';
@@ -171,10 +171,10 @@
                     obj.SUMMARY = '';
                 }
 
-                if( obj.SUMMARY.length < 50 ){
+                if( obj.SUMMARY.length < 200 ){
                     listHtml += obj.SUMMARY;
                 }else{
-                    listHtml += (obj.SUMMARY || '').substring(0,50)+' ...';
+                    listHtml += (obj.SUMMARY || '').substring(0,200)+' ...';
                 }
 
                 listHtml += '</span>';
@@ -282,7 +282,13 @@
             listNum += '    <a href="/story/view?id=' + obj.ID + '">';
             listNum += '        <div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
-            listNum += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
+
+            if( obj.SUMMARY.length < 200 ){
+                listNum += '        <span>'+(obj.SUMMARY || '')+'</span>';
+            }else{
+                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,200)+' ...</span>';
+            }
+
             listNum += '    </a>';
             listNum += '    <div class="story_key">';
 
@@ -326,7 +332,14 @@
             listNum += '<li>';
             listNum += '    <a href="/story/view?id=' + obj.ID + '">';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
-            listNum += '        <span>'+(obj.SUMMARY || '').substring(0,50)+' ...</span>';
+
+            if( obj.SUMMARY.length < 200 ){
+                listNum += '        <span>'+(obj.SUMMARY || '')+'</span>';
+            }else{
+                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,200)+' ...</span>';
+            }
+
+
             listNum += '        <img src="'+obj.THUMBNAIL_IMG_PATH+'">';
             listNum += '    </a>';
             listNum += '    <div class="story_key">';

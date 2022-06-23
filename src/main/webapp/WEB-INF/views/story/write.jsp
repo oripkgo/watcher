@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<c:set var="vo" value="${view}"/>
+
 <!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <!-- Main Quill library -->
@@ -29,8 +31,11 @@
         ['clean']                                         // remove formatting button
     ];
 
+    const category_list     = JSON.parse('${category_list}');
 
-    let category_list = JSON.parse('${category_list}');
+    const id                = '${vo.ID}';
+    const categoryId        = '${vo.CATEGORY_ID}';
+    const memberCategoryId  = '${vo.MEMBER_CATEGORY_ID}';
 
     $(document).on("ready",function(){
 
@@ -70,9 +75,18 @@
                 // 성공
 
                 if( res.code == '0000' ){
-                    comm.message.alert('스토리가 등록되었습니다.', function(){
-                        location.href="/story/list";
-                    });
+
+
+                    if( id ){
+                        comm.message.alert('스토리가 수정되었습니다.', function(){
+                            location.href="/story/list";
+                        });
+                    }else{
+                        comm.message.alert('스토리가 등록되었습니다.', function(){
+                            location.href="/story/list";
+                        });
+                    }
+
                 }
 
             })
@@ -115,16 +129,22 @@
             theme: 'snow'
         });
 
+        valueSetting();
     });
+
+    function valueSetting(){
+        $("#story_category").val(categoryId);
+    }
 
 </script>
 
 
 <form id="story_write_form">
 
-    <input type="hidden" name="categoryId"          id="categoryId"         >
-    <input type="hidden" name="memberCategoryId"    id="memberCategoryId"   >
-    <input type="hidden" name="contents"            id="contents"           >
+    <input type="hidden" name="id"                  id="id"                 value="${vo.ID}"    >
+    <input type="hidden" name="categoryId"          id="categoryId"                             >
+    <input type="hidden" name="memberCategoryId"    id="memberCategoryId"                       >
+    <input type="hidden" name="contents"            id="contents"                               >
 
     <div class="section uline2">
         <div class="ani-in manage_layout">
@@ -152,23 +172,23 @@
                         </tr>
                         <tr>
                             <th>제목</th>
-                            <td><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></td>
+                            <td><input type="text" name="title" id="title" placeholder="제목을 입력하세요" value="${vo.TITLE}"></td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <div id="editor" class="editor"></div>
+                                <div id="editor" class="editor">${vo.CONTENTS}</div>
                             </td>
                         </tr>
                         <tr>
                             <th class="non">태그</th>
-                            <td class="non"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></td>
+                            <td class="non"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)" value="${vo.TAGS}"></td>
                         </tr>
                         <tr>
                             <th class="non">첨부파일1</th>
                             <td class="non story_thumbnailImg">
                                 <label for="thumbnailImgPath" class="input-file-button">썸네일 이미지</label>
                                 <input type="file" name="thumbnailImgPath" id="thumbnailImgPath" accept="image/gif, image/jpeg, image/png">
-                                <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
+                                <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요" value="${vo.THUMBNAIL_IMG_PATH}">
                             </td>
                         </tr>
                         </tbody></table>

@@ -170,7 +170,7 @@
 	<update id="tag_update" parameterType="hashmap">
 		UPDATE BOARD_TAGS SET
 			<if test="tags != null and tags != ''">
-				TAGS=#{tags}
+				TAGS=#{tags},
 			</if>
 			UPT_ID=#{uptId},
 			UPT_DATE=NOW()

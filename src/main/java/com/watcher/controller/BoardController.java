@@ -1,5 +1,6 @@
 package com.watcher.controller;
 
+import com.watcher.param.StoryParam;
 import com.watcher.service.BoardService;
 import com.watcher.service.NoticeService;
 import com.watcher.dto.CommDto;
@@ -57,6 +58,25 @@ public class BoardController {
 		return result;
 	}
 
+
+	@RequestMapping(value = {"/notice/delete"})
+	@ResponseBody
+	public LinkedHashMap<String, Object> noticeRemove(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody NoticeParam noticeParam
+
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		noticeParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+		noticeParam.setDeleteYn("Y");
+
+		result.putAll(noticeService.delete(noticeParam));
+
+		return result;
+	}
 
 
 	@RequestMapping(value={"notice/view"}, method = RequestMethod.GET)
