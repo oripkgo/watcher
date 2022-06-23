@@ -7,14 +7,23 @@
 		SELECT
 			COUNT(*)
 		FROM NOTICE A
+		LEFT JOIN VIEWS B ON 1=1
+		AND B.CONTENTS_TYPE='NOTICE'
+		AND B.CONTENTS_ID = A.ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE='NOTICE'
+		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN MEMBER D ON 1=1
+		AND D.MEM_ID = A.REG_ID
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
 				<when test="search_id == '01'">
-					AND TITLE LIKE '%${search_keyword}%'
+					AND A.TITLE LIKE '%${search_keyword}%'
 				</when>
 				<otherwise>
-					AND CONTENTS LIKE '%${search_keyword}%'
+					AND A.CONTENTS LIKE '%${search_keyword}%'
 				</otherwise>
 			</choose>
 		</if>
@@ -25,13 +34,14 @@
 		/*Notice > list*/
 		<include refid="notice_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 -- 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
 				<when test="search_id == '01'">
-					AND TITLE LIKE '%${search_keyword}%'
+					AND A.TITLE LIKE '%${search_keyword}%'
 				</when>
 				<otherwise>
-					AND CONTENTS LIKE '%${search_keyword}%'
+					AND A.CONTENTS LIKE '%${search_keyword}%'
 				</otherwise>
 			</choose>
 		</if>
@@ -44,6 +54,7 @@
 		/*Notice > list*/
 		<include refid="notice_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
 		</if>

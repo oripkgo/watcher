@@ -9,7 +9,7 @@ html {-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
 @-ms-viewport {width: device-width;}
 @-webkit-viewport {width: device-width;}
 html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, address, dl, dt, dd, ol, ul, li, fieldset, form, legend, table, caption, tbody, tfoot, thead, tr, th, td, input, select, textarea{margin:0; padding:0;}
-h1, h2, h3, h4, h5, h6{font-size:100%;line-height:150%;}
+h1:not(.conts_wrap h1), h2:not(.conts_wrap h2), h3:not(.conts_wrap h3), h4:not(.conts_wrap h4), h5:not(.conts_wrap h5), h6:not(.conts_wrap h6){font-size:100%;line-height:150%;}
 img, fieldset {border:none;}
 img {vertical-align:middle;} 
 table {border-collapse:collapse;}

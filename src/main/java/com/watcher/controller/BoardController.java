@@ -71,7 +71,12 @@ public class BoardController {
 		Map<String, Object> result = noticeService.view(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		result.put("modify_authority_yn","N");
+		if( request.getSession().getAttribute("loginInfo") == null
+				|| !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+			result.put("modify_authority_yn","N");
+		}else{
+			result.put("modify_authority_yn","Y");
+		}
 		// 게시물 수정권한 여부 e
 
 

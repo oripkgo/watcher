@@ -69,5 +69,17 @@ public class StoryService {
         return result;
     }
 
+    public Map<String, Object> view(StoryParam storyParam) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        result.put("view", storyMapper.view(storyParam));
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+
+        return result;
+    }
+
 
 }

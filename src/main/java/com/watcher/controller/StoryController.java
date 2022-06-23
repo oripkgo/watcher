@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/story")
@@ -28,6 +29,36 @@ public class StoryController {
 
     @Autowired
     StoryService storyService;
+
+
+
+    @RequestMapping(value = {"/view"})
+    @ResponseBody
+    public ModelAndView storyView(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") StoryParam storyParam
+
+    ) throws Exception {
+        ModelAndView mav = new ModelAndView("story/view");
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.putAll(storyService.view(storyParam));
+
+        // 게시물 수정권한 여부 s
+        if( request.getSession().getAttribute("loginInfo") == null
+                || !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+            result.put("modify_authority_yn","N");
+        }else{
+            result.put("modify_authority_yn","Y");
+        }
+        // 게시물 수정권한 여부 e
+
+
+        mav.addObject("result",result);
+
+        return mav;
+    }
+
 
 
     @RequestMapping(value = {"/writeInsert"})

@@ -36,7 +36,7 @@ let comm = {
 
         let $conts_review = $('<div class="conts_review" id="conts_review"></div>');
 
-        $($conts_review).html('<strong class="conts_tit">댓글<em>'+cnt+'</em></strong>');
+        $($conts_review).html('<strong class="conts_tit comment_cnt" data-cnt="'+cnt+'">댓글<em>'+cnt+'</em></strong>');
 
         if( login_yn == 'N' ){
             $($conts_review).append('<div class="write_wrap"><textarea placeholder="로그인하고 댓글을 입력해보세요!"></textarea><a href="javascript:;">확인</a></div>');
@@ -84,6 +84,11 @@ let comm = {
 
                         $(target).find(".reviewList","#conts_review").prepend(comment_obj);
                         $("[name='coment']",target).val('');
+
+                        let cnt = ( ($('.comment_cnt').data('cnt') || 0) * 1 )+1;
+
+                        $('.comment_cnt').data('cnt',cnt);
+                        $('.comment_cnt').html('댓글<em>'+cnt+'</em>');
 
                     }
                 })

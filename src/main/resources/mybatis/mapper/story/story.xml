@@ -13,6 +13,7 @@
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="category_id != null and category_id != ''">
 			AND A.CATEGORY_ID = #{category_id}
 		</if>
@@ -26,6 +27,7 @@
 		/*Notice > list*/
 		<include refid="story_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="category_id != null and category_id != ''">
 			AND A.CATEGORY_ID = #{category_id}
 		</if>
@@ -56,6 +58,7 @@
 		/*Notice > list*/
 		<include refid="story_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
 		</if>
