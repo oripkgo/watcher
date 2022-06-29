@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.StoryMapper">
+
+
+	REG_ID
+	,REG_DATE
+	,UPT_ID
+	,UPT_DATE
+	,CONTENTS_TYPE
+	,CONTENTS_ID
+	,REAL_FILE_NAME
+	,SERVER_FILE_NAME
+	,SAVE_PATH
+	,DELETE_YN
+
+
+	<update id="update" parameterType="fileParam">
+
+		UPDATE FILE_RESOURCE SET
+
+		<if test="contentsType != null and contentsType != ''">
+			CONTENTS_TYPE = #{contentsType} ,
+		</if>
+
+		<if test="contentsId != null and contentsId != ''">
+			CONTENTS_ID = #{contentsId} ,
+		</if>
+
+
+		<if test="realFileName != null and realFileName != ''">
+			REAL_FILE_NAME = #{realFileName} ,
+		</if>
+
+		<if test="serverFileName != null and serverFileName != ''">
+			SERVER_FILE_NAME = #{serverFileName} ,
+		</if>
+
+		<if test="savePath != null and savePath != ''">
+			SAVE_PATH = #{savePath} ,
+		</if>
+
+		<if test="deleteYn != null and deleteYn != ''">
+			DELETE_YN = #{deleteYn} ,
+		</if>
+
+		UPT_ID = #{uptId},
+		UPT_DATE = NOW()
+		WHERE 1=1
+		<if test="whereId != null and whereId != ''">
+			AND ID = #{whereId}
+		</if>
+
+		<if test="whereContentsType != null and whereContentsType != ''">
+			AND CONTENTS_TYPE = #{whereContentsType}
+		</if>
+
+		<if test="whereContentsId != null and whereContentsId != ''">
+			AND CONTENTS_ID = #{whereContentsId}
+		</if>
+
+	</update>
+
+	<insert id="insert" parameterType="fileParam" useGeneratedKeys="true" keyProperty="id">
+
+		INSERT INTO FILE_RESOURCE(
+			 REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
+			,CONTENTS_TYPE
+			,CONTENTS_ID
+			,REAL_FILE_NAME
+			,SERVER_FILE_NAME
+			,SAVE_PATH
+			,DELETE_YN
+		)
+		VALUES (
+			 #{regId}
+			,NOW()
+			,#{uptId}
+			,NOW()
+			,#{contentsType}
+			,#{contentsId}
+			,#{realFileName}
+			,#{serverFileName}
+			,#{savePath}
+			,'N'
+		)
+	</insert>
+
+</mapper>

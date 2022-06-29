@@ -110,10 +110,10 @@
                     obj.SUMMARY = '';
                 }
 
-                if( obj.SUMMARY.length < 200 ){
+                if( obj.SUMMARY.length < 100 ){
                     listHtml += obj.SUMMARY;
                 }else{
-                    listHtml += (obj.SUMMARY || '').substring(0,200)+' ...';
+                    listHtml += (obj.SUMMARY || '').substring(0,100)+' ...';
                 }
 
                 listHtml += '        </span>';
@@ -171,10 +171,10 @@
                     obj.SUMMARY = '';
                 }
 
-                if( obj.SUMMARY.length < 200 ){
+                if( obj.SUMMARY.length < 100 ){
                     listHtml += obj.SUMMARY;
                 }else{
-                    listHtml += (obj.SUMMARY || '').substring(0,200)+' ...';
+                    listHtml += (obj.SUMMARY || '').substring(0,100)+' ...';
                 }
 
                 listHtml += '</span>';
@@ -283,10 +283,10 @@
             listNum += '        <div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
 
-            if( obj.SUMMARY.length < 200 ){
+            if( obj.SUMMARY.length < 100 ){
                 listNum += '        <span>'+(obj.SUMMARY || '')+'</span>';
             }else{
-                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,200)+' ...</span>';
+                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,100)+' ...</span>';
             }
 
             listNum += '    </a>';
@@ -333,10 +333,10 @@
             listNum += '    <a href="/story/view?id=' + obj.ID + '">';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
 
-            if( obj.SUMMARY.length < 200 ){
+            if( obj.SUMMARY.length < 100 ){
                 listNum += '        <span>'+(obj.SUMMARY || '')+'</span>';
             }else{
-                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,200)+' ...</span>';
+                listNum += '        <span>'+(obj.SUMMARY || '').substring(0,100)+' ...</span>';
             }
 
 
