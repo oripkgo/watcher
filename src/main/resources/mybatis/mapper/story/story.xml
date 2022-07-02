@@ -71,7 +71,7 @@
 			A.MEMBER_CATEGORY_ID,
 			A.TITLE,
 			A.CONTENTS,
-			A.THUMBNAIL_IMG_PATH,
+			CONCAT(D.SAVE_PATH , D.PATH_SEPARATOR, D.SERVER_FILE_NAME ) AS THUMBNAIL_IMG_PATH,
 		    A.SUMMARY,
 			A.REG_ID,
 			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
@@ -95,6 +95,8 @@
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN FILE_RESOURCE D ON 1=1
+		AND D.ID = A.THUMBNAIL_IMG_ID
 
 	</sql>
 
@@ -119,8 +121,8 @@
 			CONTENTS = #{contents} ,
 		</if>
 
-		<if test="thumbnailImgPath != null and thumbnailImgPath != ''">
-			THUMBNAIL_IMG_PATH = #{thumbnailImgPath} ,
+		<if test="thumbnailImgId != null and thumbnailImgId != ''">
+			THUMBNAIL_IMG_ID = #{thumbnailImgId} ,
 		</if>
 
 		<if test="summary != null and summary != ''">
@@ -150,7 +152,7 @@
 			,MEMBER_CATEGORY_ID
 			,TITLE
 			,CONTENTS
-			,THUMBNAIL_IMG_PATH
+			,THUMBNAIL_IMG_ID
 			,SUMMARY
 			,DELETE_YN
 		)
@@ -163,7 +165,7 @@
 			,#{memberCategoryId}
 			,#{title}
 			,#{contents}
-			,#{thumbnailImgPath}
+			,#{thumbnailImgId}
 			,#{summary}
 			,'N'
 		)

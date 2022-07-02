@@ -14,6 +14,7 @@ public class FileDto extends CommDto {
     String serverFileName;
     String savePath;
     String deleteYn;
+    String pathSeparator;
 
     public String getId() {
         return id;
@@ -109,5 +110,13 @@ public class FileDto extends CommDto {
 
     public void setDeleteYn(String deleteYn) {
         this.deleteYn = deleteYn;
+    }
+
+    public String getPathSeparator() {
+        return pathSeparator;
+    }
+
+    public void setPathSeparator(String pathSeparator) {
+        this.pathSeparator = pathSeparator;
     }
 }

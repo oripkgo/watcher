@@ -67,15 +67,19 @@
             comm.appendInput('#story_write_form'    , 'regId'   ,loginId                            );
             comm.appendInput('#story_write_form'    , 'uptId'   ,loginId                            );
 
+            var form = $('#story_write_form')[0]
+            var formData = new FormData(form);
+
             comm.request({
                 url: "/story/writeInsert",
-                form : $("#story_write_form"),
-                headers : {"Content-type":"application/x-www-form-urlencoded"}
+                data : formData,
+                // headers : {"Content-type":"application/x-www-form-urlencoded"},
+                processData : false,
+                contentType : false,
             },function(res){
                 // 성공
 
                 if( res.code == '0000' ){
-
 
                     if( id ){
                         comm.message.alert('스토리가 수정되었습니다.', function(){
@@ -98,12 +102,9 @@
         });
 
 
-        $("#thumbnailImgPath").on("change",function(e){
-            $("#thumbnailImgPath_text").val(this.value);
+        $("#thumbnailImgPathParam").on("change",function(e){
+            $("#thumbnailImgPathParam_text").val(this.value);
         });
-
-        // <input type="file" name="thumbnailImgPath" id="thumbnailImgPath">
-        //     <input type="text" name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요">
 
 
         category_list.forEach(function(obj,idx){
@@ -186,9 +187,9 @@
                         <tr>
                             <th class="non">첨부파일1</th>
                             <td class="non story_thumbnailImg">
-                                <label for="thumbnailImgPath" class="input-file-button">썸네일 이미지</label>
-                                <input type="file" name="thumbnailImgPath" id="thumbnailImgPath" accept="image/gif, image/jpeg, image/png">
-                                <input type="text" disabled name="thumbnailImgPath_text" id="thumbnailImgPath_text" placeholder="썸네일 이미지를 선택하세요" value="${vo.THUMBNAIL_IMG_PATH}">
+                                <label for="thumbnailImgPathParam" class="input-file-button">썸네일 이미지</label>
+                                <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam" accept="image/gif, image/jpeg, image/png">
+                                <input type="text" disabled name="thumbnailImgPathParam_text" id="thumbnailImgPathParam_text" placeholder="썸네일 이미지를 선택하세요" value="${vo.THUMBNAIL_IMG_PATH}">
                             </td>
                         </tr>
                         </tbody></table>

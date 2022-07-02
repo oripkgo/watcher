@@ -133,6 +133,7 @@ img {max-width:100%;}
 .story_wrap li a strong {display:block;font-size:20px;color:#333;font-weight:600;padding:20px 0px 15px 0px;}
 .story_wrap li a span {display:block;font-size:15px;color:#333;font-weight:400;}
 .story_wrap li a em {display:inline-block;font-size:14px;color:#7b7b7b;font-weight:300;margin-top:20px;font-style:italic;}
+.story_wrap li a img {width: 307px;height: 307px;}
 
 a.btn_story2 {display:block;width:195px;font-size:15px;color:#333;font-weight:400;height:50px;line-height:48px;overflow:hidden;text-align:center;border:2px solid #333;margin:0px auto;transition:all 0.2s ease-out; -webkit-transition:all 0.2s ease-out;}
 a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
@@ -152,6 +153,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .story_wrap01 li a {display:block;}
 .story_wrap01 li a strong {display:block;font-size:20px;color:#333;font-weight:600;padding:0px 0px 10px 0px;}
 .story_wrap01 li a span {display:block;font-size:14px;color:#333;font-weight:400;}
+.story_wrap01 li a img {width: 160px;height: 160px;}
 
 .keyword_wrap {width:90%;margin:0px auto;}
 .keyword_tit {display:inline-block;text-transform:uppercase;line-height:40px;font-size:48px;color:#333;font-weight:700;border-left:10px solid #333;padding:0px 0px 0px 20px;}
@@ -684,6 +686,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.story_wrap li a span {display:block;font-size:15px;color:#333;font-weight:400;}
 	.story_wrap li a em {display:inline-block;font-size:14px;color:#7b7b7b;font-weight:300;margin-top:20px;font-style:italic;}
 
+
 	.keyword_wrap {width:95%;margin:0px auto;}
 	.keyword_tit {line-height:30px;font-size:30px;}
 	.keyword_search {margin:30px auto;width:90%;height:58px;border-radius:30px;border:1px solid #ddd;overflow:hidden;background:#fff;}
@@ -720,6 +723,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.story_wrap01 li img {width:80px;}
 	.story_wrap01 li a strong {font-size:18px;}
 	.story_wrap01 li a span {font-size:13px;}
+	.story_wrap01 li a img {width: 80px;height: 80px;}
 
 	.sub_layout {padding:20px 20px 40px 20px;}
 	.rline {border-right:0px solid #e9e9e9;}

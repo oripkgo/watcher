@@ -1,0 +1,17 @@
+
+spring:
+
+  config:
+    activate:
+      on-profile: local
+
+  servlet:
+    multipart:
+      enabled: true
+      location: D://watcher/upload
+      max-file-size: 128MB
+      max-request-size: 128MB
+
+upload:
+  root: D://
+  path: /watcher/upload

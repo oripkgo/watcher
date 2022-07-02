@@ -16,10 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+
+import java.io.File;
 
 @Configuration
 @MapperScan(basePackages="com.watcher.mapper")
@@ -39,6 +42,23 @@ public class WatcherConfig implements WebMvcConfigurer {
 	String password;
 	@Value("${db.driver-class-name}")
 	String driverClassName;
+
+	@Value("${upload.path}")
+	private String connectPath;
+	@Value("${upload.root}")
+	private String resourcePath;
+
+	static public String file_separator;
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		file_separator = File.separator;
+
+		registry.addResourceHandler(connectPath+"/**")
+				.addResourceLocations("file:///"+resourcePath+connectPath+"/");
+
+	}
 
 
 	// tiles (s)

@@ -545,9 +545,11 @@ let comm = {
 
         }
 
-        $.ajax({
+        let ajaxOpt = {
 
             url: opt.url,
+            type:opt.method || 'POST',
+            data : opt.data || null,
             beforeSend: function (xhr) {
 
                 if( opt.headers ){
@@ -557,13 +559,13 @@ let comm = {
                     })
 
                 }else{
-                    xhr.setRequestHeader("Content-type","application/json");
+                    if( opt['contentType'] != false ){
+                        xhr.setRequestHeader("Content-type","application/json");
+                    }
+
                 }
 
             },
-
-            type:opt.method || 'POST',
-            data : opt.data || null,
             success : function(result){
 
                 if( result.code = '0000' ){
@@ -597,7 +599,18 @@ let comm = {
                 }
             }
 
-        })
+        }
+
+        if( opt.hasOwnProperty("processData") ){
+            ajaxOpt['processData'] = opt['processData'];
+        }
+
+
+        if( opt.hasOwnProperty("contentType") ){
+            ajaxOpt['contentType'] = opt['contentType'];
+        }
+
+        $.ajax(ajaxOpt)
     },
 
     message: {

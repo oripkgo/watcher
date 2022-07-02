@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.watcher.mapper.StoryMapper">
-
-
-	REG_ID
-	,REG_DATE
-	,UPT_ID
-	,UPT_DATE
-	,CONTENTS_TYPE
-	,CONTENTS_ID
-	,REAL_FILE_NAME
-	,SERVER_FILE_NAME
-	,SAVE_PATH
-	,DELETE_YN
+<mapper namespace="com.watcher.mapper.FileMapper">
 
 
 	<update id="update" parameterType="fileParam">
@@ -43,6 +31,10 @@
 
 		<if test="deleteYn != null and deleteYn != ''">
 			DELETE_YN = #{deleteYn} ,
+		</if>
+
+		<if test="pathSeparator != null and pathSeparator != ''">
+			PATH_SEPARATOR = #{pathSeparator} ,
 		</if>
 
 		UPT_ID = #{uptId},
@@ -75,6 +67,7 @@
 			,SERVER_FILE_NAME
 			,SAVE_PATH
 			,DELETE_YN
+			,PATH_SEPARATOR
 		)
 		VALUES (
 			 #{regId}
@@ -87,6 +80,7 @@
 			,#{serverFileName}
 			,#{savePath}
 			,'N'
+			,#{pathSeparator}
 		)
 	</insert>
 

@@ -84,7 +84,6 @@ public class StoryController {
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
-
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();

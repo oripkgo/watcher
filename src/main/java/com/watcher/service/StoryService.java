@@ -2,9 +2,11 @@ package com.watcher.service;
 
 import com.watcher.mapper.BoardMapper;
 import com.watcher.mapper.StoryMapper;
+import com.watcher.param.FileParam;
 import com.watcher.param.NoticeParam;
 import com.watcher.param.StoryParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,11 @@ public class StoryService {
     @Autowired
     BoardMapper boardMapper;
 
+    @Autowired
+    FileService fileService;
+
+    private String fileUploadPath = "/story";
+
     @Transactional
     public Map<String, String> story_insert(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
@@ -29,14 +36,32 @@ public class StoryService {
         if( storyParam.getId() == null || storyParam.getId().isEmpty() ){
             storyMapper.insert(storyParam);
 
-            Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
-            tag_insert_param.put("contentsType" , "STORY"                   );
-            tag_insert_param.put("contentsId"   , storyParam.getId()        );
-            tag_insert_param.put("tags"         , storyParam.getTags()      );
-            tag_insert_param.put("regId"        , storyParam.getRegId()     );
-            tag_insert_param.put("uptId"        , storyParam.getUptId()     );
+            if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
+                Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
+                tag_insert_param.put("contentsType" , "STORY"                   );
+                tag_insert_param.put("contentsId"   , storyParam.getId()        );
+                tag_insert_param.put("tags"         , storyParam.getTags()      );
+                tag_insert_param.put("regId"        , storyParam.getRegId()     );
+                tag_insert_param.put("uptId"        , storyParam.getUptId()     );
 
-            boardMapper.tag_insert(tag_insert_param);
+                boardMapper.tag_insert(tag_insert_param);
+
+            }
+
+            FileParam fileParam = new FileParam();
+            fileParam.setContentsId(storyParam.getId());
+            fileParam.setContentsType("STORY");
+            fileParam.setRegId(storyParam.getRegId());
+            fileParam.setUptId(storyParam.getRegId());
+
+            int file_id = fileService.upload(
+                    storyParam.getThumbnailImgPathParam(),
+                    fileUploadPath,
+                    fileParam
+            );
+
+            storyParam.setThumbnailImgId(String.valueOf(file_id));
+            storyMapper.update(storyParam);
 
         }else{
 

@@ -2,6 +2,10 @@ package com.watcher.param;
 
 
 import com.watcher.dto.StoryDto;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StoryParam extends StoryDto {
     String search_id;
@@ -10,6 +14,8 @@ public class StoryParam extends StoryDto {
     String limitNum;
     String category_id;
     String tags;
+
+    MultipartFile thumbnailImgPathParam;
 
     public String getSearch_id() {
         return search_id;
@@ -59,4 +65,11 @@ public class StoryParam extends StoryDto {
         this.tags = tags;
     }
 
+    public MultipartFile getThumbnailImgPathParam() {
+        return thumbnailImgPathParam;
+    }
+
+    public void setThumbnailImgPathParam(MultipartFile thumbnailImgPathParam) {
+        this.thumbnailImgPathParam = thumbnailImgPathParam;
+    }
 }

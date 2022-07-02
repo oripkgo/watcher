@@ -8,7 +8,7 @@ public class StoryDto extends CommDto {
     String memberCategoryId;
     String title;
     String contents;
-    String thumbnailImgPath;
+    String thumbnailImgId;
     String summary;
     String deleteYn;
 
@@ -52,12 +52,12 @@ public class StoryDto extends CommDto {
         this.contents = contents;
     }
 
-    public String getThumbnailImgPath() {
-        return thumbnailImgPath;
+    public String getThumbnailImgId() {
+        return thumbnailImgId;
     }
 
-    public void setThumbnailImgPath(String thumbnailImgPath) {
-        this.thumbnailImgPath = thumbnailImgPath;
+    public void setThumbnailImgId(String thumbnailImgId) {
+        this.thumbnailImgId = thumbnailImgId;
     }
 
     public String getSummary() {
