@@ -64,25 +64,25 @@ public class WatcherConfig implements WebMvcConfigurer {
 	// tiles (s)
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
-		
+
 		final TilesConfigurer configurer = new TilesConfigurer();
-		
+
 		configurer.setDefinitions(new String[] {"/WEB-INF/tiles/tiles.xml"});
 		configurer.setCheckRefresh(true);
 		return configurer;
 	}
-	
+
 	@Bean
 	public TilesViewResolver tilesViewResolber() {
-		
+
 		final TilesViewResolver tilesViewResolver = new TilesViewResolver();
-		
+
 		tilesViewResolver.setViewClass(TilesView.class);
 		return tilesViewResolver;
 	}
 	// tiles (e)
-	
-	
+
+
 	// DB 설정 (s)
 
 	@Bean
@@ -100,18 +100,17 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(@Qualifier("mariaDBDataSource") DataSource dataSource) throws Exception {
-		
+
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		
+
 		sessionFactory.setDataSource(dataSource);
 //		this.transactionManager(dataSource);
 
-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*.xml"));
+		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/**/*.xml"));
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:config/mybatis-config.xml"));
 
 		sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);		// ex : user_id를 userId로
-		
+
 		return sessionFactory.getObject();
 	}
 
@@ -125,7 +124,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-		
+
 		final SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		return sqlSessionTemplate;
 	}
