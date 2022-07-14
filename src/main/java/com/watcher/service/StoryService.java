@@ -48,34 +48,59 @@ public class StoryService {
 
             }
 
-            FileParam fileParam = new FileParam();
-            fileParam.setContentsId(storyParam.getId());
-            fileParam.setContentsType("STORY");
-            fileParam.setRegId(storyParam.getRegId());
-            fileParam.setUptId(storyParam.getRegId());
+            if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
+                FileParam fileParam = new FileParam();
+                fileParam.setContentsId(storyParam.getId());
+                fileParam.setContentsType("STORY");
+                fileParam.setRegId(storyParam.getRegId());
+                fileParam.setUptId(storyParam.getRegId());
 
-            int file_id = fileService.upload(
-                    storyParam.getThumbnailImgPathParam(),
-                    fileUploadPath,
-                    fileParam
-            );
+                int file_id = fileService.upload(
+                        storyParam.getThumbnailImgPathParam(),
+                        fileUploadPath,
+                        fileParam
+                );
 
-            storyParam.setThumbnailImgId(String.valueOf(file_id));
-            storyMapper.update(storyParam);
+                storyParam.setThumbnailImgId(String.valueOf(file_id));
+                storyMapper.update(storyParam);
+
+            }
+
 
         }else{
 
             storyParam.setUptId(storyParam.getRegId());
             storyMapper.update(storyParam);
 
-            Map<String,Object> tag_update_param = new LinkedHashMap<String,Object>();
-            tag_update_param.put("contentsType" , "STORY"                   );
-            tag_update_param.put("contentsId"   , storyParam.getId()        );
-            tag_update_param.put("tags"         , storyParam.getTags()      );
-            tag_update_param.put("regId"        , storyParam.getRegId()     );
-            tag_update_param.put("uptId"        , storyParam.getUptId()     );
+            if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
 
-            boardMapper.tag_update(tag_update_param);
+                Map<String,Object> tag_update_param = new LinkedHashMap<String,Object>();
+                tag_update_param.put("contentsType" , "STORY"                   );
+                tag_update_param.put("contentsId"   , storyParam.getId()        );
+                tag_update_param.put("tags"         , storyParam.getTags()      );
+                tag_update_param.put("regId"        , storyParam.getRegId()     );
+                tag_update_param.put("uptId"        , storyParam.getUptId()     );
+
+                boardMapper.tag_update(tag_update_param);
+            }
+
+            if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
+                FileParam fileParam = new FileParam();
+                fileParam.setContentsId(storyParam.getId());
+                fileParam.setContentsType("STORY");
+                fileParam.setRegId(storyParam.getRegId());
+                fileParam.setUptId(storyParam.getRegId());
+
+                int file_id = fileService.upload(
+                        storyParam.getThumbnailImgPathParam(),
+                        fileUploadPath,
+                        fileParam
+                );
+
+                storyParam.setThumbnailImgId(String.valueOf(file_id));
+                storyMapper.update(storyParam);
+
+            }
 
         }
 

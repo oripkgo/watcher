@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,8 +52,7 @@ public class StoryController {
         }
         // 게시물 수정권한 여부 e
 
-
-        mav.addObject("result",result);
+        mav.addObject("result"  ,result);
 
         return mav;
     }

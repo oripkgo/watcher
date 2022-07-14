@@ -44,9 +44,13 @@ public class FileService {
             server_filename = server_filename.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
             upload_full_path = upload_full_path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
 
-            if( !new File(upload_full_path).exists() ){
-                new File(upload_full_path).mkdirs();
+            File dirCheck = new File(fileUploadRootPath + upload_full_path);
+
+            if( dirCheck.exists() ){
+                dirCheck.delete();
             }
+
+            dirCheck.mkdirs();
 
             File newFileName = new File(fileUploadRootPath + upload_full_path + File.separator + server_filename);
             file.transferTo(newFileName);

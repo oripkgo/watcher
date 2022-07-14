@@ -79,7 +79,7 @@ let comm = {
 
                         $(".profile"    , comment_obj).attr("src",profile_img);
                         $(".writer"     , comment_obj).html(resp.comment['nickName']);
-                        $(".writer_time", comment_obj).html("지금");
+                        $(".writer_time", comment_obj).html("방금");
                         $(".contents"   , comment_obj).html(resp.comment['coment']);
 
                         $(target).find(".reviewList","#conts_review").prepend(comment_obj);
@@ -308,10 +308,16 @@ let comm = {
         }
 
         let last_time_result = now_date.getTime() - write_date.getTime();
+
         let floor = function(num){
             return Math.floor(num*1);
         }
         if( ( last_time_result/1000 ) < 60 ){
+
+            if( last_time_result < 0 ){
+                return "방금";
+            }
+
             return floor(( last_time_result/1000 ))+"초 전";
         }
 
