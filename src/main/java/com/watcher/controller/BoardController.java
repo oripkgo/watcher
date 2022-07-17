@@ -176,7 +176,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap getComment_insert(
+	public LinkedHashMap comment_insert(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -198,23 +198,78 @@ public class BoardController {
 
 		}
 
-		LinkedHashMap comment_insert_param = new LinkedHashMap();
+		LinkedHashMap comment_param = new LinkedHashMap();
 
-		comment_insert_param.put("contentsType"		, param.get("contentsType") );
-		comment_insert_param.put("contentsId"  		, param.get("contentsId")   );
-		comment_insert_param.put("refContentsId"  	, param.get("refContentsId"));
-		comment_insert_param.put("coment"  			, param.get("coment")    	);
-		comment_insert_param.put("confirmId"  		, loginId    				);
-		comment_insert_param.put("regId"  			, loginId					);
-		comment_insert_param.put("nickName"  		, nickName					);
-		comment_insert_param.put("profile"  		, profile					);
+		comment_param.put("contentsType"	, param.get("contentsType") );
+		comment_param.put("contentsId"  	, param.get("contentsId")   );
+		comment_param.put("refContentsId"  	, param.get("refContentsId"));
+		comment_param.put("coment"  		, param.get("coment")    	);
+		comment_param.put("confirmId"  		, loginId    				);
+		comment_param.put("regId"  			, loginId					);
+		comment_param.put("nickName"  		, nickName					);
+		comment_param.put("profile"  		, profile					);
 
-		result.put("comment", boardService.comment_insert(comment_insert_param));
+		result.put("comment", boardService.comment_insert(comment_param));
 		result.put("code","0000");
 
 		return result;
 	}
 
+	@RequestMapping(value={"board/update/comment"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap comment_update(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommDto commDto,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+
+		String loginId = "";
+
+		if( request.getSession().getAttribute("loginInfo") != null ){
+			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
+
+			loginId = loginVo.getId();
+
+		}
+
+		LinkedHashMap comment_param = new LinkedHashMap();
+
+		comment_param.put("commentId"  		, param.get("commentId"));
+		comment_param.put("coment"  		, param.get("coment")   );
+		comment_param.put("uptId"  			, loginId 				);
+
+		result.put("comment", boardService.comment_update(comment_param));
+		result.put("code"	,"0000"	);
+
+		return result;
+	}
+
+
+	@RequestMapping(value={"board/delete/comment"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap comment_delete(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommDto commDto,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		LinkedHashMap comment_param = new LinkedHashMap();
+
+		comment_param.put("commentId"  		, param.get("commentId"));
+		comment_param.put("uptId"  			, param.get("regId"));
+
+		result.put("comment", boardService.comment_delete(comment_param));
+		result.put("code"	,"0000"	);
+
+		return result;
+	}
 
 
 

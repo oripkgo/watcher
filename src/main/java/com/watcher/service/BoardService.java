@@ -67,6 +67,25 @@ public class BoardService {
         return result;
     }
 
+
+    public Map<String, String> comment_update(LinkedHashMap param) throws Exception {
+
+        LinkedHashMap result = new LinkedHashMap();
+        boardMapper.comment_update(param);
+
+        return result;
+    }
+
+    public Map<String, String> comment_delete(LinkedHashMap param) throws Exception {
+
+        LinkedHashMap result = new LinkedHashMap();
+        boardMapper.comment_delete(param);
+
+        return result;
+    }
+
+
+
     public Map<String, String> view_tags_select(String contentsType, String contentsId) throws Exception {
 
         LinkedHashMap param = new LinkedHashMap();

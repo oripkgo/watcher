@@ -108,7 +108,7 @@
 	</select>
 
 
-	<insert id="comment_insert" parameterType="hashmap" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="comment_insert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO COMMENT(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -132,16 +132,16 @@
 
 	<update id="comment_update" parameterType="hashmap">
 		UPDATE COMMENT SET
-			COMENT = #{coment}
-			UPT_ID = #{uptId}
+			COMENT = #{coment},
+			UPT_ID = #{uptId},
 			UPT_DATE = NOW()
 		WHERE ID=#{commentId}
 	</update>
 
 	<update id="comment_delete" parameterType="hashmap">
 		UPDATE COMMENT SET
-			DELETE_YN = 'Y'
-			UPT_ID = #{uptId}
+			DELETE_YN = 'Y',
+			UPT_ID = #{uptId},
 			UPT_DATE = NOW()
 		WHERE ID=#{commentId}
 	</update>

@@ -45,6 +45,7 @@
 				</otherwise>
 			</choose>
 		</if>
+		ORDER BY A.REG_DATE DESC
 		LIMIT ${(pageNo-1)*listNo},${listNo}
 
 	</select>
