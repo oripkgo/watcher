@@ -15,7 +15,16 @@
 
 			<c:choose>
 				<c:when test="${!empty sessionScope.loginInfo}">
-					<a href="javascript:;" class="member_set logOut"><img src="/resources/img/member_ico_b.png"></a>
+
+					<c:choose>
+						<c:when test="${!empty sessionScope.loginInfo.profile }">
+							<a href="javascript:;" class="member_set logOut"><img src="${sessionScope.loginInfo.profile}"></a>
+						</c:when>
+						<c:otherwise>
+							<a href="javascript:;" class="member_set logOut"><img src="/resources/img/member_ico_b.png"></a>
+						</c:otherwise>
+					</c:choose>
+
 					<%--<div class="member_app logOut" style="display: none;">
 						<a href="javascript:;" id="myStory">내 스토리</a>
 						<a href="javascript:;" id="management">관리</a>
@@ -26,7 +35,9 @@
 					<a href="javascript:;" class="btn_start loginStart" style="display: none;">시작하기</a>
 				</c:when>
 				<c:otherwise>
+
 					<a href="javascript:;" class="member_set logOut" style="display: none;"><img src="/resources/img/member_ico_b.png"></a>
+
 					<%--<div class="member_app logOut" style="display: none;">
 						<a href="javascript:;" id="myStory">내 스토리</a>
 						<a href="javascript:;" id="management">관리</a>
@@ -49,7 +60,7 @@
 	<a href="javascript:;" id="to_top"><img src="/resources/img/btn_top.png"></a>
 </div>
 
-<script>
+<script type="text/javascript">
 
 	comm.loginObj.init(loginType);
 	comm.loginObj.kakaoInit(Kakao);

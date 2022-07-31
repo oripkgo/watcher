@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.StoryMapper">
+
+	<select id="listCnt" resultType="int" parameterType="storyParam">
+		SELECT
+			COUNT(*)
+		FROM STORY A
+		LEFT JOIN MEMBER B ON 1 = 1
+		AND B.MEM_ID = A.REG_ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE = 'STORY'
+		AND C.CONTENTS_ID = A.ID
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<if test="category_id != null and category_id != ''">
+			AND A.CATEGORY_ID = #{category_id}
+		</if>
+		<if test="search_keyword != null and search_keyword != ''">
+		  	AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
+		</if>
+	</select>
+
+
+	<select id="list" resultType="map" parameterType="storyParam">
+		/*Notice > list*/
+		<include refid="story_select"/>
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<if test="category_id != null and category_id != ''">
+			AND A.CATEGORY_ID = #{category_id}
+		</if>
+
+-- 		<if test="search_keyword != null and search_keyword != ''">
+			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
+		</if>
+
+		<if test="!(SortByRecommendationYn==null or SortByRecommendationYn=='')">
+			<choose>
+				<when test="SortByRecommendationYn == 'YY'">
+					ORDER BY LIKE_CNT DESC, REG_DATE DESC
+					LIMIT ${limitNum}
+				</when>
+				<otherwise>
+					ORDER BY REG_DATE DESC
+					LIMIT ${(pageNo-1)*listNo},${listNo}
+				</otherwise>
+			</choose>
+		</if>
+
+
+
+	</select>
+
+
+	<select id="view" resultType="map" parameterType="storyParam">
+		/*Notice > list*/
+		<include refid="story_select"/>
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<if test="!(id==null or id=='')">
+			AND A.ID = #{id}
+		</if>
+	</select>
+
+	<sql id="story_select">
+		SELECT
+			A.ID,
+			A.CATEGORY_ID,
+			A.MEMBER_CATEGORY_ID,
+			A.TITLE,
+			A.CONTENTS,
+			CONCAT(D.SAVE_PATH , D.PATH_SEPARATOR, D.SERVER_FILE_NAME ) AS THUMBNAIL_IMG_PATH,
+		    A.SUMMARY,
+			A.REG_ID,
+			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
+			A.UPT_ID,
+			DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE,
+			(
+				SELECT
+					COUNT(*)
+				FROM BOARD_LIKE
+				WHERE 1 = 1
+					AND CONTENTS_TYPE = 'STORY'
+					AND CONTENTS_ID = A.ID
+					AND LIKE_TYPE = '01'
+					AND CANCEL_YN = 'N'
+			) AS LIKE_CNT,
+			B.NICKNAME,
+		    C.TAGS
+		FROM STORY A
+		LEFT JOIN MEMBER B ON 1 = 1
+		AND B.MEM_ID = A.REG_ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE = 'STORY'
+		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN FILE_RESOURCE D ON 1=1
+		AND D.ID = A.THUMBNAIL_IMG_ID
+
+	</sql>
+
+
+	<update id="update" parameterType="storyParam">
+
+		UPDATE STORY SET
+		<if test="categoryId != null and categoryId != ''">
+			CATEGORY_ID = #{categoryId} ,
+		</if>
+
+		<if test="memberCategoryId != null and memberCategoryId != ''">
+			MEMBER_CATEGORY_ID = #{memberCategoryId} ,
+		</if>
+
+		<if test="title != null and title != ''">
+			TITLE = #{title} ,
+		</if>
+
+
+		<if test="contents != null and contents != ''">
+			CONTENTS = #{contents} ,
+		</if>
+
+		<if test="thumbnailImgId != null and thumbnailImgId != ''">
+			THUMBNAIL_IMG_ID = #{thumbnailImgId} ,
+		</if>
+
+		<if test="summary != null and summary != ''">
+			SUMMARY = #{summary} ,
+		</if>
+
+		<if test="deleteYn != null and deleteYn != ''">
+			DELETE_YN = #{deleteYn} ,
+		</if>
+
+		UPT_ID = #{uptId},
+		UPT_DATE = NOW()
+		WHERE 1=1
+		AND ID=#{id}
+		AND REG_ID=#{regId}
+
+	</update>
+
+	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyProperty="id">
+
+		INSERT INTO STORY(
+			 REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
+			,CATEGORY_ID
+			,MEMBER_CATEGORY_ID
+			,TITLE
+			,CONTENTS
+			,THUMBNAIL_IMG_ID
+			,SUMMARY
+			,DELETE_YN
+		)
+		VALUES (
+			 #{regId}
+			,NOW()
+			,#{uptId}
+			,NOW()
+			,#{categoryId}
+			,#{memberCategoryId}
+			,#{title}
+			,#{contents}
+			,#{thumbnailImgId}
+			,#{summary}
+			,'N'
+		)
+	</insert>
+
+</mapper>

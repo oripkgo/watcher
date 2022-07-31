@@ -1,24 +1,19 @@
 package com.watcher.controller;
 
-import com.sun.tracing.dtrace.Attributes;
+import com.watcher.param.StoryParam;
 import com.watcher.service.BoardService;
-import com.watcher.service.MainService;
 import com.watcher.service.NoticeService;
-import com.watcher.vo.CommVo;
-import com.watcher.vo.LoginVo;
-import com.watcher.vo.NoticeVo;
-import org.json.JSONObject;
+import com.watcher.dto.CommDto;
+import com.watcher.param.LoginParam;
+import com.watcher.param.NoticeParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -37,7 +32,7 @@ public class BoardController {
 	public ModelAndView noticeList(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeVo noticeVo
+			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
@@ -52,32 +47,56 @@ public class BoardController {
 	public LinkedHashMap<String, Object> noticeListAsync(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeVo noticeVo
+			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		result.putAll(noticeService.list(noticeVo));
-		result.put("vo",noticeVo);
+		result.putAll(noticeService.list(noticeParam));
+		result.put("vo", noticeParam);
 
 		return result;
 	}
 
+
+	@RequestMapping(value = {"/notice/delete"})
+	@ResponseBody
+	public LinkedHashMap<String, Object> noticeRemove(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody NoticeParam noticeParam
+
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		noticeParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+		noticeParam.setDeleteYn("Y");
+
+		result.putAll(noticeService.delete(noticeParam));
+
+		return result;
+	}
 
 
 	@RequestMapping(value={"notice/view"}, method = RequestMethod.GET)
 	public ModelAndView noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeVo noticeVo
+			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 
 
 		ModelAndView mav = new ModelAndView("notice/view");
-		Map<String, Object> result = noticeService.view(noticeVo);
+		Map<String, Object> result = noticeService.view(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		result.put("modify_authority_yn","N");
+		if( request.getSession().getAttribute("loginInfo") == null
+				|| !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+			result.put("modify_authority_yn","N");
+		}else{
+			result.put("modify_authority_yn","Y");
+		}
 		// 게시물 수정권한 여부 e
 
 
@@ -91,7 +110,7 @@ public class BoardController {
 	public LinkedHashMap board_view_init(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
+			@ModelAttribute("vo") CommDto commDto,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 
@@ -100,7 +119,7 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
 			loginId = loginVo.getId();
 
@@ -127,7 +146,7 @@ public class BoardController {
 	public LinkedHashMap getComment_select(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
+			@ModelAttribute("vo") CommDto commDto,
 			@RequestParam Map<String,Object> param
 	) throws Exception {
 
@@ -141,15 +160,15 @@ public class BoardController {
 
 		comment_select_param.put("contentsType"	, contentsType  		);
 		comment_select_param.put("contentsId"  	, contentsId    		);
-		comment_select_param.put("pageNo"  		, commVo.getPageNo()    );
-		comment_select_param.put("listNo"  		, commVo.getListNo()	);
+		comment_select_param.put("pageNo"  		, commDto.getPageNo()    );
+		comment_select_param.put("listNo"  		, commDto.getListNo()	);
 
 
 		Map<String, Object> comment_obj = boardService.comment_select_info(comment_select_param);
 		result.put("comment", comment_obj);
 
-		commVo.setTotalCnt((int)comment_obj.get("cnt"));
-		result.put("vo", commVo);
+		commDto.setTotalCnt((int)comment_obj.get("cnt"));
+		result.put("vo", commDto);
 
 		return result;
 	}
@@ -157,10 +176,10 @@ public class BoardController {
 
 	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap getComment_insert(
+	public LinkedHashMap comment_insert(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommVo commVo,
+			@ModelAttribute("vo") CommDto commDto,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 
@@ -168,32 +187,89 @@ public class BoardController {
 
 		String loginId = "";
 		String nickName = "";
+		String profile = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
 			loginId = loginVo.getId();
 			nickName = loginVo.getNickname();
+			profile = loginVo.getProfile();
 
 		}
 
-		LinkedHashMap comment_insert_param = new LinkedHashMap();
+		LinkedHashMap comment_param = new LinkedHashMap();
 
-		comment_insert_param.put("contentsType"		, param.get("contentsType") );
-		comment_insert_param.put("contentsId"  		, param.get("contentsId")   );
-		comment_insert_param.put("refContentsId"  	, param.get("refContentsId"));
-		comment_insert_param.put("coment"  			, param.get("coment")    	);
-		comment_insert_param.put("confirmId"  		, loginId    				);
-		comment_insert_param.put("regId"  			, loginId					);
-		comment_insert_param.put("nickName"  		, nickName					);
+		comment_param.put("contentsType"	, param.get("contentsType") );
+		comment_param.put("contentsId"  	, param.get("contentsId")   );
+		comment_param.put("refContentsId"  	, param.get("refContentsId"));
+		comment_param.put("coment"  		, param.get("coment")    	);
+		comment_param.put("confirmId"  		, loginId    				);
+		comment_param.put("regId"  			, loginId					);
+		comment_param.put("nickName"  		, nickName					);
+		comment_param.put("profile"  		, profile					);
 
-
-		result.put("comment", boardService.comment_insert(comment_insert_param));
+		result.put("comment", boardService.comment_insert(comment_param));
 		result.put("code","0000");
 
 		return result;
 	}
 
+	@RequestMapping(value={"board/update/comment"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap comment_update(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommDto commDto,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+
+		String loginId = "";
+
+		if( request.getSession().getAttribute("loginInfo") != null ){
+			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
+
+			loginId = loginVo.getId();
+
+		}
+
+		LinkedHashMap comment_param = new LinkedHashMap();
+
+		comment_param.put("commentId"  		, param.get("commentId"));
+		comment_param.put("coment"  		, param.get("coment")   );
+		comment_param.put("uptId"  			, loginId 				);
+
+		result.put("comment", boardService.comment_update(comment_param));
+		result.put("code"	,"0000"	);
+
+		return result;
+	}
+
+
+	@RequestMapping(value={"board/delete/comment"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap comment_delete(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") CommDto commDto,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		LinkedHashMap comment_param = new LinkedHashMap();
+
+		comment_param.put("commentId"  		, param.get("commentId"));
+		comment_param.put("uptId"  			, param.get("regId"));
+
+		result.put("comment", boardService.comment_delete(comment_param));
+		result.put("code"	,"0000"	);
+
+		return result;
+	}
 
 
 
@@ -214,7 +290,7 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginVo loginVo = (LoginVo)request.getSession().getAttribute("loginInfo");
+			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
 			loginId = loginVo.getId();
 

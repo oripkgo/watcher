@@ -1,21 +1,13 @@
 package com.watcher.dto;
 
 
-public class NoticeDto {
+public class NoticeDto extends CommDto {
 
     private String id;
     private String title;
     private String contents;
     private String thumbnailImgPath;
-    private String regId;
-    private String regDate;
-    private String uptId;
-    private String uptDate;
-
-    private int viewCnt;
-    private int likeCnt;
-
-    private String tags;
+    private String deleteYn;
 
     public String getId() {
         return id;
@@ -49,59 +41,11 @@ public class NoticeDto {
         this.thumbnailImgPath = thumbnailImgPath;
     }
 
-    public String getRegId() {
-        return regId;
+    public String getDeleteYn() {
+        return deleteYn;
     }
 
-    public void setRegId(String regId) {
-        this.regId = regId;
-    }
-
-    public String getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(String regDate) {
-        this.regDate = regDate;
-    }
-
-    public String getUptId() {
-        return uptId;
-    }
-
-    public void setUptId(String uptId) {
-        this.uptId = uptId;
-    }
-
-    public String getUptDate() {
-        return uptDate;
-    }
-
-    public void setUptDate(String uptDate) {
-        this.uptDate = uptDate;
-    }
-
-    public int getViewCnt() {
-        return viewCnt;
-    }
-
-    public void setViewCnt(int viewCnt) {
-        this.viewCnt = viewCnt;
-    }
-
-    public int getLikeCnt() {
-        return likeCnt;
-    }
-
-    public void setLikeCnt(int likeCnt) {
-        this.likeCnt = likeCnt;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setDeleteYn(String deleteYn) {
+        this.deleteYn = deleteYn;
     }
 }

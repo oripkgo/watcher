@@ -1,7 +1,7 @@
-package com.watcher.vo;
+package com.watcher.dto;
 
 
-public class CommVo {
+public class CommDto {
 
     /**
      * 페이징처리 관련 변수

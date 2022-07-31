@@ -6,7 +6,7 @@
 
 <script>
 
-    let type    = 'NOTICE';
+    let type    = 'STORY';
     let id      = '${vo.ID}';
     let regDate = '${vo.REG_DATE}'
 
@@ -23,23 +23,29 @@
 
         // 수정
         $("#story_update").on("click",function(){
-
+            location.href="/story/update?id="+id;
         });
 
         // 삭제
         $("#story_delete").on("click",function(){
             comm.request({
-                url:"/notice/delete",
+                url:"/story/delete",
                 data:JSON.stringify({id:id})
             },function(resp){
                 if( resp.code == '0000'){
                     comm.message.alert('삭제가 완료되었습니다.',function(){
-                        location.href = '/notice/list';
+                        location.href = '/story/list';
                     });
                 }
 
             });
         });
+
+        // sic">
+        // <a href="javascript:;" id="story_update">수정</a>
+        // <img src="/resources/img/line.png">
+        //     <a href="javascript:;" id="story_delete">삭제</a>
+        //
 
     })
 
@@ -52,7 +58,7 @@
     <div class="ani-in sub_layout">
 
         <div class="detail_top ani_y delay1">
-            <div class="detail_kind">공지사항</div>
+            <div class="detail_kind">스토리</div>
             <strong>${vo.TITLE}</strong>
             <div class="detail_memo">
                 <em>by ${vo.NICKNAME}</em>

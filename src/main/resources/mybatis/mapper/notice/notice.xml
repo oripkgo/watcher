@@ -3,27 +3,59 @@
 
 <mapper namespace="com.watcher.mapper.NoticeMapper">
 
-	<select id="listCnt" resultType="int" parameterType="noticeVo">
+	<select id="listCnt" resultType="int" parameterType="noticeParam">
 		SELECT
 			COUNT(*)
 		FROM NOTICE A
+		LEFT JOIN VIEWS B ON 1=1
+		AND B.CONTENTS_TYPE='NOTICE'
+		AND B.CONTENTS_ID = A.ID
+		LEFT JOIN BOARD_TAGS C ON 1=1
+		AND C.CONTENTS_TYPE='NOTICE'
+		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN MEMBER D ON 1=1
+		AND D.MEM_ID = A.REG_ID
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<if test="search_keyword != null and search_keyword != ''">
+			<choose>
+				<when test="search_id == '01'">
+					AND A.TITLE LIKE '%${search_keyword}%'
+				</when>
+				<otherwise>
+					AND A.CONTENTS LIKE '%${search_keyword}%'
+				</otherwise>
+			</choose>
+		</if>
 	</select>
 
 
-	<select id="list" resultType="com.watcher.dto.NoticeDto" parameterType="noticeVo">
+	<select id="list" resultType="map" parameterType="noticeParam">
 		/*Notice > list*/
 		<include refid="notice_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+-- 		<if test="search_keyword != null and search_keyword != ''">
+			<choose>
+				<when test="search_id == '01'">
+					AND A.TITLE LIKE '%${search_keyword}%'
+				</when>
+				<otherwise>
+					AND A.CONTENTS LIKE '%${search_keyword}%'
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY A.REG_DATE DESC
 		LIMIT ${(pageNo-1)*listNo},${listNo}
 
 	</select>
 
 
-	<select id="view" resultType="com.watcher.dto.NoticeDto" parameterType="noticeVo">
+	<select id="view" resultType="map" parameterType="noticeParam">
 		/*Notice > list*/
 		<include refid="notice_select"/>
 		WHERE 1=1
+		AND A.DELETE_YN = 'N'
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
 		</if>
@@ -49,6 +81,7 @@
 			     AND LIKE_TYPE = '01'
 				 AND CANCEL_YN = 'N'
 			 ) AS LIKE_CNT
+		     ,D.NICKNAME
 		FROM NOTICE A
 		LEFT JOIN VIEWS B ON 1=1
 			AND B.CONTENTS_TYPE='NOTICE'
@@ -56,65 +89,56 @@
 		LEFT JOIN BOARD_TAGS C ON 1=1
 			AND C.CONTENTS_TYPE='NOTICE'
 			AND C.CONTENTS_ID = A.ID
+		LEFT JOIN MEMBER D ON 1=1
+			AND D.MEM_ID = A.REG_ID
 	</sql>
 
-	<!--
-	<insert id="insert" parameterType="memberVo" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="insert" parameterType="noticeParam" useGeneratedKeys="true" keyProperty="id">
 
-		INSERT INTO MEMBER(
-			 MEM_ID
-			,PASSWORD
-			,EMAIL
-			,PHONE_NUM
-			,NAME
-			,NICKNAME
-			,MEM_TYPE
+		INSERT INTO NOTICE(
+			 TITLE
+			,CONTENTS
+			,THUMBNAIL_IMG_PATH
 			,REG_ID
 			,REG_DATE
 			,UPT_ID
 			,UPT_DATE
+			,DELETE_YN
 		)
 		VALUES (
-			 #{memId}
-			,#{password}
-			,#{email}
-			,#{phoneNum}
-			,#{name}
-			,#{nickname}
-			,#{memType}
-			,#{memId}
+			 #{title}
+			,#{contents}
+			,#{thumbnailImgPath}
+			,#{regId}
 			,NOW()
-			,#{memId}
+			,#{uptId}
 			,NOW()
+			,'N'
 		)
-		ON DUPLICATE KEY UPDATE
-			<if test="password != null and password != ''">
-				PASSWORD 	= #{password} ,
-			</if>
-
-			<if test="email != null and email != ''">
-				EMAIL 		= #{email} ,
-			</if>
-
-			<if test="phoneNum != null and phoneNum != ''">
-				PHONE_NUM 	= #{phoneNum} ,
-			</if>
-
-			<if test="name != null and name != ''">
-				NAME 		= #{name} ,
-			</if>
-
-			<if test="nickname != null and nickname != ''">
-				NICKNAME 	= #{nickname} ,
-			</if>
-
-			<if test="memType != null and memType != ''">
-				MEM_TYPE 	= #{memType} ,
-			</if>
-
-			UPT_ID 	= #{memId} ,
-			UPT_DATE 	= NOW()
 	</insert>
-	-->
+
+	<update id="update" parameterType="noticeParam">
+
+		UPDATE NOTICE SET
+		<if test="title != null and title != ''">
+			TITLE = #{title} ,
+		</if>
+		<if test="contents != null and contents != ''">
+			CONTENTS = #{contents} ,
+		</if>
+		<if test="thumbnailImgPath != null and thumbnailImgPath != ''">
+			THUMBNAIL_IMG_PATH = #{thumbnailImgPath} ,
+		</if>
+		<if test="deleteYn != null and deleteYn != ''">
+			DELETE_YN = #{deleteYn} ,
+		</if>
+
+		UPT_ID = #{uptId},
+		UPT_DATE = NOW()
+		WHERE 1=1
+		AND ID=#{id}
+		AND REG_ID=#{regId}
+
+	</update>
 
 </mapper>

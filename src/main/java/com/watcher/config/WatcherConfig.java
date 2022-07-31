@@ -16,10 +16,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+
+import java.io.File;
 
 @Configuration
 @MapperScan(basePackages="com.watcher.mapper")
@@ -40,29 +43,46 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Value("${db.driver-class-name}")
 	String driverClassName;
 
+	@Value("${upload.path}")
+	private String connectPath;
+	@Value("${upload.root}")
+	private String resourcePath;
+
+	static public String file_separator;
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		file_separator = File.separator;
+
+		registry.addResourceHandler(connectPath+"/**")
+				.addResourceLocations("file:///"+resourcePath+connectPath+"/");
+
+	}
+
 
 	// tiles (s)
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
-		
+
 		final TilesConfigurer configurer = new TilesConfigurer();
-		
+
 		configurer.setDefinitions(new String[] {"/WEB-INF/tiles/tiles.xml"});
 		configurer.setCheckRefresh(true);
 		return configurer;
 	}
-	
+
 	@Bean
 	public TilesViewResolver tilesViewResolber() {
-		
+
 		final TilesViewResolver tilesViewResolver = new TilesViewResolver();
-		
+
 		tilesViewResolver.setViewClass(TilesView.class);
 		return tilesViewResolver;
 	}
 	// tiles (e)
-	
-	
+
+
 	// DB 설정 (s)
 
 	@Bean
@@ -80,18 +100,17 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(@Qualifier("mariaDBDataSource") DataSource dataSource) throws Exception {
-		
+
 		final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
-		
+
 		sessionFactory.setDataSource(dataSource);
 //		this.transactionManager(dataSource);
 
-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sessionFactory.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/**/*.xml"));
+		sessionFactory.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/**/*.xml"));
 		sessionFactory.setConfigLocation(applicationContext.getResource("classpath:config/mybatis-config.xml"));
 
 		sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);		// ex : user_id를 userId로
-		
+
 		return sessionFactory.getObject();
 	}
 
@@ -105,7 +124,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-		
+
 		final SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		return sqlSessionTemplate;
 	}

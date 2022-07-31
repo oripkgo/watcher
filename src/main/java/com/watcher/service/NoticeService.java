@@ -1,7 +1,7 @@
 package com.watcher.service;
 
 import com.watcher.mapper.NoticeMapper;
-import com.watcher.vo.NoticeVo;
+import com.watcher.param.NoticeParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +21,11 @@ public class NoticeService {
     BoardService boardService;
 
 
-    public Map<String, Object> list(NoticeVo noticeVo) throws Exception {
+    public Map<String, Object> list(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        noticeVo.setTotalCnt( noticeMapper.listCnt(noticeVo) );
-        result.put("list", noticeMapper.list(noticeVo));
+        noticeParam.setTotalCnt( noticeMapper.listCnt(noticeParam) );
+        result.put("list", noticeMapper.list(noticeParam));
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -36,12 +36,25 @@ public class NoticeService {
 
 
     @Transactional
-    public Map<String, Object> view(NoticeVo noticeVo) throws Exception {
+    public Map<String, Object> view(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        result.put("view", noticeMapper.view(noticeVo));
+        result.put("view", noticeMapper.view(noticeParam));
 
-        boardService.views_count("NOTICE",noticeVo.getId(),noticeVo.getRegId());
+        boardService.views_count("NOTICE", noticeParam.getId(), noticeParam.getRegId());
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+
+        return result;
+    }
+
+    @Transactional
+    public Map<String, Object> delete(NoticeParam noticeParam) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        noticeMapper.update(noticeParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
