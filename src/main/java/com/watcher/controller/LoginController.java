@@ -114,7 +114,7 @@ public class LoginController {
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
-			logOutParam.put("target_id"			, ((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+			logOutParam.put("target_id"			, ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
 
 			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
 

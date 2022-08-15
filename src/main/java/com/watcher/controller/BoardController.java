@@ -70,7 +70,7 @@ public class BoardController {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		noticeParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+		noticeParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
 		noticeParam.setDeleteYn("Y");
 
 		result.putAll(noticeService.delete(noticeParam));
@@ -92,7 +92,7 @@ public class BoardController {
 
 		// 게시물 수정권한 여부 s
 		if( request.getSession().getAttribute("loginInfo") == null
-				|| !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+				|| !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID")))){
 			result.put("modify_authority_yn","N");
 		}else{
 			result.put("modify_authority_yn","Y");
@@ -119,9 +119,8 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
 
 		}
 
@@ -190,11 +189,12 @@ public class BoardController {
 		String profile = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
-			nickName = loginVo.getNickname();
-			profile = loginVo.getProfile();
+			Map<String, String> userData = ((Map<String, String>)request.getSession().getAttribute("loginInfo"));
+
+			loginId = userData.get("MEM_ID");
+			nickName = userData.get("NICKNAME");
+			profile = userData.get("MEM_PROFILE_IMG");
 
 		}
 
@@ -204,8 +204,8 @@ public class BoardController {
 		comment_param.put("contentsId"  	, param.get("contentsId")   );
 		comment_param.put("refContentsId"  	, param.get("refContentsId"));
 		comment_param.put("coment"  		, param.get("coment")    	);
-		comment_param.put("confirmId"  		, loginId    				);
 		comment_param.put("regId"  			, loginId					);
+		comment_param.put("confirmId"  		, loginId    				);
 		comment_param.put("nickName"  		, nickName					);
 		comment_param.put("profile"  		, profile					);
 
@@ -230,9 +230,7 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
-
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
 
 		}
 
@@ -290,9 +288,8 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
 
 		}
 

@@ -33,7 +33,7 @@ let comm = function(){
     let loginProcessEventHtml = '';
 
     loginProcessEventHtml += '<div class="member_app logOut" style="display: none;">';
-    loginProcessEventHtml += '    <a href="/myStory/main" id="myStory">내 스토리</a>';
+    loginProcessEventHtml += '    <a href="/myStory/'+ memberId +'" id="myStory">내 스토리</a>';
     loginProcessEventHtml += '    <a href="javascript:;" id="management">관리</a>';
     loginProcessEventHtml += '    <a href="/story/write" id="writing">글쓰기</a>';
     loginProcessEventHtml += '    <a href="javascript:;" id="logout">로그아웃</a>';
@@ -102,6 +102,8 @@ let comm = function(){
                                         $(target).removeClass("ing");
                                         $('.write_wrap', review_info).hide();
                                         $('.contents', review_info).show();
+
+                                        $(target).text("수정");
 
                                     }
                                 })

@@ -3,6 +3,28 @@
 
 <mapper namespace="com.watcher.mapper.MemberMapper">
 
+	<select id="userSearch" parameterType="memberParam" resultType="map">
+		SELECT
+			ID
+			,MEM_ID
+			,PASSWORD
+			,EMAIL
+			,PHONE_NUM
+			,NAME
+			,NICKNAME
+			,MEM_TYPE
+			,MEM_PROFILE_IMG
+			,REG_ID
+			,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			,UPT_ID
+			,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+		FROM MEMBER
+		WHERE 1=1
+		  AND MEM_ID = #{memId}
+		  AND MEM_TYPE = #{memType}
+	</select>
+
+
 	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
 
 		INSERT INTO MEMBER(

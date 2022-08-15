@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<%@include file="globalVariable.jsp"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="head_wrap">
 	<div class="logo">
 		<a href="/main">WATCHER</a>
@@ -17,8 +15,8 @@
 				<c:when test="${!empty sessionScope.loginInfo}">
 
 					<c:choose>
-						<c:when test="${!empty sessionScope.loginInfo.profile }">
-							<a href="javascript:;" class="member_set logOut"><img src="${sessionScope.loginInfo.profile}"></a>
+						<c:when test="${!empty sessionScope.loginInfo.MEM_PROFILE_IMG }">
+							<a href="javascript:;" class="member_set logOut"><img src="${sessionScope.loginInfo.MEM_PROFILE_IMG}"></a>
 						</c:when>
 						<c:otherwise>
 							<a href="javascript:;" class="member_set logOut"><img src="/resources/img/member_ico_b.png"></a>

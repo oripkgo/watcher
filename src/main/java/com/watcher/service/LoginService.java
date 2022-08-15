@@ -1,6 +1,9 @@
 package com.watcher.service;
 
+import com.watcher.mapper.MemberMapper;
 import com.watcher.param.LoginParam;
+import com.watcher.param.MemberParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +13,22 @@ import java.util.Map;
 @Service
 public class LoginService {
 
+    @Autowired
+    MemberMapper memberMapper;
+
 
     public Map<String,String> loginSuccessCallback(HttpServletRequest request, LoginParam loginVo) throws Exception{
         Map<String,String> result = new HashMap<String,String>();
 
-        if( !( loginVo.getId() == null || loginVo.getId().isEmpty() ) ){
-            request.getSession().setAttribute("loginInfo", loginVo);
+        if (!(loginVo.getId() == null || loginVo.getId().isEmpty())) {
+
+            MemberParam memParam = new MemberParam();
+            memParam.setMemId(loginVo.getId());
+            memParam.setMemType(("naver".equals(loginVo.getType()) ? "00" : "01"));
+
+            Map<String, Object> userData = memberMapper.userSearch(memParam);
+
+            request.getSession().setAttribute("loginInfo", userData);
         }
 
         result.put("code","0000");

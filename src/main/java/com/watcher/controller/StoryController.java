@@ -45,7 +45,7 @@ public class StoryController {
 
         // 게시물 수정권한 여부 s
         if( request.getSession().getAttribute("loginInfo") == null
-                || !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+                || !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID")))){
             result.put("modify_authority_yn","N");
         }else{
             result.put("modify_authority_yn","Y");
@@ -68,7 +68,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        storyParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
         storyParam.setDeleteYn("Y");
 
         result.putAll(storyService.story_update(storyParam));
@@ -89,7 +89,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        storyParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
         result.putAll(storyService.story_insert(storyParam));
 
         return result;
@@ -110,7 +110,7 @@ public class StoryController {
 
 
         param.put("showYn"  ,"Y");
-        param.put("memId"   ,((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+        param.put("memId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch(param));
         mav.addObject("category_list", jsonArray);
