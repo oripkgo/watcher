@@ -24,7 +24,10 @@ public class NoticeService {
     public Map<String, Object> list(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        noticeParam.setSearch_level("9");
+        if( noticeParam.getSearch_level().isEmpty() ){
+            noticeParam.setSearch_level("9");
+        }
+
         noticeParam.setTotalCnt( noticeMapper.listCnt(noticeParam) );
         result.put("list", noticeMapper.list(noticeParam));
 
