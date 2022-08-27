@@ -300,7 +300,7 @@ let comm = function(){
                     let call_resp_obj = resp;
 
                     // 태그 세팅 s
-                    call_resp_obj.tagsHtml = comm.tags_setting_val(call_resp_obj.tags);
+                    call_resp_obj.tagsHtml = comm.tags_setting_val(call_resp_obj.tags || call_resp_obj.TAGS);
                     if( option && option.tagsTarget && call_resp_obj.tagsHtml ){
                         $('.conts_tag').show();
                         $('.conts_tag').append(call_resp_obj.tagsHtml);
