@@ -6,9 +6,9 @@
 
 <script>
 
-    let type    = 'STORY';
-    let id      = '${vo.ID}';
-    let regDate = '${vo.REG_DATE}'
+    const type      = 'STORY';
+    const id        = '${vo.ID}';
+    const regDate   = '${vo.REG_DATE}'
 
     $(document).ready(function(){
 
@@ -129,7 +129,7 @@
                     });
                 </script>
 
-                <div class="conts_tag" style="display: none;">
+                <div class="conts_tag">
                     <strong class="conts_tit">태그</strong>
                     <%--
                     <a href="javascript:;">#컬처</a>
