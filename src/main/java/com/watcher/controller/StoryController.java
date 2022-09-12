@@ -30,7 +30,6 @@ public class StoryController {
     StoryService storyService;
 
 
-
     @RequestMapping(value = {"/view"})
     @ResponseBody
     public ModelAndView storyView(

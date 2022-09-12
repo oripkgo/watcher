@@ -868,8 +868,6 @@ let comm = function(){
             $("[name='startPageNo']",form).val( _startPageNo );
             $("[name='endPageNo']"	,form).val( _endPageNo 	 );
 
-            var param = comm.serializeJson($(form).serializeArray());
-
             comm.request({
                 form:form
                 , url:url

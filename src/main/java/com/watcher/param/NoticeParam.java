@@ -7,6 +7,7 @@ public class NoticeParam extends NoticeDto {
     String search_id;
     String search_keyword;
     String search_level;
+    String search_regId;
 
     public String getSearch_id() {
         return search_id;
@@ -30,5 +31,13 @@ public class NoticeParam extends NoticeDto {
 
     public void setSearch_level(String search_level) {
         this.search_level = search_level;
+    }
+
+    public String getSearch_regId() {
+        return search_regId;
+    }
+
+    public void setSearch_regId(String search_regId) {
+        this.search_regId = search_regId;
     }
 }

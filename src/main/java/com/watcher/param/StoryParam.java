@@ -14,6 +14,7 @@ public class StoryParam extends StoryDto {
     String limitNum;
     String category_id;
     String tags;
+    String search_regId;
 
     MultipartFile thumbnailImgPathParam;
 
@@ -63,6 +64,14 @@ public class StoryParam extends StoryDto {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getSearch_regId() {
+        return search_regId;
+    }
+
+    public void setSearch_regId(String search_regId) {
+        this.search_regId = search_regId;
     }
 
     public MultipartFile getThumbnailImgPathParam() {

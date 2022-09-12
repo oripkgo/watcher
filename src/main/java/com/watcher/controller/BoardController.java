@@ -28,6 +28,20 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
+	@RequestMapping(value={"/notice/member/list"})
+	public ModelAndView memberNoticeList(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") NoticeParam noticeParam
+	) throws Exception {
+
+		ModelAndView mav = new ModelAndView("notice/list");
+		mav.addObject("noticeListUrl", "/notice/listAsync?search_regId="+noticeParam.getSearch_regId());
+
+		return mav;
+	}
+
+
 	@RequestMapping(value={"notice/list"})
 	public ModelAndView noticeList(
 			HttpServletRequest request,
@@ -36,8 +50,7 @@ public class BoardController {
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
-
-		//mav.addObject("list",noticeService.list(noticeVo));
+		mav.addObject("noticeListUrl", "/notice/listAsync");
 
 		return mav;
 	}

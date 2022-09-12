@@ -4,6 +4,51 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+    const notice_show_cnt = 4;
+
+    $(document).on("ready", function () {
+
+        // 공지사항 세팅
+        initNotice(loginId);
+
+        // 나의 스토리 세팅
+        initMyStory(loginId);
+
+    })
+
+    function initMyStory(id){
+        // /story/listAsync
+    }
+
+    function initNotice(id){
+        comm.request({
+            url: "/notice/listAsync?search_regId="+id
+            , method: "GET"
+            , headers: {"Content-type": "application/x-www-form-urlencoded"}
+        }, function (data) {
+
+            if( data.code == '0000' && data.list ){
+
+                $(".notice_list").empty();
+                for( let i=0;i<notice_show_cnt;i++ ){
+                    const obj = data.list[i];
+                    let li = $('<li></li>');
+
+                    li.append('<a href="javascript:;">'+obj['TITLE']+'</a>');
+                    li.append('<em>'+(obj['UPT_DATE'] || obj['REG_DATE'])+'</em>');
+                    $(".notice_list").append(li);
+                }
+
+            }
+
+        });
+
+        $("#notice_more").on("click", function(){
+            location.href="/notice/member/list?search_regId="+id;
+        });
+
+
+    }
 
 </script>
 
@@ -70,21 +115,13 @@
 
             <div class="board_title">
                 공지사항
-                <a href="javascript:;">더보기 <img src="/resources/img/down_arrow.png"></a>
+                <a href="javascript:;" id="notice_more">더보기 <img src="/resources/img/down_arrow.png"></a>
             </div>
             <ul class="notice_list">
-                <li>
+                <%--<li>
                     <a href="javascript:;">공지합니다. 내용내용내용~</a>
                     <em>2021.11.11</em>
-                </li>
-                <li>
-                    <a href="javascript:;">공지합니다. 내용내용내용~</a>
-                    <em>2021.11.11</em>
-                </li>
-                <li>
-                    <a href="javascript:;">공지합니다. 내용내용내용~</a>
-                    <em>2021.11.11</em>
-                </li>
+                </li>--%>
             </ul>
 
             <div class="board_title">

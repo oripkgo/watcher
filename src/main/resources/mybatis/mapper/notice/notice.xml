@@ -17,7 +17,16 @@
 		AND D.MEM_ID = A.REG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
-		AND A.REG_ID IN (SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level})
+		AND A.REG_ID IN (
+		<choose>
+			<when test="search_regId != null and search_regId != ''">
+				#{search_regId}
+			</when>
+			<otherwise>
+				SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+			</otherwise>
+		</choose>
+		)
 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
 				<when test="search_id == '01'">
@@ -36,7 +45,16 @@
 		<include refid="notice_select"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
-		AND A.REG_ID IN (SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level})
+		AND A.REG_ID IN (
+			<choose>
+				<when test="search_regId != null and search_regId != ''">
+					#{search_regId}
+				</when>
+				<otherwise>
+					SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+				</otherwise>
+			</choose>
+		)
 -- 		<if test="search_keyword != null and search_keyword != ''">
 			<choose>
 				<when test="search_id == '01'">
