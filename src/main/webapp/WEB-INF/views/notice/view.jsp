@@ -59,6 +59,7 @@
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
+                <%--
                 <c:if test="${result.modify_authority_yn eq 'Y'}">
                     <div class="btn_basic">
                         <a href="javascript:;" id="story_update">수정</a>
@@ -66,6 +67,7 @@
                         <a href="javascript:;" id="story_delete">삭제</a>
                     </div>
                 </c:if>
+                --%>
 
             </div>
         </div>

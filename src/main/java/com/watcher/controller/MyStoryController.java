@@ -128,6 +128,8 @@ public class MyStoryController {
     public ModelAndView myStory(@PathVariable("userId") String userId, @ModelAttribute("vo") StoryParam storyParam) throws Exception {
         ModelAndView mav = new ModelAndView("myStory/main");
 
+        storyParam.setListNo(10);
+
         return mav;
     }
 

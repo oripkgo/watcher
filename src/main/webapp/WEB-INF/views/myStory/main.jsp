@@ -5,6 +5,9 @@
 
 <script type="text/javascript">
     const notice_show_cnt = 4;
+    const pageNo = '${vo.pageNo}' || '1';
+    const listNo = '${vo.listNo}' || '1';
+    const pagigRange = '${vo.pagigRange}' || '1';
 
     $(document).on("ready", function () {
 
@@ -17,7 +20,75 @@
     })
 
     function initMyStory(id){
-        // /story/listAsync
+
+        $("#search_regId").val(id);
+
+        comm.list('#myStoryForm', '/myStory/listAsync',function(data){
+
+            $("#myStoryList").empty();
+
+            for (let i = 0; i < data.list.length; i++) {
+                let obj = data.list[i];
+                let listHtml = '';
+                let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
+
+
+                listHtml += '<li>';
+                listHtml += '    <a href="/story/view?id=' + obj.ID + '">';
+                listHtml += '        <strong>'+obj.TITLE+'</strong>';
+
+                listHtml += '        <span>';
+                if( !obj.SUMMARY ){
+                    obj.SUMMARY = '';
+                }
+
+                if( obj.SUMMARY.length < 100 ){
+                    listHtml += obj.SUMMARY;
+                }else{
+                    listHtml += (obj.SUMMARY || '').substring(0,100)+' ...';
+                }
+
+                listHtml += '</span>';
+
+                if( obj.THUMBNAIL_IMG_PATH ){
+                    listHtml += '        <img src="'+obj.THUMBNAIL_IMG_PATH+'">';
+                }
+
+                listHtml += '    </a>';
+                listHtml += '    <div class="story_key">';
+
+                if( obj.TAGS ){
+                    let tag_arr = obj.TAGS.split(',');
+
+                    tag_arr.forEach(function(tag,index){
+                        listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
+                    })
+                }
+
+                listHtml += '    </div>';
+                listHtml += '    <div class="story_key">';
+                // listHtml += '        <a href="javascript:;">#컬처</a>';
+                // listHtml += '        <a href="javascript:;">#영화</a>';
+                // listHtml += '        <a href="javascript:;">#영화컬처</a>';
+                listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
+                listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+                listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
+                listHtml += '    </div>';
+                listHtml += '</li>';
+                listHtml += '';
+
+                listHtml = $(listHtml);
+
+                $(listHtml).data(obj);
+
+                $("#myStoryList").append(listHtml);
+
+            }
+
+
+        }, pageNo, listNo, pagigRange);
+
+
     }
 
     function initNotice(id){
@@ -27,14 +98,14 @@
             , headers: {"Content-type": "application/x-www-form-urlencoded"}
         }, function (data) {
 
-            if( data.code == '0000' && data.list ){
+            if( data.code == '0000' && ( data.list && data.list.length > 0 ) ){
 
                 $(".notice_list").empty();
                 for( let i=0;i<notice_show_cnt;i++ ){
                     const obj = data.list[i];
                     let li = $('<li></li>');
 
-                    li.append('<a href="javascript:;">'+obj['TITLE']+'</a>');
+                    li.append('<a href="/notice/view?id='+obj.ID+'">'+obj['TITLE']+'</a>');
                     li.append('<em>'+(obj['UPT_DATE'] || obj['REG_DATE'])+'</em>');
                     $(".notice_list").append(li);
                 }
@@ -46,6 +117,10 @@
         $("#notice_more").on("click", function(){
             location.href="/notice/member/list?search_regId="+id;
         });
+
+    }
+
+    function myStoryListCallback(data){
 
 
     }
@@ -128,96 +203,96 @@
                 전체글
             </div>
 
-            <ul class="board_list">
-                <li>
-                    <a href="story_detail.html">
-                        <em>정치</em>
-                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                        <img src="/resources/img/s_sample01.jpg">
-                    </a>
-                    <div class="story_key">
-                        <a href="javascript:;">#컬처</a>
-                        <a href="javascript:;">#영화</a>
-                        <a href="javascript:;">#영화컬처</a>
-                        <span>1시간전</span>
-                        <span>공감21</span>
-                        <em>by gauni1229</em>
-                    </div>
-                </li>
-                <li>
-                    <a href="story_detail.html">
-                        <em>요리</em>
-                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                        <img src="/resources/img/s_sample02.jpg">
-                    </a>
-                    <div class="story_key">
-                        <a href="javascript:;">#컬처</a>
-                        <a href="javascript:;">#영화</a>
-                        <a href="javascript:;">#영화컬처</a>
-                        <span>1시간전</span>
-                        <span>공감21</span>
-                        <em>by gauni1229</em>
-                    </div>
-                </li>
-                <li>
-                    <a href="story_detail.html">
-                        <em>경제</em>
-                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                        <img src="/resources/img/s_sample03.jpg">
-                    </a>
-                    <div class="story_key">
-                        <a href="javascript:;">#컬처</a>
-                        <a href="javascript:;">#영화</a>
-                        <a href="javascript:;">#영화컬처</a>
-                        <span>1시간전</span>
-                        <span>공감21</span>
-                        <em>by gauni1229</em>
-                    </div>
-                </li>
-                <li>
-                    <a href="story_detail.html">
-                        <em>정치</em>
-                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                        <img src="/resources/img/s_sample02.jpg">
-                    </a>
-                    <div class="story_key">
-                        <a href="javascript:;">#컬처</a>
-                        <a href="javascript:;">#영화</a>
-                        <a href="javascript:;">#영화컬처</a>
-                        <span>1시간전</span>
-                        <span>공감21</span>
-                        <em>by gauni1229</em>
-                    </div>
-                </li>
-                <li>
-                    <a href="story_detail.html">
-                        <em>정치</em>
-                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                        <img src="/resources/img/s_sample03.jpg">
-                    </a>
-                    <div class="story_key">
-                        <a href="javascript:;">#컬처</a>
-                        <a href="javascript:;">#영화</a>
-                        <a href="javascript:;">#영화컬처</a>
-                        <span>1시간전</span>
-                        <span>공감21</span>
-                        <em>by gauni1229</em>
-                    </div>
-                </li>
-            </ul>
 
-            <div class="pagging_wrap">
-                <a href="javascript:;"><img src="/resources/img/prev_arrow.png"></a>
-                <a href="javascript:;" class="on">1</a>
-                <a href="javascript:;">2</a>
-                <a href="javascript:;">3</a>
-                <a href="javascript:;"><img src="/resources/img/next_arrow.png"></a>
-            </div>
+            <form id="myStoryForm">
+                <input type="hidden" name="search_regId" id="search_regId">
+
+                <ul class="board_list" id="myStoryList">
+                    <li>
+                        <a href="story_detail.html">
+                            <em>정치</em>
+                            <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
+                            <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
+                            <img src="/resources/img/s_sample01.jpg">
+                        </a>
+                        <div class="story_key">
+                            <a href="javascript:;">#컬처</a>
+                            <a href="javascript:;">#영화</a>
+                            <a href="javascript:;">#영화컬처</a>
+                            <span>1시간전</span>
+                            <span>공감21</span>
+                            <em>by gauni1229</em>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="story_detail.html">
+                            <em>요리</em>
+                            <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
+                            <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
+                            <img src="/resources/img/s_sample02.jpg">
+                        </a>
+                        <div class="story_key">
+                            <a href="javascript:;">#컬처</a>
+                            <a href="javascript:;">#영화</a>
+                            <a href="javascript:;">#영화컬처</a>
+                            <span>1시간전</span>
+                            <span>공감21</span>
+                            <em>by gauni1229</em>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="story_detail.html">
+                            <em>경제</em>
+                            <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
+                            <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
+                            <img src="/resources/img/s_sample03.jpg">
+                        </a>
+                        <div class="story_key">
+                            <a href="javascript:;">#컬처</a>
+                            <a href="javascript:;">#영화</a>
+                            <a href="javascript:;">#영화컬처</a>
+                            <span>1시간전</span>
+                            <span>공감21</span>
+                            <em>by gauni1229</em>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="story_detail.html">
+                            <em>정치</em>
+                            <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
+                            <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
+                            <img src="/resources/img/s_sample02.jpg">
+                        </a>
+                        <div class="story_key">
+                            <a href="javascript:;">#컬처</a>
+                            <a href="javascript:;">#영화</a>
+                            <a href="javascript:;">#영화컬처</a>
+                            <span>1시간전</span>
+                            <span>공감21</span>
+                            <em>by gauni1229</em>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="story_detail.html">
+                            <em>정치</em>
+                            <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
+                            <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
+                            <img src="/resources/img/s_sample03.jpg">
+                        </a>
+                        <div class="story_key">
+                            <a href="javascript:;">#컬처</a>
+                            <a href="javascript:;">#영화</a>
+                            <a href="javascript:;">#영화컬처</a>
+                            <span>1시간전</span>
+                            <span>공감21</span>
+                            <em>by gauni1229</em>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="pagging_wrap"></div>
+
+            </form>
 
         </div>
 

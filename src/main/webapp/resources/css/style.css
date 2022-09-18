@@ -283,7 +283,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .notice_title_opt .btn_tb_wrap, .search_right_box  {position: initial !important;}*/
 
 
-.notice_list {margin-bottom:30px;}
+.notice_list {margin-bottom:30px; min-height: 100px;}
 .notice_list:after {display:block;visibility:hidden;clear:both;content:""}
 .notice_list li {float:none;border-bottom:1px solid #ddd;}
 .notice_list li a {display:inline-block;vertical-align:top;font-size:14px;color:#000;font-weight:400;width:85%;padding:10px 0px;overflow:hidden; text-overflow:ellipsis; -o-text-overflow:ellipsis; -ms-text-overflow:ellipsis; white-space:nowrap;}

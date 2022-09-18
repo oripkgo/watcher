@@ -12,6 +12,8 @@
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN FILE_RESOURCE D ON 1=1
+		AND D.ID = A.THUMBNAIL_IMG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 		<if test="search_regId != null and search_regId != ''">
@@ -27,7 +29,7 @@
 
 
 	<select id="list" resultType="map" parameterType="storyParam">
-		/*Notice > list*/
+		/* story > list */
 		<include refid="story_select"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
@@ -44,18 +46,16 @@
 			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 
-		<if test="!(SortByRecommendationYn==null or SortByRecommendationYn=='')">
-			<choose>
-				<when test="SortByRecommendationYn == 'YY'">
-					ORDER BY LIKE_CNT DESC, REG_DATE DESC
-					LIMIT ${limitNum}
-				</when>
-				<otherwise>
-					ORDER BY REG_DATE DESC
-					LIMIT ${(pageNo-1)*listNo},${listNo}
-				</otherwise>
-			</choose>
-		</if>
+		<choose>
+			<when test="!(SortByRecommendationYn==null or SortByRecommendationYn=='') and SortByRecommendationYn == 'YY'">
+				ORDER BY LIKE_CNT DESC, REG_DATE DESC
+				LIMIT ${limitNum}
+			</when>
+			<otherwise>
+				ORDER BY REG_DATE DESC
+				LIMIT ${(pageNo-1)*listNo},${listNo}
+			</otherwise>
+		</choose>
 	</select>
 
 
