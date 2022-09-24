@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -124,11 +125,49 @@ public class MyStoryController {
     }
 
 
-    @RequestMapping(value = {"/{userId}"})
-    public ModelAndView myStory(@PathVariable("userId") String userId, @ModelAttribute("vo") StoryParam storyParam) throws Exception {
+    @RequestMapping(value = {"/{userId}/{categoryId}"})
+    public ModelAndView myStory(
+            HttpServletRequest request,
+            @PathVariable("userId") String userId,
+            @PathVariable("categoryId") String categoryId,
+            @ModelAttribute("vo") StoryParam storyParam
+    ) throws Exception {
         ModelAndView mav = new ModelAndView("myStory/main");
 
+        LinkedHashMap param = new LinkedHashMap();
+
+        param.put("showYn"  ,"Y");
+        param.put("memId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
+
+
+        JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
+
         storyParam.setListNo(10);
+        mav.addObject("member_category_list", member_category_list);
+        storyParam.setCategoryId(categoryId);
+
+        return mav;
+    }
+
+
+    @RequestMapping(value = {"/{userId}"})
+    public ModelAndView myStory(
+            HttpServletRequest request,
+            @PathVariable("userId") String userId,
+            @ModelAttribute("vo") StoryParam storyParam
+    ) throws Exception {
+        ModelAndView mav = new ModelAndView("myStory/main");
+
+        LinkedHashMap param = new LinkedHashMap();
+
+        param.put("showYn"  ,"Y");
+        param.put("memId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
+
+
+        JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
+
+        storyParam.setListNo(10);
+        mav.addObject("member_category_list", member_category_list);
 
         return mav;
     }

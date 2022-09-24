@@ -20,6 +20,7 @@
 		    ,'default' AS CATEGORY_TYPE
 		FROM CATEGORY
 		WHERE 1=1
+		AND DELETE_YN = 'N'
 		AND SHOW_YN = 'Y'
 		ORDER BY SORT ASC
 
@@ -43,6 +44,7 @@
 			 ,'member' AS CATEGORY_TYPE
 		FROM MEM_DEFINE_MENU_CATEG
 		WHERE 1=1
+		AND DELETE_YN = 'N'
 		<if test="!(memId==null or memId=='')">
 			AND MEM_ID = #{memId}
 		</if>

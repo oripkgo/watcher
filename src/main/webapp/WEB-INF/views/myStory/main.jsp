@@ -8,20 +8,45 @@
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
     const pagigRange = '${vo.pagigRange}' || '1';
+    const categoryId = '${vo.categoryId}';
+    const member_category_list = JSON.parse('${member_category_list}');
+
+    function initCategory(list){
+
+        if( list &&  list.length > 0 ){
+            list.forEach(function(obj){
+                const a = $('<a></a>');
+                $(a).text(obj.CATEGORY_NM);
+                $(a).attr('href', location.pathname +"/"+ obj.DEFALUT_CATEG_ID);
+                $(".mystory_menu, .mystory_menu_mobile").append(a);
+            })
+        }
+
+       /* <a href="javascript:;">IT</a>
+        <a href="javascript:;">정치</a>
+        <a href="javascript:;">가족</a>
+        <a href="javascript:;">요리</a>*/
+
+    }
 
     $(document).on("ready", function () {
+
+        // 회원 카테고리 세팅
+        initCategory(member_category_list);
 
         // 공지사항 세팅
         initNotice(loginId);
 
         // 나의 스토리 세팅
-        initMyStory(loginId);
+        initMyStory(loginId, categoryId);
 
     })
 
-    function initMyStory(id){
+    function initMyStory(uid,categId){
 
-        $("#search_regId").val(id);
+        comm.appendInput('#myStoryForm', "search_regId" , uid       );
+        comm.appendInput('#myStoryForm', "category_id"  , categId   );
+
 
         comm.list('#myStoryForm', '/myStory/listAsync',function(data){
 
@@ -35,6 +60,7 @@
 
                 listHtml += '<li>';
                 listHtml += '    <a href="/story/view?id=' + obj.ID + '">';
+                listHtml += '        <em>'+obj.CATEGORY_NM+'</em>';
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
 
                 listHtml += '        <span>';
@@ -173,19 +199,19 @@
 
         <div class="mystory_menu">
             <div class="title_line">카테고리 전체보기</div>
-            <a href="javascript:;">IT</a>
+            <%--<a href="javascript:;">IT</a>
             <a href="javascript:;">정치</a>
             <a href="javascript:;">가족</a>
-            <a href="javascript:;">요리</a>
+            <a href="javascript:;">요리</a>--%>
         </div>
 
         <div class="conts_wrap2 ani_y delay2">
             <div class="mystory_menu_mobile">
                 <div class="board_title">카테고리 전체보기</div>
-                <a href="javascript:;">IT</a>
+                <%--<a href="javascript:;">IT</a>
                 <a href="javascript:;">정치</a>
                 <a href="javascript:;">가족</a>
-                <a href="javascript:;">요리</a>
+                <a href="javascript:;">요리</a>--%>
             </div>
 
             <div class="board_title">
@@ -206,6 +232,7 @@
 
             <form id="myStoryForm">
                 <input type="hidden" name="search_regId" id="search_regId">
+                <input type="hidden" name="category_id" id="category_id">
 
                 <ul class="board_list" id="myStoryList">
                     <li>
