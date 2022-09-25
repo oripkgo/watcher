@@ -36,7 +36,7 @@ public class BoardController {
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
-		mav.addObject("noticeListUrl", "/notice/listAsync?search_regId="+noticeParam.getSearch_regId());
+		mav.addObject("noticeListUrl", "/notice/listAsync?search_memId="+noticeParam.getSearch_memId());
 
 		return mav;
 	}
@@ -83,7 +83,7 @@ public class BoardController {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		noticeParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
+		noticeParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
 		noticeParam.setDeleteYn("Y");
 
 		result.putAll(noticeService.delete(noticeParam));
@@ -105,7 +105,7 @@ public class BoardController {
 
 		// 게시물 수정권한 여부 s
 		if( request.getSession().getAttribute("loginInfo") == null
-				|| !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID")))){
+				|| !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID")))){
 			result.put("modify_authority_yn","N");
 		}else{
 			result.put("modify_authority_yn","Y");
@@ -133,7 +133,7 @@ public class BoardController {
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
 
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -205,7 +205,7 @@ public class BoardController {
 
 			Map<String, String> userData = ((Map<String, String>)request.getSession().getAttribute("loginInfo"));
 
-			loginId = userData.get("MEM_ID");
+			loginId = userData.get("LOGIN_ID");
 			nickName = userData.get("NICKNAME");
 			profile = userData.get("MEM_PROFILE_IMG");
 
@@ -243,7 +243,7 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -302,7 +302,7 @@ public class BoardController {
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
 
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID");
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -317,7 +317,7 @@ public class BoardController {
 
 			svc_param.put("contentsType"	, param.get("contentsType")	);
 			svc_param.put("contentsId"		, param.get("contentsId")	);
-			svc_param.put("memberId"		, loginId					);
+			svc_param.put("loginId"			, loginId					);
 			svc_param.put("likeType"		, param.get("likeType")		);
 			svc_param.put("regId"			, loginId					);
 

@@ -4,8 +4,8 @@
 
 <script type="text/javascript">
     const origin    = location.origin;
-    const loginYn   = '${sessionScope.loginInfo.MEM_ID}'    ?   true    :   false;
-    const loginId   = '${sessionScope.loginInfo.MEM_ID}';
+    const loginYn   = '${sessionScope.loginInfo.LOGIN_ID}'    ?   true    :   false;
+    const loginId   = '${sessionScope.loginInfo.LOGIN_ID}';
     const loginType = '${sessionScope.loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
     const memberId  = '${sessionScope.loginInfo.ID}';
 </script>

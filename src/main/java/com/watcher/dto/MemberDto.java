@@ -5,7 +5,7 @@ public class MemberDto extends CommDto {
 
     String id;              // key
     String password;        // 패스워드
-    String memId;           // 회원 아이디
+    String loginId;         // 회원 아이디
     String email;           // 이메일
     String phoneNum;        // 회원 휴대푠 번호
     String name;            // 회원 이름
@@ -32,12 +32,12 @@ public class MemberDto extends CommDto {
         this.password = password;
     }
 
-    public String getMemId() {
-        return memId;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public void setMemId(String memId) {
-        this.memId = memId;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
     public String getEmail() {

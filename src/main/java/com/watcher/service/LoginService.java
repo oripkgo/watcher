@@ -23,7 +23,7 @@ public class LoginService {
         if (!(loginVo.getId() == null || loginVo.getId().isEmpty())) {
 
             MemberParam memParam = new MemberParam();
-            memParam.setMemId(loginVo.getId());
+            memParam.setLoginId(loginVo.getId());
             memParam.setMemType(("naver".equals(loginVo.getType()) ? "00" : "01"));
 
             Map<String, Object> userData = memberMapper.userSearch(memParam);

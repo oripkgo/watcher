@@ -67,7 +67,7 @@ public class LoginController {
 
 			MemberParam memberParam = new MemberParam();
 
-			memberParam.setMemId(loginVo.getId());
+			memberParam.setLoginId(loginVo.getId());
 			memberParam.setMemType(( "naver".equals(loginVo.getType())?"00":"01" ));
 			memberParam.setNickname(loginVo.getNickname());
 			memberParam.setName(loginVo.getName());
@@ -114,7 +114,7 @@ public class LoginController {
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
-			logOutParam.put("target_id"			, ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("MEM_ID"));
+			logOutParam.put("target_id"			, ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
 
 			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
 

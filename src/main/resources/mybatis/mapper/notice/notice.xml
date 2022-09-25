@@ -14,16 +14,16 @@
 		AND C.CONTENTS_TYPE='NOTICE'
 		AND C.CONTENTS_ID = A.ID
 		LEFT JOIN MEMBER D ON 1=1
-		AND D.MEM_ID = A.REG_ID
+		AND D.LOGIN_ID = A.REG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 		AND A.REG_ID IN (
 		<choose>
-			<when test="search_regId != null and search_regId != ''">
-				#{search_regId}
+			<when test="search_memId != null and search_memId != ''">
+				#{search_memId}
 			</when>
 			<otherwise>
-				SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+				SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
 			</otherwise>
 		</choose>
 		)
@@ -47,11 +47,11 @@
 		AND A.DELETE_YN = 'N'
 		AND A.REG_ID IN (
 			<choose>
-				<when test="search_regId != null and search_regId != ''">
-					#{search_regId}
+				<when test="search_memId != null and search_memId != ''">
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
 				</when>
 				<otherwise>
-					SELECT MEM_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
 				</otherwise>
 			</choose>
 		)
@@ -110,7 +110,7 @@
 			AND C.CONTENTS_TYPE='NOTICE'
 			AND C.CONTENTS_ID = A.ID
 		LEFT JOIN MEMBER D ON 1=1
-			AND D.MEM_ID = A.REG_ID
+			AND D.LOGIN_ID = A.REG_ID
 	</sql>
 
 	<insert id="insert" parameterType="noticeParam" useGeneratedKeys="true" keyProperty="id">

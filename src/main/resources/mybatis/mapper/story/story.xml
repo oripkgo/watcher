@@ -8,7 +8,7 @@
 			COUNT(*)
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
-		AND B.MEM_ID = A.REG_ID
+		AND B.LOGIN_ID = A.REG_ID
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
@@ -16,8 +16,8 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
-		<if test="search_regId != null and search_regId != ''">
-			AND A.REG_ID = #{search_regId}
+		<if test="search_memId != null and search_memId != ''">
+			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
 		</if>
 		<if test="category_id != null and category_id != ''">
 			AND A.CATEGORY_ID = #{category_id}
@@ -34,8 +34,8 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
-		<if test="search_regId != null and search_regId != ''">
-			AND A.REG_ID = #{search_regId}
+		<if test="search_memId != null and search_memId != ''">
+			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
 		</if>
 
 		<if test="category_id != null and category_id != ''">
@@ -97,7 +97,7 @@
 		    E.CATEGORY_NM
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
-		AND B.MEM_ID = A.REG_ID
+		AND B.LOGIN_ID = A.REG_ID
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID

@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="/resources/css/swiper.css">
     <script src="/resources/js/swiper.js"></script>
     <%--<script src="/resources/js/jquery-latest.js"></script>--%>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <%--<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>--%>
+    <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/resources/js/tab.js"></script>
 
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

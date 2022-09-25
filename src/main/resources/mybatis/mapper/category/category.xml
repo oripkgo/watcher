@@ -36,7 +36,7 @@
 			 ,UPT_ID
 			 ,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
 			 ,DEFALUT_CATEG_ID
-			 ,MEM_ID
+			 ,LOGIN_ID
 			 ,CATEGORY_NM
 			 ,CATEGORY_COMENTS
 			 ,CATEGORY_IMG_PATH
@@ -46,7 +46,7 @@
 		WHERE 1=1
 		AND DELETE_YN = 'N'
 		<if test="!(memId==null or memId=='')">
-			AND MEM_ID = #{memId}
+			AND LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{memId})
 		</if>
 		<if test="!(showYn==null or showYn=='')">
 			AND SHOW_YN = #{showYn}
@@ -58,10 +58,10 @@
 
 
 	<!--
-	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
 
 		INSERT INTO MEMBER(
-			 MEM_ID
+			 LOGIN_ID
 			,PASSWORD
 			,EMAIL
 			,PHONE_NUM
@@ -74,16 +74,16 @@
 			,UPT_DATE
 		)
 		VALUES (
-			 #{memId}
+			 #{loginId}
 			,#{password}
 			,#{email}
 			,#{phoneNum}
 			,#{name}
 			,#{nickname}
 			,#{memType}
-			,#{memId}
+			,#{loginId}
 			,NOW()
-			,#{memId}
+			,#{loginId}
 			,NOW()
 		)
 		ON DUPLICATE KEY UPDATE
@@ -111,7 +111,7 @@
 				MEM_TYPE 	= #{memType} ,
 			</if>
 
-			UPT_ID 	= #{memId} ,
+			UPT_ID 	= #{loginId} ,
 			UPT_DATE 	= NOW()
 	</insert>
 	-->

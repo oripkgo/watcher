@@ -4,6 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+
+    const myStory_search_memberId = '${memId}';
     const notice_show_cnt = 4;
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
@@ -17,7 +19,7 @@
             list.forEach(function(obj){
                 const a = $('<a></a>');
                 $(a).text(obj.CATEGORY_NM);
-                $(a).attr('href', location.pathname +"/"+ obj.DEFALUT_CATEG_ID);
+                $(a).attr('href', "/myStory/"+myStory_search_memberId+"/"+ obj.DEFALUT_CATEG_ID);
                 $(".mystory_menu, .mystory_menu_mobile").append(a);
             })
         }
@@ -35,16 +37,16 @@
         initCategory(member_category_list);
 
         // 공지사항 세팅
-        initNotice(loginId);
+        initNotice(myStory_search_memberId);
 
         // 나의 스토리 세팅
-        initMyStory(loginId, categoryId);
+        initMyStory(myStory_search_memberId, categoryId);
 
     })
 
     function initMyStory(uid,categId){
 
-        comm.appendInput('#myStoryForm', "search_regId" , uid       );
+        comm.appendInput('#myStoryForm', "search_memId" , uid       );
         comm.appendInput('#myStoryForm', "category_id"  , categId   );
 
 
@@ -119,7 +121,7 @@
 
     function initNotice(id){
         comm.request({
-            url: "/notice/listAsync?search_regId="+id
+            url: "/notice/listAsync?search_memId="+id
             , method: "GET"
             , headers: {"Content-type": "application/x-www-form-urlencoded"}
         }, function (data) {
@@ -141,7 +143,7 @@
         });
 
         $("#notice_more").on("click", function(){
-            location.href="/notice/member/list?search_regId="+id;
+            location.href="/notice/member/list?search_memId="+id;
         });
 
     }
@@ -231,7 +233,7 @@
 
 
             <form id="myStoryForm">
-                <input type="hidden" name="search_regId" id="search_regId">
+                <input type="hidden" name="search_memId" id="search_memId">
                 <input type="hidden" name="category_id" id="category_id">
 
                 <ul class="board_list" id="myStoryList">
