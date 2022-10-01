@@ -92,6 +92,7 @@
 					AND LIKE_TYPE = '01'
 					AND CANCEL_YN = 'N'
 			) AS LIKE_CNT,
+			B.ID AS MEMBER_ID,
 			B.NICKNAME,
 		    C.TAGS,
 		    E.CATEGORY_NM
