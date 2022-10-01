@@ -30,7 +30,7 @@ public class MyStoryController {
 
 
     @RequestMapping(value = {"/{userId}/{categoryId}"})
-    public ModelAndView myStory(
+    public ModelAndView showMyStoryCategoryListPage(
             HttpServletRequest request,
             @PathVariable("userId") String userId,
             @PathVariable("categoryId") String categoryId,
@@ -56,7 +56,7 @@ public class MyStoryController {
 
 
     @RequestMapping(value = {"/{userId}"})
-    public ModelAndView myStory(
+    public ModelAndView showMyStoryPage(
             HttpServletRequest request,
             @PathVariable("userId") String userId,
             @ModelAttribute("vo") StoryParam storyParam
@@ -80,7 +80,7 @@ public class MyStoryController {
 
     @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> listAsync(
+    public LinkedHashMap<String, Object> getMyStorylistAsync(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam

@@ -29,14 +29,30 @@ public class MyManagementController {
 
 
 
-    @RequestMapping(value = {"/{userId}/main"})
-    @ResponseBody
-    public ModelAndView getMyManagementInfo(
+    @RequestMapping(value = {"/{menu}"})
+    public ModelAndView getMyManagementMainPage(
+            @PathVariable("menu") String menu,
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") ManagementParam managementParam
     ) throws Exception {
-        ModelAndView mav = new ModelAndView("myManagement/main");
+        ModelAndView mav = null;
+
+        if( "main".equals(menu) ){
+            mav = new ModelAndView("myManagement/main");
+        }else if( "board".equals(menu) ){
+            mav = new ModelAndView("myManagement/board");
+        }else if( "category".equals(menu) ){
+            mav = new ModelAndView("myManagement/category");
+        }else if( "notice".equals(menu) ){
+            mav = new ModelAndView("myManagement/notice");
+        }else if( "comment".equals(menu) ){
+            mav = new ModelAndView("myManagement/comment");
+        }else if( "setting".equals(menu) ){
+            mav = new ModelAndView("myManagement/setting");
+        }else if( "statistics".equals(menu) ){
+            mav = new ModelAndView("myManagement/statistics");
+        }
 
         return mav;
     }

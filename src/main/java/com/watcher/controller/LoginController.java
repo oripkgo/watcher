@@ -34,7 +34,7 @@ public class LoginController {
 	MemberService memberService;
 
 	@RequestMapping(value={"loginSuccess"})
-	public ModelAndView loginSuccess() throws Exception {
+	public ModelAndView showLoginSuccessPage() throws Exception {
 
 		ModelAndView mav = new ModelAndView("login/loginSuccess");
 
@@ -44,7 +44,7 @@ public class LoginController {
 
 	@RequestMapping(value = {"/loginSuccessCallback"}, method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,String> loginSuccessCallback(
+	public Map<String,String> getLoginSuccessData(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody LoginParam loginVo

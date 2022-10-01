@@ -10,7 +10,7 @@
 		<a href="/notice/list">NOTICE</a>
 	</div>
 	<div class="top_navi">
-
+		<a href="javascript:;"><img src="/resources/img/btn_search.png"></a>
 			<c:choose>
 				<c:when test="${!empty sessionScope.loginInfo}">
 
@@ -48,8 +48,6 @@
 				</c:otherwise>
 			</c:choose>
 
-
-		<a href="javascript:;"><img src="/resources/img/btn_search.png"></a>
 	</div>
 </div>
 <div class="head_tip"></div>

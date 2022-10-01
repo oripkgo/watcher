@@ -71,7 +71,7 @@
             var formData = new FormData(form);
 
             comm.request({
-                url: "/story/writeInsert",
+                url: "/story/insert",
                 data : formData,
                 // headers : {"Content-type":"application/x-www-form-urlencoded"},
                 processData : false,
