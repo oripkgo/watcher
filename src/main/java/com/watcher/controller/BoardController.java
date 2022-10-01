@@ -29,7 +29,7 @@ public class BoardController {
 	BoardService boardService;
 
 	@RequestMapping(value={"/notice/member/list"})
-	public ModelAndView memberNoticeList(
+	public ModelAndView showMemberNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -43,7 +43,7 @@ public class BoardController {
 
 
 	@RequestMapping(value={"notice/list"})
-	public ModelAndView noticeList(
+	public ModelAndView showNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -57,7 +57,7 @@ public class BoardController {
 
 	@RequestMapping(value={"notice/listAsync"}, method = RequestMethod.GET)
 	@ResponseBody
-	public LinkedHashMap<String, Object> noticeListAsync(
+	public LinkedHashMap<String, Object> getNoticeListAsync(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -74,7 +74,7 @@ public class BoardController {
 
 	@RequestMapping(value = {"/notice/delete"})
 	@ResponseBody
-	public LinkedHashMap<String, Object> noticeRemove(
+	public LinkedHashMap<String, Object> deleteNotice(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody NoticeParam noticeParam
@@ -93,7 +93,7 @@ public class BoardController {
 
 
 	@RequestMapping(value={"notice/view"}, method = RequestMethod.GET)
-	public ModelAndView noticeView(
+	public ModelAndView showNoticeViewPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -120,7 +120,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/view/init"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap board_view_init(
+	public LinkedHashMap getBoardViewInitData(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -155,7 +155,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/select/comment"}, method = RequestMethod.GET)
 	@ResponseBody
-	public LinkedHashMap getComment_select(
+	public LinkedHashMap getCommentList(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -188,7 +188,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_insert(
+	public LinkedHashMap insertComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -230,7 +230,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/update/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_update(
+	public LinkedHashMap updateComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -262,7 +262,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/delete/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_delete(
+	public LinkedHashMap deleteComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -286,7 +286,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/like/modify"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap board_like_modify(
+	public LinkedHashMap modifyBoardLike(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody Map<String,Object> param

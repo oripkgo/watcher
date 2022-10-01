@@ -31,12 +31,10 @@ public class StoryController {
 
 
     @RequestMapping(value = {"/view"})
-    @ResponseBody
-    public ModelAndView storyView(
+    public ModelAndView showStoryView(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
-
     ) throws Exception {
         ModelAndView mav = new ModelAndView("story/view");
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -59,7 +57,7 @@ public class StoryController {
 
     @RequestMapping(value = {"/delete"})
     @ResponseBody
-    public LinkedHashMap<String, Object> storyRemove(
+    public LinkedHashMap<String, Object> deleteStory(
         HttpServletRequest request,
         HttpServletResponse response,
         @RequestBody StoryParam storyParam
@@ -78,9 +76,9 @@ public class StoryController {
 
 
 
-    @RequestMapping(value = {"/writeInsert"})
+    @RequestMapping(value = {"/insert"})
     @ResponseBody
-    public LinkedHashMap<String, Object> writeInsert(
+    public LinkedHashMap<String, Object> insertStory(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
@@ -97,7 +95,7 @@ public class StoryController {
 
 
     @RequestMapping(value = {"/write","/update"})
-    public ModelAndView write(
+    public ModelAndView showStoryEditPage(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
@@ -125,7 +123,7 @@ public class StoryController {
 
 
     @RequestMapping(value = {"/list"})
-    public ModelAndView list(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
+    public ModelAndView showStoryListPage(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
@@ -136,7 +134,7 @@ public class StoryController {
 
     @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> listAsync(
+    public LinkedHashMap<String, Object> getStoryListAsync(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam

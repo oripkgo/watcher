@@ -13,7 +13,36 @@
 
         <div class="manage_conts">
 
-            <%@include file="commMenu.jsp"%>
+            <div class="manage_menu">
+                <div class="manage_photo">
+
+                    <c:choose>
+                        <c:when test="${!empty sessionScope.loginInfo}">
+
+                            <c:choose>
+                                <c:when test="${!empty sessionScope.loginInfo.MEM_PROFILE_IMG }">
+                                    <img src="${sessionScope.loginInfo.MEM_PROFILE_IMG}">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="/resources/img/member_ico_s.png">
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <img src="/resources/img/member_ico_s.png">
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
+
+                <%@include file="commMenu.jsp"%>
+
+            </div><!-------------//manage_menu------------->
+            <script>
+                $(".manage_btn").click(function(){
+                    $(".manage_menu").toggleClass("on");
+                });
+            </script>
 
             <div class="manage_box_wrap">
 
