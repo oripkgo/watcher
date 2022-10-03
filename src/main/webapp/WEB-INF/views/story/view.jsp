@@ -6,9 +6,10 @@
 
 <script>
 
-    const type      = 'STORY';
-    const id        = '${vo.ID}';
-    const regDate   = '${vo.REG_DATE}'
+    const type                  = 'STORY';
+    const id                    = '${vo.ID}';
+    const regDate               = '${vo.REG_DATE}';
+    const story_search_memberId = '${vo.MEMBER_ID}';
 
     $(document).ready(function(){
 
