@@ -3,6 +3,7 @@ package com.watcher.controller;
 import com.watcher.param.ManagementParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
+import com.watcher.service.MyManagementService;
 import com.watcher.service.StoryService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class MyManagementController {
 //    CategoryService categoryService;
 
     @Autowired
-    StoryService storyService;
+    MyManagementService myManagementService;
 
 
 
@@ -56,6 +57,22 @@ public class MyManagementController {
 
         return mav;
     }
+
+    @RequestMapping(value = {"/visitor/cnt"})
+    @ResponseBody
+    public LinkedHashMap<String, Object> getVisitorCnt(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody ManagementParam managementParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        result.putAll(myManagementService.getVisitorCnt(managementParam));
+
+        return result;
+    }
+
 
 
 //    @RequestMapping(value = {"/delete"})

@@ -12,7 +12,7 @@
 
         <div class="manage_conts">
 
-            <%@include file="commMenu.jsp"%>
+            <%@include file="include/commMenu.jsp"%>
 
             <div class="manage_box_wrap">
 

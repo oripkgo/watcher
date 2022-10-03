@@ -35,7 +35,7 @@
 
                 </div>
 
-                <%@include file="commMenu.jsp"%>
+                <%@include file="include/commMenu.jsp"%>
 
             </div><!-------------//manage_menu------------->
             <script>

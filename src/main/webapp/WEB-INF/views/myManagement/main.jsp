@@ -13,28 +13,10 @@
 
         <div class="manage_conts">
 
-            <%@include file="commMenu.jsp"%>
+            <%@include file="include/commMenu.jsp"%>
 
             <div class="manage_box_wrap">
-
-                <div class="manage_box_top">
-                    <div>
-                        <span>오늘 방문수</span>
-                        <strong>52</strong>
-                    </div>
-                    <div>
-                        <span>어제 방문수</span>
-                        <strong>10</strong>
-                    </div>
-                    <div>
-                        <span>누적 방문수</span>
-                        <strong>1520</strong>
-                    </div>
-                    <div class="manage_box_btn">
-                        <em>2021-11-26 15:40 기준</em>
-                        <a href="javascript:;">방문 통계</a>
-                    </div>
-                </div>
+                <%@include file="include/commVisitorInfo.jsp"%>
 
                 <div class="graph_wrap">
                     <img src="/resources/img/graph.jpg">
