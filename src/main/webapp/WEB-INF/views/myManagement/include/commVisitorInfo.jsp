@@ -11,15 +11,15 @@
 <div class="manage_box_top">
     <div>
         <span>오늘 방문수</span>
-        <strong class="tDayVisitCnt"><%--52--%></strong>
+        <strong class="tDayVisitCnt">0</strong>
     </div>
     <div>
         <span>어제 방문수</span>
-        <strong class="yDayVisitCnt"><%--10--%></strong>
+        <strong class="yDayVisitCnt">0</strong>
     </div>
     <div>
         <span>누적 방문수</span>
-        <strong class="cumulativeVisitCnt"><%--1520--%></strong>
+        <strong class="cumulativeVisitCnt">0</strong>
     </div>
     <div class="manage_box_btn">
         <em class="visitStatisCriteria"><%--2021-11-26 15:40 기준--%></em>
