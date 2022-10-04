@@ -283,7 +283,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .notice_title_opt .btn_tb_wrap, .search_right_box  {position: initial !important;}*/
 
 
-.notice_list {margin-bottom:30px;}
+.notice_list {margin-bottom:30px; min-height: 100px;}
 .notice_list:after {display:block;visibility:hidden;clear:both;content:""}
 .notice_list li {float:none;border-bottom:1px solid #ddd;}
 .notice_list li a {display:inline-block;vertical-align:top;font-size:14px;color:#000;font-weight:400;width:85%;padding:10px 0px;overflow:hidden; text-overflow:ellipsis; -o-text-overflow:ellipsis; -ms-text-overflow:ellipsis; white-space:nowrap;}
@@ -307,12 +307,12 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 
 .manage_conts {position:relative;padding:50px 0px 80px 0px;min-height:600px;}
 .manage_menu {display:inline-block;vertical-align:top;width:220px;}
-.manage_photo {background:#a1a6b5;text-align:center;padding:30px 0px;}
+.manage_photo {background:#a1a6b5;text-align:center;/*padding:30px 0px;*/}
 .manage_menu_link {padding:30px 0px;}
 .menu_1st {display:block;font-size:18px;color:#000;font-weight:600;padding:10px 0px 10px 0px;}
 .menu_2st {display:block;padding-bottom:40px;}
 .menu_2st a {display:block;font-size:14px;color:#959595;font-weight:400;padding:10px 0px 10px 0px;transition:all .3s ease; -webkit-transition:all .3s ease;}
-.menu_2st a:hover {color:#000;}
+.menu_2st a:hover, .menu_2st a.on  {color:#000;}
 
 .manage_box_wrap {display:inline-block;vertical-align:top;width:calc(100% - 285px);margin-left:60px;}
 
@@ -325,7 +325,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .manage_box_btn a {display:inline-block;font-size:15px;color:#fff;font-weight:300;padding:0px 30px;line-height:41px;height:44px;border-radius:22px;border:1px solid #fff;margin:10px 0px;}
 
 .manage_line {font-size:18px;color:#000;font-weight:500;border-bottom:4px solid #333;position:relative;padding:50px 0px 10px 0px;}
-.graph_wrap {border-top:4px solid #333;border-bottom:1px solid #ddd;text-align:center;padding:30px 0;margin:20px auto 0px;}
+.graph_wrap {border-top:4px solid #333;border-bottom:1px solid #ddd;text-align:center;/*padding:30px 0;*/margin:20px auto 0px;}
 
 .revenue_wrap {border-bottom:1px solid #ddd;font-size:0;}
 .revenue_left {display:inline-block;vertical-align:top;width:65%;padding:20px 30px;}

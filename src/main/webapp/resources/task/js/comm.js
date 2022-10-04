@@ -33,8 +33,8 @@ let comm = function(){
     let loginProcessEventHtml = '';
 
     loginProcessEventHtml += '<div class="member_app logOut" style="display: none;">';
-    loginProcessEventHtml += '    <a href="javascript:;" id="myStory">내 스토리</a>';
-    loginProcessEventHtml += '    <a href="javascript:;" id="management">관리</a>';
+    loginProcessEventHtml += '    <a href="/myStory/'+ memberId +'" id="myStory">내 스토리</a>';
+    loginProcessEventHtml += '    <a href="/myManagement/main" id="management">관리</a>';
     loginProcessEventHtml += '    <a href="/story/write" id="writing">글쓰기</a>';
     loginProcessEventHtml += '    <a href="javascript:;" id="logout">로그아웃</a>';
     loginProcessEventHtml += '</div>';
@@ -102,6 +102,8 @@ let comm = function(){
                                         $(target).removeClass("ing");
                                         $('.write_wrap', review_info).hide();
                                         $('.contents', review_info).show();
+
+                                        $(target).text("수정");
 
                                     }
                                 })
@@ -298,7 +300,7 @@ let comm = function(){
                     let call_resp_obj = resp;
 
                     // 태그 세팅 s
-                    call_resp_obj.tagsHtml = comm.tags_setting_val(call_resp_obj.tags);
+                    call_resp_obj.tagsHtml = comm.tags_setting_val(call_resp_obj.tags || call_resp_obj.TAGS);
                     if( option && option.tagsTarget && call_resp_obj.tagsHtml ){
                         $('.conts_tag').show();
                         $('.conts_tag').append(call_resp_obj.tagsHtml);
@@ -865,8 +867,6 @@ let comm = function(){
             $("[name='pagigRange']"	,form).val( _pagigRange  );
             $("[name='startPageNo']",form).val( _startPageNo );
             $("[name='endPageNo']"	,form).val( _endPageNo 	 );
-
-            var param = comm.serializeJson($(form).serializeArray());
 
             comm.request({
                 form:form

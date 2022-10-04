@@ -8,12 +8,17 @@
 			COUNT(*)
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
-		AND B.MEM_ID = A.REG_ID
+		AND B.LOGIN_ID = A.REG_ID
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
+		LEFT JOIN FILE_RESOURCE D ON 1=1
+		AND D.ID = A.THUMBNAIL_IMG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
+		<if test="search_memId != null and search_memId != ''">
+			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
+		</if>
 		<if test="category_id != null and category_id != ''">
 			AND A.CATEGORY_ID = #{category_id}
 		</if>
@@ -24,10 +29,15 @@
 
 
 	<select id="list" resultType="map" parameterType="storyParam">
-		/*Notice > list*/
+		/* story > list */
 		<include refid="story_select"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
+
+		<if test="search_memId != null and search_memId != ''">
+			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
+		</if>
+
 		<if test="category_id != null and category_id != ''">
 			AND A.CATEGORY_ID = #{category_id}
 		</if>
@@ -36,21 +46,16 @@
 			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 
-		<if test="!(SortByRecommendationYn==null or SortByRecommendationYn=='')">
-			<choose>
-				<when test="SortByRecommendationYn == 'YY'">
-					ORDER BY LIKE_CNT DESC, REG_DATE DESC
-					LIMIT ${limitNum}
-				</when>
-				<otherwise>
-					ORDER BY REG_DATE DESC
-					LIMIT ${(pageNo-1)*listNo},${listNo}
-				</otherwise>
-			</choose>
-		</if>
-
-
-
+		<choose>
+			<when test="!(SortByRecommendationYn==null or SortByRecommendationYn=='') and SortByRecommendationYn == 'YY'">
+				ORDER BY LIKE_CNT DESC, REG_DATE DESC
+				LIMIT ${limitNum}
+			</when>
+			<otherwise>
+				ORDER BY REG_DATE DESC
+				LIMIT ${(pageNo-1)*listNo},${listNo}
+			</otherwise>
+		</choose>
 	</select>
 
 
@@ -87,16 +92,20 @@
 					AND LIKE_TYPE = '01'
 					AND CANCEL_YN = 'N'
 			) AS LIKE_CNT,
+			B.ID AS MEMBER_ID,
 			B.NICKNAME,
-		    C.TAGS
+		    C.TAGS,
+		    E.CATEGORY_NM
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
-		AND B.MEM_ID = A.REG_ID
+		AND B.LOGIN_ID = A.REG_ID
 		LEFT JOIN BOARD_TAGS C ON 1=1
 		AND C.CONTENTS_TYPE = 'STORY'
 		AND C.CONTENTS_ID = A.ID
 		LEFT JOIN FILE_RESOURCE D ON 1=1
 		AND D.ID = A.THUMBNAIL_IMG_ID
+		LEFT JOIN CATEGORY E ON 1=1
+		AND E.ID = A.CATEGORY_ID
 
 	</sql>
 

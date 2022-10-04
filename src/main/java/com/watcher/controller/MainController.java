@@ -25,7 +25,7 @@ public class MainController {
 
 
 	@RequestMapping(value={"main","/"})
-	public ModelAndView testMethod() throws Exception {
+	public ModelAndView showMainPage() throws Exception {
 		
 		ModelAndView mav = new ModelAndView("main/main");
 

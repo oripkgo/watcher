@@ -117,10 +117,9 @@
                             <tbody id="dataList"></tbody>
                         </table>
 
-
                         <jsp:include page="/WEB-INF/common/include/paging.jsp">
                             <jsp:param name="form" value="#noticeForm"/>
-                            <jsp:param name="url" value="/notice/listAsync"/>
+                            <jsp:param name="url" value="${noticeListUrl}"/>
                             <jsp:param name="listCallback" value="listCallback"/>
                             <jsp:param name="pageNo" value="${vo.pageNo}"/>
                             <jsp:param name="listNo" value="${vo.listNo}"/>

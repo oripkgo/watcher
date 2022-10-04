@@ -114,7 +114,7 @@ public class BoardService {
 
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
-        param.put("memberId"    , loginId       );
+        param.put("loginId"     , loginId       );
 
         result = boardMapper.view_like_yn_select(param);
 

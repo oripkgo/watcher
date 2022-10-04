@@ -23,7 +23,7 @@
 				WHERE 1=1
 				  AND A.CONTENTS_TYPE = #{contentsType}
 				  AND A.CONTENTS_ID = #{contentsId}
-				  AND A.MEMBER_ID = #{memberId}
+				  AND A.LOGIN_ID = #{loginId}
 				  AND A.CANCEL_YN = 'N'
 				ORDER BY A.REG_DATE DESC
 				LIMIT 1
@@ -32,7 +32,7 @@
 				SELECT IF(COUNT(B.ID)>0,'Y','N')  FROM BOARD_LIKE B WHERE 1=1
 				AND B.CONTENTS_TYPE = #{contentsType}
 				AND B.CONTENTS_ID = #{contentsId}
-				AND B.MEMBER_ID = #{memberId}
+				AND B.LOGIN_ID = #{loginId}
 				AND B.CANCEL_YN = 'N'
 			)  AS LIKE_YN
 		FROM DUAL
@@ -43,7 +43,7 @@
 		INSERT INTO BOARD_LIKE(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
-			,MEMBER_ID
+			,LOGIN_ID
 			,LIKE_TYPE
 			,CANCEL_YN
 			,REG_ID
@@ -51,7 +51,7 @@
 		)VALUES(
 			 #{contentsType}
 			,#{contentsId}
-			,#{memberId}
+			,#{loginId}
 			,#{likeType}
 			,'N'
 			,#{regId}
@@ -73,7 +73,7 @@
 			COUNT(A.ID)
 		FROM COMMENT A
 				 LEFT JOIN MEM_DETAIL B ON 1=1
-			AND B.MEM_ID=A.CONFIRM_ID
+			AND B.LOGIN_ID=A.CONFIRM_ID
 		WHERE 1=1
 		  AND A.CONTENTS_TYPE = #{contentsType}
 		  AND A.CONTENTS_ID = #{contentsId}
@@ -97,7 +97,7 @@
 			,B.MEM_PROFILE_IMG
 		FROM COMMENT A
 			LEFT JOIN MEMBER B ON 1=1
-			AND B.MEM_ID=A.CONFIRM_ID
+			AND B.LOGIN_ID=A.CONFIRM_ID
 		WHERE 1=1
 			AND A.CONTENTS_TYPE = #{contentsType}
 			AND A.CONTENTS_ID = #{contentsId}

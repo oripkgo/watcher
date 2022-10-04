@@ -3,10 +3,32 @@
 
 <mapper namespace="com.watcher.mapper.MemberMapper">
 
-	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
+	<select id="userSearch" parameterType="memberParam" resultType="map">
+		SELECT
+			ID
+			,LOGIN_ID
+			,PASSWORD
+			,EMAIL
+			,PHONE_NUM
+			,NAME
+			,NICKNAME
+			,MEM_TYPE
+			,MEM_PROFILE_IMG
+			,REG_ID
+			,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			,UPT_ID
+			,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+		FROM MEMBER
+		WHERE 1=1
+		  AND LOGIN_ID = #{loginId}
+		  AND MEM_TYPE = #{memType}
+	</select>
+
+
+	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
 
 		INSERT INTO MEMBER(
-			 MEM_ID
+			 LOGIN_ID
 			,PASSWORD
 			,EMAIL
 			,PHONE_NUM
@@ -20,7 +42,7 @@
 			,UPT_DATE
 		)
 		VALUES (
-			 #{memId}
+			 #{loginId}
 			,#{password}
 			,#{email}
 			,#{phoneNum}
@@ -28,9 +50,9 @@
 			,#{nickname}
 			,#{memType}
 			,#{memProfileImg}
-			,#{memId}
+			,#{loginId}
 			,NOW()
-			,#{memId}
+			,#{loginId}
 			,NOW()
 		)
 		ON DUPLICATE KEY UPDATE
@@ -58,24 +80,24 @@
 				MEM_TYPE 	= #{memType} ,
 			</if>
 
-			UPT_ID 	= #{memId} ,
+			UPT_ID 	= #{loginId} ,
 			UPT_DATE 	= NOW()
 	</insert>
 
-	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="memId">
+	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
 
 		INSERT INTO MEM_DETAIL(
-		 MEM_ID
+		 LOGIN_ID
 		,REG_ID
 		,REG_DATE
 		,UPT_ID
 		,UPT_DATE
 		)
 		VALUES (
-		 #{memId}
-		,#{memId}
+		 #{loginId}
+		,#{loginId}
 		,NOW()
-		,#{memId}
+		,#{loginId}
 		,NOW()
 		)
 		ON DUPLICATE KEY UPDATE
@@ -87,7 +109,7 @@
 			COMMENT_YN 		= #{commentYn} ,
 		</if>
 
-		UPT_ID 	= #{memId} ,
+		UPT_ID 	= #{loginId} ,
 		UPT_DATE 	= NOW()
 	</insert>
 

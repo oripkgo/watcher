@@ -127,6 +127,8 @@
                         listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
                     })
                 }
+                listHtml += '    </div>';
+                listHtml += '    <div class="story_key">';
 
                 listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
                 listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
@@ -194,7 +196,8 @@
                     })
                 }
 
-
+                listHtml += '    </div>';
+                listHtml += '    <div class="story_key">';
                 // listHtml += '        <a href="javascript:;">#컬처</a>';
                 // listHtml += '        <a href="javascript:;">#영화</a>';
                 // listHtml += '        <a href="javascript:;">#영화컬처</a>';
@@ -300,6 +303,9 @@
                 })
             }
 
+            listNum += '    </div>';
+            listNum += '    <div class="story_key">';
+
             listNum += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
             listNum += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
             listNum += '        <em>by ' + obj.NICKNAME + '</em>';
@@ -351,7 +357,8 @@
                     listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
                 })
             }
-
+            listNum += '    </div>';
+            listNum += '    <div class="story_key">';
             // listNum += '        <a href="javascript:;">#컬처</a>';
             // listNum += '        <a href="javascript:;">#영화</a>';
             // listNum += '        <a href="javascript:;">#영화컬처</a>';

@@ -28,23 +28,36 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@RequestMapping(value={"notice/list"})
-	public ModelAndView noticeList(
+	@RequestMapping(value={"/notice/member/list"})
+	public ModelAndView showMemberNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
+		mav.addObject("noticeListUrl", "/notice/listAsync?search_memId="+noticeParam.getSearch_memId());
 
-		//mav.addObject("list",noticeService.list(noticeVo));
+		return mav;
+	}
+
+
+	@RequestMapping(value={"notice/list"})
+	public ModelAndView showNoticeListPage(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") NoticeParam noticeParam
+	) throws Exception {
+
+		ModelAndView mav = new ModelAndView("notice/list");
+		mav.addObject("noticeListUrl", "/notice/listAsync");
 
 		return mav;
 	}
 
 	@RequestMapping(value={"notice/listAsync"}, method = RequestMethod.GET)
 	@ResponseBody
-	public LinkedHashMap<String, Object> noticeListAsync(
+	public LinkedHashMap<String, Object> getNoticeListAsync(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -61,7 +74,7 @@ public class BoardController {
 
 	@RequestMapping(value = {"/notice/delete"})
 	@ResponseBody
-	public LinkedHashMap<String, Object> noticeRemove(
+	public LinkedHashMap<String, Object> deleteNotice(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody NoticeParam noticeParam
@@ -70,7 +83,7 @@ public class BoardController {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		noticeParam.setRegId(((LoginParam)request.getSession().getAttribute("loginInfo")).getId());
+		noticeParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
 		noticeParam.setDeleteYn("Y");
 
 		result.putAll(noticeService.delete(noticeParam));
@@ -80,7 +93,7 @@ public class BoardController {
 
 
 	@RequestMapping(value={"notice/view"}, method = RequestMethod.GET)
-	public ModelAndView noticeView(
+	public ModelAndView showNoticeViewPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -92,7 +105,7 @@ public class BoardController {
 
 		// 게시물 수정권한 여부 s
 		if( request.getSession().getAttribute("loginInfo") == null
-				|| !(((Map)result.get("view")).get("REG_ID").equals(((LoginParam)request.getSession().getAttribute("loginInfo")).getId()))){
+				|| !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID")))){
 			result.put("modify_authority_yn","N");
 		}else{
 			result.put("modify_authority_yn","Y");
@@ -107,7 +120,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/view/init"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap board_view_init(
+	public LinkedHashMap getBoardViewInitData(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -119,9 +132,8 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -143,7 +155,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/select/comment"}, method = RequestMethod.GET)
 	@ResponseBody
-	public LinkedHashMap getComment_select(
+	public LinkedHashMap getCommentList(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -176,7 +188,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_insert(
+	public LinkedHashMap insertComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -190,11 +202,12 @@ public class BoardController {
 		String profile = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
-			nickName = loginVo.getNickname();
-			profile = loginVo.getProfile();
+			Map<String, String> userData = ((Map<String, String>)request.getSession().getAttribute("loginInfo"));
+
+			loginId = userData.get("LOGIN_ID");
+			nickName = userData.get("NICKNAME");
+			profile = userData.get("MEM_PROFILE_IMG");
 
 		}
 
@@ -204,8 +217,8 @@ public class BoardController {
 		comment_param.put("contentsId"  	, param.get("contentsId")   );
 		comment_param.put("refContentsId"  	, param.get("refContentsId"));
 		comment_param.put("coment"  		, param.get("coment")    	);
-		comment_param.put("confirmId"  		, loginId    				);
 		comment_param.put("regId"  			, loginId					);
+		comment_param.put("confirmId"  		, loginId    				);
 		comment_param.put("nickName"  		, nickName					);
 		comment_param.put("profile"  		, profile					);
 
@@ -217,7 +230,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/update/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_update(
+	public LinkedHashMap updateComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -230,9 +243,7 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
-
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -251,7 +262,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/delete/comment"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap comment_delete(
+	public LinkedHashMap deleteComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
@@ -275,7 +286,7 @@ public class BoardController {
 
 	@RequestMapping(value={"board/like/modify"}, method = RequestMethod.POST)
 	@ResponseBody
-	public LinkedHashMap board_like_modify(
+	public LinkedHashMap modifyBoardLike(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody Map<String,Object> param
@@ -290,9 +301,8 @@ public class BoardController {
 		String loginId = "";
 
 		if( request.getSession().getAttribute("loginInfo") != null ){
-			LoginParam loginVo = (LoginParam)request.getSession().getAttribute("loginInfo");
 
-			loginId = loginVo.getId();
+			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
 
 		}
 
@@ -307,7 +317,7 @@ public class BoardController {
 
 			svc_param.put("contentsType"	, param.get("contentsType")	);
 			svc_param.put("contentsId"		, param.get("contentsId")	);
-			svc_param.put("memberId"		, loginId					);
+			svc_param.put("loginId"			, loginId					);
 			svc_param.put("likeType"		, param.get("likeType")		);
 			svc_param.put("regId"			, loginId					);
 

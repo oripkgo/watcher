@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.MyManagementMapper">
+
+	<select id="getVisitorCnt" resultType="map" parameterType="managementParam">
+		SELECT
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+				  AND REG_DATE_INQUIRY = DATE_FORMAT(NOW(),'%Y%m%d')
+			) AS TODAY_VISIT_CNT,
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+				  AND REG_DATE_INQUIRY = date_format((DATE_ADD(now(), INTERVAL -1 DAY)),'%Y%m%d')
+			) AS YESTERDAY_VISIT_CNT,
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+			) AS CUMULATIVE_VISIT_CNT,
+			DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') AS VISIT_STATIS_CRITERIA
+		FROM DUAL
+	</select>
+
+</mapper>
