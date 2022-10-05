@@ -3,70 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const labels = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17',
-        '18',
-        '19',
-        '20',
-        '21',
-        '22',
-        '23',
-        '24',
-        '24',
-        '24',
-        '25',
-        '26',
-        '27',
-        '28',
-        '29',
-        '30',
-        '31',
-    ];
-
-    const data = {
-        labels: labels,
-        datasets: [{
-            label: '10월 방문자수',
-            backgroundColor: '#333',
-            borderColor: '#333',
-            data: [0, 10, 5, 2, 20, 15, 6],
-        }]
-    };
-
-    const config = {
-        type: 'line',
-        data: data,
-        options: {}
-    };
-
-    $(document).on("ready",function(){
-        const myChart = new Chart(
-            (document.getElementsByClassName('graph_canvas')[0]),
-            config
-        );
-    });
-
-</script>
-
-
 
 <div class="section uline2">
     <div class="ani-in manage_layout">
@@ -78,8 +14,8 @@
             <div class="manage_box_wrap">
                 <%@include file="include/commVisitorInfo.jsp"%>
 
-                <div  class="graph_wrap">
-                    <canvas class="graph_canvas" style="width: 100%; height: 100%;"></canvas>
+                <div  class="graph_wrap" style="height: 300px;">
+                    <jsp:include page="include/commCharts.jsp"/>
                     <%--<img src="/resources/img/graph.jpg">--%>
                 </div>
 
