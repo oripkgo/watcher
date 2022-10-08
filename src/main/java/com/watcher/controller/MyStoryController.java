@@ -50,6 +50,7 @@ public class MyStoryController {
         mav.addObject("member_category_list", member_category_list);
         storyParam.setCategoryId(categoryId);
         mav.addObject("memId",userId);
+        mav.addObject("categoryListYn","Y");
 
         return mav;
     }
@@ -73,8 +74,8 @@ public class MyStoryController {
 
         storyParam.setListNo(10);
         mav.addObject("member_category_list", member_category_list);
-
         mav.addObject("memId",userId);
+
         return mav;
     }
 

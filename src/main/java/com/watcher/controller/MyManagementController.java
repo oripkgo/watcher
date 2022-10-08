@@ -28,7 +28,8 @@ public class MyManagementController {
     @Autowired
     MyManagementService myManagementService;
 
-
+    @Autowired
+    StoryService storyService;
 
     @RequestMapping(value = {"/{menu}"})
     public ModelAndView getMyManagementMainPage(
@@ -58,17 +59,55 @@ public class MyManagementController {
         return mav;
     }
 
-    @RequestMapping(value = {"/visitor/cnt"})
+    @RequestMapping(value = {"/visitor/cnt"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getVisitorCnt(
         HttpServletRequest request,
         HttpServletResponse response,
-        @RequestBody ManagementParam managementParam
+        ManagementParam managementParam
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
         result.putAll(myManagementService.getVisitorCnt(managementParam));
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/visitor/chart/cnts"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getChartVisitorCnt(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            ManagementParam managementParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        result.putAll(myManagementService.getChartVisitorCnt(managementParam));
+
+        return result;
+    }
+
+
+    @RequestMapping(value = {"/popularity/articles"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getPopularityArticles(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            ManagementParam managementParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        StoryParam storyParam = new StoryParam();
+
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        storyParam.setSearch_memId(String.valueOf(memId));
+        storyParam.setSortByRecommendationYn("YY");
+        storyParam.setLimitNum("4");
+
+        result.putAll(storyService.list(storyParam));
 
         return result;
     }

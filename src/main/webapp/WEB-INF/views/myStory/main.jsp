@@ -13,24 +13,6 @@
     const categoryId                = '${vo.categoryId}';
     const member_category_list      = JSON.parse('${member_category_list}');
 
-    function initCategory(list){
-
-        if( list &&  list.length > 0 ){
-            list.forEach(function(obj){
-                const a = $('<a></a>');
-                $(a).text(obj.CATEGORY_NM);
-                $(a).attr('href', "/myStory/"+myStory_search_memberId+"/"+ obj.DEFALUT_CATEG_ID);
-                $(".mystory_menu, .mystory_menu_mobile").append(a);
-            })
-        }
-
-       /* <a href="javascript:;">IT</a>
-        <a href="javascript:;">정치</a>
-        <a href="javascript:;">가족</a>
-        <a href="javascript:;">요리</a>*/
-
-    }
-
     $(document).on("ready", function () {
 
         // 회원 카테고리 세팅
@@ -43,6 +25,24 @@
         initMyStory(myStory_search_memberId, categoryId);
 
     })
+
+    function initCategory(list){
+
+        if( list &&  list.length > 0 ){
+            list.forEach(function(obj){
+                const a = $('<a></a>');
+                $(a).text(obj.CATEGORY_NM);
+                $(a).attr('href', "/myStory/"+myStory_search_memberId+"/"+ obj.DEFALUT_CATEG_ID+"?category_nm="+encodeURIComponent(obj.CATEGORY_NM));
+                $(".mystory_menu, .mystory_menu_mobile").append(a);
+            })
+        }
+
+        /* <a href="javascript:;">IT</a>
+         <a href="javascript:;">정치</a>
+         <a href="javascript:;">가족</a>
+         <a href="javascript:;">요리</a>*/
+
+    }
 
     function initMyStory(uid,categId){
 
@@ -148,11 +148,6 @@
 
     }
 
-    function myStoryListCallback(data){
-
-
-    }
-
 </script>
 
 <div class="section">
@@ -216,19 +211,28 @@
                 <a href="javascript:;">요리</a>--%>
             </div>
 
-            <div class="board_title">
-                공지사항
-                <a href="javascript:;" id="notice_more">더보기 <img src="/resources/img/down_arrow.png"></a>
-            </div>
-            <ul class="notice_list">
-                <%--<li>
-                    <a href="javascript:;">공지합니다. 내용내용내용~</a>
-                    <em>2021.11.11</em>
-                </li>--%>
-            </ul>
+            <c:if test="${categoryListYn != 'Y'}">
+                <div class="board_title">
+                    공지사항
+                    <a href="javascript:;" id="notice_more">더보기 <img src="/resources/img/down_arrow.png"></a>
+                </div>
+                <ul class="notice_list">
+                    <%--<li>
+                        <a href="javascript:;">공지합니다. 내용내용내용~</a>
+                        <em>2021.11.11</em>
+                    </li>--%>
+                </ul>
+            </c:if>
 
             <div class="board_title">
-                전체글
+                <c:choose>
+                    <c:when test="${!(empty vo.category_nm)}">
+                        ${vo.category_nm}
+                    </c:when>
+                    <c:otherwise>
+                        전체글
+                    </c:otherwise>
+                </c:choose>
             </div>
 
 
