@@ -25,6 +25,16 @@
 		<if test="search_keyword != null and search_keyword != ''">
 		  	AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
+
+		<choose>
+			<when test="!(SortByRecommendationYn==null or SortByRecommendationYn=='') and SortByRecommendationYn == 'YY'">
+				LIMIT ${limitNum}
+			</when>
+			<otherwise>
+				LIMIT ${(pageNo-1)*listNo},${listNo}
+			</otherwise>
+		</choose>
+
 	</select>
 
 

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -33,6 +34,37 @@ public class MyManagementService {
 
         return result;
     }
+
+
+    @Transactional
+    public Map<String, String> getChartVisitorCnt(ManagementParam managementParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        List<Map<String, Object>> visitInfoList = myManagementMapper.getChartVisitorCntList(managementParam);
+        result.put("visitInfoList", visitInfoList);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+
+    @Transactional
+    public Map<String, String> getPopularityArticles(ManagementParam managementParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        List<Map<String, Object>> visitInfoList = myManagementMapper.getPopularityArticleList(managementParam);
+        result.put("visitInfoList", visitInfoList);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+
+
 
     /*@Transactional
     public Map<String, String> story_update(StoryParam storyParam) throws Exception {

@@ -3,19 +3,29 @@
 
 <mapper namespace="com.watcher.mapper.MyManagementMapper">
 
-
-	<select id="getChartVisitorCnt" resultType="map" parameterType="managementParam">
+	<select id="getPopularityArticleList" resultType="map" parameterType="managementParam">
 
 		SELECT
-		   DATE_FORMAT(REG_DATE,'%Y%m%d') AS VISIT_DATE,
-		   COUNT(ID) AS CNT
+			DATE_FORMAT(REG_DATE,'%Y%m%d') AS VISIT_DATE,
+			COUNT(ID) AS CNT
 		FROM VISITOR_HISTORY
-		WHERE VISIT_STORY_MEM_ID = '1'
+		WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
 		  AND REG_MONTH_INQUIRY = DATE_FORMAT(NOW(),'%Y%m')
 		GROUP BY DATE_FORMAT(REG_DATE,'%Y%m%d')
 
 	</select>
 
+	<select id="getChartVisitorCntList" resultType="map" parameterType="managementParam">
+
+		SELECT
+		   DATE_FORMAT(REG_DATE,'%Y%m%d') AS VISIT_DATE,
+		   COUNT(ID) AS CNT
+		FROM VISITOR_HISTORY
+		WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+		  AND REG_MONTH_INQUIRY = DATE_FORMAT(NOW(),'%Y%m')
+		GROUP BY DATE_FORMAT(REG_DATE,'%Y%m%d')
+
+	</select>
 
 	<select id="getVisitorCnt" resultType="map" parameterType="managementParam">
 		SELECT

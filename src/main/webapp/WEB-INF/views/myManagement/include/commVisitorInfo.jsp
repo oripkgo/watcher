@@ -29,7 +29,7 @@
 
 <script>
 
-    comm.request({url:"/myManagement/visitor/cnt", data : "{}"},function(resp){
+    comm.request({url:"/myManagement/visitor/cnt", method : "GET"},function(resp){
         // 삭제 성공
         if( resp.code == '0000'){
 
