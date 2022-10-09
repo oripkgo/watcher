@@ -59,9 +59,8 @@
                 let listHtml = '';
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
-
                 listHtml += '<li>';
-                listHtml += '    <a href="/story/view?id=' + obj.ID + '">';
+                listHtml += '    <a href="'+ getStoryViewUrl(obj.ID) + '">';
                 listHtml += '        <em>'+obj.CATEGORY_NM+'</em>';
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
 

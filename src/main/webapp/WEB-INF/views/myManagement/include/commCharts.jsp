@@ -20,6 +20,7 @@
 
         let title = m + "월 방문자수";
         let labels = [];
+        let maxData = 0;
         let visitorDatas = [];
 
         if (customTitle) {
@@ -29,6 +30,11 @@
         labels = Object.keys(datas);
 
         for(let key in datas){
+
+            if( datas[key] && datas[key] > maxData ){
+                maxData = datas[key];
+            }
+
             visitorDatas.push(datas[key]);
         }
 
@@ -45,8 +51,21 @@
         const config = {
             type: 'line',
             data: chartData,
-            options: {}
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        // min: 0,
+                        // max: 25
+                    },
+                }
+            }
         };
+
+        if( maxData <= 0 ){
+            config.options.scales.y.min = 0;
+            config.options.scales.y.max = 25;
+        }
 
         const myChart = new Chart(
             (obj),

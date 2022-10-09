@@ -10,7 +10,7 @@
 
 <div class="manage_line">인기글</div>
 <div class="conts_rel">
-    <ul style="padding:20px 0px;">
+    <ul style="padding:20px 0px;" class="articleList">
         <li>
             <a href="story_detail.html">
                 <img src="/resources/img/sample01.jpg">
@@ -65,15 +65,30 @@
 
 <script>
 
-    comm.request({url:"/myManagement/popularity/articles", method : "GET"},function(resp){
-        if( resp.code == '0000'){
+    comm.request({url: "/myManagement/popularity/articles", method: "GET"}, function (resp) {
+        if (resp.code == '0000') {
 
-            debugger;
+            $(".articleList").empty();
+            resp.list.forEach(function (obj) {
 
-            $(".tDayVisitCnt").text(resp.visitInfo['TODAY_VISIT_CNT']);
-            $(".yDayVisitCnt").text(resp.visitInfo['YESTERDAY_VISIT_CNT']);
-            $(".cumulativeVisitCnt").text(resp.visitInfo['CUMULATIVE_VISIT_CNT']);
-            $(".visitStatisCriteria").text(resp.visitInfo['VISIT_STATIS_CRITERIA'] + ' 기준');
+                let liObj = $("<li></li>");
+                let liHtml = '';
+                liHtml += '<a href="'+getStoryViewUrl(obj.ID)+'">                          ';
+                liHtml += '    <img src="' + obj.THUMBNAIL_IMG_PATH + '">                  ';
+                liHtml += '        <strong>[' + obj.CATEGORY_NM + '] ' + obj.TITLE + '</strong> ';
+                liHtml += '        <span>' + obj.SUMMARY + '</span>                         ';
+                liHtml += '</a>                                                         ';
+                liHtml += '<p>                                                          ';
+                liHtml += '    <em>댓글 ' + obj.COMMENT_CNT + '</em>                          ';
+                liHtml += '    <img src="/resources/img/line.png">                      ';
+                liHtml += '        <em>공감 ' + obj.LIKE_CNT + '</em>                         ';
+                liHtml += '</p>                                                         ';
+
+                $(liObj).html(liHtml);
+                $(".articleList").append(liObj);
+
+            });
+
         }
     })
 

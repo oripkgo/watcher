@@ -308,6 +308,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .manage_conts {position:relative;padding:50px 0px 80px 0px;min-height:600px;}
 .manage_menu {display:inline-block;vertical-align:top;width:220px;}
 .manage_photo {background:#a1a6b5;text-align:center;/*padding:30px 0px;*/}
+.manage_photo img{min-height: 145px;min-width: 149px;}
 .manage_menu_link {padding:30px 0px;}
 .menu_1st {display:block;font-size:18px;color:#000;font-weight:600;padding:10px 0px 10px 0px;}
 .menu_2st {display:block;padding-bottom:40px;}
