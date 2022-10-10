@@ -16,6 +16,7 @@ public class StoryParam extends StoryDto {
     String category_nm;
     String tags;
     String search_memId;
+    String search_secret_yn;
 
     MultipartFile thumbnailImgPathParam;
 
@@ -81,6 +82,14 @@ public class StoryParam extends StoryDto {
 
     public void setSearch_memId(String search_memId) {
         this.search_memId = search_memId;
+    }
+
+    public String getSearch_secret_yn() {
+        return search_secret_yn;
+    }
+
+    public void setSearch_secret_yn(String search_secret_yn) {
+        this.search_secret_yn = search_secret_yn;
     }
 
     public MultipartFile getThumbnailImgPathParam() {

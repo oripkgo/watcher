@@ -172,6 +172,15 @@
                             </td>
                         </tr>
                         <tr>
+                            <th>공개여부</th>
+                            <td class="story_top">
+                                <select id="secretYn" name="secretYn">
+                                    <option value="Y">공개</option>
+                                    <option value="N">비공개</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>제목</th>
                             <td><input type="text" name="title" id="title" placeholder="제목을 입력하세요" value="${vo.TITLE}"></td>
                         </tr>
