@@ -16,26 +16,31 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
+		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
+
+		<choose>
+			<when test="search_secret_yn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="search_secret_yn == 'NN'">
+				AND A.SECRET_YN IN ('N')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('Y')
+			</otherwise>
+		</choose>
+
 		<if test="search_memId != null and search_memId != ''">
 			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
 		</if>
-		<if test="category_id != null and category_id != ''">
-			AND A.CATEGORY_ID = #{category_id}
+		<if test="search_category_id != null and search_category_id != ''">
+			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
 		<if test="search_keyword != null and search_keyword != ''">
 		  	AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
-
-		<choose>
-			<when test="!(SortByRecommendationYn==null or SortByRecommendationYn=='') and SortByRecommendationYn == 'YY'">
-				LIMIT ${limitNum}
-			</when>
-			<otherwise>
-				LIMIT ${(pageNo-1)*listNo},${listNo}
-			</otherwise>
-		</choose>
 
 	</select>
 
@@ -46,15 +51,27 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
+		<choose>
+			<when test="search_secret_yn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="search_secret_yn == 'NN'">
+				AND A.SECRET_YN IN ('N')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('Y')
+			</otherwise>
+		</choose>
+
 		<if test="search_memId != null and search_memId != ''">
 			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
 		</if>
 
-		<if test="category_id != null and category_id != ''">
-			AND A.CATEGORY_ID = #{category_id}
+		<if test="search_category_id != null and search_category_id != ''">
+			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
 
--- 		<if test="search_keyword != null and search_keyword != ''">
+ 		<if test="search_keyword != null and search_keyword != ''">
 			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 
@@ -90,30 +107,22 @@
 			A.CONTENTS,
 			CONCAT(D.SAVE_PATH , D.PATH_SEPARATOR, D.SERVER_FILE_NAME ) AS THUMBNAIL_IMG_PATH,
 		    A.SUMMARY,
+		    A.SECRET_YN,
 			A.REG_ID,
 			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
 			A.UPT_ID,
 			DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE,
-			(
-				SELECT
-					COUNT(*)
-				FROM BOARD_LIKE
-				WHERE 1 = 1
-					AND CONTENTS_TYPE = 'STORY'
-					AND CONTENTS_ID = A.ID
-					AND LIKE_TYPE = '01'
-					AND CANCEL_YN = 'N'
-			) AS LIKE_CNT,
-			(
-			    SELECT
-			        COUNT(*)
-			    FROM COMMENT
-			    WHERE CONTENTS_TYPE = 'STORY' AND CONTENTS_ID = A.ID
-			) AS COMMENT_CNT,
 			B.ID AS MEMBER_ID,
 			B.NICKNAME,
 		    C.TAGS,
-		    E.CATEGORY_NM
+		    E.CATEGORY_NM,
+			IFNULL(F.LIKE_CNT,0) AS LIKE_CNT,
+			(
+				SELECT
+					COUNT(*)
+				FROM COMMENT
+				WHERE CONTENTS_TYPE = 'STORY' AND CONTENTS_ID = A.ID
+			) AS COMMENT_CNT
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
 		AND B.LOGIN_ID = A.REG_ID
@@ -124,6 +133,7 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
+		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
 
 	</sql>
 
@@ -160,6 +170,10 @@
 			DELETE_YN = #{deleteYn} ,
 		</if>
 
+		<if test="secretYn != null and secretYn != ''">
+			SECRET_YN = #{secretYn} ,
+		</if>
+
 		UPT_ID = #{uptId},
 		UPT_DATE = NOW()
 		WHERE 1=1
@@ -182,6 +196,7 @@
 			,THUMBNAIL_IMG_ID
 			,SUMMARY
 			,DELETE_YN
+			,SECRET_YN
 		)
 		VALUES (
 			 #{regId}
@@ -195,6 +210,7 @@
 			,#{thumbnailImgId}
 			,#{summary}
 			,'N'
+			,#{secretYn}
 		)
 	</insert>
 

@@ -53,19 +53,12 @@ public class CategoryService {
     }
 
 
-    public List<Map<String, Object>> story_category_serarch(LinkedHashMap param) throws Exception {
+    public List<Map<String, Object>> story_category_serarch() throws Exception {
 
-       // List<Map<String,Object>> list = categoryMapper.member_category_list(param);
         List<Map<String,Object>> list = this.category_list();
         if( list == null ){
             list = new ArrayList<>();
         }
-
-        /*
-        if( list.size() <= 0 ){
-            list = this.category_list();
-        }
-        */
 
         return list;
 

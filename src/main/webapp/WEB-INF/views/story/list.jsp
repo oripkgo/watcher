@@ -5,8 +5,7 @@
 
 <script type="text/javascript">
 
-    const story_type_list = JSON.parse('${category_list}');
-
+    const category_list = JSON.parse('${category_list}');
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
     const pagigRange = '${vo.pagigRange}' || '1';
@@ -14,28 +13,14 @@
 
     $(document).on('ready',function(){
 
+        initKeywordSearch();
 
-        $("#search").on("click", function () {
+        initCategory();
 
-            let id = $("#seachCategory").val();
+    })
 
-            if( !id ){
-                if( story_type_list.length > 0 ){
-                    id = story_type_list[0]['ID'];
-                }
-            }
-
-            let keyword = $("#searchForm").find("#keyword").val();
-
-            comm.appendInput($('#defaultListForm'+id),'search_keyword',keyword);
-
-            // 기본 목록
-            defaultList(id);
-
-        });
-
-
-        story_type_list.forEach(function(obj,idx){
+    function initCategory(){
+        category_list.forEach(function(obj,idx){
 
             const id = obj['ID'];
             const nm = obj['CATEGORY_NM'];
@@ -43,9 +28,9 @@
             $('#seachCategory').append('<option value="'+id+'">'+nm+'</option>')
 
             if( idx == 0 ){
-                $('.category_tab').append('<a href="javascript:;" class="tab_ov"><span>'+nm+'</span></a>');
+                $('.category_tab').append('<a href="javascript:;" class="tab_ov tab_'+id+'"><span>'+nm+'</span></a>');
             }else{
-                $('.category_tab').append('<a href="javascript:;"><span>'+nm+'</span></a>');
+                $('.category_tab').append('<a href="javascript:;" class="tab_'+id+'"><span>'+nm+'</span></a>');
             }
 
             const tabObj = append_tab(id, $("#tab_parent"));
@@ -60,17 +45,35 @@
             defaultList(id);
 
         })
+    }
 
+    function initKeywordSearch(){
+        $("#search").on("click", function () {
 
+            let id = $("#seachCategory").val();
 
-    })
+            if (!id) {
+                comm.message.alert("카테고리를 선택해주세요.",function(){
+                    $("#seachCategory").focus();
+                });
+                return;
 
+                // if (category_list.length > 0) {
+                //     id = category_list[0]['ID'];
+                // }
+            }
 
-    // <div class="obj">
-    //     <!--------------------여행------------------------>
-    // <a href="javascript:;" class="btn_story2">여행 내용이 들어갑니다.</a>
-    // <!--------------------//여행------------------------>
-    // </div>
+            let keyword = $("#searchForm").find("#keyword").val();
+
+            comm.appendInput($('#defaultListForm' + id), 'search_keyword', keyword);
+
+            // 기본 목록
+            defaultList(id, function(){
+                $(".tab_"+id).click();
+            });
+
+        });
+    }
 
     function tab_event(){
         var param = "#tab_box";
@@ -152,7 +155,7 @@
         });
     }
 
-    function defaultList(id){
+    function defaultList(id, callback){
 
         comm.list('#defaultListForm'+id, listUrl,function(data){
 
@@ -217,6 +220,10 @@
             }
 
 
+            if( callback ){
+                callback();
+            }
+
         }, pageNo, listNo, pagigRange);
 
 
@@ -244,7 +251,7 @@
 
         tabInHtml += '<form id="RecommendedListForm'+id+'" name="RecommendedListForm'+id+'">';
         tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="YY">';
-        tabInHtml += '    <input type="hidden" name="category_id" value="'+id+'">';
+        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
         tabInHtml += '    <input type="hidden" name="limitNum" value="3">';
         tabInHtml += '';
         tabInHtml += '    <ul class="story_wrap" id="RecommendedDataList'+id+'">';
@@ -254,7 +261,7 @@
         tabInHtml += '';
         tabInHtml += '<form id="defaultListForm'+id+'" name="defaultListForm'+id+'">';
         tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="NN">';
-        tabInHtml += '    <input type="hidden" name="category_id" value="'+id+'">';
+        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
         tabInHtml += '    <div class="story_wrap01">';
         tabInHtml += '        <ul id="defaultList'+id+'">';
         tabInHtml += '        </ul>';

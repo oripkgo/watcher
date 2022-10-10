@@ -11,6 +11,7 @@
 <div class="manage_line">인기글</div>
 <div class="conts_rel">
     <ul style="padding:20px 0px;" class="articleList">
+        <%--
         <li>
             <a href="story_detail.html">
                 <img src="/resources/img/sample01.jpg">
@@ -59,6 +60,7 @@
                 <em>공감 21</em>
             </p>
         </li>
+        --%>
     </ul>
 </div>
 

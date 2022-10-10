@@ -22,8 +22,8 @@ import java.util.Map;
 public class MyManagementController {
 
 
-//    @Autowired
-//    CategoryService categoryService;
+    @Autowired
+    CategoryService categoryService;
 
     @Autowired
     MyManagementService myManagementService;
@@ -43,7 +43,12 @@ public class MyManagementController {
         if( "main".equals(menu) ){
             mav = new ModelAndView("myManagement/main");
         }else if( "board".equals(menu) ){
+
             mav = new ModelAndView("myManagement/board");
+
+            JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
+            mav.addObject("category_list", jsonArray);
+
         }else if( "category".equals(menu) ){
             mav = new ModelAndView("myManagement/category");
         }else if( "notice".equals(menu) ){
@@ -95,23 +100,42 @@ public class MyManagementController {
     public LinkedHashMap<String, Object> getPopularityArticles(
             HttpServletRequest request,
             HttpServletResponse response,
-            ManagementParam managementParam
+            StoryParam storyParam
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        StoryParam storyParam = new StoryParam();
-
         Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
         storyParam.setSearch_memId(String.valueOf(memId));
+        storyParam.setSearch_secret_yn("ALL");
         storyParam.setSortByRecommendationYn("YY");
         storyParam.setLimitNum("4");
 
         result.putAll(storyService.list(storyParam));
+        result.put("vo", storyParam);
 
         return result;
     }
 
+    @RequestMapping(value = {"/articles"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getArticles(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        storyParam.setSearch_memId(String.valueOf(memId));
+        storyParam.setSearch_secret_yn("ALL");
+
+        result.putAll(storyService.list(storyParam));
+        result.put("vo", storyParam);
+
+        return result;
+    }
 
 
 //    @RequestMapping(value = {"/delete"})

@@ -982,9 +982,11 @@ let comm = function(){
         },
 
         appendInput : function(form, name, value){
-            if( $("#"+name).length == 0 ){
-                $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+            if( $("#"+name).length > 0 ){
+                $("#"+name).remove();
             }
+
+            $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
 
             $(form).find("input[name='"+name+"']").val(value);
             return $(form).find("input[name='"+name+"']");

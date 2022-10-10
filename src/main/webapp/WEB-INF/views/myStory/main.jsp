@@ -46,8 +46,8 @@
 
     function initMyStory(uid,categId){
 
-        comm.appendInput('#myStoryForm', "search_memId" , uid       );
-        comm.appendInput('#myStoryForm', "category_id"  , categId   );
+        comm.appendInput('#myStoryForm', "search_memId"         , uid       );
+        comm.appendInput('#myStoryForm', "search_category_id"   , categId   );
 
 
         comm.list('#myStoryForm', '/myStory/listAsync',function(data){
@@ -237,7 +237,7 @@
 
             <form id="myStoryForm">
                 <input type="hidden" name="search_memId" id="search_memId">
-                <input type="hidden" name="category_id" id="category_id">
+                <input type="hidden" name="search_category_id" id="search_category_id">
 
                 <ul class="board_list" id="myStoryList">
                     <li>

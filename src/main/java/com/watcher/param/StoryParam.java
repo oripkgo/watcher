@@ -10,12 +10,13 @@ import java.util.List;
 public class StoryParam extends StoryDto {
     String search_id;
     String search_keyword;
+    String search_category_id;
+    String search_memId;
+    String search_secret_yn;
     String SortByRecommendationYn;
     String limitNum;
-    String category_id;
     String category_nm;
     String tags;
-    String search_memId;
 
     MultipartFile thumbnailImgPathParam;
 
@@ -35,6 +36,30 @@ public class StoryParam extends StoryDto {
         this.search_keyword = search_keyword;
     }
 
+    public String getSearch_category_id() {
+        return search_category_id;
+    }
+
+    public void setSearch_category_id(String search_category_id) {
+        this.search_category_id = search_category_id;
+    }
+
+    public String getSearch_memId() {
+        return search_memId;
+    }
+
+    public void setSearch_memId(String search_memId) {
+        this.search_memId = search_memId;
+    }
+
+    public String getSearch_secret_yn() {
+        return search_secret_yn;
+    }
+
+    public void setSearch_secret_yn(String search_secret_yn) {
+        this.search_secret_yn = search_secret_yn;
+    }
+
     public String getSortByRecommendationYn() {
         return SortByRecommendationYn;
     }
@@ -51,14 +76,6 @@ public class StoryParam extends StoryDto {
         this.limitNum = limitNum;
     }
 
-    public String getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
-    }
-
     public String getCategory_nm() {
         return category_nm;
     }
@@ -73,14 +90,6 @@ public class StoryParam extends StoryDto {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getSearch_memId() {
-        return search_memId;
-    }
-
-    public void setSearch_memId(String search_memId) {
-        this.search_memId = search_memId;
     }
 
     public MultipartFile getThumbnailImgPathParam() {
