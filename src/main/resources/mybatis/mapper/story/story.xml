@@ -16,6 +16,7 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
+		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
@@ -70,7 +71,7 @@
 			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
 
--- 		<if test="search_keyword != null and search_keyword != ''">
+ 		<if test="search_keyword != null and search_keyword != ''">
 			AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
 		</if>
 
@@ -111,26 +112,17 @@
 			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
 			A.UPT_ID,
 			DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE,
-			(
-				SELECT
-					COUNT(*)
-				FROM BOARD_LIKE
-				WHERE 1 = 1
-					AND CONTENTS_TYPE = 'STORY'
-					AND CONTENTS_ID = A.ID
-					AND LIKE_TYPE = '01'
-					AND CANCEL_YN = 'N'
-			) AS LIKE_CNT,
-			(
-			    SELECT
-			        COUNT(*)
-			    FROM COMMENT
-			    WHERE CONTENTS_TYPE = 'STORY' AND CONTENTS_ID = A.ID
-			) AS COMMENT_CNT,
 			B.ID AS MEMBER_ID,
 			B.NICKNAME,
 		    C.TAGS,
-		    E.CATEGORY_NM
+		    E.CATEGORY_NM,
+			IFNULL(F.LIKE_CNT,0) AS LIKE_CNT,
+			(
+				SELECT
+					COUNT(*)
+				FROM COMMENT
+				WHERE CONTENTS_TYPE = 'STORY' AND CONTENTS_ID = A.ID
+			) AS COMMENT_CNT
 		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
 		AND B.LOGIN_ID = A.REG_ID
@@ -141,6 +133,7 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
+		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
 
 	</sql>
 
