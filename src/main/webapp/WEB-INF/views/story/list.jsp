@@ -5,8 +5,7 @@
 
 <script type="text/javascript">
 
-    const story_type_list = JSON.parse('${category_list}');
-
+    const category_list = JSON.parse('${category_list}');
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
     const pagigRange = '${vo.pagigRange}' || '1';
@@ -14,28 +13,14 @@
 
     $(document).on('ready',function(){
 
+        initKeywordSearch();
 
-        $("#search").on("click", function () {
+        initCategory();
 
-            let id = $("#seachCategory").val();
+    })
 
-            if( !id ){
-                if( story_type_list.length > 0 ){
-                    id = story_type_list[0]['ID'];
-                }
-            }
-
-            let keyword = $("#searchForm").find("#keyword").val();
-
-            comm.appendInput($('#defaultListForm'+id),'search_keyword',keyword);
-
-            // 기본 목록
-            defaultList(id);
-
-        });
-
-
-        story_type_list.forEach(function(obj,idx){
+    function initCategory(){
+        category_list.forEach(function(obj,idx){
 
             const id = obj['ID'];
             const nm = obj['CATEGORY_NM'];
@@ -60,17 +45,28 @@
             defaultList(id);
 
         })
+    }
 
+    function initKeywordSearch(){
+        $("#search").on("click", function () {
 
+            let id = $("#seachCategory").val();
 
-    })
+            if( !id ){
+                if( category_list.length > 0 ){
+                    id = category_list[0]['ID'];
+                }
+            }
 
+            let keyword = $("#searchForm").find("#keyword").val();
 
-    // <div class="obj">
-    //     <!--------------------여행------------------------>
-    // <a href="javascript:;" class="btn_story2">여행 내용이 들어갑니다.</a>
-    // <!--------------------//여행------------------------>
-    // </div>
+            comm.appendInput($('#defaultListForm'+id),'search_keyword',keyword);
+
+            // 기본 목록
+            defaultList(id);
+
+        });
+    }
 
     function tab_event(){
         var param = "#tab_box";
