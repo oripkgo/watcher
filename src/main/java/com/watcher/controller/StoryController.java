@@ -109,7 +109,7 @@ public class StoryController {
         param.put("showYn"  ,"Y");
         param.put("loginId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
 
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch(param));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
         mav.addObject("category_list", jsonArray);
 
 
