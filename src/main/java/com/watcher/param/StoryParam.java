@@ -10,13 +10,13 @@ import java.util.List;
 public class StoryParam extends StoryDto {
     String search_id;
     String search_keyword;
-    String SortByRecommendationYn;
-    String limitNum;
-    String category_id;
-    String category_nm;
-    String tags;
+    String search_category_id;
     String search_memId;
     String search_secret_yn;
+    String SortByRecommendationYn;
+    String limitNum;
+    String category_nm;
+    String tags;
 
     MultipartFile thumbnailImgPathParam;
 
@@ -36,44 +36,12 @@ public class StoryParam extends StoryDto {
         this.search_keyword = search_keyword;
     }
 
-    public String getSortByRecommendationYn() {
-        return SortByRecommendationYn;
+    public String getSearch_category_id() {
+        return search_category_id;
     }
 
-    public void setSortByRecommendationYn(String sortByRecommendationYn) {
-        SortByRecommendationYn = sortByRecommendationYn;
-    }
-
-    public String getLimitNum() {
-        return limitNum;
-    }
-
-    public void setLimitNum(String limitNum) {
-        this.limitNum = limitNum;
-    }
-
-    public String getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
-    }
-
-    public String getCategory_nm() {
-        return category_nm;
-    }
-
-    public void setCategory_nm(String category_nm) {
-        this.category_nm = category_nm;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setSearch_category_id(String search_category_id) {
+        this.search_category_id = search_category_id;
     }
 
     public String getSearch_memId() {
@@ -90,6 +58,38 @@ public class StoryParam extends StoryDto {
 
     public void setSearch_secret_yn(String search_secret_yn) {
         this.search_secret_yn = search_secret_yn;
+    }
+
+    public String getSortByRecommendationYn() {
+        return SortByRecommendationYn;
+    }
+
+    public void setSortByRecommendationYn(String sortByRecommendationYn) {
+        SortByRecommendationYn = sortByRecommendationYn;
+    }
+
+    public String getLimitNum() {
+        return limitNum;
+    }
+
+    public void setLimitNum(String limitNum) {
+        this.limitNum = limitNum;
+    }
+
+    public String getCategory_nm() {
+        return category_nm;
+    }
+
+    public void setCategory_nm(String category_nm) {
+        this.category_nm = category_nm;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public MultipartFile getThumbnailImgPathParam() {
