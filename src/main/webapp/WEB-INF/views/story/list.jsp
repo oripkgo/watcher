@@ -28,9 +28,9 @@
             $('#seachCategory').append('<option value="'+id+'">'+nm+'</option>')
 
             if( idx == 0 ){
-                $('.category_tab').append('<a href="javascript:;" class="tab_ov"><span>'+nm+'</span></a>');
+                $('.category_tab').append('<a href="javascript:;" class="tab_ov tab_'+id+'"><span>'+nm+'</span></a>');
             }else{
-                $('.category_tab').append('<a href="javascript:;"><span>'+nm+'</span></a>');
+                $('.category_tab').append('<a href="javascript:;" class="tab_'+id+'"><span>'+nm+'</span></a>');
             }
 
             const tabObj = append_tab(id, $("#tab_parent"));
@@ -52,18 +52,25 @@
 
             let id = $("#seachCategory").val();
 
-            if( !id ){
-                if( category_list.length > 0 ){
-                    id = category_list[0]['ID'];
-                }
+            if (!id) {
+                comm.message.alert("카테고리를 선택해주세요.",function(){
+                    $("#seachCategory").focus();
+                });
+                return;
+
+                // if (category_list.length > 0) {
+                //     id = category_list[0]['ID'];
+                // }
             }
 
             let keyword = $("#searchForm").find("#keyword").val();
 
-            comm.appendInput($('#defaultListForm'+id),'search_keyword',keyword);
+            comm.appendInput($('#defaultListForm' + id), 'search_keyword', keyword);
 
             // 기본 목록
-            defaultList(id);
+            defaultList(id, function(){
+                $(".tab_"+id).click();
+            });
 
         });
     }
@@ -148,7 +155,7 @@
         });
     }
 
-    function defaultList(id){
+    function defaultList(id, callback){
 
         comm.list('#defaultListForm'+id, listUrl,function(data){
 
@@ -213,6 +220,10 @@
             }
 
 
+            if( callback ){
+                callback();
+            }
+
         }, pageNo, listNo, pagigRange);
 
 
@@ -240,7 +251,7 @@
 
         tabInHtml += '<form id="RecommendedListForm'+id+'" name="RecommendedListForm'+id+'">';
         tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="YY">';
-        tabInHtml += '    <input type="hidden" name="category_id" value="'+id+'">';
+        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
         tabInHtml += '    <input type="hidden" name="limitNum" value="3">';
         tabInHtml += '';
         tabInHtml += '    <ul class="story_wrap" id="RecommendedDataList'+id+'">';
@@ -250,7 +261,7 @@
         tabInHtml += '';
         tabInHtml += '<form id="defaultListForm'+id+'" name="defaultListForm'+id+'">';
         tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="NN">';
-        tabInHtml += '    <input type="hidden" name="category_id" value="'+id+'">';
+        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
         tabInHtml += '    <div class="story_wrap01">';
         tabInHtml += '        <ul id="defaultList'+id+'">';
         tabInHtml += '        </ul>';
