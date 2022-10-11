@@ -5,6 +5,7 @@ import com.watcher.mapper.StoryMapper;
 import com.watcher.param.FileParam;
 import com.watcher.param.NoticeParam;
 import com.watcher.param.StoryParam;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class StoryService {
     private String fileUploadPath = "/story";
 
     @Transactional
-    public Map<String, String> story_insert(StoryParam storyParam) throws Exception {
+    public Map<String, String> insertStory(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
 
@@ -111,9 +112,36 @@ public class StoryService {
     }
 
     @Transactional
-    public Map<String, String> story_update(StoryParam storyParam) throws Exception {
+    public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
         storyMapper.update(storyParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
+    public Map<String, String> deleteStory(StoryParam storyParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+        storyParam.setDeleteYn("Y");
+        storyMapper.update(storyParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
+    public Map<String, String> deleteStorys(StoryParam storyParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        JSONArray storyIds = new JSONArray(storyParam.getParamJson());
+
+        storyParam.setDeleteYn("Y");
+       // storyMapper.update(storyParam);
 
         result.put("code", "0000");
         result.put("message", "OK");

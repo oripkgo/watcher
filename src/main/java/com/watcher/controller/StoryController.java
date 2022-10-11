@@ -66,9 +66,8 @@ public class StoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        storyParam.setDeleteYn("Y");
 
-        result.putAll(storyService.story_update(storyParam));
+        result.putAll(storyService.deleteStory(storyParam));
         result.put("vo",storyParam);
 
         return result;
@@ -87,7 +86,7 @@ public class StoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        result.putAll(storyService.story_insert(storyParam));
+        result.putAll(storyService.insertStory(storyParam));
 
         return result;
     }
