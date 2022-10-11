@@ -14,10 +14,11 @@ public class CommDto {
     private int endPageNo;			// 끝 페이지
     private int totalCnt;			// 총 데이터 수
 
-    private String regId;       // 등록 아이디
-    private String regDate;     // 등록 일자
-    private String uptId;       // 수정 아이디
-    private String uptDate;     // 수정 일자
+    private String regId;           // 등록 아이디
+    private String regDate;         // 등록 일자
+    private String uptId;           // 수정 아이디
+    private String uptDate;         // 수정 일자
+    private String paramJson;       // json string형태에 파라미터
 
     public int getPageNo() {
         return pageNo;
@@ -44,7 +45,7 @@ public class CommDto {
     }
 
     public int getStartPageNo() {
-        return this.startPageNo;
+        return startPageNo;
     }
 
     public void setStartPageNo(int startPageNo) {
@@ -52,7 +53,7 @@ public class CommDto {
     }
 
     public int getEndPageNo() {
-        return this.endPageNo;
+        return endPageNo;
     }
 
     public void setEndPageNo(int endPageNo) {
@@ -97,5 +98,13 @@ public class CommDto {
 
     public void setUptDate(String uptDate) {
         this.uptDate = uptDate;
+    }
+
+    public String getParamJson() {
+        return paramJson;
+    }
+
+    public void setParamJson(String paramJson) {
+        this.paramJson = paramJson;
     }
 }

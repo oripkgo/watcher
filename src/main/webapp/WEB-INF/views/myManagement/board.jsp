@@ -6,6 +6,53 @@
 <script type="text/javascript">
     const category_list = JSON.parse('${category_list}');
 
+    function deleteStory(){
+
+        const checkObjs = $(".check:checked:not('.all')")
+        const storyIds = [];
+
+        checkObjs.each(function(idx,checkObj){
+            const obj = $(checkObj).parents("tr").data();
+            storyIds.push(obj.ID);
+        })
+
+        comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
+
+            if( result ){
+
+                comm.request({url:"/myManagement/articles", method : "DELETE", data : JSON.stringify({paramJson:JSON.stringify(storyIds)})},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+
+                    }
+                })
+
+            }
+
+        })
+
+    }
+
+    function initCheckBox(){
+        $(".check").on("click",function(){
+            let $this = this;
+
+            if( $($this).hasClass("all") ){
+                if( $($this).is(":checked") ){
+                    $(".check").prop("checked",true)
+                }else{
+                    $(".check").prop("checked",false)
+                }
+            }
+
+            if( $(".check:not('.all')").length == $(".check:checked:not('.all')").length ){
+                $(".check.all").prop("checked",true)
+            }else{
+                $(".check.all").prop("checked",false)
+            }
+
+        })
+    }
 
     function initCategory(){
         category_list.forEach(function(obj,idx){
@@ -26,7 +73,7 @@
 
         let _TrHeadStr = '';
 
-        _TrHeadStr += '<th><input type="checkbox"></th>';
+        _TrHeadStr += '<th><input type="checkbox" class="check all"></th>';
         _TrHeadStr += '<th>카테고리</th>';
         _TrHeadStr += '<th colspan="2">';
         _TrHeadStr += '    <div class="btn_tb">';
@@ -51,7 +98,7 @@
             let listHtml = '';
             let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
-            listHtml += '<td><input type="checkbox"></td>                                                                       ';
+            listHtml += '<td><input type="checkbox" class="check"></td>                                                                       ';
             listHtml += '<td><a href="' + getStoryViewUrl(obj.ID) + '" class="kind_link">'+obj.CATEGORY_NM+'</a></td>                         ';
             listHtml += '<td>                                                                                                   ';
             listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="subject_link">                                                  ';
@@ -93,6 +140,8 @@
             $("#dataList").append(listHtml);
 
         }
+
+        initCheckBox();
 
     }
 
