@@ -137,6 +137,24 @@ public class MyManagementController {
         return result;
     }
 
+    @RequestMapping(value = {"/articles"}, method = RequestMethod.DELETE)
+    @ResponseBody
+    public LinkedHashMap<String, Object> deleteArticles(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        storyParam.setSearch_memId(String.valueOf(memId));
+
+        storyService.deleteStorys(storyParam);
+
+        return result;
+    }
+
 
 //    @RequestMapping(value = {"/delete"})
 //    @ResponseBody
@@ -151,7 +169,7 @@ public class MyManagementController {
 //        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
 //        storyParam.setDeleteYn("Y");
 //
-//        result.putAll(storyService.story_update(storyParam));
+//        result.putAll(storyService.updateStory(storyParam));
 //        result.put("vo",storyParam);
 //
 //        return result;

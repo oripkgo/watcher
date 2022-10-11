@@ -67,7 +67,7 @@ public class MyManagementService {
 
 
     /*@Transactional
-    public Map<String, String> story_update(StoryParam storyParam) throws Exception {
+    public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
         storyMapper.update(storyParam);
 
