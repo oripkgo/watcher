@@ -140,8 +140,9 @@ public class StoryService {
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
+        storyParam.setId_list(storyIds.toList());
         storyParam.setDeleteYn("Y");
-       // storyMapper.update(storyParam);
+        storyMapper.update(storyParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
