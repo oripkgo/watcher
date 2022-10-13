@@ -7,7 +7,6 @@
     const category_list = JSON.parse('${category_list}');
 
     function deleteStory(){
-
         const checkObjs = $(".check:checked:not('.all')")
         const storyIds = [];
 
@@ -17,20 +16,17 @@
         })
 
         comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
-
             if( result ){
-
                 comm.request({url:"/myManagement/articles", method : "DELETE", data : JSON.stringify({paramJson:JSON.stringify(storyIds)})},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
-
+                        $(".check:checked:not('.all')").each(function(idx,checkObj){
+                            $(checkObj).parents("tr").remove();
+                        })
                     }
                 })
-
             }
-
         })
-
     }
 
     function initCheckBox(){
@@ -77,7 +73,7 @@
         _TrHeadStr += '<th>카테고리</th>';
         _TrHeadStr += '<th colspan="2">';
         _TrHeadStr += '    <div class="btn_tb">';
-        _TrHeadStr += '        <a href="javascript:;">삭제</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
         _TrHeadStr += '        <a href="javascript:;">공개</a>';
         _TrHeadStr += '        <a href="javascript:;">비공개</a>';
         _TrHeadStr += '        <a href="javascript:;">글쓰기</a>';

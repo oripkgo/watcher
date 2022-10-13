@@ -18,6 +18,8 @@ public class StoryParam extends StoryDto {
     String category_nm;
     String tags;
 
+    List id_list;
+
     MultipartFile thumbnailImgPathParam;
 
     public String getSearch_id() {
@@ -90,6 +92,14 @@ public class StoryParam extends StoryDto {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public List getId_list() {
+        return id_list;
+    }
+
+    public void setId_list(List id_list) {
+        this.id_list = id_list;
     }
 
     public MultipartFile getThumbnailImgPathParam() {

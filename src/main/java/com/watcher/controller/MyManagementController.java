@@ -147,8 +147,9 @@ public class MyManagementController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
-        storyParam.setSearch_memId(String.valueOf(memId));
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        storyParam.setRegId(String.valueOf(loginId));
+        storyParam.setUptId(String.valueOf(loginId));
 
         storyService.deleteStorys(storyParam);
 
