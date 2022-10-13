@@ -16,11 +16,7 @@
         // 지난 시간 세팅
         $("#last_time").html( comm.last_time_cal(regDate) );
 
-        comm.board_view_init(type, id, function(resp){
-
-
-        },{"likeTarget":".like", "tagsTarget":".conts_tag", "commentTarget":".conts_review"});
-
+        comm.board_view_init(type, id, function(resp){},{"likeTarget":".like", "tagsTarget":".conts_tag", "commentTarget":".conts_review"});
 
         // 수정
         $("#story_update").on("click",function(){
@@ -29,17 +25,20 @@
 
         // 삭제
         $("#story_delete").on("click",function(){
-            comm.request({
-                url:"/story/delete",
-                data:JSON.stringify({id:id})
-            },function(resp){
-                if( resp.code == '0000'){
-                    comm.message.alert('삭제가 완료되었습니다.',function(){
-                        location.href = '/story/list';
+            comm.message.confirm("스토리를 삭제하시겠습니까?", function(status){
+                if( status ){
+                    comm.request({
+                        url:"/story/delete",
+                        data:JSON.stringify({id:id})
+                    },function(resp){
+                        if( resp.code == '0000'){
+                            comm.message.alert('삭제가 완료되었습니다.',function(){
+                                location.href = '/story/list';
+                            });
+                        }
                     });
                 }
-
-            });
+            })
         });
 
         // sic">
