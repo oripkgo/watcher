@@ -390,9 +390,10 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .board_basic th {border-bottom:1px solid #ddd;font-size:15px;color:#757575;font-weight:400;padding:15px 0px 15px 0px;}
 .board_basic td:nth-child(1) {width:50px;text-align:center;}
 .board_basic td:nth-child(2) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;}
-.board_basic td:nth-child(3) {padding:10px 30px 20px 10px;}
-.board_basic td:nth-child(4) {width:100px;}
-.board_basic th:nth-child(3) {text-align:right;}
+.board_basic td:nth-child(3) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;}
+.board_basic td:nth-child(4) {padding:10px 30px 20px 10px;}
+.board_basic td:nth-child(5) {width:100px;}
+.board_basic th:nth-child(4) {text-align:right;}
 .board_basic td {border-bottom:1px solid #ddd;font-size:15px;color:#757575;font-weight:400;padding:10px 0px;}
 .board_basic td a strong {display:block;font-size:20px;color:#333;font-weight:600;padding:10px 0px 12px 0px;}
 .board_basic td a span {display:block;font-size:14px;color:#000;font-weight:400;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;word-wrap:break-word;}
@@ -827,9 +828,11 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.board_basic td:nth-child(1) {width:50px;text-align:center;}
 	.board_basic td:nth-child(2) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;display:none;}
 	.board_basic th:nth-child(2) {display:none;}
-	.board_basic td:nth-child(3) {padding:10px 30px 20px 10px;}
-	.board_basic td:nth-child(4) {width:60px;}
-	.board_basic th:nth-child(3) {text-align:right;}
+	.board_basic td:nth-child(3) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;display:none;}
+	.board_basic th:nth-child(3) {display:none;}
+	.board_basic td:nth-child(4) {padding:10px 30px 20px 10px;}
+	.board_basic td:nth-child(5) {width:60px;}
+	.board_basic th:nth-child(4) {text-align:right;}
 	.board_basic td {font-size:14px;}
 	.board_basic td a strong {font-size:15px;}
 	.board_basic td a span {font-size:13px;}

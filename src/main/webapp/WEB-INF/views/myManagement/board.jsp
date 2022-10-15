@@ -6,8 +6,24 @@
 <script type="text/javascript">
     const category_list = JSON.parse('${category_list}');
 
-    function deleteStory(){
-        const checkObjs = $(".check:checked:not('.all')")
+    function goWritingPage(){
+        window.location.href = getStoryWriteUrl();
+    }
+
+    function confirmCheckBox(){
+        return $(".check:checked:not('.all')").length == 0 ? false : true ;
+    }
+
+    function changeCheckBoxOff(){
+        $(".check:checked").prop("checked", false);
+    }
+
+    function getSelCheckBoxObjs(){
+        return $(".check:checked:not('.all')");
+    }
+
+    function getStoryIds(){
+        const checkObjs = getSelCheckBoxObjs();
         const storyIds = [];
 
         checkObjs.each(function(idx,checkObj){
@@ -15,12 +31,69 @@
             storyIds.push(obj.ID);
         })
 
-        comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
+        return storyIds;
+    }
+
+    function updatePublic(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('스토리를 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 스토리를 공개하시겠습니까?",function(result){
             if( result ){
-                comm.request({url:"/myManagement/articles", method : "DELETE", data : JSON.stringify({paramJson:JSON.stringify(storyIds)})},function(resp){
+                const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
+                comm.request({url:"/myManagement/articles/public", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
-                        $(".check:checked:not('.all')").each(function(idx,checkObj){
+                        $(getSelCheckBoxObjs()).each(function(idx,checkObj){
+                            const trObj = $(checkObj).parents("tr");
+                            $("td:eq(1)", trObj).text("공개");
+                        })
+
+                        changeCheckBoxOff();
+                    }
+                })
+            }
+        })
+    }
+
+    function updatePrivate(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('스토리를 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 스토리를 비공개하시겠습니까?",function(result){
+            if( result ){
+                debugger;
+                const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
+                comm.request({url:"/myManagement/articles/private", method : "PUT", data : param},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        $(getSelCheckBoxObjs()).each(function(idx,checkObj){
+                            const trObj = $(checkObj).parents("tr");
+                            $("td:eq(1)", trObj).text("비공개");
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+    function deleteStory(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('스토리를 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
+            if( result ){
+                const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
+                comm.request({url:"/myManagement/articles", method : "DELETE", data : param},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        $(getSelCheckBoxObjs()).each(function(idx,checkObj){
                             $(checkObj).parents("tr").remove();
                         })
                     }
@@ -70,13 +143,14 @@
         let _TrHeadStr = '';
 
         _TrHeadStr += '<th><input type="checkbox" class="check all"></th>';
+        _TrHeadStr += '<th>공개여부</th>';
         _TrHeadStr += '<th>카테고리</th>';
         _TrHeadStr += '<th colspan="2">';
         _TrHeadStr += '    <div class="btn_tb">';
-        _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
-        _TrHeadStr += '        <a href="javascript:;">공개</a>';
-        _TrHeadStr += '        <a href="javascript:;">비공개</a>';
-        _TrHeadStr += '        <a href="javascript:;">글쓰기</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();"  >삭제</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="updatePublic();" >공개</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="updatePrivate();">비공개</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="goWritingPage();">글쓰기</a>';
         _TrHeadStr += '    </div>';
         _TrHeadStr += '</th>';
 
@@ -93,11 +167,13 @@
             let obj = data.list[i];
             let listHtml = '';
             let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
+            let secretStatus = obj.SECRET_YN == 'Y' ? "비공개" : "공개";
 
-            listHtml += '<td><input type="checkbox" class="check"></td>                                                                       ';
-            listHtml += '<td><a href="' + getStoryViewUrl(obj.ID) + '" class="kind_link">'+obj.CATEGORY_NM+'</a></td>                         ';
+            listHtml += '<td><input type="checkbox" class="check"></td>                                                         ';
+            listHtml += '<td>'+secretStatus+'</td>                                                                              ';
+            listHtml += '<td><a href="' + getStoryViewUrl(obj.ID) + '" class="kind_link">'+obj.CATEGORY_NM+'</a></td>           ';
             listHtml += '<td>                                                                                                   ';
-            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="subject_link">                                                  ';
+            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="subject_link">                                    ';
             listHtml += '        <strong>'+obj.TITLE+'</strong>                                                                 ';
             listHtml += '        <span>'+obj.SUMMARY+'</span>                                                                   ';
             listHtml += '    </a>                                                                                               ';
@@ -111,15 +187,15 @@
                 })
             }
 
-            listHtml += '    </div>                                                                                             ';
-            listHtml += '    <div class="story_key">                                                                            ';
-            listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>                                                                              ';
-            listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>                                                                              ';
-            listHtml += '        <span>댓글 ' + obj.COMMENT_CNT + '</span>                                                                             ';
-            listHtml += '    </div>                                                                                             ';
-            listHtml += '</td>                                                                                                  ';
-            listHtml += '<td>                                                                                                   ';
-            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="pic_link">                                                      ';
+            listHtml += '    </div>                                                                                        ';
+            listHtml += '    <div class="story_key">                                                                       ';
+            listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>                                         ';
+            listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>                                                      ';
+            listHtml += '        <span>댓글 ' + obj.COMMENT_CNT + '</span>                                                   ';
+            listHtml += '    </div>                                                                                        ';
+            listHtml += '</td>                                                                                             ';
+            listHtml += '<td>                                                                                              ';
+            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="pic_link">                                   ';
 
             if( obj.THUMBNAIL_IMG_PATH ){
                 listHtml += '<img src="'+obj.THUMBNAIL_IMG_PATH+'">';
