@@ -24,11 +24,11 @@
 			<when test="search_secret_yn == 'ALL'">
 				AND A.SECRET_YN IN ('Y','N')
 			</when>
-			<when test="search_secret_yn == 'NN'">
-				AND A.SECRET_YN IN ('N')
+			<when test="search_secret_yn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
 			</when>
 			<otherwise>
-				AND A.SECRET_YN IN ('Y')
+				AND A.SECRET_YN IN ('N')
 			</otherwise>
 		</choose>
 
@@ -55,11 +55,11 @@
 			<when test="search_secret_yn == 'ALL'">
 				AND A.SECRET_YN IN ('Y','N')
 			</when>
-			<when test="search_secret_yn == 'NN'">
-				AND A.SECRET_YN IN ('N')
+			<when test="search_secret_yn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
 			</when>
 			<otherwise>
-				AND A.SECRET_YN IN ('Y')
+				AND A.SECRET_YN IN ('N')
 			</otherwise>
 		</choose>
 

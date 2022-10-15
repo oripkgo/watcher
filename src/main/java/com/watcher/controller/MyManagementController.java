@@ -18,10 +18,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/myManagement")
-
 public class MyManagementController {
-
-
     @Autowired
     CategoryService categoryService;
 
@@ -71,7 +68,6 @@ public class MyManagementController {
         HttpServletResponse response,
         ManagementParam managementParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
         result.putAll(myManagementService.getVisitorCnt(managementParam));
@@ -86,7 +82,6 @@ public class MyManagementController {
             HttpServletResponse response,
             ManagementParam managementParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
         result.putAll(myManagementService.getChartVisitorCnt(managementParam));
@@ -102,7 +97,6 @@ public class MyManagementController {
             HttpServletResponse response,
             StoryParam storyParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
@@ -124,7 +118,6 @@ public class MyManagementController {
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
@@ -144,7 +137,6 @@ public class MyManagementController {
             HttpServletResponse response,
             @RequestBody StoryParam storyParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
@@ -156,25 +148,41 @@ public class MyManagementController {
         return result;
     }
 
+    @RequestMapping(value = {"/articles/private"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updatePrivate(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody StoryParam storyParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-//    @RequestMapping(value = {"/delete"})
-//    @ResponseBody
-//    public LinkedHashMap<String, Object> storyRemove(
-//        HttpServletRequest request,
-//        HttpServletResponse response,
-//        @RequestBody StoryParam storyParam
-//    ) throws Exception {
-//
-//        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-//
-//        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-//        storyParam.setDeleteYn("Y");
-//
-//        result.putAll(storyService.updateStory(storyParam));
-//        result.put("vo",storyParam);
-//
-//        return result;
-//    }
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        storyParam.setRegId(String.valueOf(loginId));
+        storyParam.setUptId(String.valueOf(loginId));
+        storyParam.setSecretYn("Y");
 
+        storyService.updateStorys(storyParam);
 
+        return result;
+    }
+
+    @RequestMapping(value = {"/articles/public"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updatePublic(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody StoryParam storyParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        storyParam.setRegId(String.valueOf(loginId));
+        storyParam.setUptId(String.valueOf(loginId));
+        storyParam.setSecretYn("N");
+
+        storyService.updateStorys(storyParam);
+
+        return result;
+    }
 }

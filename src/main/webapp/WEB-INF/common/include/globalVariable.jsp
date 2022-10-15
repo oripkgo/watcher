@@ -15,7 +15,8 @@
     globalVar.put("myManagementComment"      , "/myManagement/comment"   );
     globalVar.put("myManagementSetting"      , "/myManagement/setting"   );
     globalVar.put("myManagementStatistics"   , "/myManagement/statistics");
-    globalVar.put("storyView"                , "/story/view"             );
+    globalVar.put("storyUrlView"             , "/story/view"             );
+    globalVar.put("storyUrlwrite"            , "/story/write"            );
 
     request.setAttribute("globalVar" , globalVar);
 
@@ -29,10 +30,14 @@
     const loginId   = '${sessionScope.loginInfo.LOGIN_ID}';
     const loginType = '${sessionScope.loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
     const memberId  = '${sessionScope.loginInfo.ID}';
+    const storyUrlView = '${globalVar.storyUrlView}';
+    const storyUrlwrite = '${globalVar.storyUrlwrite}';
 
-    const storyView = '${globalVar.storyView}';
     const getStoryViewUrl = function(id){
-        return storyView+'?id=' + id;
+        return storyUrlView+'?id=' + id;
+    }
+    const getStoryWriteUrl = function(){
+        return storyUrlwrite;
     }
 </script>
 

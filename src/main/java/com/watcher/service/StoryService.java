@@ -123,6 +123,23 @@ public class StoryService {
     }
 
     @Transactional
+    public Map<String, String> updateStorys(StoryParam storyParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        JSONArray storyIds = new JSONArray(storyParam.getParamJson());
+
+        storyParam.setId_list(storyIds.toList());
+        storyMapper.update(storyParam);
+
+        storyMapper.update(storyParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
     public Map<String, String> deleteStory(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
         storyParam.setDeleteYn("Y");
