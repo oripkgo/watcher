@@ -43,7 +43,7 @@
         comm.message.confirm("선택한 스토리를 공개하시겠습니까?",function(result){
             if( result ){
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/articles/public", method : "PUT", data : param},function(resp){
+                comm.request({url:"/myManagement/board/public/storys", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -68,7 +68,7 @@
             if( result ){
                 debugger;
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/articles/private", method : "PUT", data : param},function(resp){
+                comm.request({url:"/myManagement/board/private/storys", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -90,7 +90,7 @@
         comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
             if( result ){
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/articles", method : "DELETE", data : param},function(resp){
+                comm.request({url:"/myManagement/board/storys", method : "DELETE", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -389,7 +389,7 @@
 
                         <jsp:include page="/WEB-INF/common/include/paging.jsp">
                             <jsp:param name="form" value="#myManagementBoardForm"/>
-                            <jsp:param name="url" value="/myManagement/articles"/>
+                            <jsp:param name="url" value="/myManagement/board/storys"/>
                             <jsp:param name="listCallback" value="listCallback"/>
                             <jsp:param name="pageNo" value="${vo.pageNo}"/>
                             <jsp:param name="listNo" value="10"/>

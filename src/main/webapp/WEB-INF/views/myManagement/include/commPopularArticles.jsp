@@ -66,13 +66,10 @@
 
 
 <script>
-
-    comm.request({url: "/myManagement/popularity/articles", method: "GET"}, function (resp) {
+    comm.request({url: "/myManagement/board/popularity/storys", method: "GET"}, function (resp) {
         if (resp.code == '0000') {
-
             $(".articleList").empty();
             resp.list.forEach(function (obj) {
-
                 let liObj = $("<li></li>");
                 let liHtml = '';
                 liHtml += '<a href="'+getStoryViewUrl(obj.ID)+'">                          ';
@@ -88,10 +85,7 @@
 
                 $(liObj).html(liHtml);
                 $(".articleList").append(liObj);
-
             });
-
         }
     })
-
 </script>

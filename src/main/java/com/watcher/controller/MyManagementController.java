@@ -90,9 +90,9 @@ public class MyManagementController {
     }
 
 
-    @RequestMapping(value = {"/popularity/articles"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getPopularityArticles(
+    public LinkedHashMap<String, Object> getPopularityStorys(
             HttpServletRequest request,
             HttpServletResponse response,
             StoryParam storyParam
@@ -111,9 +111,9 @@ public class MyManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/articles"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/board/storys"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getArticles(
+    public LinkedHashMap<String, Object> getStorys(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
@@ -130,9 +130,9 @@ public class MyManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/articles"}, method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/board/storys"}, method = RequestMethod.DELETE)
     @ResponseBody
-    public LinkedHashMap<String, Object> deleteArticles(
+    public LinkedHashMap<String, Object> deleteStorys(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody StoryParam storyParam
@@ -148,7 +148,7 @@ public class MyManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/articles/private"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/board/private/storys"}, method = RequestMethod.PUT)
     @ResponseBody
     public LinkedHashMap<String, Object> updatePrivate(
             HttpServletRequest request,
@@ -167,7 +167,7 @@ public class MyManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/articles/public"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/board/public/storys"}, method = RequestMethod.PUT)
     @ResponseBody
     public LinkedHashMap<String, Object> updatePublic(
             HttpServletRequest request,
