@@ -1,9 +1,11 @@
 package com.watcher.controller;
 
 import com.watcher.param.ManagementParam;
+import com.watcher.param.NoticeParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.MyManagementService;
+import com.watcher.service.NoticeService;
 import com.watcher.service.StoryService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/myManagement")
 public class MyManagementController {
+    @Autowired
+    NoticeService noticeService;
+
     @Autowired
     CategoryService categoryService;
 
@@ -182,6 +187,24 @@ public class MyManagementController {
         storyParam.setSecretYn("N");
 
         storyService.updateStorys(storyParam);
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/board/notices"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getNotices(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") NoticeParam noticeParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+
+        noticeParam.setSearch_memId(String.valueOf(memId));
+        result.putAll(noticeService.list(noticeParam));
+        result.put("vo", noticeParam);
 
         return result;
     }
