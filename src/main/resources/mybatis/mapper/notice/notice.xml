@@ -20,23 +20,26 @@
 		AND A.REG_ID IN (
 		<choose>
 			<when test="search_memId != null and search_memId != ''">
-				#{search_memId}
+				SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
 			</when>
 			<otherwise>
 				SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
 			</otherwise>
 		</choose>
 		)
-		<if test="search_keyword != null and search_keyword != ''">
-			<choose>
-				<when test="search_id == '01'">
-					AND A.TITLE LIKE '%${search_keyword}%'
-				</when>
-				<otherwise>
-					AND A.CONTENTS LIKE '%${search_keyword}%'
-				</otherwise>
-			</choose>
-		</if>
+		-- 		<if test="search_keyword != null and search_keyword != ''">
+		<choose>
+			<when test="search_id == '01'">
+				AND A.TITLE LIKE '%${search_keyword}%'
+			</when>
+			<when test="search_id == '02'">
+				AND A.CONTENTS LIKE '%${search_keyword}%'
+			</when>
+			<otherwise>
+				AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
+			</otherwise>
+		</choose>
+	</if>
 	</select>
 
 
@@ -60,8 +63,11 @@
 				<when test="search_id == '01'">
 					AND A.TITLE LIKE '%${search_keyword}%'
 				</when>
-				<otherwise>
+				<when test="search_id == '02'">
 					AND A.CONTENTS LIKE '%${search_keyword}%'
+				</when>
+				<otherwise>
+					AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
 				</otherwise>
 			</choose>
 		</if>

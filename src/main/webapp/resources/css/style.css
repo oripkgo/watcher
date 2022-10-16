@@ -226,6 +226,8 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .conts_rel li p {padding:10px 0px;}
 .conts_rel li p em {display:inline-block;vertical-align:middle;font-size:11px;color:#878787;font-weight:300;line-height:23px;}
 .conts_rel li p img {margin:0px 10px;}
+.conts_rel .articleList a img {height: 233px; width: 100%;}
+
 
 .conts_review {}
 .conts_review ul {/*border-top:3px solid #333;*/}
@@ -576,6 +578,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 #backgroundPopup{ background-color: #000; bottom: 0; left: 0; opacity: 0.5; filter: alpha(opacity = 50); /* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 998; display:none;}
 
 @media (max-width:1200px) {
+	.conts_rel .articleList a img {height: 130px; width: 100%;}
 
 	.head_wrap {height:70px;}
 	.head_tip {height:70px;}
@@ -634,7 +637,6 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 }
 
 @media (max-width:750px) {
-
     .swiper_banner .swiper-pagination-bullet {width: 12px;height: 12px;}
         
 	.head_wrap {height:60px;}
@@ -747,6 +749,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.detail_bg .btn_basic {border:1px solid #878787;}
 
 	.conts_rel li {width:50%;margin-bottom:20px;}
+	.conts_rel .articleList a img {height: 170px; width: 100%;}
 
 	.ad_banner_left, .ad_banner_right {display:none;}
 
@@ -768,7 +771,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.manage_conts {padding:30px 0px 50px 0px;}
 	.manage_menu {position:fixed;top:60px;bottom:0px;left:-180px;z-index:999;display:block;width:180px;background:#fff;padding:20px;transition:all 0.2s ease-out; -webkit-transition:all 0.2s ease-out;}
 	.manage_menu.on {left:0px;}
-	.manage_photo {background:#a1a6b5;text-align:center;padding:20px 20px;}
+	.manage_photo {background:#a1a6b5;text-align:center;padding:20px 20px;display: none;}
 	.manage_menu_link {padding:30px 0px;}
 	.menu_1st {font-size:16px;}
 	.menu_2st {padding-bottom:30px;}

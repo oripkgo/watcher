@@ -412,7 +412,7 @@
         <%--                        </c:forEach>--%>
         <%--                    </c:if>--%>
                         </select>
-                        <input type="text" id="keyword" placeholder="검색 키워드 입력">
+                        <input type="text" id="keyword" placeholder="키워드 입력">
 
 
                     <a href="javascript:;" id="search"><img src="/resources/img/btn_search_b.png"></a>

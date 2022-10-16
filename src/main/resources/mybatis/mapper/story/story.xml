@@ -89,7 +89,7 @@
 
 
 	<select id="view" resultType="map" parameterType="storyParam">
-		/*Notice > list*/
+		/*story > view*/
 		<include refid="story_select"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'

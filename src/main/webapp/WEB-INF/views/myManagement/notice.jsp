@@ -4,101 +4,102 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+    function search() {
+        comm.list('#noticeForm', '/myManagement/board/notices', listCallback, 1, 20);
+    }
 
+    function listCallback(data) {
+        $("#noticeList").empty();
+        $("#noticeList").append(getTrHead());
+
+        for (let i = 0; i < data.list.length; i++) {
+            let obj = data.list[i];
+            let listHtml = '';
+            let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
+
+            listHtml += '<td><input type="checkbox"></td>';
+            listHtml += '<td>';
+            listHtml += '    <a href="/notice/view?id=' + obj.ID + '" class="subject_link">'+obj.TITLE+'</a>';
+            listHtml += '</td>';
+            listHtml += '<td>';
+            listHtml += obj.REG_DATE;
+            listHtml += '</td>';
+
+            listHtml = $(getTr()).html(listHtml);
+            $(listHtml).data(obj);
+
+            $("#noticeList").append(listHtml);
+        }
+    }
+
+    function getTr(){
+        return $('<tr></tr>').clone(true);
+    }
+
+    function getTrHead(){
+        let _TrHeadStr = '';
+
+        _TrHeadStr += '<th><input type="checkbox" class="check all"></th>';
+        _TrHeadStr += '<th colspan="2">';
+        _TrHeadStr += '    <div class="btn_tb">';
+        _TrHeadStr += '        <a href="javascript:;">삭제</a>';
+        _TrHeadStr += '        <a href="javascript:;">공개</a>';
+        _TrHeadStr += '        <a href="javascript:;">비공개</a>';
+        _TrHeadStr += '        <a href="javascript:;">공지쓰기</a>';
+        _TrHeadStr += '    </div>';
+        _TrHeadStr += '</th>';
+
+        return $(getTr()).html(_TrHeadStr);
+    }
+
+    $(document).on("ready", function () {
+        $("#search").on("click", function () {
+            search();
+        });
+
+        $("#search_keyword").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                search();
+                return false;
+            }
+        });
+    })
 </script>
 
+<form id="noticeForm">
+    <div class="section uline2">
+        <div class="ani-in manage_layout">
+            <div class="manage_conts">
+                <%@include file="include/commMenu.jsp"%>
+                <div class="manage_box_wrap">
+                    <div class="sub_title01">
+                        공지 관리
 
-<div class="section uline2">
-    <div class="ani-in manage_layout">
-
-        <div class="manage_conts">
-
-            <%@include file="include/commMenu.jsp"%>
-
-            <div class="manage_box_wrap">
-
-                <div class="sub_title01">
-                    공지 관리
-                    <div class="search_right_box">
-                        <select>
-                            <option>카테고리</option>
-                            <option>여행</option>
-                            <option>맛집</option>
-                            <option>문화</option>
-                            <option>연애</option>
-                            <option>IT</option>
-                            <option>게임</option>
-                            <option>스포츠</option>
-                        </select>
-                        <input type="text" placeholder="">
-                        <a href="javascript:;"></a>
-                    </div>
-                </div>
-
-                <div class="board_notice">
-                    <table>
-                        <tr>
-                            <th><input type="checkbox"></th>
-                            <th colspan="2">
-                                <div class="btn_tb">
-                                    <a href="javascript:;">삭제</a>
-                                    <a href="javascript:;">공개</a>
-                                    <a href="javascript:;">비공개</a>
-                                    <a href="javascript:;" class="on">공지쓰기</a>
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>
-                                <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                            </td>
-                            <td>
-                                2021.11.11  13:44
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>
-                                <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                            </td>
-                            <td>
-                                2021.11.11  13:44
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>
-                                <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                            </td>
-                            <td>
-                                2021.11.11  13:44
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox"></td>
-                            <td>
-                                <a href="story_detail.html" class="subject_link">[칼럼] 재난지원인가 빈민구휼인가?</a>
-                            </td>
-                            <td>
-                                2021.11.11  13:44
-                            </td>
-                        </tr>
-                    </table>
-
-                    <div class="pagging_wrap">
-                        <a href="javascript:;"><img src="/resources/img/prev_arrow.png"></a>
-                        <a href="javascript:;" class="on">1</a>
-                        <a href="javascript:;">2</a>
-                        <a href="javascript:;">3</a>
-                        <a href="javascript:;"><img src="/resources/img/next_arrow.png"></a>
+                        <div class="search_right_box">
+                            <select id="search_id" name="search_id">
+                                <option value="">선택</option>
+                                <option value="01">제목</option>
+                                <option value="02">내용</option>
+                            </select>
+                            <input type="text" id="search_keyword" name="search_keyword" placeholder="">
+                            <a href="javascript:;" id="search"></a>
+                        </div>
                     </div>
 
-                </div>
+                    <div class="board_notice">
+                        <table id="noticeList"></table>
 
-            </div><!-------------//manage_box_wrap------------->
-
+                        <jsp:include page="/WEB-INF/common/include/paging.jsp">
+                            <jsp:param name="form" value="#noticeForm"/>
+                            <jsp:param name="url" value="/myManagement/board/notices"/>
+                            <jsp:param name="listCallback" value="listCallback"/>
+                            <jsp:param name="pageNo" value="${vo.pageNo}"/>
+                            <jsp:param name="listNo" value="${vo.listNo}"/>
+                            <jsp:param name="pagigRange" value="${vo.pagigRange}"/>
+                        </jsp:include>
+                    </div>
+                </div><!-------------//manage_box_wrap------------->
+            </div>
         </div>
-
     </div>
-</div>
+</form>

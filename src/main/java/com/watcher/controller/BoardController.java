@@ -20,8 +20,6 @@ import java.util.Map;
 @Controller
 @RequestMapping(value="/")
 public class BoardController {
-
-
 	@Autowired
 	NoticeService noticeService;
 
