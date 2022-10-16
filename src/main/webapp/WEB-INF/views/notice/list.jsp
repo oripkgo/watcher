@@ -3,23 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
-
-    $(document).on("ready", function () {
-        $("#search").on("click", function () {
-
-            let id = $("#searchForm").find("#id").val();
-            let keyword = $("#searchForm").find("#keyword").val();
-
-            comm.appendInput("#noticeForm", "search_id"         , id        );
-            comm.appendInput("#noticeForm", "search_keyword"    , keyword   );
-
-            comm.list('#noticeForm', '/notice/listAsync', listCallback, 1, 20);
-
-        });
-    })
+    function search() {
+        comm.list('#noticeForm', '/notice/listAsync', listCallback, 1, 20);
+    }
 
     function listCallback(data) {
-
         $("#dataList").empty();
 
         for (let i = 0; i < data.list.length; i++) {
@@ -47,52 +35,46 @@
 
     }
 
+    $(document).on("ready", function () {
+        $("#search").on("click", function () {
+            search();
+        });
+
+        $("#search_keyword").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                search();
+                return false;
+            }
+        });
+    })
 </script>
 
+<form id="noticeForm" name="noticeForm" method="get">
+    <div class="section uline2">
+        <div class="ani-in manage_layout action">
+            <div class="manage_conts">
+                <!-------------//manage_menu------------->
+                <script>
+                    $(".manage_btn").click(function () {
+                        $(".manage_menu").toggleClass("on");
+                    });
+                </script>
 
-<div class="section uline2">
-    <div class="ani-in manage_layout action">
+                <div class="manage_box_wrap">
+                    <div class="sub_title01">
+                        <p>NOTICE</p>
 
-        <div class="manage_conts">
-
-            <!-------------//manage_menu------------->
-            <script>
-                $(".manage_btn").click(function () {
-                    $(".manage_menu").toggleClass("on");
-                });
-            </script>
-
-            <div class="manage_box_wrap">
-
-                <div class="sub_title01">
-                    <p>NOTICE</p>
-
-
-                    <div class="search_right_box">
-                        <form id="searchForm" name="searchForm">
-                            <select id="id" name="id">
+                        <div class="search_right_box">
+                            <select id="search_id" name="search_id">
+                                <option value="">선택</option>
                                 <option value="01">제목</option>
                                 <option value="02">내용</option>
                             </select>
-                            <input type="text" id="keyword" name="keyword" placeholder="검색 키워드 입력">
-                            <a href="#none" id="search"></a>
-                        </form>
+                            <input type="text" id="search_keyword" name="search_keyword" placeholder="키워드 입력">
+                            <a href="javascript:;" id="search"></a>
+                        </div>
                     </div>
 
-                    <%--
-                    <div class="search_right_box">
-                        <form id="searchForm" name="searchForm">
-                            <select id="id" name="id">
-                                <option value="01">제목</option>
-                                <option value="02">내용</option>
-                            </select>
-                            <input type="text" id="keyword" name="keyword" placeholder="검색 키워드 입력">
-                            <a href="#none" id="search"></a>
-                        </form>
-                    </div>--%>
-                </div>
-
-                <form id="noticeForm" name="noticeForm" method="get">
                     <div class="board_notice list">
                         <table>
                             <colgroup>
@@ -103,7 +85,6 @@
                                 <col width="100"/>
                             </colgroup>
 
-
                             <thead>
                             <tr>
                                 <th scope="col">No.</th>
@@ -113,7 +94,6 @@
                                 <th scope="col">조회수</th>
                             </tr>
                             </thead>
-
                             <tbody id="dataList"></tbody>
                         </table>
 
@@ -125,15 +105,10 @@
                             <jsp:param name="listNo" value="${vo.listNo}"/>
                             <jsp:param name="pagigRange" value="${vo.pagigRange}"/>
                         </jsp:include>
-
                     </div>
-                </form>
-            </div><!-------------//manage_box_wrap------------->
-
+                </div><!-------------//manage_box_wrap------------->
+            </div>
         </div>
-
     </div>
-
-</div>
-
+</form>
 

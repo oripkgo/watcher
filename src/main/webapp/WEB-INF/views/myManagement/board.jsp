@@ -217,6 +217,25 @@
 
     }
 
+    function search(){
+        comm.list("#myManagementBoardForm","/myManagement/board/storys",listCallback,1,10,10);
+    }
+
+    $(document).on("ready",function(){
+        initCategory();
+
+        $("#search").on("click",function(){
+            search();
+        });
+
+        $("#search_keyword").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                search();
+                return false;
+            }
+        });
+    });
+
 </script>
 
 <form id="myManagementBoardForm">
