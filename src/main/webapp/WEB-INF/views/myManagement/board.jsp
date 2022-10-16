@@ -119,18 +119,20 @@
             }else{
                 $(".check.all").prop("checked",false)
             }
-
         })
     }
 
-    function initCategory(){
-        category_list.forEach(function(obj,idx){
+    function initCategory(obj){
+        const selObj = obj || '#seachCategory';
 
+        $(selObj).empty();
+        $(selObj).append('<option value="">카테고리</option>')
+
+        category_list.forEach(function(obj,idx){
             const id = obj['ID'];
             const nm = obj['CATEGORY_NM'];
 
-            $('#seachCategory').append('<option value="'+id+'">'+nm+'</option>')
-
+            $(selObj).append('<option value="'+id+'">'+nm+'</option>')
         })
     }
 
@@ -139,7 +141,6 @@
     }
 
     function getTrHead(){
-
         let _TrHeadStr = '';
 
         _TrHeadStr += '<th><input type="checkbox" class="check all"></th>';
@@ -155,13 +156,11 @@
         _TrHeadStr += '</th>';
 
         return $(getTr()).html(_TrHeadStr);
-
     }
 
     function listCallback(data){
-
-        $("#dataList").empty();
-        $("#dataList").append(getTrHead());
+        $("#storyList").empty();
+        $("#storyList").append(getTrHead());
 
         for (let i = 0; i < data.list.length; i++) {
             let obj = data.list[i];
@@ -209,12 +208,11 @@
             listHtml = $(getTr()).html(listHtml);
             $(listHtml).data(obj);
 
-            $("#dataList").append(listHtml);
+            $("#storyList").append(listHtml);
 
         }
 
         initCheckBox();
-
     }
 
     function search(){
@@ -247,145 +245,17 @@
                 <%@include file="include/commMenu.jsp"%>
 
                 <div class="manage_box_wrap">
-
                     <div class="sub_title01">
                         게시글 관리
                         <div class="search_right_box">
-                            <select>
-                                <option>카테고리</option>
-                                <option>여행</option>
-                                <option>맛집</option>
-                                <option>문화</option>
-                                <option>연애</option>
-                                <option>IT</option>
-                                <option>게임</option>
-                                <option>스포츠</option>
-                            </select>
-                            <input type="text" placeholder="">
-                            <a href="javascript:;"></a>
+                            <select id="seachCategory" name="search_category_id"></select>
+                            <input type="text" placeholder="" name="search_keyword" id="search_keyword">
+                            <a href="javascript:;" id="search"></a>
                         </div>
                     </div>
 
                     <div class="board_basic">
-                        <table id="dataList">
-                            <tr>
-                                <th><input type="checkbox"></th>
-                                <th>카테고리</th>
-                                <th colspan="2">
-                                    <div class="btn_tb">
-                                        <a href="javascript:;">삭제</a>
-                                        <a href="javascript:;">공개</a>
-                                        <a href="javascript:;">비공개</a>
-                                        <a href="javascript:;" class="on">글쓰기</a>
-                                    </div>
-                                </th>
-                            </tr>
-                            <%--<tr>
-                                <td><input type="checkbox"></td>
-                                <td><a href="story_detail.html" class="kind_link">정치</a></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">
-                                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                                    </a>
-                                    <div class="story_key">
-                                        <a href="javascript:;">#컬처</a>
-                                        <a href="javascript:;">#영화</a>
-                                        <a href="javascript:;">#영화컬처</a>
-                                        <span>1시간전</span>
-                                        <span>공감21</span>
-                                        <span>댓글 21</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="story_detail.html" class="pic_link"><img src="/resources/img/s_sample01.jpg"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td><a href="story_detail.html" class="kind_link">정치</a></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">
-                                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                                    </a>
-                                    <div class="story_key">
-                                        <a href="javascript:;">#컬처</a>
-                                        <a href="javascript:;">#영화</a>
-                                        <a href="javascript:;">#영화컬처</a>
-                                        <span>1시간전</span>
-                                        <span>공감21</span>
-                                        <span>댓글 21</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="story_detail.html" class="pic_link"><img src="/resources/img/s_sample01.jpg"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td><a href="story_detail.html" class="kind_link">정치</a></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">
-                                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                                    </a>
-                                    <div class="story_key">
-                                        <a href="javascript:;">#컬처</a>
-                                        <a href="javascript:;">#영화</a>
-                                        <a href="javascript:;">#영화컬처</a>
-                                        <span>1시간전</span>
-                                        <span>공감21</span>
-                                        <span>댓글 21</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="story_detail.html" class="pic_link"><img src="/resources/img/s_sample01.jpg"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td><a href="story_detail.html" class="kind_link">정치</a></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">
-                                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                                    </a>
-                                    <div class="story_key">
-                                        <a href="javascript:;">#컬처</a>
-                                        <a href="javascript:;">#영화</a>
-                                        <a href="javascript:;">#영화컬처</a>
-                                        <span>1시간전</span>
-                                        <span>공감 21</span>
-                                        <span>댓글 21</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="story_detail.html" class="pic_link"><img src="/resources/img/s_sample01.jpg"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td><a href="story_detail.html" class="kind_link">정치</a></td>
-                                <td>
-                                    <a href="story_detail.html" class="subject_link">
-                                        <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                        <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다. 18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                                    </a>
-                                    <div class="story_key">
-                                        <a href="javascript:;">#컬처</a>
-                                        <a href="javascript:;">#영화</a>
-                                        <a href="javascript:;">#영화컬처</a>
-                                        <span>1시간전</span>
-                                        <span>공감 21</span>
-                                        <span>댓글 21</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="story_detail.html" class="pic_link"><img src="/resources/img/s_sample01.jpg"></a>
-                                </td>
-                            </tr>--%>
-                        </table>
+                        <table id="storyList"></table>
 
                         <jsp:include page="/WEB-INF/common/include/paging.jsp">
                             <jsp:param name="form" value="#myManagementBoardForm"/>
@@ -395,13 +265,9 @@
                             <jsp:param name="listNo" value="10"/>
                             <jsp:param name="pagigRange" value="${vo.pagigRange}"/>
                         </jsp:include>
-
                     </div>
-
                 </div><!-------------//manage_box_wrap------------->
-
             </div>
-
         </div>
     </div>
 </form>
