@@ -14,8 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -36,15 +41,17 @@ public class FileService {
         long millis = System.currentTimeMillis();
 
         for(MultipartFile file : uploadFiles){
+
             String original_filename = file.getOriginalFilename();
             String server_filename = String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();
 
-            original_filename = original_filename.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
-            server_filename = server_filename.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
-            upload_full_path = upload_full_path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
+            original_filename = changeFileSeparator(original_filename);
+            server_filename = changeFileSeparator(server_filename);
+            upload_full_path = changeFileSeparator(upload_full_path);
 
-            File dirCheck = new File(fileUploadRootPath + upload_full_path);
+            String dirCheckPath = changeFileSeparator(fileUploadRootPath + upload_full_path);
+            File dirCheck = new File(dirCheckPath);
 
             if( dirCheck.exists() ){
                 dirCheck.delete();
@@ -52,8 +59,19 @@ public class FileService {
 
             dirCheck.mkdirs();
 
-            File newFileName = new File(fileUploadRootPath + upload_full_path + File.separator + server_filename);
+            String newFilePath = changeFileSeparator(fileUploadRootPath + upload_full_path + File.separator + server_filename);
+            File newFileName = new File(newFilePath);
+
+            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+            Image image = bufferedImage.getScaledInstance(400, 400, Image.SCALE_DEFAULT);
+
+            BufferedImage newImage = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
+            Graphics graphics = newImage.getGraphics();
+            graphics.drawImage(image, 0, 0, null);
+            graphics.dispose();
+
             file.transferTo(newFileName);
+            ImageIO.write(newImage, "png", new File(newFilePath));
 
 
             fileParam.setRealFileName(original_filename);
@@ -82,6 +100,10 @@ public class FileService {
         result.put("message", "OK");
 
         return result;
+    }
+
+    private String changeFileSeparator(String path){
+        return path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
     }
 
 
