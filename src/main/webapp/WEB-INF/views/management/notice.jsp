@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
     function search() {
-        comm.list('#noticeForm', '/myManagement/board/notices', listCallback, 1, 20);
+        comm.list('#noticeForm', '/management/board/notices', listCallback, 1, 20);
     }
 
     function listCallback(data) {
@@ -91,7 +91,7 @@
 
                         <jsp:include page="/WEB-INF/common/include/paging.jsp">
                             <jsp:param name="form" value="#noticeForm"/>
-                            <jsp:param name="url" value="/myManagement/board/notices"/>
+                            <jsp:param name="url" value="/management/board/notices"/>
                             <jsp:param name="listCallback" value="listCallback"/>
                             <jsp:param name="pageNo" value="${vo.pageNo}"/>
                             <jsp:param name="listNo" value="${vo.listNo}"/>

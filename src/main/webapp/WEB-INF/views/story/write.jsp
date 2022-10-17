@@ -175,8 +175,8 @@
                             <th>공개여부</th>
                             <td class="story_top">
                                 <select id="secretYn" name="secretYn">
-                                    <option value="Y">공개</option>
-                                    <option value="N">비공개</option>
+                                    <option value="N">공개</option>
+                                    <option value="Y">비공개</option>
                                 </select>
                             </td>
                         </tr>

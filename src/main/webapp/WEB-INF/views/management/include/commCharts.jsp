@@ -102,7 +102,7 @@
 
     }
 
-    comm.request({url:"/myManagement/visitor/chart/cnts", method : "GET"},function(resp){
+    comm.request({url:"/management/visitor/chart/cnts", method : "GET"},function(resp){
 
         if( resp.code == '0000'){
             drawChart(document.getElementsByClassName('graph_canvas')[0], getChartData(resp.visitInfoList));

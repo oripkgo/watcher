@@ -8,13 +8,13 @@
 
     Map<String,String> globalVar = new LinkedHashMap<>();
 
-    globalVar.put("myManagementMain"         , "/myManagement/main"      );
-    globalVar.put("myManagementBoard"        , "/myManagement/board"     );
-    globalVar.put("myManagementCategory"     , "/myManagement/category"  );
-    globalVar.put("myManagementNotice"       , "/myManagement/notice"    );
-    globalVar.put("myManagementComment"      , "/myManagement/comment"   );
-    globalVar.put("myManagementSetting"      , "/myManagement/setting"   );
-    globalVar.put("myManagementStatistics"   , "/myManagement/statistics");
+    globalVar.put("managementMain"         , "/management/main"      );
+    globalVar.put("managementBoard"        , "/management/board"     );
+    globalVar.put("managementCategory"     , "/management/category"  );
+    globalVar.put("managementNotice"       , "/management/notice"    );
+    globalVar.put("managementComment"      , "/management/comment"   );
+    globalVar.put("managementSetting"      , "/management/setting"   );
+    globalVar.put("managementStatistics"   , "/management/statistics");
     globalVar.put("storyUrlView"             , "/story/view"             );
     globalVar.put("storyUrlwrite"            , "/story/write"            );
 

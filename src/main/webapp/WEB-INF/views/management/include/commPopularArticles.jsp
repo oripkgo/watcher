@@ -66,7 +66,7 @@
 
 
 <script>
-    comm.request({url: "/myManagement/board/popularity/storys", method: "GET"}, function (resp) {
+    comm.request({url: "/management/board/popularity/storys", method: "GET"}, function (resp) {
         if (resp.code == '0000') {
             $(".articleList").empty();
             resp.list.forEach(function (obj) {
