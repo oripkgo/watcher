@@ -43,7 +43,7 @@
         comm.message.confirm("선택한 스토리를 공개하시겠습니까?",function(result){
             if( result ){
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/board/public/storys", method : "PUT", data : param},function(resp){
+                comm.request({url:"/management/board/public/storys", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -68,7 +68,7 @@
             if( result ){
                 debugger;
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/board/private/storys", method : "PUT", data : param},function(resp){
+                comm.request({url:"/management/board/private/storys", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -90,7 +90,7 @@
         comm.message.confirm("선택한 스토리를 삭제하시겠습니까?",function(result){
             if( result ){
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/myManagement/board/storys", method : "DELETE", data : param},function(resp){
+                comm.request({url:"/management/board/storys", method : "DELETE", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -216,7 +216,7 @@
     }
 
     function search(){
-        comm.list("#myManagementBoardForm","/myManagement/board/storys",listCallback,1,10,10);
+        comm.list("#managementBoardForm","/management/board/storys",listCallback,1,10,10);
     }
 
     $(document).on("ready",function(){
@@ -236,7 +236,7 @@
 
 </script>
 
-<form id="myManagementBoardForm">
+<form id="managementBoardForm">
     <div class="section uline2">
         <div class="ani-in manage_layout">
 
@@ -258,8 +258,8 @@
                         <table id="storyList"></table>
 
                         <jsp:include page="/WEB-INF/common/include/paging.jsp">
-                            <jsp:param name="form" value="#myManagementBoardForm"/>
-                            <jsp:param name="url" value="/myManagement/board/storys"/>
+                            <jsp:param name="form" value="#managementBoardForm"/>
+                            <jsp:param name="url" value="/management/board/storys"/>
                             <jsp:param name="listCallback" value="listCallback"/>
                             <jsp:param name="pageNo" value="${vo.pageNo}"/>
                             <jsp:param name="listNo" value="10"/>

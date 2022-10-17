@@ -4,7 +4,7 @@ import com.watcher.param.ManagementParam;
 import com.watcher.param.NoticeParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
-import com.watcher.service.MyManagementService;
+import com.watcher.service.ManagementService;
 import com.watcher.service.NoticeService;
 import com.watcher.service.StoryService;
 import org.json.JSONArray;
@@ -19,8 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/myManagement")
-public class MyManagementController {
+@RequestMapping(value = "/management")
+public class ManagementController {
     @Autowired
     NoticeService noticeService;
 
@@ -28,13 +28,13 @@ public class MyManagementController {
     CategoryService categoryService;
 
     @Autowired
-    MyManagementService myManagementService;
+    ManagementService managementService;
 
     @Autowired
     StoryService storyService;
 
     @RequestMapping(value = {"/{menu}"})
-    public ModelAndView getMyManagementMainPage(
+    public ModelAndView getManagementMainPage(
             @PathVariable("menu") String menu,
             HttpServletRequest request,
             HttpServletResponse response,
@@ -43,24 +43,24 @@ public class MyManagementController {
         ModelAndView mav = null;
 
         if( "main".equals(menu) ){
-            mav = new ModelAndView("myManagement/main");
+            mav = new ModelAndView("management/main");
         }else if( "board".equals(menu) ){
 
-            mav = new ModelAndView("myManagement/board");
+            mav = new ModelAndView("management/board");
 
             JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
             mav.addObject("category_list", jsonArray);
 
         }else if( "category".equals(menu) ){
-            mav = new ModelAndView("myManagement/category");
+            mav = new ModelAndView("management/category");
         }else if( "notice".equals(menu) ){
-            mav = new ModelAndView("myManagement/notice");
+            mav = new ModelAndView("management/notice");
         }else if( "comment".equals(menu) ){
-            mav = new ModelAndView("myManagement/comment");
+            mav = new ModelAndView("management/comment");
         }else if( "setting".equals(menu) ){
-            mav = new ModelAndView("myManagement/setting");
+            mav = new ModelAndView("management/setting");
         }else if( "statistics".equals(menu) ){
-            mav = new ModelAndView("myManagement/statistics");
+            mav = new ModelAndView("management/statistics");
         }
 
         return mav;
@@ -75,7 +75,7 @@ public class MyManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        result.putAll(myManagementService.getVisitorCnt(managementParam));
+        result.putAll(managementService.getVisitorCnt(managementParam));
 
         return result;
     }
@@ -89,7 +89,7 @@ public class MyManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        result.putAll(myManagementService.getChartVisitorCnt(managementParam));
+        result.putAll(managementService.getChartVisitorCnt(managementParam));
 
         return result;
     }

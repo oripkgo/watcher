@@ -23,13 +23,13 @@
     </div>
     <div class="manage_box_btn">
         <em class="visitStatisCriteria"><%--2021-11-26 15:40 기준--%></em>
-        <a href="${globalVar['myManagementStatistics']}">방문 통계</a>
+        <a href="${globalVar['managementStatistics']}">방문 통계</a>
     </div>
 </div>
 
 <script>
 
-    comm.request({url:"/myManagement/visitor/cnt", method : "GET"},function(resp){
+    comm.request({url:"/management/visitor/cnt", method : "GET"},function(resp){
         // 삭제 성공
         if( resp.code == '0000'){
 
