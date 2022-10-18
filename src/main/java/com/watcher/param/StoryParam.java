@@ -4,7 +4,6 @@ package com.watcher.param;
 import com.watcher.dto.StoryDto;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoryParam extends StoryDto {
