@@ -3,11 +3,14 @@ package com.watcher.param;
 
 import com.watcher.dto.NoticeDto;
 
+import java.util.List;
+
 public class NoticeParam extends NoticeDto {
     String search_id;
     String search_keyword;
     String search_level;
     String search_memId;
+    List id_list;
 
     public String getSearch_id() {
         return search_id;
@@ -39,5 +42,13 @@ public class NoticeParam extends NoticeDto {
 
     public void setSearch_memId(String search_memId) {
         this.search_memId = search_memId;
+    }
+
+    public List getId_list() {
+        return id_list;
+    }
+
+    public void setId_list(List id_list) {
+        this.id_list = id_list;
     }
 }

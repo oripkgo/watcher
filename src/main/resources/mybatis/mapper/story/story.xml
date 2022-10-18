@@ -188,8 +188,8 @@
 			<otherwise>
 				AND ID=#{id}
 			</otherwise>
-
 		</choose>
+
 		AND REG_ID=#{regId}
 	</update>
 

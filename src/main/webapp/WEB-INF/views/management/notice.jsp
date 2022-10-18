@@ -4,8 +4,69 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+    function confirmCheckBox(){
+        return $(".check:checked:not('.all')").length == 0 ? false : true ;
+    }
+
+    function getSelCheckBoxObjs(){
+        return $(".check:checked:not('.all')");
+    }
+
+    function getNoticeIds(){
+        const checkObjs = getSelCheckBoxObjs();
+        const storyIds = [];
+
+        checkObjs.each(function(idx,checkObj){
+            const obj = $(checkObj).parents("tr").data();
+            storyIds.push(obj.ID);
+        })
+
+        return storyIds;
+    }
+
+    function deleteStory(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('공지사항을 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 공지사항을 삭제하시겠습니까?",function(result){
+            if( result ){
+                const param = JSON.stringify({paramJson:JSON.stringify(getNoticeIds())});
+                comm.request({url:"/management/board/notices", method : "DELETE", data : param},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        $(getSelCheckBoxObjs()).each(function(idx,checkObj){
+                            $(checkObj).parents("tr").remove();
+                        })
+                    }
+                })
+            }
+        })
+    }
+
     function search() {
         comm.list('#noticeForm', '/management/board/notices', listCallback, 1, 20);
+    }
+
+    function initCheckBox(){
+        $(".check").on("click",function(){
+            let $this = this;
+
+            if( $($this).hasClass("all") ){
+                if( $($this).is(":checked") ){
+                    $(".check").prop("checked",true)
+                }else{
+                    $(".check").prop("checked",false)
+                }
+            }
+
+            if( $(".check:not('.all')").length == $(".check:checked:not('.all')").length ){
+                $(".check.all").prop("checked",true)
+            }else{
+                $(".check.all").prop("checked",false)
+            }
+        })
     }
 
     function listCallback(data) {
@@ -17,7 +78,7 @@
             let listHtml = '';
             let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
-            listHtml += '<td><input type="checkbox"></td>';
+            listHtml += '<td><input type="checkbox" class="check"></td>';
             listHtml += '<td>';
             listHtml += '    <a href="/notice/view?id=' + obj.ID + '" class="subject_link">'+obj.TITLE+'</a>';
             listHtml += '</td>';
@@ -30,6 +91,8 @@
 
             $("#noticeList").append(listHtml);
         }
+
+        initCheckBox();
     }
 
     function getTr(){
@@ -42,7 +105,7 @@
         _TrHeadStr += '<th><input type="checkbox" class="check all"></th>';
         _TrHeadStr += '<th colspan="2">';
         _TrHeadStr += '    <div class="btn_tb">';
-        _TrHeadStr += '        <a href="javascript:;">삭제</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
         _TrHeadStr += '        <a href="javascript:;">공개</a>';
         _TrHeadStr += '        <a href="javascript:;">비공개</a>';
         _TrHeadStr += '        <a href="javascript:;">공지쓰기</a>';

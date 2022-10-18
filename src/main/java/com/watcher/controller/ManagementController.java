@@ -208,4 +208,23 @@ public class ManagementController {
 
         return result;
     }
+
+    @RequestMapping(value = {"/board/notices"}, method = RequestMethod.DELETE)
+    @ResponseBody
+    public LinkedHashMap<String, Object> deleteNotices(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody NoticeParam noticeParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        noticeParam.setRegId(String.valueOf(loginId));
+        noticeParam.setUptId(String.valueOf(loginId));
+
+        result.putAll(noticeService.deletes(noticeParam));
+        result.put("vo", noticeParam);
+
+        return result;
+    }
 }

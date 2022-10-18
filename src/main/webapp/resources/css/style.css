@@ -133,7 +133,6 @@ img {max-width:100%;}
 .story_wrap li a strong {display:block;font-size:20px;color:#333;font-weight:600;padding:20px 0px 15px 0px;}
 .story_wrap li a span {display:block;font-size:15px;color:#333;font-weight:400;}
 .story_wrap li a em {display:inline-block;font-size:14px;color:#7b7b7b;font-weight:300;margin-top:20px;font-style:italic;}
-.story_wrap li a img {width: 307px;height: 307px;}
 
 a.btn_story2 {display:block;width:195px;font-size:15px;color:#333;font-weight:400;height:50px;line-height:48px;overflow:hidden;text-align:center;border:2px solid #333;margin:0px auto;transition:all 0.2s ease-out; -webkit-transition:all 0.2s ease-out;}
 a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}

@@ -12,9 +12,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
     const drawChart = function(obj, datas, customTitle){
-
         let toDay = new Date();
         const m = toDay.getMonth() == 12 ? 1 : toDay.getMonth() + 1;
 
@@ -71,7 +69,6 @@
             (obj),
             config
         );
-
     }
 
     const getChartData = function(visitList){
@@ -99,15 +96,11 @@
         })
 
         return result;
-
     }
 
     comm.request({url:"/management/visitor/chart/cnts", method : "GET"},function(resp){
-
         if( resp.code == '0000'){
             drawChart(document.getElementsByClassName('graph_canvas')[0], getChartData(resp.visitInfoList));
         }
-
     })
-
 </script>

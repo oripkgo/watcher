@@ -2,12 +2,12 @@ package com.watcher.dto;
 
 
 public class NoticeDto extends CommDto {
-
     private String id;
     private String title;
     private String contents;
     private String thumbnailImgPath;
     private String deleteYn;
+    private String secretYn;
 
     public String getId() {
         return id;
@@ -47,5 +47,13 @@ public class NoticeDto extends CommDto {
 
     public void setDeleteYn(String deleteYn) {
         this.deleteYn = deleteYn;
+    }
+
+    public String getSecretYn() {
+        return secretYn;
+    }
+
+    public void setSecretYn(String secretYn) {
+        this.secretYn = secretYn;
     }
 }
