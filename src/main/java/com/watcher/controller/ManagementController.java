@@ -153,7 +153,7 @@ public class ManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/board/private/storys"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/board/storys/private"}, method = RequestMethod.PUT)
     @ResponseBody
     public LinkedHashMap<String, Object> updatePrivate(
             HttpServletRequest request,
@@ -172,7 +172,7 @@ public class ManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/board/public/storys"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/board/storys/public"}, method = RequestMethod.PUT)
     @ResponseBody
     public LinkedHashMap<String, Object> updatePublic(
             HttpServletRequest request,
