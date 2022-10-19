@@ -122,6 +122,15 @@ let comm = function(){
                                     // 삭제 성공
                                     if( resp.code == '0000'){
                                         $(target).parents("li").remove();
+
+                                        let cmtCnt = $('.comment_cnt').data("cnt")*1;
+
+                                        if( cmtCnt > 0 ){
+                                            cmtCnt = cmtCnt-1;
+                                        }
+
+                                        $('.comment_cnt').data('cnt',cmtCnt);
+                                        $('.comment_cnt').html('댓글<em>'+cmtCnt+'</em>');
                                     }
                                 })
                             }
