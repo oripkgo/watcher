@@ -57,6 +57,22 @@ public class NoticeService {
     }
 
     @Transactional
+    public Map<String, Object> updates(NoticeParam noticeParam) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
+
+        noticeParam.setId_list(noticeIds.toList());
+        noticeMapper.update(noticeParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+
+        return result;
+    }
+
+    @Transactional
     public Map<String, Object> delete(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
         noticeParam.setDeleteYn("Y");

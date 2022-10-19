@@ -10,6 +10,8 @@ public class NoticeParam extends NoticeDto {
     String search_keyword;
     String search_level;
     String search_memId;
+    String search_secret_yn;
+
     List id_list;
 
     public String getSearch_id() {
@@ -42,6 +44,14 @@ public class NoticeParam extends NoticeDto {
 
     public void setSearch_memId(String search_memId) {
         this.search_memId = search_memId;
+    }
+
+    public String getSearch_secret_yn() {
+        return search_secret_yn;
+    }
+
+    public void setSearch_secret_yn(String search_secret_yn) {
+        this.search_secret_yn = search_secret_yn;
     }
 
     public List getId_list() {

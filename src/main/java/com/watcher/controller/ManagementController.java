@@ -203,6 +203,11 @@ public class ManagementController {
         Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
 
         noticeParam.setSearch_memId(String.valueOf(memId));
+
+        if( noticeParam.getSearch_secret_yn() == null || noticeParam.getSearch_secret_yn().isEmpty() ){
+            noticeParam.setSearch_secret_yn("ALL");
+        }
+
         result.putAll(noticeService.list(noticeParam));
         result.put("vo", noticeParam);
 
@@ -223,6 +228,46 @@ public class ManagementController {
         noticeParam.setUptId(String.valueOf(loginId));
 
         result.putAll(noticeService.deletes(noticeParam));
+        result.put("vo", noticeParam);
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/board/notices/public"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updatePublic(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody NoticeParam noticeParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        noticeParam.setRegId(String.valueOf(loginId));
+        noticeParam.setUptId(String.valueOf(loginId));
+        noticeParam.setSecretYn("N");
+
+        result.putAll(noticeService.updates(noticeParam));
+        result.put("vo", noticeParam);
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/board/notices/private"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updatePrivate(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody NoticeParam noticeParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        noticeParam.setRegId(String.valueOf(loginId));
+        noticeParam.setUptId(String.valueOf(loginId));
+        noticeParam.setSecretYn("Y");
+
+        result.putAll(noticeService.updates(noticeParam));
         result.put("vo", noticeParam);
 
         return result;
