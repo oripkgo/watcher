@@ -45,6 +45,46 @@
         })
     }
 
+    function updatePublic(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('공지사항을 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 공지사항을 공개하시겠습니까?",function(result){
+            if( result ){
+                const param = JSON.stringify({paramJson:JSON.stringify(getNoticeIds())});
+                comm.request({url:"/management/board/notices/public", method : "PUT", data : param},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        $("#search_secret_yn").val("NN");
+                        search();
+                    }
+                })
+            }
+        })
+    }
+
+    function updatePrivate(){
+        if( !confirmCheckBox() ){
+            comm.message.alert('공지사항을 선택해주세요.');
+            return;
+        }
+
+        comm.message.confirm("선택한 공지사항을 비공개하시겠습니까?",function(result){
+            if( result ){
+                const param = JSON.stringify({paramJson:JSON.stringify(getNoticeIds())});
+                comm.request({url:"/management/board/notices/private", method : "PUT", data : param},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        $("#search_secret_yn").val("YY");
+                        search();
+                    }
+                })
+            }
+        })
+    }
+
     function search() {
         comm.list('#noticeForm', '/management/board/notices', listCallback, 1, 20);
     }
@@ -106,8 +146,8 @@
         _TrHeadStr += '<th colspan="2">';
         _TrHeadStr += '    <div class="btn_tb">';
         _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
-        _TrHeadStr += '        <a href="javascript:;">공개</a>';
-        _TrHeadStr += '        <a href="javascript:;">비공개</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="updatePublic();">공개</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="updatePrivate();">비공개</a>';
         _TrHeadStr += '        <a href="javascript:;">공지쓰기</a>';
         _TrHeadStr += '    </div>';
         _TrHeadStr += '</th>';
@@ -139,10 +179,10 @@
                         공지 관리
 
                         <div class="search_right_box">
-                            <select id="search_id" name="search_id">
-                                <option value="">선택</option>
-                                <option value="01">제목</option>
-                                <option value="02">내용</option>
+                            <select id="search_secret_yn" name="search_secret_yn">
+                                <option value="">전체</option>
+                                <option value="NN">공개</option>
+                                <option value="YY">비공개</option>
                             </select>
                             <input type="text" id="search_keyword" name="search_keyword" placeholder="">
                             <a href="javascript:;" id="search"></a>

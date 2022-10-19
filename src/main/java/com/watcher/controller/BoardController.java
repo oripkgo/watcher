@@ -81,8 +81,9 @@ public class BoardController {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		noticeParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-		noticeParam.setDeleteYn("Y");
+		Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+		noticeParam.setRegId(String.valueOf(loginId));
+		noticeParam.setUptId(String.valueOf(loginId));
 
 		result.putAll(noticeService.delete(noticeParam));
 

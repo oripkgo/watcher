@@ -5,13 +5,11 @@
 <c:set var="vo" value="${result.view}"/>
 
 <script>
-
     let type    = 'NOTICE';
     let id      = '${vo.ID}';
     let regDate = '${vo.REG_DATE}'
 
     $(document).ready(function(){
-
         // 지난 시간 세팅
         $("#last_time").html( comm.last_time_cal(regDate) );
 
@@ -19,30 +17,7 @@
 
 
         },{"likeTarget":".like", "tagsTarget":".conts_tag", "commentTarget":".conts_review"});
-
-
-        // 수정
-        $("#story_update").on("click",function(){
-
-        });
-
-        // 삭제
-        $("#story_delete").on("click",function(){
-            comm.request({
-                url:"/notice/delete",
-                data:JSON.stringify({id:id})
-            },function(resp){
-                if( resp.code == '0000'){
-                    comm.message.alert('삭제가 완료되었습니다.',function(){
-                        location.href = '/notice/list';
-                    });
-                }
-
-            });
-        });
-
     })
-
 </script>
 
 

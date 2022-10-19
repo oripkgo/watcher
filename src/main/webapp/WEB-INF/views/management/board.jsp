@@ -43,7 +43,7 @@
         comm.message.confirm("선택한 스토리를 공개하시겠습니까?",function(result){
             if( result ){
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/management/board/public/storys", method : "PUT", data : param},function(resp){
+                comm.request({url:"/management/board/storys/public", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){
@@ -68,7 +68,7 @@
             if( result ){
                 debugger;
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
-                comm.request({url:"/management/board/private/storys", method : "PUT", data : param},function(resp){
+                comm.request({url:"/management/board/storys/private", method : "PUT", data : param},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         $(getSelCheckBoxObjs()).each(function(idx,checkObj){

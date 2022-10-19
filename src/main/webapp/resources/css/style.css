@@ -225,7 +225,6 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .conts_rel li p {padding:10px 0px;}
 .conts_rel li p em {display:inline-block;vertical-align:middle;font-size:11px;color:#878787;font-weight:300;line-height:23px;}
 .conts_rel li p img {margin:0px 10px;}
-.conts_rel .articleList a img {height: 233px; width: 100%;}
 
 
 .conts_review {}
@@ -577,7 +576,6 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 #backgroundPopup{ background-color: #000; bottom: 0; left: 0; opacity: 0.5; filter: alpha(opacity = 50); /* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 998; display:none;}
 
 @media (max-width:1200px) {
-	.conts_rel .articleList a img {height: 130px; width: 100%;}
 
 	.head_wrap {height:70px;}
 	.head_tip {height:70px;}
@@ -748,7 +746,6 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.detail_bg .btn_basic {border:1px solid #878787;}
 
 	.conts_rel li {width:50%;margin-bottom:20px;}
-	.conts_rel .articleList a img {height: 170px; width: 100%;}
 
 	.ad_banner_left, .ad_banner_right {display:none;}
 

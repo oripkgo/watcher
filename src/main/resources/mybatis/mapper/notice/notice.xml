@@ -17,29 +17,42 @@
 		AND D.LOGIN_ID = A.REG_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
+
+		<choose>
+			<when test="search_secret_yn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="search_secret_yn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('N')
+			</otherwise>
+		</choose>
+
 		AND A.REG_ID IN (
-		<choose>
-			<when test="search_memId != null and search_memId != ''">
-				SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
-			</when>
-			<otherwise>
-				SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
-			</otherwise>
-		</choose>
+			<choose>
+				<when test="search_memId != null and search_memId != ''">
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
+				</when>
+				<otherwise>
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+				</otherwise>
+			</choose>
 		)
-		-- 		<if test="search_keyword != null and search_keyword != ''">
-		<choose>
-			<when test="search_id == '01'">
-				AND A.TITLE LIKE '%${search_keyword}%'
-			</when>
-			<when test="search_id == '02'">
-				AND A.CONTENTS LIKE '%${search_keyword}%'
-			</when>
-			<otherwise>
-				AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
-			</otherwise>
-		</choose>
-	</if>
+		<if test="search_keyword != null and search_keyword != ''">
+			<choose>
+				<when test="search_id == '01'">
+					AND A.TITLE LIKE '%${search_keyword}%'
+				</when>
+				<when test="search_id == '02'">
+					AND A.CONTENTS LIKE '%${search_keyword}%'
+				</when>
+				<otherwise>
+					AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
+				</otherwise>
+			</choose>
+		</if>
 	</select>
 
 
@@ -48,6 +61,19 @@
 		<include refid="notice_select"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
+
+		<choose>
+			<when test="search_secret_yn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="search_secret_yn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('N')
+			</otherwise>
+		</choose>
+
 		AND A.REG_ID IN (
 			<choose>
 				<when test="search_memId != null and search_memId != ''">
