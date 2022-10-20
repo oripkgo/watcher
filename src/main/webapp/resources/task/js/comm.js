@@ -118,7 +118,7 @@ let comm = function(){
                         // 댓글 삭제
                         comm.message.confirm(comment_delete_msg,function(Yn){
                             if( Yn ){
-                                comm.request({url:"/board/delete/comment", data : JSON.stringify(param)},function(resp){
+                                comm.request({url:"/board/comment/delete", data : JSON.stringify(param)},function(resp){
                                     // 삭제 성공
                                     if( resp.code == '0000'){
                                         $(target).parents("li").remove();
@@ -174,7 +174,7 @@ let comm = function(){
                         // )
 
                         comment_insert_param.coment = privateObj.comment.getComment($(target).find("[name='coment']"));
-                        comm.request({url:"/board/insert/comment",data:JSON.stringify(comment_insert_param)},function(resp){
+                        comm.request({url:"/board/comment/insert",data:JSON.stringify(comment_insert_param)},function(resp){
 
                             let profile_img = "/resources/img/member_ico.png";
 
@@ -400,7 +400,7 @@ let comm = function(){
                         comm.appendInput(_pageForm, "contentsId"    , param.contentsId      );
 
                         //function(form,url,callback,pageNo,totalCnt,sPageNo,ePageNo,listNo,pagigRange){
-                        comm.list(_pageForm, "/board/select/comment", function(comment_resp){
+                        comm.list(_pageForm, "/board/comment/select", function(comment_resp){
 
                             privateObj.comment.setting(
                                 param.contentsType,
@@ -597,7 +597,7 @@ let comm = function(){
                 }
 
                 comm.request({
-                    url: "/login/loginSuccessCallback",
+                    url: "/login/loginSuccess/callback",
                     data : JSON.stringify(param)
                 },function(res){
                     // 로그인 성공
@@ -688,7 +688,7 @@ let comm = function(){
                             logOutParam.type = 'kakao';
                         }
 
-                        comm.request({url:"/login/logOut",data:JSON.stringify(logOutParam)},function(res){
+                        comm.request({url:"/login/logout",data:JSON.stringify(logOutParam)},function(res){
 
                             $(".logOut").hide();
                             $(".loginStart").show();

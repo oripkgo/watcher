@@ -133,7 +133,7 @@ public class StoryController {
         return mav;
     }
 
-    @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getStoryListAsync(
             HttpServletRequest request,

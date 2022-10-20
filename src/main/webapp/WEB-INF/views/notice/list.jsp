@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
     function search() {
-        comm.list('#noticeForm', '/notice/listAsync', listCallback, 1, 20);
+        comm.list('#noticeForm', '/notice/list/data', listCallback, 1, 20);
     }
 
     function listCallback(data) {

@@ -42,7 +42,7 @@ public class LoginController {
 		return mav;
 	}
 
-	@RequestMapping(value = {"/loginSuccessCallback"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/loginSuccess/callback"}, method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> getLoginSuccessData(
 			HttpServletRequest request,
@@ -84,7 +84,7 @@ public class LoginController {
 	}
 
 
-	@RequestMapping(value = {"logOut"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"logout"}, method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> logOut(
 			HttpServletRequest request,

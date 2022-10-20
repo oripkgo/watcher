@@ -26,7 +26,7 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@RequestMapping(value={"/notice/member/list"})
+	@RequestMapping(value={"/notice/list/member"})
 	public ModelAndView showMemberNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -34,7 +34,7 @@ public class BoardController {
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
-		mav.addObject("noticeListUrl", "/notice/listAsync?search_memId="+noticeParam.getSearch_memId());
+		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+noticeParam.getSearch_memId());
 
 		return mav;
 	}
@@ -48,12 +48,12 @@ public class BoardController {
 	) throws Exception {
 
 		ModelAndView mav = new ModelAndView("notice/list");
-		mav.addObject("noticeListUrl", "/notice/listAsync");
+		mav.addObject("noticeListUrl", "/notice/list/data");
 
 		return mav;
 	}
 
-	@RequestMapping(value={"notice/listAsync"}, method = RequestMethod.GET)
+	@RequestMapping(value={"notice/list/data"}, method = RequestMethod.GET)
 	@ResponseBody
 	public LinkedHashMap<String, Object> getNoticeListAsync(
 			HttpServletRequest request,
@@ -152,7 +152,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value={"board/select/comment"}, method = RequestMethod.GET)
+	@RequestMapping(value={"board/comment/select"}, method = RequestMethod.GET)
 	@ResponseBody
 	public LinkedHashMap getCommentList(
 			HttpServletRequest request,
@@ -185,7 +185,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value={"board/insert/comment"}, method = RequestMethod.POST)
+	@RequestMapping(value={"board/comment/insert"}, method = RequestMethod.POST)
 	@ResponseBody
 	public LinkedHashMap insertComment(
 			HttpServletRequest request,
@@ -227,7 +227,7 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value={"board/update/comment"}, method = RequestMethod.POST)
+	@RequestMapping(value={"board/comment/update"}, method = RequestMethod.POST)
 	@ResponseBody
 	public LinkedHashMap updateComment(
 			HttpServletRequest request,
@@ -259,7 +259,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value={"board/delete/comment"}, method = RequestMethod.POST)
+	@RequestMapping(value={"board/comment/delete"}, method = RequestMethod.POST)
 	@ResponseBody
 	public LinkedHashMap deleteComment(
 			HttpServletRequest request,

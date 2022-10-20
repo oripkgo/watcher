@@ -79,9 +79,9 @@ public class MyStoryController {
         return mav;
     }
 
-    @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getMyStorylistAsync(
+    public LinkedHashMap<String, Object> getMyStorylistData(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam

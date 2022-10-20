@@ -9,7 +9,7 @@
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
     const pagigRange = '${vo.pagigRange}' || '1';
-    const listUrl = '/story/listAsync';
+    const listUrl = '/story/list/data';
 
     $(document).on('ready',function(){
 
@@ -472,7 +472,7 @@
 
 <%--                            <jsp:include page="/WEB-INF/common/include/paging.jsp">--%>
 <%--                                <jsp:param name="form" value="#RecommendedListForm"/>--%>
-<%--                                <jsp:param name="url" value="/story/listAsync"/>--%>
+<%--                                <jsp:param name="url" value="/story/list/data"/>--%>
 <%--                                <jsp:param name="listCallback" value="RecommendedListCallback"/>--%>
 <%--                                <jsp:param name="pageNo" value="${vo.pageNo}"/>--%>
 <%--                                <jsp:param name="listNo" value="${vo.listNo}"/>--%>
@@ -504,7 +504,7 @@
 
 <%--                            <jsp:include page="/WEB-INF/common/include/paging.jsp">--%>
 <%--                                <jsp:param name="form" value="#defaultListForm"/>--%>
-<%--                                <jsp:param name="url" value="/story/listAsync"/>--%>
+<%--                                <jsp:param name="url" value="/story/list/data"/>--%>
 <%--                                <jsp:param name="listCallback" value="deflistCallback"/>--%>
 <%--                                <jsp:param name="pageNo" value="${vo.pageNo}"/>--%>
 <%--                                <jsp:param name="listNo" value="${vo.listNo}"/>--%>
