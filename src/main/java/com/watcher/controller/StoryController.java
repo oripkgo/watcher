@@ -87,7 +87,12 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+
+        Object loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+
+        storyParam.setRegId(String.valueOf(loginId));
+        storyParam.setUptId(String.valueOf(loginId));
+
         result.putAll(storyService.insertStory(storyParam));
 
         return result;
@@ -133,7 +138,7 @@ public class StoryController {
         return mav;
     }
 
-    @RequestMapping(value = {"/listAsync"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getStoryListAsync(
             HttpServletRequest request,

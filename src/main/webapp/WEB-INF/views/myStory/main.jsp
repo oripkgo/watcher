@@ -50,7 +50,7 @@
         comm.appendInput('#myStoryForm', "search_category_id"   , categId   );
 
 
-        comm.list('#myStoryForm', '/myStory/listAsync',function(data){
+        comm.list('#myStoryForm', '/myStory/list/data',function(data){
 
             $("#myStoryList").empty();
 
@@ -120,7 +120,7 @@
 
     function initNotice(id){
         comm.request({
-            url: "/notice/listAsync?search_memId="+id
+            url: "/notice/list/data?search_memId="+id
             , method: "GET"
             , headers: {"Content-type": "application/x-www-form-urlencoded"}
         }, function (data) {
@@ -132,7 +132,7 @@
                     const obj = data.list[i];
                     let li = $('<li></li>');
 
-                    li.append('<a href="/notice/view?id='+obj.ID+'">'+obj['TITLE']+'</a>');
+                    li.append('<a href="'+ getNoticeViewUrl(obj.ID) +'">'+obj['TITLE']+'</a>');
                     li.append('<em>'+(obj['UPT_DATE'] || obj['REG_DATE'])+'</em>');
                     $(".notice_list").append(li);
                 }
@@ -142,7 +142,7 @@
         });
 
         $("#notice_more").on("click", function(){
-            location.href="/notice/member/list?search_memId="+id;
+            location.href="/notice/list/member?search_memId="+id;
         });
 
     }
