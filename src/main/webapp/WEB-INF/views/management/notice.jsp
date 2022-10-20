@@ -120,7 +120,7 @@
 
             listHtml += '<td><input type="checkbox" class="check"></td>';
             listHtml += '<td>';
-            listHtml += '    <a href="/notice/view?id=' + obj.ID + '" class="subject_link">'+obj.TITLE+'</a>';
+            listHtml += '    <a href="' + getNoticeViewUrl(obj.ID) + '" class="subject_link">'+obj.TITLE+'</a>';
             listHtml += '</td>';
             listHtml += '<td>';
             listHtml += obj.REG_DATE;
@@ -148,7 +148,7 @@
         _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
         _TrHeadStr += '        <a href="javascript:;" onclick="updatePublic();">공개</a>';
         _TrHeadStr += '        <a href="javascript:;" onclick="updatePrivate();">비공개</a>';
-        _TrHeadStr += '        <a href="javascript:;">공지쓰기</a>';
+        _TrHeadStr += '        <a href="javascript:;" onclick="getNoticeWriteUrl();">공지쓰기</a>';
         _TrHeadStr += '    </div>';
         _TrHeadStr += '</th>';
 

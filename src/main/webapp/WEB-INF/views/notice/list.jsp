@@ -19,7 +19,7 @@
             // listHtml += '    <td><input type="checkbox"></td>                                            ';
             listHtml += '    <td>' + listNum + '</td>                                                         ';
             listHtml += '    <td>                                                                           ';
-            listHtml += '        <a href="/notice/view?id=' + obj.ID + '" class="subject_link">' + obj.TITLE + '</a>';
+            listHtml += '        <a href="' + getNoticeViewUrl(obj.ID) + '" class="subject_link">' + obj.TITLE + '</a>';
             listHtml += '    </td>                                                                          ';
             listHtml += '    <td>' + obj.NICKNAME + '</td>';
             listHtml += '    <td>' + obj.REG_DATE.substring(2) + '</td>';

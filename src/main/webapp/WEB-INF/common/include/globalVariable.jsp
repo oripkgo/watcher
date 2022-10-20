@@ -8,6 +8,7 @@
 
     Map<String,String> globalVar = new LinkedHashMap<>();
 
+    // 나의 관리자 왼쪽 메뉴 리스트
     globalVar.put("managementMain"         , "/management/main"      );
     globalVar.put("managementBoard"        , "/management/board"     );
     globalVar.put("managementCategory"     , "/management/category"  );
@@ -15,14 +16,17 @@
     globalVar.put("managementComment"      , "/management/comment"   );
     globalVar.put("managementSetting"      , "/management/setting"   );
     globalVar.put("managementStatistics"   , "/management/statistics");
-    globalVar.put("storyUrlView"             , "/story/view"             );
-    globalVar.put("storyUrlwrite"            , "/story/write"            );
+
+    // 메뉴 리스트
+    globalVar.put("storyUrlView"           , "/story/view"           );
+    globalVar.put("storyUrlWrite"          , "/story/write"          );
+    globalVar.put("noticeUrlView"          , "/notice/view"          );
+    globalVar.put("noticeUrlWrite"         , "/notice/write"         );
+    globalVar.put("noticeUrlUpdate"        , "/notice/update"         );
 
     request.setAttribute("globalVar" , globalVar);
 
 %>
-
-
 
 <script type="text/javascript">
     const origin    = location.origin;
@@ -31,13 +35,22 @@
     const loginType = '${sessionScope.loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
     const memberId  = '${sessionScope.loginInfo.ID}';
     const storyUrlView = '${globalVar.storyUrlView}';
-    const storyUrlwrite = '${globalVar.storyUrlwrite}';
+    const storyUrlWrite = '${globalVar.storyUrlWrite}';
+    const noticeUrlView = '${globalVar.noticeUrlView}';
+    const noticeUrlWrite = '${globalVar.noticeUrlWrite}';
 
     const getStoryViewUrl = function(id){
         return storyUrlView+'?id=' + id;
     }
     const getStoryWriteUrl = function(){
-        return storyUrlwrite;
+        return storyUrlWrite;
+    }
+
+    const getNoticeViewUrl = function(id){
+        return noticeUrlView+'?id=' + id;
+    }
+    const getNoticeWriteUrl = function(){
+        return noticeUrlWrite;
     }
 </script>
 
