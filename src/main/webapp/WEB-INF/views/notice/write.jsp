@@ -42,15 +42,15 @@
 
             $("#contents").val($(".ql-editor","#editor").html());
 
-            comm.appendInput('#story_write_form'    , 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
-            comm.appendInput('#story_write_form'    , 'regId'   ,loginId                            );
-            comm.appendInput('#story_write_form'    , 'uptId'   ,loginId                            );
+            comm.appendInput('#notice_write_form'    , 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
+            comm.appendInput('#notice_write_form'    , 'regId'   ,loginId                            );
+            comm.appendInput('#notice_write_form'    , 'uptId'   ,loginId                            );
 
-            var form = $('#story_write_form')[0]
+            var form = $('#notice_write_form')[0]
             var formData = new FormData(form);
 
             comm.request({
-                url: "/story/insert",
+                url: "//insert",
                 data : formData,
                 // headers : {"Content-type":"application/x-www-form-urlencoded"},
                 processData : false,
@@ -61,11 +61,11 @@
 
                     if( id ){
                         comm.message.alert('스토리가 수정되었습니다.', function(){
-                            location.href="/story/list";
+                            location.href="/notice/list";
                         });
                     }else{
                         comm.message.alert('스토리가 등록되었습니다.', function(){
-                            location.href="/story/list";
+                            location.href="/notice/list";
                         });
                     }
                 }
@@ -92,7 +92,7 @@
     });
 </script>
 
-<form id="story_write_form">
+<form id="notice_write_form">
 
     <input type="hidden" name="id" id="id" value="${vo.ID}">
     <input type="hidden" name="contents" id="contents">
@@ -102,19 +102,19 @@
 
             <div class="manage_conts">
 
-                <%--<div class="story_top">
-                    <select id="story_category">
+                <%--<div class="notice_top">
+                    <select id="notice_category">
                         <option value="">카테고리</option>
                     </select>
                 </div>--%>
 
-                <div class="story_tb">
+                <div class="notice_tb">
 
                     <table>
                         <tbody>
                         <tr>
                             <th>공개여부</th>
-                            <td class="story_top">
+                            <td class="notice_top">
                                 <select id="secretYn" name="secretYn">
                                     <option value="N">공개</option>
                                     <option value="Y">비공개</option>
@@ -138,7 +138,7 @@
                         </tr>
                         <tr>
                             <th class="non">첨부파일1</th>
-                            <td class="non story_thumbnailImg">
+                            <td class="non notice_thumbnailImg">
                                 <label for="thumbnailImgPathParam" class="input-file-button">썸네일 이미지</label>
                                 <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam"
                                        accept="image/gif, image/jpeg, image/png">
@@ -152,7 +152,7 @@
 
                 </div>
 
-                <%--<div class="story_tag"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></div>--%>
+                <%--<div class="notice_tag"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></div>--%>
 
                 <div class="not_btn">
                     <a href="javascript:;" class="on write_confirm">작성완료</a>
