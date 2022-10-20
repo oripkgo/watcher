@@ -148,7 +148,7 @@
         _TrHeadStr += '        <a href="javascript:;" onclick="deleteStory();">삭제</a>';
         _TrHeadStr += '        <a href="javascript:;" onclick="updatePublic();">공개</a>';
         _TrHeadStr += '        <a href="javascript:;" onclick="updatePrivate();">비공개</a>';
-        _TrHeadStr += '        <a href="javascript:;" onclick="getNoticeWriteUrl();">공지쓰기</a>';
+        _TrHeadStr += '        <a href="'+getNoticeWriteUrl()+'">공지쓰기</a>';
         _TrHeadStr += '    </div>';
         _TrHeadStr += '</th>';
 
