@@ -87,7 +87,12 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        storyParam.setRegId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+
+        Object loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+
+        storyParam.setRegId(String.valueOf(loginId));
+        storyParam.setUptId(String.valueOf(loginId));
+
         result.putAll(storyService.insertStory(storyParam));
 
         return result;

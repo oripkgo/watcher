@@ -63,9 +63,7 @@
 
             $("#contents").val($(".ql-editor","#editor").html());
 
-            comm.appendInput('#story_write_form'    , 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
-            comm.appendInput('#story_write_form'    , 'regId'   ,loginId                            );
-            comm.appendInput('#story_write_form'    , 'uptId'   ,loginId                            );
+            comm.appendInput('#story_write_form', 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
 
             var form = $('#story_write_form')[0]
             var formData = new FormData(form);
