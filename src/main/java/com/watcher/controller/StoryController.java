@@ -1,6 +1,5 @@
 package com.watcher.controller;
 
-import com.watcher.param.LoginParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
@@ -12,8 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -97,8 +94,6 @@ public class StoryController {
 
         return result;
     }
-
-
 
     @RequestMapping(value = {"/write","/update"})
     public ModelAndView showStoryEditPage(
