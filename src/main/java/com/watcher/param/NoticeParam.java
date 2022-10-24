@@ -2,6 +2,7 @@ package com.watcher.param;
 
 
 import com.watcher.dto.NoticeDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public class NoticeParam extends NoticeDto {
     String search_secret_yn;
 
     List id_list;
+
+    MultipartFile[] attachFiles;
 
     public String getSearch_id() {
         return search_id;
@@ -60,5 +63,13 @@ public class NoticeParam extends NoticeDto {
 
     public void setId_list(List id_list) {
         this.id_list = id_list;
+    }
+
+    public MultipartFile[] getAttachFiles() {
+        return attachFiles;
+    }
+
+    public void setAttachFiles(MultipartFile[] attachFiles) {
+        this.attachFiles = attachFiles;
     }
 }

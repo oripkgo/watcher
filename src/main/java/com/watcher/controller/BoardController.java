@@ -110,7 +110,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = {"/notice/write","/notice/update"})
-	public ModelAndView showStoryEditPage(
+	public ModelAndView showNoticeEditPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
@@ -127,6 +127,27 @@ public class BoardController {
 		}
 
 		return mav;
+	}
+
+	@RequestMapping(value = {"/notice/insert"})
+	@ResponseBody
+	public LinkedHashMap<String, Object> insertStory(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") NoticeParam noticeParam
+	) throws Exception {
+
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+
+		Object loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+
+		noticeParam.setRegId(String.valueOf(loginId));
+		noticeParam.setUptId(String.valueOf(loginId));
+
+		result.putAll(noticeService.insert(noticeParam));
+
+		return result;
 	}
 
 	@RequestMapping(value={"/board/view/init"}, method = RequestMethod.POST)

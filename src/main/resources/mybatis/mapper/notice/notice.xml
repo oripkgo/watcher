@@ -156,6 +156,7 @@
 			,UPT_ID
 			,UPT_DATE
 			,DELETE_YN
+			,SECRET_YN
 		)
 		VALUES (
 			 #{title}
@@ -165,6 +166,7 @@
 			,NOW()
 			,#{uptId}
 			,NOW()
+			,'N'
 			,'N'
 		)
 	</insert>

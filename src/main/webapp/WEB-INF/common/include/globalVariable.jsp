@@ -39,6 +39,8 @@
     const noticeUrlView = '${globalVar.noticeUrlView}';
     const noticeUrlWrite = '${globalVar.noticeUrlWrite}';
 
+    const managementNotice = '${globalVar.managementNotice}';
+
     const getStoryViewUrl = function(id){
         return storyUrlView+'?id=' + id;
     }

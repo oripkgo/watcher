@@ -50,7 +50,7 @@
             var formData = new FormData(form);
 
             comm.request({
-                url: "//insert",
+                url: "/notice/insert",
                 data : formData,
                 // headers : {"Content-type":"application/x-www-form-urlencoded"},
                 processData : false,
@@ -58,14 +58,13 @@
             },function(res){
                 // 성공
                 if( res.code == '0000' ){
-
-                    if( id ){
-                        comm.message.alert('스토리가 수정되었습니다.', function(){
-                            location.href="/notice/list";
+                    if (id) {
+                        comm.message.alert('스토리가 수정되었습니다.', function () {
+                            location.href = managementNotice;
                         });
-                    }else{
-                        comm.message.alert('스토리가 등록되었습니다.', function(){
-                            location.href="/notice/list";
+                    } else {
+                        comm.message.alert('스토리가 등록되었습니다.', function () {
+                            location.href = managementNotice;
                         });
                     }
                 }
@@ -132,18 +131,13 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="non">태그</th>
-                            <td class="non"><input type="text" name="tags" id="tags"
-                                                   placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)" value="${vo.TAGS}"></td>
-                        </tr>
-                        <tr>
                             <th class="non">첨부파일1</th>
                             <td class="non notice_thumbnailImg">
-                                <label for="thumbnailImgPathParam" class="input-file-button">썸네일 이미지</label>
+                                <label for="thumbnailImgPathParam" class="input-file-button">파일 첨부</label>
                                 <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam"
                                        accept="image/gif, image/jpeg, image/png">
                                 <input type="text" disabled name="thumbnailImgPathParam_text"
-                                       id="thumbnailImgPathParam_text" placeholder="썸네일 이미지를 선택하세요"
+                                       id="thumbnailImgPathParam_text" placeholder="첨부파일을 선택하세요"
                                        value="${vo.THUMBNAIL_IMG_PATH}">
                             </td>
                         </tr>

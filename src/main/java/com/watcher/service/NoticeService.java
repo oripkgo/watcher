@@ -1,6 +1,7 @@
 package com.watcher.service;
 
 import com.watcher.mapper.NoticeMapper;
+import com.watcher.param.FileParam;
 import com.watcher.param.NoticeParam;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,10 @@ public class NoticeService {
     @Autowired
     BoardService boardService;
 
+    @Autowired
+    FileService fileService;
+
+    private String fileUploadPath = "/notice";
 
     public Map<String, Object> list(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -93,6 +98,51 @@ public class NoticeService {
         noticeParam.setId_list(noticeIds.toList());
         noticeParam.setDeleteYn("Y");
         noticeMapper.update(noticeParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
+    public Map<String, String> insert(NoticeParam noticeParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        if( noticeParam.getId() == null || noticeParam.getId().isEmpty() ){
+            noticeMapper.insert(noticeParam);
+
+            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
+                FileParam fileParam = new FileParam();
+                fileParam.setContentsId(noticeParam.getId());
+                fileParam.setContentsType("NOTICE");
+                fileParam.setRegId(noticeParam.getRegId());
+                fileParam.setUptId(noticeParam.getRegId());
+
+                fileService.upload(
+                        noticeParam.getAttachFiles(),
+                        fileUploadPath,
+                        fileParam
+                );
+            }
+        }else{
+            noticeParam.setUptId(noticeParam.getRegId());
+            noticeMapper.update(noticeParam);
+
+            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
+                FileParam fileParam = new FileParam();
+                fileParam.setContentsId(noticeParam.getId());
+                fileParam.setContentsType("NOTICE");
+                fileParam.setRegId(noticeParam.getRegId());
+                fileParam.setUptId(noticeParam.getRegId());
+
+                fileService.upload(
+                        noticeParam.getAttachFiles(),
+                        fileUploadPath,
+                        fileParam
+                );
+            }
+        }
 
         result.put("code", "0000");
         result.put("message", "OK");
