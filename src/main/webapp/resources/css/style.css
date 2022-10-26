@@ -451,6 +451,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .category_right table th {width:130px;font-size:14px;color:#000;font-weight:400;padding:10px;text-align:left;vertical-align:top;}
 .category_right table td {font-size:14px;color:#000;font-weight:400;padding:10px 0px;text-align:left;}
 .category_right table td input[type=text] {width:100%;background:#f1f1f1;}
+.category_right table td select {width:100%;}
 .category_right table td textarea {width:100%;height:120px;background:#f1f1f1;}
 
 

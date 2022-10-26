@@ -4,7 +4,62 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+    const categListSpaceNm = "category_left";
+    const categListNm = "category_1st";
+    const categSelectNm = "categorySelect";
+    const category_list = ${category_list};
+    const member_category_list = ${member_category_list};
 
+    function getCategoryTagObj(){
+        return $('<a href="javascript:;" class="'+categListNm+'"></a>');
+    }
+
+    function getSelectCategoryOptionObj(){
+        return $('<option></option>');
+    }
+
+    function setSelectCategory(target){
+        category_list.forEach(function(obj,idx){
+            const option = getSelectCategoryOptionObj();
+
+            $(option).text(obj.CATEGORY_NM);
+            $(option).attr("value", obj.ID);
+
+            $(option).data(obj);
+            $(target).append(option);
+        })
+    }
+
+    function setCategory(target){
+        member_category_list.forEach(function(obj,idx){
+            const category = getCategoryTagObj();
+
+            $(category).text(obj.CATEGORY_NM);
+
+            $(category).data(obj);
+            $(target).append(category);
+        })
+    }
+
+    function makeEventClick(target, callback){
+        $(target).off("click").on("click", callback)
+    }
+
+    function initCategory(){
+        setSelectCategory("." + categSelectNm);
+        setCategory("." + categListSpaceNm);
+
+        makeEventClick($("." + categListNm, "." + categListSpaceNm), function(e){
+            const thisData = $(this).data();
+
+
+
+        })
+    }
+
+    $(document).on("ready", function () {
+        initCategory();
+    });
 </script>
 
 
@@ -23,7 +78,7 @@
                         <div class="btn_tb">
                             <a href="javascript:;">카테고리 추가</a>
                             <a href="javascript:;">카테고리 삭제</a>
-                            <a href="javascript:;" class="on">카테고리 저장</a>
+                            <a href="javascript:;">카테고리 저장</a>
                         </div>
                     </div>
                 </div>
@@ -32,10 +87,6 @@
 
                     <div class="category_left">
                         <a href="javascript:;" class="category_list">카테고리 목록</a>
-                        <a href="javascript:;" class="category_1st">IT</a>
-                        <a href="javascript:;" class="category_1st">정치</a>
-                        <a href="javascript:;" class="category_1st">가족</a>
-                        <a href="javascript:;" class="category_1st">요리</a>
                     </div>
 
                     <div class="category_right">
@@ -46,7 +97,11 @@
                             </tr>
                             <tr>
                                 <th>주제</th>
-                                <td><input type="text" value="주제없음"></td>
+                                <td>
+                                    <select id="category" name="category" class="categorySelect">
+                                        <option>선택</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <th>대표이미지</th>
