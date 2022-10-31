@@ -1,18 +1,23 @@
 package com.watcher.dto;
 
 
-public class CategoryDto extends CommDto {
+import org.springframework.web.multipart.MultipartFile;
+
+public class MemberCategoryDto extends CommDto {
     private String id;
     private String regId;
     private String regDate;
     private String uptId;
     private String uptDate;
+    private String defalutCategId;
+    private String loginId;
     private String categoryNm;
     private String categoryComents;
     private String categoryImgPath;
     private String showYn;
-    private String sort;
+    private String deleteYn;
 
+    private MultipartFile categoryImgFile;
 
     public String getId() {
         return id;
@@ -62,6 +67,22 @@ public class CategoryDto extends CommDto {
         this.uptDate = uptDate;
     }
 
+    public String getDefalutCategId() {
+        return defalutCategId;
+    }
+
+    public void setDefalutCategId(String defalutCategId) {
+        this.defalutCategId = defalutCategId;
+    }
+
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+
     public String getCategoryNm() {
         return categoryNm;
     }
@@ -94,11 +115,19 @@ public class CategoryDto extends CommDto {
         this.showYn = showYn;
     }
 
-    public String getSort() {
-        return sort;
+    public String getDeleteYn() {
+        return deleteYn;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
+    public void setDeleteYn(String deleteYn) {
+        this.deleteYn = deleteYn;
+    }
+
+    public MultipartFile getCategoryImgFile() {
+        return categoryImgFile;
+    }
+
+    public void setCategoryImgFile(MultipartFile categoryImgFile) {
+        this.categoryImgFile = categoryImgFile;
     }
 }

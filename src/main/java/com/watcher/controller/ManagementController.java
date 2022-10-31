@@ -53,6 +53,17 @@ public class ManagementController {
 
         }else if( "category".equals(menu) ){
             mav = new ModelAndView("management/category");
+
+            LinkedHashMap param = new LinkedHashMap();
+
+            param.put("memId"     , ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID")    );
+            param.put("showYn"    , "Y"       );
+
+            JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
+            mav.addObject("member_category_list", member_category_list);
+
+            JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
+            mav.addObject("category_list", jsonArray);
         }else if( "notice".equals(menu) ){
             mav = new ModelAndView("management/notice");
         }else if( "comment".equals(menu) ){
