@@ -3,15 +3,15 @@ package com.watcher.dto;
 
 public class StoryDto extends CommDto {
 
-    String id;
-    String categoryId;
-    String memberCategoryId;
-    String title;
-    String contents;
-    String thumbnailImgId;
-    String summary;
-    String deleteYn;
-    String secretYn;
+    private String id;
+    private String categoryId;
+    private String memberCategoryId;
+    private String title;
+    private String contents;
+    private String thumbnailImgId;
+    private String summary;
+    private String deleteYn;
+    private String secretYn;
 
     public String getId() {
         return id;

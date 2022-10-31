@@ -3,18 +3,17 @@ package com.watcher.dto;
 
 public class MemberDto extends CommDto {
 
-    String id;              // key
-    String password;        // 패스워드
-    String loginId;         // 회원 아이디
-    String email;           // 이메일
-    String phoneNum;        // 회원 휴대푠 번호
-    String name;            // 회원 이름
-    String nickname;        // 회원 유형별명
-    String memType;         // 회원 유형
-    String memProfileImg;   // 회원 프로필
-
-    String level;           // 회원 등급
-    String commentYn;       // 회원 댓글등록 여부
+    private String id;              // key
+    private String password;        // 패스워드
+    private String loginId;         // 회원 아이디
+    private String email;           // 이메일
+    private String phoneNum;        // 회원 휴대푠 번호
+    private String name;            // 회원 이름
+    private String nickname;        // 회원 유형별명
+    private String memType;         // 회원 유형
+    private String memProfileImg;   // 회원 프로필
+    private String level;           // 회원 등급
+    private String commentYn;       // 회원 댓글등록 여부
 
     public String getId() {
         return id;

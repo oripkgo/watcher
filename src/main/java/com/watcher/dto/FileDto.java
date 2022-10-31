@@ -3,18 +3,18 @@ package com.watcher.dto;
 
 public class FileDto extends CommDto {
 
-    String id;
-    String regId;
-    String regDate;
-    String uptId;
-    String uptDate;
-    String contentsType;
-    String contentsId;
-    String realFileName;
-    String serverFileName;
-    String savePath;
-    String deleteYn;
-    String pathSeparator;
+    private String id;
+    private String regId;
+    private String regDate;
+    private String uptId;
+    private String uptDate;
+    private String contentsType;
+    private String contentsId;
+    private String realFileName;
+    private String serverFileName;
+    private String savePath;
+    private String deleteYn;
+    private String pathSeparator;
 
     public String getId() {
         return id;
