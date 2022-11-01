@@ -25,7 +25,7 @@
         return $('<option></option>');
     }
 
-    function setSelectCategory(target){
+    function setSelectCategory(){
         category_list.forEach(function(obj,idx){
             const option = getSelectCategoryOptionObj();
 
@@ -33,18 +33,18 @@
             $(option).attr("value", obj.ID);
 
             $(option).data(obj);
-            $(target).append(option);
+            $("." + categSelectNm).append(option);
         })
     }
 
-    function setCategory(target){
+    function setCategoryList(){
         member_category_list.forEach(function(obj,idx){
             const category = getCategoryTagObj();
 
             $(category).text(obj.CATEGORY_NM);
 
             $(category).data(obj);
-            $(target).append(category);
+            $("." + categListSpaceNm).append(category);
         })
     }
 
@@ -56,40 +56,70 @@
         $("#categoryNm").val(data.CATEGORY_NM);
         $("#categoryComents").val(data.CATEGORY_COMENTS);
         $("#defalutCategId").val(data.DEFALUT_CATEG_ID);
-        $("[name='showYn']").val(data.SHOW_YN);
+        $("[name='showYn'][value='"+data.SHOW_YN+"']").prop("checked",true);
     }
 
-    function initCategory(){
-        setSelectCategory("." + categSelectNm);
-        setCategory("." + categListSpaceNm);
-
-        makeEventClick($("." + categListNm, "." + categListSpaceNm), function(e){
+    function applyCategoryEvents(){
+        $("." + categListNm, "." + categListSpaceNm).off("click").on("click", function(e){
             const thisData = $(this).data();
-
+            enableFields();
             setCategoryInfoInField(thisData);
 
             $("." + categListNm, "." + categListSpaceNm).removeClass("on");
             $(this).addClass("on");
-            enableFilds();
+        })
+    }
+
+    function initCategory(){
+        setSelectCategory();
+        setCategoryList();
+        applyCategoryEvents();
+    }
+
+    function applyEventCategoryInfoFields(){
+        $("#categoryNm").on("keyup", function (e) {
+            $("." + categListNm+".on", "." + categListSpaceNm).text($(this).val());
+        })
+
+        $("select, input, textarea", "#fieldsObj").on("blur", function () {
+            let category_nm = $("#categoryNm").val();
+            let category_coments = $("#categoryComents").val();
+            let defalut_categ_id = $("#defalutCategId").val();
+            let show_yn = $("[name='showYn']:checked").val();
+
+            const data = $("." + categListNm+".on", "." + categListSpaceNm).data();
+            data.CATEGORY_NM = category_nm;
+            data.CATEGORY_COMENTS = category_coments;
+            data.DEFALUT_CATEG_ID = defalut_categ_id;
+            data.SHOW_YN = show_yn;
+
+            $("." + categListNm+".on", "." + categListSpaceNm).data(data);
         })
     }
 
     function initFields(){
-        disableFilds();
+        disableFields();
+        applyEventCategoryInfoFields();
     }
 
-    function disableFilds(){
+    function disableFields(){
         $("select, input, textarea", "#fieldsObj").prop("disabled", true);
     }
 
-    function enableFilds(){
+    function enableFields(){
         $("select, input, textarea", "#fieldsObj").prop("disabled", false);
     }
-
 
     $(document).on("ready", function () {
         initCategory();
         initFields();
+
+        $("#categoryInsert").on("click",function(){
+            let obj = getCategoryTagObj();
+            $("#fieldsObj .category_left").append(obj)
+            applyCategoryEvents();
+            $(obj).click();
+        })
     });
 </script>
 
@@ -107,7 +137,7 @@
                     카테고리
                     <div class="btn_tb_wrap">
                         <div class="btn_tb">
-                            <a href="javascript:;">카테고리 추가</a>
+                            <a href="javascript:;" id="categoryInsert">카테고리 추가</a>
                             <a href="javascript:;">카테고리 삭제</a>
                             <a href="javascript:;">카테고리 저장</a>
                         </div>
@@ -140,8 +170,8 @@
                             <tr>
                                 <th>공개여부</th>
                                 <td>
-                                    <input type="radio" name="showYn" id="showYn01" value="N" checked><label for="showYn01">공개</label>&nbsp;&nbsp;
-                                    <input type="radio" name="showYn" id="showYn02" value="Y"><label for="showYn02">비공개</label>
+                                    <input type="radio" name="showYn" id="showYn01" value="Y" checked><label for="showYn01">공개</label>&nbsp;&nbsp;
+                                    <input type="radio" name="showYn" id="showYn02" value="N"><label for="showYn02">비공개</label>
                                 </td>
                             </tr>
                             <tr>
