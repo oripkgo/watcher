@@ -1,10 +1,8 @@
 
 let comm = function(){
-
     const kakaoKey = '16039b88287b9f46f214f7449158dfde';
     const naverKey = 'ThouS3nsCEwGnhkMwI1I';
     const comment_delete_msg = "해당 댓글을 삭제하시겠습니까?";
-
 
     let comment_li = '';
 
@@ -29,7 +27,6 @@ let comm = function(){
     comment_li += '    </div>';
     comment_li += '</li>';
 
-
     let loginProcessEventHtml = '';
 
     loginProcessEventHtml += '<div class="member_app logOut" style="display: none;">';
@@ -40,14 +37,12 @@ let comm = function(){
     loginProcessEventHtml += '</div>';
 
     const privateObj = {
-
         comment : {
             getRegId : {},
             getComment : function(commentObj){
                 return  $(commentObj).val().replace(/[\n]/g,'<br>');
             },
             crud : function(commentObj){
-
                 $(commentObj).find(".declaration, .update, .delete").on("click",function(obj){
                     // 댓글 이벤트
                     const target = obj.currentTarget;
@@ -65,7 +60,6 @@ let comm = function(){
 
                     }else if( $(target).hasClass('update') ){
                         // 댓글 수정
-
                         if( $(target).hasClass("ing") ){
                             $(target).removeClass("ing");
 
@@ -75,9 +69,7 @@ let comm = function(){
                             $('.review_info .contents', parent).show();
 
                             $(target).text("수정");
-
                         }else{
-
                             $(target).addClass("ing");
 
                             let parent = $(target).parents("li");
@@ -104,16 +96,10 @@ let comm = function(){
                                         $('.contents', review_info).show();
 
                                         $(target).text("수정");
-
                                     }
                                 })
-
-
                             });
-
                         }
-
-
                     }else if( $(target).hasClass('delete') ){
                         // 댓글 삭제
                         comm.message.confirm(comment_delete_msg,function(Yn){
@@ -135,14 +121,10 @@ let comm = function(){
                                 })
                             }
                         });
-
                     }
-
                 })
-
             },
             setting: function(contents_type, contents_id, target, cnt, list, login_yn){
-
                 let $conts_review = $('<div class="conts_review" id="conts_review"></div>');
 
                 $($conts_review).html('<strong class="conts_tit comment_cnt" data-cnt="'+cnt+'">댓글<em>'+cnt+'</em></strong>');
@@ -154,14 +136,11 @@ let comm = function(){
 
                         comm.loginObj.popup.open();
                     });
-
                 }else{
                     $($conts_review).append('<div class="write_wrap"><textarea placeholder="댓글 입력" name="coment"></textarea><a href="javascript:;" id="coment_insert">확인</a></div>');
 
                     // 댓글 등록
                     $($conts_review).find('#coment_insert').on("click", function(){
-
-
                         let comment_insert_param = {
                             "contentsType":contents_type,
                             "contentsId":contents_id,
@@ -175,7 +154,6 @@ let comm = function(){
 
                         comment_insert_param.coment = privateObj.comment.getComment($(target).find("[name='coment']"));
                         comm.request({url:"/board/comment/insert",data:JSON.stringify(comment_insert_param)},function(resp){
-
                             let profile_img = "/resources/img/member_ico.png";
 
                             if( resp.comment['profile'] ){
@@ -224,18 +202,14 @@ let comm = function(){
 
                                 $('.comment_cnt').data('cnt',cnt);
                                 $('.comment_cnt').html('댓글<em>'+cnt+'</em>');
-
                             }
                         })
-
                     });
-
                 }
 
                 $($conts_review).append('<ul class="reviewList"></ul>');
 
                 if( list && list.length > 0 ){
-
                     for(let i=0;i<list.length;i++){
                         let listObj = list[i];
                         let comment_obj = $(comment_li);
@@ -255,7 +229,6 @@ let comm = function(){
 
                         privateObj.comment.getRegId[String(listObj.ID)] = listObj.REG_ID;
 
-
                         $(comment_obj).data(listObj);
 
                         $(".declaration_line", comment_obj ).hide();
@@ -270,7 +243,6 @@ let comm = function(){
                             $(".update"          , comment_obj ).show();
                             $(".delete_line"     , comment_obj ).show();
                             $(".delete"          , comment_obj ).show();
-
                         }else{
                             $(".declaration_line", comment_obj ).show();
                             $(".declaration"     , comment_obj ).show();
@@ -288,15 +260,52 @@ let comm = function(){
                 if( list && list.length > 0 ){
                     $(target).append('<div class="pagging_wrap"></div>');
                 }
-
             },
         },
-
     };
 
-
     const publicObj = {
+        validation : function(target){
+            let checkVal = false;
+            $("input:not([type='hidden']),select,textarea",target).each(function(){
+                if( checkVal )return;
 
+                const thisObj = $(this);
+                const tagNm = $(thisObj).prop("tagName").toLowerCase();
+                const tagTp =  $(thisObj).prop("type").toLowerCase();
+                const title = $(thisObj).attr("title");
+                const checkYn = $(thisObj).attr("checkYn");
+                const checkMsg = $(thisObj).attr("checkMsg");
+
+                if( checkYn == 'Y' ){
+                    if( !$(thisObj).val() ){
+                        checkVal = true;
+                        let msg;
+                        if( checkMsg ){
+                            msg = checkMsg;
+                        }
+
+                        if( title ){
+                            msg = title;
+
+                            if( tagNm == 'select' || tagTp == 'file' ){
+                                msg += ' 선택은 필수입니다.';
+                            }else{
+                                msg += ' 입력은 필수입니다.';
+                            }
+                        }
+
+                        comm.message.alert(msg,function(){
+
+                        });
+
+                        $(thisObj).focus();
+                    }
+                }
+            });
+
+            return checkVal;
+        },
 
         board_view_init : function(viewType, viewId, callback, option){
             let param = {
@@ -318,7 +327,6 @@ let comm = function(){
 
                     // 공감하기 세팅 s
                     if( option && option.likeTarget ){
-
                         $(option.likeTarget).data({
                             "likeId"        : call_resp_obj.LIKE_ID,
                             "contentsType"  : param.contentsType,
@@ -346,7 +354,6 @@ let comm = function(){
                                 $($this).data().likeYn = obj.likeYn = ( $($this).data().likeYn=='Y'?'N':'Y' );
 
                                 if( obj.likeYn == 'N' ){
-
                                     let likecnt = ($($this).data('likecnt')*1)-1
 
                                     if( likecnt < 0 ){
@@ -360,7 +367,6 @@ let comm = function(){
 
                                     $(option.likeTarget).css({"background":"url('/resources/img/zim_ico.png') no-repeat left center"});
                                 }else{
-
                                     let likecnt = ($($this).data('likecnt')*1)+1
                                     $($this).text( '공감 ' + likecnt );
                                     $($this).data('likecnt',likecnt);
@@ -371,29 +377,19 @@ let comm = function(){
 
                                     $(option.likeTarget).css({"background":"url('/resources/img/icon_heart_on.png') no-repeat left center"});
                                 }
-
                             });
-
-
                         }else{
-
                             comm.message.confirm("해당 콘텐츠가 마음에 드시나요? 로그인 후 의견을 알려주세요.\n\n로그인 하시겠습니까?", function(Yn){
                                 if( Yn ){
                                     comm.loginObj.popup.open();
                                 }
                             });
-
                         }
-
-
                     })
-
-
                     // 공감하기 세팅 e
 
                     // 댓글 목록 세팅 s
                     if( option && option.commentTarget ){
-
                         let _pageForm 		= $(option.commentTarget).parents('form');
 
                         comm.appendInput(_pageForm, "contentsType"  , param.contentsType    );
@@ -423,15 +419,11 @@ let comm = function(){
                     // 댓글 등록 세팅 e
 
                     callback(call_resp_obj);
-
                 }
-
             })
-
         },
 
         tags_setting_val : function(tags){
-
             if( !tags ){
                 return '';
             }
@@ -446,9 +438,7 @@ let comm = function(){
             return tagsHtml;
         },
 
-
         getDate : function(date,format){
-
             let date_format = format || ''
 
             let year = date.getFullYear(); // 년도
@@ -463,7 +453,6 @@ let comm = function(){
             dt = dt.substring(dt.length-2,dt.length);
 
             return year + date_format + month + date_format + dt;
-
         },
 
         last_time_cal : function(last_date){
@@ -501,7 +490,6 @@ let comm = function(){
             }
 
             return floor(( last_time_result/1000/60/60/24/365 ))+'년 전';
-
         },
 
         loginObj : {
@@ -510,20 +498,14 @@ let comm = function(){
 
                 this.loginProcessEvent(type);
                 window['login_success_callback'] = this.login_success_callback;
-
             },
 
             kakaoInit : function(kakaoObj){
-
-
-
                 kakaoObj.init(kakaoKey);
                 kakaoObj.isInitialized();
 
                 $(document).on("ready",function(){
-
                     $("#kakao-login-btn").on("click",function(){
-
                         kakaoObj.Auth.login({
                             success: function(authObj) {
                                 kakaoObj.API.request({
@@ -543,16 +525,11 @@ let comm = function(){
                                 comm.message.alert(JSON.stringify(err))
                             },
                         })
-
                     })
-
                 })
-
-
             },
 
             naverInit : function(naverObj){
-
                 window.name = 'parentWindow';
                 const naver_id_login = new naverObj(naverKey, window.location.origin + "/login/loginSuccess");
                 let state = naver_id_login.getUniqState();
@@ -569,8 +546,6 @@ let comm = function(){
                 }
                 naver_id_login.init_naver_id_login();
                 // 네이버 로그인 e
-
-
             },
 
             login_success_callback : function(obj){
@@ -609,14 +584,10 @@ let comm = function(){
                     // $(".loginStart").hide();
 
                     window.location.reload();
-
                 })
-
             },
 
-
             loginProcessEvent : function(type){
-
                 $(document).on("ready",function(){
 
                     $('.member_set.logOut').after(loginProcessEventHtml)
@@ -628,14 +599,11 @@ let comm = function(){
                     $("#logout").on("click",function(){
                         comm.loginObj.logOut(type);
                     })
-
-
                 })
             },
 
             popup : {
                 init : function(){
-
                     let loginHtml = '';
                     loginHtml += '<div class="pop_wrap" id="loginHtmlObj">';
                     loginHtml += '	<a href="javascript:;" class="btn_close"></a>';
@@ -651,7 +619,6 @@ let comm = function(){
                     }
 
                     $("body").append(loginHtml);
-
 
                     $(".btn_start").click(function () {
                         $("#backbg").fadeIn("slow");
@@ -674,11 +641,8 @@ let comm = function(){
             },
 
             logOut : function(loginType, callback){
-
                 comm.message.confirm("로그아웃 하시겠습니까?",function(Yn){
-
                     if( Yn ){
-
                         let logOutParam = {};
 
                         if( loginType == 'naver' ){
@@ -689,7 +653,6 @@ let comm = function(){
                         }
 
                         comm.request({url:"/login/logout",data:JSON.stringify(logOutParam)},function(res){
-
                             $(".logOut").hide();
                             $(".loginStart").show();
 
@@ -698,49 +661,33 @@ let comm = function(){
                             }
 
                             window.location.reload();
-
                         })
-
                     }
-
                 });
-
             },
-
-
         },
 
         request: function (opt, succCall, errCall) {
-
             if( opt.form ){
-
                 opt.data = comm.serializeJson($(opt.form).serializeArray());
-
             }
 
             let ajaxOpt = {
-
                 url: opt.url,
                 type:opt.method || 'POST',
                 data : opt.data || null,
                 beforeSend: function (xhr) {
-
                     if( opt.headers ){
-
                         $.map(opt.headers,function(val,key){
                             xhr.setRequestHeader(key,val);
                         })
-
                     }else{
                         if( opt['contentType'] != false ){
                             xhr.setRequestHeader("Content-type","application/json");
                         }
-
                     }
-
                 },
                 success : function(result){
-
                     if( result.code = '0000' ){
                         if( succCall ){
                             succCall(result);
@@ -752,13 +699,11 @@ let comm = function(){
                             comm.message.alert(result.message);
                         }
                     }
-
                 },
                 error:function(result){
                     if( errCall ){
                         errCall(result);
                     }else{
-
                         if( result.responseJSON ){
                             let status = result.responseJSON.status;
                             let msg = result.responseJSON.message;
@@ -768,10 +713,8 @@ let comm = function(){
                         }else{
                             comm.message.alert("http server error");
                         }
-
                     }
                 }
-
             }
 
             if( opt.hasOwnProperty("processData") ){
