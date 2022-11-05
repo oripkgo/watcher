@@ -66,7 +66,6 @@
 
         comm.message.confirm("선택한 스토리를 비공개하시겠습니까?",function(result){
             if( result ){
-                debugger;
                 const param = JSON.stringify({paramJson:JSON.stringify(getStoryIds())});
                 comm.request({url:"/management/board/storys/private", method : "PUT", data : param},function(resp){
                     // 수정 성공
