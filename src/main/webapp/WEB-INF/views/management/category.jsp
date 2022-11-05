@@ -61,6 +61,10 @@
 
     function applyCategoryEvents(){
         $("." + categListNm, "." + categListSpaceNm).off("click").on("click", function(e){
+            if ($('.category_1st.on').length > 0 && comm.validation("#managementCategoryForm")) {
+                return
+            }
+
             const thisData = $(this).data();
             enableFields();
             setCategoryInfoInField(thisData);
@@ -110,82 +114,132 @@
         $("select, input, textarea", "#fieldsObj").prop("disabled", false);
     }
 
+    function insertCategory(){
+        if ($('.category_1st.on').length > 0 && comm.validation("#managementCategoryForm")) {
+            return
+        }
+
+        let obj = getCategoryTagObj();
+        $("#fieldsObj .category_left").append(obj)
+        applyCategoryEvents();
+        $(obj).click();
+    }
+
+    function deleteCategory(obj){
+        if( $('.category_1st.on').length <= 0 ){
+            comm.message.alert("선택된 카테고리가 없습니다.");
+            return;
+        }
+
+        if( $('.category_1st').length == 1 ){
+            comm.message.alert("카테고리 더이상 삭제할수 없습니다.");
+            return;
+        }
+
+        $('.category_1st.on').remove();
+    }
+
+    function isCategoryListCheck(){
+        let checkVal = false;
+        $('.category_1st').each(function(obj){
+            const thisObj = $(this);
+            const data = $(thisObj).data();
+
+            if( checkVal )
+                return;
+
+            if( (!data['CATEGORY_NM']) || !(data['DEFALUT_CATEG_ID']) ){
+                checkVal = true;
+
+                $(thisObj).click();
+
+                if( !(data['CATEGORY_NM']) ){
+                    comm.message.alert("카테고리 이름을 입력해주세요.");
+                    $("#categoryNm").focus();
+                    return;
+                }
+
+                if( !(data['DEFALUT_CATEG_ID']) ){
+                    comm.message.alert("");
+                    $("#defalutCategId").focus();
+                    return;
+                }
+            }
+        })
+
+        return checkVal;
+    }
+
     $(document).on("ready", function () {
         initCategory();
         initFields();
-
-        $("#categoryInsert").on("click",function(){
-            let obj = getCategoryTagObj();
-            $("#fieldsObj .category_left").append(obj)
-            applyCategoryEvents();
-            $(obj).click();
-        })
     });
 </script>
 
+<form id="managementCategoryForm">
+    <div class="section uline2">
+        <div class="ani-in manage_layout">
 
-<div class="section uline2">
-    <div class="ani-in manage_layout">
+            <div class="manage_conts">
 
-        <div class="manage_conts">
+                <%@include file="include/commMenu.jsp"%>
 
-            <%@include file="include/commMenu.jsp"%>
+                <div class="manage_box_wrap">
 
-            <div class="manage_box_wrap">
-
-                <div class="sub_title01">
-                    카테고리
-                    <div class="btn_tb_wrap">
-                        <div class="btn_tb">
-                            <a href="javascript:;" id="categoryInsert">카테고리 추가</a>
-                            <a href="javascript:;">카테고리 삭제</a>
-                            <a href="javascript:;">카테고리 저장</a>
+                    <div class="sub_title01">
+                        카테고리
+                        <div class="btn_tb_wrap">
+                            <div class="btn_tb">
+                                <a href="javascript:;" onclick="insertCategory();">카테고리 추가</a>
+                                <a href="javascript:;" onclick="deleteCategory();">카테고리 삭제</a>
+                                <a href="javascript:;">카테고리 저장</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="category_wrap" id="fieldsObj">
-                    <div class="category_left">
-                        <a href="javascript:;" class="category_list">카테고리 목록</a>
+                    <div class="category_wrap" id="fieldsObj">
+                        <div class="category_left">
+                            <a href="javascript:;" class="category_list">카테고리 목록</a>
+                        </div>
+
+                        <div class="category_right">
+                            <table>
+                                <tr>
+                                    <th>카테고리명</th>
+                                    <td><input type="text" id="categoryNm" name="categoryNm" checkYn="Y" title="카테고리명"></td>
+                                </tr>
+                                <tr>
+                                    <th>주제</th>
+                                    <td>
+                                        <select id="defalutCategId" name="defalutCategId" class="categorySelect" checkYn="Y" title="카테고리 주제">
+                                            <option value="" selected>선택</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>대표이미지</th>
+                                    <td><input type="file" id="categoryImgFile" name="categoryImgFile"></td>
+                                </tr>
+                                <tr>
+                                    <th>공개여부</th>
+                                    <td>
+                                        <input type="radio" name="showYn" id="showYn01" value="Y" checked><label for="showYn01">공개</label>&nbsp;&nbsp;
+                                        <input type="radio" name="showYn" id="showYn02" value="N"><label for="showYn02">비공개</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>카테고리 소개</th>
+                                    <td><textarea id="categoryComents" name="categoryComents"></textarea></td>
+                                </tr>
+                            </table>
+                        </div>
+
                     </div>
 
-                    <div class="category_right">
-                        <table>
-                            <tr>
-                                <th>카테고리명</th>
-                                <td><input type="text" id="categoryNm" name="categoryNm"></td>
-                            </tr>
-                            <tr>
-                                <th>주제</th>
-                                <td>
-                                    <select id="defalutCategId" name="defalutCategId" class="categorySelect">
-                                        <option>선택</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>대표이미지</th>
-                                <td><input type="file" id="categoryImgFile" name="categoryImgFile"></td>
-                            </tr>
-                            <tr>
-                                <th>공개여부</th>
-                                <td>
-                                    <input type="radio" name="showYn" id="showYn01" value="Y" checked><label for="showYn01">공개</label>&nbsp;&nbsp;
-                                    <input type="radio" name="showYn" id="showYn02" value="N"><label for="showYn02">비공개</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>카테고리 소개</th>
-                                <td><textarea id="categoryComents" name="categoryComents"></textarea></td>
-                            </tr>
-                        </table>
-                    </div>
+                </div><!-------------//manage_box_wrap------------->
 
-                </div>
-
-            </div><!-------------//manage_box_wrap------------->
+            </div>
 
         </div>
-
     </div>
-</div>
+</form>
