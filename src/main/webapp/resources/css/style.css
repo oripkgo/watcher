@@ -445,7 +445,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .category_left {display:inline-block;vertical-align:top;width:45%;}
 .category_list {display:block;background:url('../img/navi_b.png') no-repeat 15px center;font-size:15px;color:#757575;font-weight:400;padding-left:40px;line-height:50px;white-space:nowrap;border-bottom:1px solid #ddd;}
 .category_1st {display:block;background:url('../img/navi_s.png') no-repeat 15px center;font-size:20px;color:#000;font-weight:400;padding-left:40px;line-height:50px;white-space:nowrap;border-bottom:1px solid #ddd;}
-.category_1st.on {font-weight:600;min-height: 51px;}
+.category_1st.on {font-weight:600;min-height: 51px;background:url('../img/navi_b.png') no-repeat 15px center;}
 
 .category_right {display:inline-block;vertical-align:top;width:50%;margin-left:4%;padding:20px 0px;}
 .category_right table {width:100%;}
