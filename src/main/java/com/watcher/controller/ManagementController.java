@@ -1,5 +1,6 @@
 package com.watcher.controller;
 
+import com.watcher.param.CategoryParam;
 import com.watcher.param.ManagementParam;
 import com.watcher.param.NoticeParam;
 import com.watcher.param.StoryParam;
@@ -280,6 +281,26 @@ public class ManagementController {
 
         result.putAll(noticeService.updates(noticeParam));
         result.put("vo", noticeParam);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = {"/category/insert"}, method = RequestMethod.POST)
+    @ResponseBody
+    public LinkedHashMap<String, Object> insertCategory(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody CategoryParam categoryParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>) request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        categoryParam.setRegId(String.valueOf(loginId));
+        categoryParam.setUptId(String.valueOf(loginId));
+
+        result.putAll(categoryService.insert(categoryParam));
+        result.put("vo", categoryParam);
 
         return result;
     }

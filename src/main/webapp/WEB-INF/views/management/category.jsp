@@ -17,6 +17,8 @@
         explanation: "categoryComents",
     };
 
+    const formId = '#managementCategoryForm';
+
     function getCategoryTagObj(){
         return $('<a href="javascript:;" class="'+categListNm+'"></a>');
     }
@@ -61,7 +63,7 @@
 
     function applyCategoryEvents(){
         $("." + categListNm, "." + categListSpaceNm).off("click").on("click", function(e){
-            if ($('.category_1st.on').length > 0 && comm.validation("#managementCategoryForm")) {
+            if ($("." + categListNm+".on", "." + categListSpaceNm).length > 0 && comm.validation(formId)) {
                 return
             }
 
@@ -115,7 +117,7 @@
     }
 
     function insertCategory(){
-        if ($('.category_1st.on').length > 0 && comm.validation("#managementCategoryForm")) {
+        if ($("." + categListNm+".on", "." + categListSpaceNm).length > 0 && comm.validation(formId)) {
             return
         }
 
@@ -123,10 +125,12 @@
         $("#fieldsObj .category_left").append(obj)
         applyCategoryEvents();
         $(obj).click();
+
+        $("#categoryNm").focus();
     }
 
-    function deleteCategory(obj){
-        if( $('.category_1st.on').length <= 0 ){
+    function deleteCategory(){
+        if( $("." + categListNm+".on", "." + categListSpaceNm).length <= 0 ){
             comm.message.alert("선택된 카테고리가 없습니다.");
             return;
         }
@@ -136,7 +140,26 @@
             return;
         }
 
-        $('.category_1st.on').remove();
+        comm.message.confirm("선택한 카테고리를 삭제하시겠습니까?",function(result){
+            if( result ){
+                $("." + categListNm+".on", "." + categListSpaceNm).remove();
+            }
+        });
+    }
+    function getIdx(obj){
+        return $("#fieldsObj .category_left").find(".category_1st").index(obj);
+    }
+
+    function saveCategory(){
+        if( isCategoryListCheck() ){
+            return;
+        }
+
+        comm.message.confirm("카테고리를 저장하시겠습니까?",function(result){
+            if( result ){
+
+            }
+        });
     }
 
     function isCategoryListCheck(){
@@ -160,7 +183,7 @@
                 }
 
                 if( !(data['DEFALUT_CATEG_ID']) ){
-                    comm.message.alert("");
+                    comm.message.alert("카테고리 주제를 선택해주세요.");
                     $("#defalutCategId").focus();
                     return;
                 }
@@ -218,7 +241,7 @@
                                 </tr>
                                 <tr>
                                     <th>대표이미지</th>
-                                    <td><input type="file" id="categoryImgFile" name="categoryImgFile"></td>
+                                    <td><input type="file" id="categoryImgFile"></td>
                                 </tr>
                                 <tr>
                                     <th>공개여부</th>
