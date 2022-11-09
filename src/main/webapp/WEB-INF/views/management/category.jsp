@@ -157,7 +157,22 @@
 
         comm.message.confirm("카테고리를 저장하시겠습니까?",function(result){
             if( result ){
+                let jsonArr = [];
 
+                $("." + categListNm, "." + categListSpaceNm).each(function(){
+                    const categObj = $(this).data();
+                    jsonArr.push(categObj);
+                })
+
+                let param = {};
+                param.paramJson = JSON.stringify(jsonArr);
+
+                comm.request({url:"/management/category/insert", method : "POST", data : JSON.stringify(param)},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+
+                    }
+                })
             }
         });
     }
@@ -174,7 +189,9 @@
             if( (!data['CATEGORY_NM']) || !(data['DEFALUT_CATEG_ID']) ){
                 checkVal = true;
 
-                $(thisObj).click();
+                $("." + categListNm, "." + categListSpaceNm).removeClass("on")
+                $(thisObj).addClass("on");
+                setCategoryInfoInField($("." + categListNm+".on", "." + categListSpaceNm).data());
 
                 if( !(data['CATEGORY_NM']) ){
                     comm.message.alert("카테고리 이름을 입력해주세요.");
@@ -215,7 +232,7 @@
                             <div class="btn_tb">
                                 <a href="javascript:;" onclick="insertCategory();">카테고리 추가</a>
                                 <a href="javascript:;" onclick="deleteCategory();">카테고리 삭제</a>
-                                <a href="javascript:;">카테고리 저장</a>
+                                <a href="javascript:;" onclick="saveCategory();">카테고리 저장</a>
                             </div>
                         </div>
                     </div>
@@ -239,10 +256,10 @@
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
+                                <%--<tr>
                                     <th>대표이미지</th>
                                     <td><input type="file" id="categoryImgFile"></td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <th>공개여부</th>
                                     <td>

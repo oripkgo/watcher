@@ -2,6 +2,7 @@ package com.watcher.service;
 
 import com.watcher.mapper.CategoryMapper;
 import com.watcher.param.CategoryParam;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +61,8 @@ public class CategoryService {
     @Transactional
     public Map<String, String> insert(CategoryParam categoryParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
+
+        JSONArray jsonArr = new JSONArray(categoryParam.getParamJson());
 
 //        if( noticeParam.getId() == null || noticeParam.getId().isEmpty() ){
 //            noticeMapper.insert(noticeParam);
