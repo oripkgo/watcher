@@ -1,9 +1,6 @@
 package com.watcher.controller;
 
-import com.watcher.param.CategoryParam;
-import com.watcher.param.ManagementParam;
-import com.watcher.param.NoticeParam;
-import com.watcher.param.StoryParam;
+import com.watcher.param.*;
 import com.watcher.service.CategoryService;
 import com.watcher.service.ManagementService;
 import com.watcher.service.NoticeService;
@@ -58,7 +55,7 @@ public class ManagementController {
             LinkedHashMap param = new LinkedHashMap();
 
             param.put("memId"     , ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID")    );
-            param.put("showYn"    , "Y"       );
+            //param.put("showYn"    , "Y"       );
 
             JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
             mav.addObject("member_category_list", member_category_list);
@@ -291,16 +288,17 @@ public class ManagementController {
     public LinkedHashMap<String, Object> insertCategory(
             HttpServletRequest request,
             HttpServletResponse response,
-            @RequestBody CategoryParam categoryParam
+            @RequestBody MemberCategoryParam memberCategoryParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         Object loginId = (((Map<String, String>) request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        categoryParam.setRegId(String.valueOf(loginId));
-        categoryParam.setUptId(String.valueOf(loginId));
+        memberCategoryParam.setRegId(String.valueOf(loginId));
+        memberCategoryParam.setUptId(String.valueOf(loginId));
+        memberCategoryParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(categoryService.insert(categoryParam));
-        result.put("vo", categoryParam);
+        result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
+        result.put("vo", memberCategoryParam);
 
         return result;
     }

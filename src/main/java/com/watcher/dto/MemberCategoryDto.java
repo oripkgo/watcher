@@ -5,10 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class MemberCategoryDto extends CommDto {
     private String id;
-    private String regId;
-    private String regDate;
-    private String uptId;
-    private String uptDate;
     private String defalutCategId;
     private String loginId;
     private String categoryNm;
@@ -25,46 +21,6 @@ public class MemberCategoryDto extends CommDto {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Override
-    public String getRegId() {
-        return regId;
-    }
-
-    @Override
-    public void setRegId(String regId) {
-        this.regId = regId;
-    }
-
-    @Override
-    public String getRegDate() {
-        return regDate;
-    }
-
-    @Override
-    public void setRegDate(String regDate) {
-        this.regDate = regDate;
-    }
-
-    @Override
-    public String getUptId() {
-        return uptId;
-    }
-
-    @Override
-    public void setUptId(String uptId) {
-        this.uptId = uptId;
-    }
-
-    @Override
-    public String getUptDate() {
-        return uptDate;
-    }
-
-    @Override
-    public void setUptDate(String uptDate) {
-        this.uptDate = uptDate;
     }
 
     public String getDefalutCategId() {

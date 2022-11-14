@@ -4,12 +4,13 @@
 
 	<!-- 별칭 -->
 	<typeAliases>
-		<typeAlias type="com.watcher.param.MemberParam" 	alias="memberParam"		/>
-		<typeAlias type="com.watcher.param.NoticeParam" 	alias="noticeParam"		/>
-		<typeAlias type="com.watcher.param.CategoryParam" 	alias="categoryParam"	/>
-		<typeAlias type="com.watcher.param.StoryParam" 		alias="storyParam"		/>
-		<typeAlias type="com.watcher.param.FileParam" 		alias="fileParam"		/>
-		<typeAlias type="com.watcher.param.ManagementParam" alias="managementParam"	/>
+		<typeAlias type="com.watcher.param.MemberParam" 		alias="memberParam"			/>
+		<typeAlias type="com.watcher.param.NoticeParam" 		alias="noticeParam"			/>
+		<typeAlias type="com.watcher.param.CategoryParam" 		alias="categoryParam"		/>
+		<typeAlias type="com.watcher.param.MemberCategoryParam" alias="memberCategoryParam"	/>
+		<typeAlias type="com.watcher.param.StoryParam" 			alias="storyParam"			/>
+		<typeAlias type="com.watcher.param.FileParam" 			alias="fileParam"			/>
+		<typeAlias type="com.watcher.param.ManagementParam" 	alias="managementParam"		/>
 	</typeAliases>
 
 </configuration>
