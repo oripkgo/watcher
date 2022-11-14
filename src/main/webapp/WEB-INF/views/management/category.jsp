@@ -170,7 +170,7 @@
                 comm.request({url:"/management/category/insert", method : "POST", data : JSON.stringify(param)},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
-
+                        comm.message.alert("카테고리가 저장되었습니다.");
                     }
                 })
             }

@@ -53,67 +53,58 @@
 		</if>
 	</select>
 
-
-
-
-
-	<!--
-	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
-
-		INSERT INTO MEMBER(
-			 LOGIN_ID
-			,PASSWORD
-			,EMAIL
-			,PHONE_NUM
-			,NAME
-			,NICKNAME
-			,MEM_TYPE
-			,REG_ID
+	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO MEM_DEFINE_MENU_CATEG(
+			 REG_ID
 			,REG_DATE
 			,UPT_ID
 			,UPT_DATE
+			,DEFALUT_CATEG_ID
+			,LOGIN_ID
+			,CATEGORY_NM
+			,CATEGORY_COMENTS
+			,CATEGORY_IMG_PATH
+			,SHOW_YN
 		)
 		VALUES (
-			 #{loginId}
-			,#{password}
-			,#{email}
-			,#{phoneNum}
-			,#{name}
-			,#{nickname}
-			,#{memType}
-			,#{loginId}
+			 #{regId}
 			,NOW()
-			,#{loginId}
+			,#{uptId}
 			,NOW()
+			,#{defalutCategId}
+			,#{loginId}
+			,#{categoryNm}
+			,#{categoryComents}
+			,#{categoryImgPath}
+			,#{showYn}
 		)
-		ON DUPLICATE KEY UPDATE
-			<if test="password != null and password != ''">
-				PASSWORD 	= #{password} ,
-			</if>
-
-			<if test="email != null and email != ''">
-				EMAIL 		= #{email} ,
-			</if>
-
-			<if test="phoneNum != null and phoneNum != ''">
-				PHONE_NUM 	= #{phoneNum} ,
-			</if>
-
-			<if test="name != null and name != ''">
-				NAME 		= #{name} ,
-			</if>
-
-			<if test="nickname != null and nickname != ''">
-				NICKNAME 	= #{nickname} ,
-			</if>
-
-			<if test="memType != null and memType != ''">
-				MEM_TYPE 	= #{memType} ,
-			</if>
-
-			UPT_ID 	= #{loginId} ,
-			UPT_DATE 	= NOW()
 	</insert>
-	-->
+
+	<update id="update" parameterType="MemberCategoryParam">
+			UPDATE MEM_DEFINE_MENU_CATEG SET
+			<if test="defalutCategId != null and defalutCategId != ''">
+				DEFALUT_CATEG_ID 	= #{defalutCategId} ,
+			</if>
+
+			<if test="categoryNm != null and categoryNm != ''">
+				CATEGORY_NM 		= #{categoryNm} ,
+			</if>
+
+			<if test="categoryComents != null and categoryComents != ''">
+				CATEGORY_COMENTS 	= #{categoryComents} ,
+			</if>
+
+			<if test="categoryImgPath != null and categoryImgPath != ''">
+				CATEGORY_IMG_PATH 		= #{categoryImgPath} ,
+			</if>
+
+			<if test="showYn != null and showYn != ''">
+				SHOW_YN 		= #{showYn} ,
+			</if>
+
+			UPT_ID 	= #{uptId} ,
+			UPT_DATE 	= NOW()
+			WHERE ID = #{id}
+	</update>
 
 </mapper>

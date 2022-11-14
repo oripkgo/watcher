@@ -2,7 +2,9 @@ package com.watcher.service;
 
 import com.watcher.mapper.CategoryMapper;
 import com.watcher.param.CategoryParam;
+import com.watcher.param.MemberCategoryParam;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,45 +61,31 @@ public class CategoryService {
     }
 
     @Transactional
-    public Map<String, String> insert(CategoryParam categoryParam) throws Exception {
+    public Map<String, String> insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        JSONArray jsonArr = new JSONArray(categoryParam.getParamJson());
+        JSONArray jsonArr = new JSONArray(memberCategoryParam.getParamJson());
 
-//        if( noticeParam.getId() == null || noticeParam.getId().isEmpty() ){
-//            noticeMapper.insert(noticeParam);
-//
-//            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
-//                FileParam fileParam = new FileParam();
-//                fileParam.setContentsId(noticeParam.getId());
-//                fileParam.setContentsType("NOTICE");
-//                fileParam.setRegId(noticeParam.getRegId());
-//                fileParam.setUptId(noticeParam.getRegId());
-//
-//                fileService.upload(
-//                        noticeParam.getAttachFiles(),
-//                        fileUploadPath,
-//                        fileParam
-//                );
-//            }
-//        }else{
-//            noticeParam.setUptId(noticeParam.getRegId());
-//            noticeMapper.update(noticeParam);
-//
-//            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
-//                FileParam fileParam = new FileParam();
-//                fileParam.setContentsId(noticeParam.getId());
-//                fileParam.setContentsType("NOTICE");
-//                fileParam.setRegId(noticeParam.getRegId());
-//                fileParam.setUptId(noticeParam.getRegId());
-//
-//                fileService.upload(
-//                        noticeParam.getAttachFiles(),
-//                        fileUploadPath,
-//                        fileParam
-//                );
-//            }
-//        }
+        for(int i=0;i<jsonArr.length();i++){
+            JSONObject obj = jsonArr.getJSONObject(i);
+
+            MemberCategoryParam InsertOrUpdateParam = new MemberCategoryParam();
+
+            InsertOrUpdateParam.setCategoryNm(obj.getString("CATEGORY_NM"));
+            InsertOrUpdateParam.setCategoryComents(obj.getString("CATEGORY_COMENTS"));
+            InsertOrUpdateParam.setShowYn(obj.getString("SHOW_YN"));
+            InsertOrUpdateParam.setDefalutCategId(String.valueOf(obj.getInt("DEFALUT_CATEG_ID")));
+            InsertOrUpdateParam.setRegId(memberCategoryParam.getRegId());
+            InsertOrUpdateParam.setUptId(memberCategoryParam.getUptId());
+            InsertOrUpdateParam.setLoginId(memberCategoryParam.getLoginId());
+
+            if(obj.isNull("ID")){
+                categoryMapper.insert(InsertOrUpdateParam);
+            }else{
+                InsertOrUpdateParam.setId(String.valueOf(obj.getInt("ID")));
+                categoryMapper.update(InsertOrUpdateParam);
+            }
+        }
 
         result.put("code", "0000");
         result.put("message", "OK");
