@@ -7,13 +7,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class NoticeParam extends NoticeDto {
-    String search_id;
-    String search_keyword;
-    String search_level;
-    String search_memId;
-    String search_secret_yn;
+    private String search_id;
+    private String search_keyword;
+    private String search_level;
+    private String search_memId;
+    private String search_secret_yn;
 
-    List id_list;
+    private List id_list;
 
     MultipartFile[] attachFiles;
 

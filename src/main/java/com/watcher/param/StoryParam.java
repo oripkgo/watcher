@@ -7,15 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class StoryParam extends StoryDto {
-    String search_id;
-    String search_keyword;
-    String search_category_id;
-    String search_memId;
-    String search_secret_yn;
-    String SortByRecommendationYn;
-    String limitNum;
-    String category_nm;
-    String tags;
+    private String search_id;
+    private String search_keyword;
+    private String search_category_id;
+    private String search_memId;
+    private String search_secret_yn;
+    private String SortByRecommendationYn;
+    private String limitNum;
+    private String category_nm;
+    private String tags;
 
     List id_list;
 

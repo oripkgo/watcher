@@ -5,12 +5,11 @@ import com.watcher.dto.FileDto;
 
 public class FileParam extends FileDto {
 
-    String board_id;
-    String board_type;
-
-    String whereId;
-    String whereContentsType;
-    String whereContentsId;
+    private String board_id;
+    private String board_type;
+    private String whereId;
+    private String whereContentsType;
+    private String whereContentsId;
 
     public String getBoard_id() {
         return board_id;

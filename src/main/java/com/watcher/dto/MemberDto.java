@@ -13,7 +13,6 @@ public class MemberDto extends CommDto {
     private String memType;         // 회원 유형
     private String memProfileImg;   // 회원 프로필
     private String level;           // 회원 등급
-    private String commentYn;       // 회원 댓글등록 여부
 
     public String getId() {
         return id;
@@ -93,13 +92,5 @@ public class MemberDto extends CommDto {
 
     public void setLevel(String level) {
         this.level = level;
-    }
-
-    public String getCommentYn() {
-        return commentYn;
-    }
-
-    public void setCommentYn(String commentYn) {
-        this.commentYn = commentYn;
     }
 }

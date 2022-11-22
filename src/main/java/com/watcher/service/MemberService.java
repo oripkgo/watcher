@@ -3,6 +3,7 @@ package com.watcher.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.watcher.param.ManagementParam;
 import com.watcher.param.MemberParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,19 @@ public class MemberService {
    @Autowired
    MemberMapper memberMapper;
 
-   @Transactional
-    public Map<String,String> insertUpdate(MemberParam memberParam) throws Exception{
-        Map<String,String> result = new HashMap<String,String>();
+    @Transactional
+    public Map<String, String> insertUpdate(MemberParam memberParam) throws Exception {
+        Map<String, String> result = new HashMap<String, String>();
 
         memberMapper.insert(memberParam);
         memberMapper.insertDetail(memberParam);
 
-        result.put("code","0000");
-        result.put("message","OK");
+        ManagementParam managementParam = new ManagementParam();
+        managementParam.setLoginId(memberParam.getLoginId());
+        memberMapper.insertManagement(memberParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
 
 
         return result;
