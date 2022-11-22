@@ -47,4 +47,19 @@
 		FROM DUAL
 	</select>
 
+	<select id="getMemberManagerSetting">
+
+		SELECT
+			  ID
+			, REG_ID
+			, REG_DATE
+            , UPT_ID
+            , UPT_DATE
+		    , LOGIN_ID
+            , COMMENT_PERM_STATUS
+		FROM MEM_MANAGEMENT
+
+	</select>
+
+
 </mapper>

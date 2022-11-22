@@ -28,9 +28,8 @@
                 <div class="review_write">
                     <span>댓글 작성은</span>
                     <select>
-                        <option>모두</option>
-                        <option>관리자</option>
-                        <option>작성자</option>
+                        <option value="01">모두</option>
+                        <option value="02">작성자</option>
                     </select>
                     <span>가능합니다.</span>
                 </div>

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CategoryParam extends CategoryDto {
 
-    List<MultipartFile> categoryImgFile;
+    private List<MultipartFile> categoryImgFile;
 
     public List<MultipartFile> getCategoryImgFile() {
         return categoryImgFile;
