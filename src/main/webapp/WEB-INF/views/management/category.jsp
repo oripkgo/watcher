@@ -142,7 +142,9 @@
 
         comm.message.confirm("선택한 카테고리를 삭제하시겠습니까?",function(result){
             if( result ){
-                $("." + categListNm+".on", "." + categListSpaceNm).remove();
+                const target = $("." + categListNm+".on", "." + categListSpaceNm);
+                $(target).data()["DELETE_YN"] = "Y";
+                $(target).hide();
             }
         });
     }

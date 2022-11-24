@@ -47,18 +47,17 @@
 		FROM DUAL
 	</select>
 
-	<select id="getMemberManagerSetting">
-
+	<select id="getManagerSettings" resultType="map" parameterType="managementParam">
 		SELECT
 			  ID
 			, REG_ID
-			, REG_DATE
+			, DATE_FORMAT(REG_DATE,'%Y-%m-%d %H:%i') AS REG_DATE
             , UPT_ID
-            , UPT_DATE
+            , DATE_FORMAT(UPT_DATE,'%Y-%m-%d %H:%i') AS UPT_DATE
 		    , LOGIN_ID
             , COMMENT_PERM_STATUS
 		FROM MEM_MANAGEMENT
-
+		WHERE LOGIN_ID = #{loginId}
 	</select>
 
 

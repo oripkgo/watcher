@@ -5,29 +5,33 @@ public class ManagementDto extends MemberDto {
 
     private String id;
     private String loginId;
-    private String comment_perm_status;
+    private String commentPermStatus;
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
+    @Override
     public String getLoginId() {
         return loginId;
     }
 
+    @Override
     public void setLoginId(String loginId) {
         this.loginId = loginId;
     }
 
-    public String getComment_perm_status() {
-        return comment_perm_status;
+    public String getCommentPermStatus() {
+        return commentPermStatus;
     }
 
-    public void setComment_perm_status(String comment_perm_status) {
-        this.comment_perm_status = comment_perm_status;
+    public void setCommentPermStatus(String commentPermStatus) {
+        this.commentPermStatus = commentPermStatus;
     }
 }

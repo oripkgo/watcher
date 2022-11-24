@@ -59,7 +59,9 @@ public class ManagementService {
     }
 
 
-
+    public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception {
+        return managementMapper.getManagerSettings(managementParam);
+    }
 
     /*@Transactional
     public Map<String, String> updateStory(StoryParam storyParam) throws Exception {

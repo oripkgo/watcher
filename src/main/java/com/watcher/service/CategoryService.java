@@ -74,6 +74,7 @@ public class CategoryService {
             InsertOrUpdateParam.setCategoryNm(obj.getString("CATEGORY_NM"));
             InsertOrUpdateParam.setCategoryComents(obj.getString("CATEGORY_COMENTS"));
             InsertOrUpdateParam.setShowYn(obj.getString("SHOW_YN"));
+            InsertOrUpdateParam.setDeleteYn(obj.getString("DELETE_YN"));
             InsertOrUpdateParam.setDefalutCategId(String.valueOf(obj.getInt("DEFALUT_CATEG_ID")));
             InsertOrUpdateParam.setRegId(memberCategoryParam.getRegId());
             InsertOrUpdateParam.setUptId(memberCategoryParam.getUptId());
