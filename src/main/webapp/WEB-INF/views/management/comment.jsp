@@ -4,7 +4,19 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
+    const managementInfo = JSON.parse('${managementInfo}');
 
+    $(document).on("ready",function(){
+        initManagementInfo();
+    })
+
+    function initManagementInfo(){
+        $("#commentPermStatus").val(managementInfo.COMMENT_PERM_STATUS);
+    }
+
+    function saveManagementInfo(){
+
+    }
 </script>
 
 <div class="section uline2">
@@ -27,7 +39,7 @@
 
                 <div class="review_write">
                     <span>댓글 작성은</span>
-                    <select>
+                    <select id="commentPermStatus" name="commentPermStatus">
                         <option value="01">모두</option>
                         <option value="02">작성자</option>
                     </select>

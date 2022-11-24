@@ -1,11 +1,9 @@
 package com.watcher.controller;
 
 import com.watcher.param.*;
-import com.watcher.service.CategoryService;
-import com.watcher.service.ManagementService;
-import com.watcher.service.NoticeService;
-import com.watcher.service.StoryService;
+import com.watcher.service.*;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +29,9 @@ public class ManagementController {
     @Autowired
     StoryService storyService;
 
+    @Autowired
+    MemberService memberService;
+
     @RequestMapping(value = {"/{menu}"})
     public ModelAndView getManagementMainPage(
             @PathVariable("menu") String menu,
@@ -43,18 +44,16 @@ public class ManagementController {
         if( "main".equals(menu) ){
             mav = new ModelAndView("management/main");
         }else if( "board".equals(menu) ){
-
             mav = new ModelAndView("management/board");
 
             JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
             mav.addObject("category_list", jsonArray);
-
         }else if( "category".equals(menu) ){
             mav = new ModelAndView("management/category");
 
             LinkedHashMap param = new LinkedHashMap();
 
-            param.put("memId"     , ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID")    );
+            param.put("memId"     , ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID") );
             //param.put("showYn"    , "Y"       );
 
             JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
@@ -66,6 +65,10 @@ public class ManagementController {
             mav = new ModelAndView("management/notice");
         }else if( "comment".equals(menu) ){
             mav = new ModelAndView("management/comment");
+
+            managementParam.setLoginId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+            JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
+            mav.addObject("managementInfo", managementDatas);
         }else if( "setting".equals(menu) ){
             mav = new ModelAndView("management/setting");
         }else if( "statistics".equals(menu) ){
