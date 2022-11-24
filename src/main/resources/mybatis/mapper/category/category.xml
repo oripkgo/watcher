@@ -41,6 +41,7 @@
 			 ,CATEGORY_COMENTS
 			 ,CATEGORY_IMG_PATH
 			 ,SHOW_YN
+			 ,DELETE_YN
 			 ,'member' AS CATEGORY_TYPE
 		FROM MEM_DEFINE_MENU_CATEG
 		WHERE 1=1
@@ -83,23 +84,27 @@
 	<update id="update" parameterType="MemberCategoryParam">
 			UPDATE MEM_DEFINE_MENU_CATEG SET
 			<if test="defalutCategId != null and defalutCategId != ''">
-				DEFALUT_CATEG_ID 	= #{defalutCategId} ,
+				DEFALUT_CATEG_ID = #{defalutCategId} ,
 			</if>
 
 			<if test="categoryNm != null and categoryNm != ''">
-				CATEGORY_NM 		= #{categoryNm} ,
+				CATEGORY_NM = #{categoryNm} ,
 			</if>
 
 			<if test="categoryComents != null and categoryComents != ''">
-				CATEGORY_COMENTS 	= #{categoryComents} ,
+				CATEGORY_COMENTS = #{categoryComents} ,
 			</if>
 
 			<if test="categoryImgPath != null and categoryImgPath != ''">
-				CATEGORY_IMG_PATH 		= #{categoryImgPath} ,
+				CATEGORY_IMG_PATH = #{categoryImgPath} ,
 			</if>
 
 			<if test="showYn != null and showYn != ''">
-				SHOW_YN 		= #{showYn} ,
+				SHOW_YN = #{showYn} ,
+			</if>
+
+			<if test="deleteYn != null and deleteYn != ''">
+				DELETE_YN = #{deleteYn} ,
 			</if>
 
 			UPT_ID 	= #{uptId} ,
