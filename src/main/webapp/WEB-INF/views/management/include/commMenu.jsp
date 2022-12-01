@@ -19,10 +19,9 @@
             <a href="${globalVar['managementCategory']}">카테고리 관리</a>
             <a href="${globalVar['managementNotice']}">공지관리</a>
         </div>
-        <a href="javascript:;" class="menu_1st">댓글 방명록</a>
+        <a href="javascript:;" class="menu_1st">스토리</a>
         <div class="menu_2st">
-            <a href="${globalVar['managementComment']}">댓글 관리</a>
-            <%--<a href="${managementSetting}">설정</a>--%>
+            <a href="${globalVar['managementSetting']}">설정</a>
         </div>
         <a href="javascript:;" class="menu_1st">통계</a>
         <div class="menu_2st">

@@ -60,5 +60,34 @@
 		WHERE LOGIN_ID = #{loginId}
 	</select>
 
+	<update id="updateManagement" parameterType="managementParam">
+		UPDATE MEM_MANAGEMENT SET
+		<if test="commentPermStatus != null and commentPermStatus != ''">
+			COMMENT_PERM_STATUS 	= #{commentPermStatus} ,
+		</if>
+		UPT_ID 	= #{loginId} ,
+		UPT_DATE 	= NOW()
+		WHERE LOGIN_ID = #{loginId}
+	</update>
+
+	<insert id="insertManagement" parameterType="managementParam" useGeneratedKeys="true" keyColumn="loginId">
+		INSERT INTO MEM_MANAGEMENT(
+								   LOGIN_ID
+								  ,REG_ID
+								  ,REG_DATE
+								  ,UPT_ID
+								  ,UPT_DATE
+								  ,COMMENT_PERM_STATUS
+		)
+		VALUES (
+				   #{loginId}
+			   ,#{loginId}
+			   ,NOW()
+			   ,#{loginId}
+			   ,NOW()
+			   ,'01'
+			   )
+	</insert>
+
 
 </mapper>

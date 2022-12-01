@@ -14,4 +14,5 @@ public interface ManagementMapper {
     public List<Map<String, Object>> getChartVisitorCntList(ManagementParam managementParam);
     public List<Map<String, Object>> getPopularityArticleList(ManagementParam managementParam);
     public void insertManagement(ManagementParam managementParam);
+    public void updateManagement(ManagementParam managementParam);
 }

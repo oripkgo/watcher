@@ -13,7 +13,7 @@
     globalVar.put("managementBoard"        , "/management/board"     );
     globalVar.put("managementCategory"     , "/management/category"  );
     globalVar.put("managementNotice"       , "/management/notice"    );
-    globalVar.put("managementComment"      , "/management/comment"   );
+//    globalVar.put("managementComment"      , "/management/comment"   );
     globalVar.put("managementSetting"      , "/management/setting"   );
     globalVar.put("managementStatistics"   , "/management/statistics");
 
