@@ -1,11 +1,14 @@
 package com.watcher.service;
 
 import com.watcher.mapper.ManagementMapper;
+import com.watcher.mapper.MemberMapper;
 import com.watcher.param.ManagementParam;
+import com.watcher.param.MemberParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,9 @@ public class ManagementService {
 
     @Autowired
     ManagementMapper managementMapper;
+
+    @Autowired
+    MemberMapper memberMapper;
 
 
     @Transactional
@@ -62,6 +68,21 @@ public class ManagementService {
     public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception {
         return managementMapper.getManagerSettings(managementParam);
     }
+
+
+    @Transactional
+    public Map<String, String> updateStorySetting(ManagementParam managementParam) throws Exception {
+        Map<String, String> result = new HashMap<String, String>();
+
+        managementMapper.updateManagement(managementParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+
 
     /*@Transactional
     public Map<String, String> updateStory(StoryParam storyParam) throws Exception {

@@ -63,14 +63,12 @@ public class ManagementController {
             mav.addObject("category_list", jsonArray);
         }else if( "notice".equals(menu) ){
             mav = new ModelAndView("management/notice");
-        }else if( "comment".equals(menu) ){
-            mav = new ModelAndView("management/comment");
+        }else if( "setting".equals(menu) ){
+            mav = new ModelAndView("management/setting");
 
             managementParam.setLoginId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
             JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
             mav.addObject("managementInfo", managementDatas);
-        }else if( "setting".equals(menu) ){
-            mav = new ModelAndView("management/setting");
         }else if( "statistics".equals(menu) ){
             mav = new ModelAndView("management/statistics");
         }
@@ -302,6 +300,26 @@ public class ManagementController {
 
         result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
         result.put("vo", memberCategoryParam);
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/setting/update"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updateSetting(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") ManagementParam managementParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        Object loginId = (((Map<String, String>) request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        managementParam.setRegId(String.valueOf(loginId));
+        managementParam.setUptId(String.valueOf(loginId));
+        managementParam.setLoginId(String.valueOf(loginId));
+
+        result.putAll(managementService.updateStorySetting(managementParam));
+        result.put("vo", managementParam);
 
         return result;
     }
