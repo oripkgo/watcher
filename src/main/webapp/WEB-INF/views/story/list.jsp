@@ -100,7 +100,7 @@
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '">';
+                listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
 
                 if( obj.THUMBNAIL_IMG_PATH ){
                     listHtml += '<div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
@@ -168,7 +168,7 @@
 
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '">';
+                listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
 
                 listHtml += '        <span>';
@@ -289,7 +289,7 @@
             let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
             listNum += '<li>';
-            listNum += '    <a href="' + getStoryViewUrl(obj.ID) + '">';
+            listNum += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
             listNum += '        <div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
 
@@ -343,7 +343,7 @@
 
 
             listNum += '<li>';
-            listNum += '    <a href="' + getStoryViewUrl(obj.ID) + '">';
+            listNum += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
             listNum += '        <strong>'+obj.TITLE+'</strong>';
 
             if( obj.SUMMARY.length < 100 ){

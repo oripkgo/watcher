@@ -35,10 +35,7 @@ public class LoginController {
 
 	@RequestMapping(value={"loginSuccess"})
 	public ModelAndView showLoginSuccessPage() throws Exception {
-
 		ModelAndView mav = new ModelAndView("login/loginSuccess");
-
-
 		return mav;
 	}
 
@@ -48,20 +45,12 @@ public class LoginController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody LoginParam loginVo
-
 	) throws Exception {
-
 		Map<String,String> result = new HashMap<String,String>();
 
-		boolean userId_check = true;
-		for(Cookie cookie : request.getCookies()){
-			if( "userId".equals(cookie.getName()) ){
-				userId_check = false;
-				break;
-			}
-		}
+		Map<String,Object> userData = memberService.getUserData(loginVo.getId(), loginVo.getType());
 
-		if( userId_check ){
+		if( userData == null || userData.size() == 0 ){
 			Cookie cookie = new Cookie("userId",loginVo.getId());
 			response.addCookie(cookie);
 
@@ -75,7 +64,6 @@ public class LoginController {
 			memberParam.setMemProfileImg(loginVo.getProfile());
 
 			memberService.insertUpdate(memberParam);
-
 		}
 
 		result.putAll(loginService.loginSuccessCallback(request, loginVo));
@@ -120,8 +108,8 @@ public class LoginController {
 
 		}
 
-
 		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
+
 		request.getSession().removeAttribute("loginInfo");
 		Cookie cookie = new Cookie("userId",null);
 		cookie.setMaxAge(0);

@@ -41,8 +41,8 @@
 
     const managementNotice = '${globalVar.managementNotice}';
 
-    const getStoryViewUrl = function(id){
-        return storyUrlView+'?id=' + id;
+    const getStoryViewUrl = function (id, memId) {
+        return '/' + memId + storyUrlView + '?id=' + id;
     }
     const getStoryWriteUrl = function(){
         return storyUrlWrite;

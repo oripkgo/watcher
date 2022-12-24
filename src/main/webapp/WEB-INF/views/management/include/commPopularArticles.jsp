@@ -72,7 +72,7 @@
             resp.list.forEach(function (obj) {
                 let liObj = $("<li></li>");
                 let liHtml = '';
-                liHtml += '<a href="'+getStoryViewUrl(obj.ID)+'">                          ';
+                liHtml += '<a href="'+getStoryViewUrl(obj['ID'], obj['MEMBER_ID'])+'">                          ';
                 liHtml += '    <img src="' + obj.THUMBNAIL_IMG_PATH + '">                  ';
                 liHtml += '        <strong>[' + obj.CATEGORY_NM + '] ' + obj.TITLE + '</strong> ';
                 liHtml += '        <span>' + obj.SUMMARY + '</span>                         ';

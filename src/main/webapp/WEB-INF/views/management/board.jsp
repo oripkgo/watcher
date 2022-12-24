@@ -169,9 +169,9 @@
 
             listHtml += '<td><input type="checkbox" class="check"></td>                                                         ';
             listHtml += '<td>'+secretStatus+'</td>                                                                              ';
-            listHtml += '<td><a href="' + getStoryViewUrl(obj.ID) + '" class="kind_link">'+obj.CATEGORY_NM+'</a></td>           ';
+            listHtml += '<td><a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="kind_link">'+obj.CATEGORY_NM+'</a></td>           ';
             listHtml += '<td>                                                                                                   ';
-            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="subject_link">                                    ';
+            listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="subject_link">                                    ';
             listHtml += '        <strong>'+obj.TITLE+'</strong>                                                                 ';
             listHtml += '        <span>'+obj.SUMMARY+'</span>                                                                   ';
             listHtml += '    </a>                                                                                               ';
@@ -193,7 +193,7 @@
             listHtml += '    </div>                                                                                        ';
             listHtml += '</td>                                                                                             ';
             listHtml += '<td>                                                                                              ';
-            listHtml += '    <a href="' + getStoryViewUrl(obj.ID) + '" class="pic_link">                                   ';
+            listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="pic_link">                                   ';
 
             if( obj.THUMBNAIL_IMG_PATH ){
                 listHtml += '<img src="'+obj.THUMBNAIL_IMG_PATH+'">';

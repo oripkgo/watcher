@@ -32,7 +32,7 @@
             list.forEach(function(obj){
                 const a = $('<a></a>');
                 $(a).text(obj.CATEGORY_NM);
-                $(a).attr('href', "/myStory/"+myStory_search_memberId+"/"+ obj.DEFALUT_CATEG_ID+"?category_nm="+encodeURIComponent(obj.CATEGORY_NM));
+                $(a).attr('href', "/"+myStory_search_memberId+"/myStory/"+ obj.DEFALUT_CATEG_ID+"?category_nm="+encodeURIComponent(obj.CATEGORY_NM));
                 $(".mystory_menu, .mystory_menu_mobile").append(a);
             })
         }
@@ -60,7 +60,7 @@
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
                 listHtml += '<li>';
-                listHtml += '    <a href="'+ getStoryViewUrl(obj.ID) + '">';
+                listHtml += '    <a href="'+ getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
                 listHtml += '        <em>'+obj.CATEGORY_NM+'</em>';
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
 

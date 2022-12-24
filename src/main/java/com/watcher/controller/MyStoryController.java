@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/myStory")
-
 public class MyStoryController {
 
 
@@ -29,10 +27,10 @@ public class MyStoryController {
     StoryService storyService;
 
 
-    @RequestMapping(value = {"/{userId}/{categoryId}"})
+    @RequestMapping(value = {"/{memId}/myStory/{categoryId}"})
     public ModelAndView showMyStoryCategoryListPage(
             HttpServletRequest request,
-            @PathVariable("userId") String userId,
+            @PathVariable("memId") String memId,
             @PathVariable("categoryId") String categoryId,
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
@@ -41,7 +39,7 @@ public class MyStoryController {
         LinkedHashMap param = new LinkedHashMap();
 
         param.put("showYn"    , "Y"       );
-        param.put("memId"     , userId    );
+        param.put("memId"     , memId    );
 
 
         JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
@@ -49,17 +47,17 @@ public class MyStoryController {
         storyParam.setListNo(10);
         mav.addObject("member_category_list", member_category_list);
         storyParam.setCategoryId(categoryId);
-        mav.addObject("memId",userId);
+        mav.addObject("memId",memId);
         mav.addObject("categoryListYn","Y");
 
         return mav;
     }
 
 
-    @RequestMapping(value = {"/{userId}"})
+    @RequestMapping(value = {"/{memId}/myStory"})
     public ModelAndView showMyStoryPage(
             HttpServletRequest request,
-            @PathVariable("userId") String userId,
+            @PathVariable("memId") String memId,
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
         ModelAndView mav = new ModelAndView("myStory/main");
@@ -67,19 +65,19 @@ public class MyStoryController {
         LinkedHashMap param = new LinkedHashMap();
 
         param.put("showYn"      , "Y"       );
-        param.put("memId"     , userId    );
+        param.put("memId"     , memId    );
 
 
         JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
 
         storyParam.setListNo(10);
         mav.addObject("member_category_list", member_category_list);
-        mav.addObject("memId",userId);
+        mav.addObject("memId",memId);
 
         return mav;
     }
 
-    @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/myStory/list/data"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStorylistData(
             HttpServletRequest request,

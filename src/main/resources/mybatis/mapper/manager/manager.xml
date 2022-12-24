@@ -87,6 +87,13 @@
 			   ,NOW()
 			   ,'01'
 			   )
+
+		ON DUPLICATE KEY UPDATE
+		<if test="commentPermStatus != null and commentPermStatus != ''">
+			COMMENT_PERM_STATUS 	= #{commentPermStatus} ,
+		</if>
+		UPT_ID 	= #{loginId} ,
+		UPT_DATE 	= NOW()
 	</insert>
 
 

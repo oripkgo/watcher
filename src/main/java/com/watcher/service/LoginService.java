@@ -16,7 +16,6 @@ public class LoginService {
     @Autowired
     MemberMapper memberMapper;
 
-
     public Map<String,String> loginSuccessCallback(HttpServletRequest request, LoginParam loginVo) throws Exception{
         Map<String,String> result = new HashMap<String,String>();
 
@@ -34,9 +33,6 @@ public class LoginService {
         result.put("code","0000");
         result.put("message","OK");
 
-
         return result;
     }
-
-
 }
