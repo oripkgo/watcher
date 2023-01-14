@@ -63,7 +63,7 @@
                             location.href = managementNotice;
                         });
                     } else {
-                        comm.message.alert('스토리가 등록되었습니다.', function () {
+                        comm.message.alert('공지가 등록되었습니다.', function () {
                             location.href = managementNotice;
                         });
                     }

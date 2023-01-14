@@ -142,7 +142,7 @@
         });
 
         $("#notice_more").on("click", function(){
-            location.href="/notice/list/member?search_memId="+id;
+            location.href="/"+id+"/notice/list";
         });
 
     }

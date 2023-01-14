@@ -31,7 +31,9 @@ public class NoticeService {
     public Map<String, Object> list(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        if( noticeParam.getSearch_level() == null || noticeParam.getSearch_level().isEmpty() ){
+        if (
+                (noticeParam.getSearch_memId() == null || noticeParam.getSearch_memId().isEmpty()) &&
+                        (noticeParam.getSearch_level() == null || noticeParam.getSearch_level().isEmpty())) {
             noticeParam.setSearch_level("9");
         }
 

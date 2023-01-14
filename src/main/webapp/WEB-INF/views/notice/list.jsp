@@ -3,8 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
+    const noticeListUrl = '${noticeListUrl}';
+    const listNo = '${vo.listNo}';
+    const pageNoRange = '${vo.pagigRange}';
+
     function search() {
-        comm.list('#noticeForm', '/notice/list/data', listCallback, 1, 20);
+        comm.list('#noticeForm', noticeListUrl, listCallback, 1, listNo, pageNoRange);
     }
 
     function listCallback(data) {

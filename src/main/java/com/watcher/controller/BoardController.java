@@ -25,15 +25,15 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@RequestMapping(value={"/notice/list/member"})
+	@RequestMapping(value={"/{memId}/notice/list"})
 	public ModelAndView showMemberNoticeListPage(
+			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 		ModelAndView mav = new ModelAndView("notice/list");
-		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+noticeParam.getSearch_memId());
-
+		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+memId);
 		return mav;
 	}
 
