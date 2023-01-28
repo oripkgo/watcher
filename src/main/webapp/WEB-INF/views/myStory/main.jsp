@@ -132,7 +132,7 @@
                     const obj = data.list[i];
                     let li = $('<li></li>');
 
-                    li.append('<a href="'+ getNoticeViewUrl(obj.ID) +'">'+obj['TITLE']+'</a>');
+                    li.append('<a href="'+ getNoticeViewUrl(obj.ID,myStory_search_memberId) +'">'+obj['TITLE']+'</a>');
                     li.append('<em>'+(obj['UPT_DATE'] || obj['REG_DATE'])+'</em>');
                     $(".notice_list").append(li);
                 }
