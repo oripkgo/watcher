@@ -13,6 +13,7 @@
     const categoryId                = '${vo.categoryId}';
     const member_category_list      = JSON.parse('${member_category_list}');
 
+
     $(document).on("ready", function () {
 
         // 회원 카테고리 세팅
@@ -132,7 +133,7 @@
                     const obj = data.list[i];
                     let li = $('<li></li>');
 
-                    li.append('<a href="'+ getNoticeViewUrl(obj.ID) +'">'+obj['TITLE']+'</a>');
+                    li.append('<a href="'+ getNoticeViewUrl(obj.ID, id) +'">'+obj['TITLE']+'</a>');
                     li.append('<em>'+(obj['UPT_DATE'] || obj['REG_DATE'])+'</em>');
                     $(".notice_list").append(li);
                 }

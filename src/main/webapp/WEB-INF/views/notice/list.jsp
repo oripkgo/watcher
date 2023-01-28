@@ -6,6 +6,7 @@
     const noticeListUrl = '${noticeListUrl}';
     const listNo = '${vo.listNo}';
     const pageNoRange = '${vo.pagigRange}';
+    const searchMemId = '${vo.search_memId}';
 
     function search() {
         comm.list('#noticeForm', noticeListUrl, listCallback, 1, listNo, pageNoRange);
@@ -23,7 +24,7 @@
             // listHtml += '    <td><input type="checkbox"></td>                                            ';
             listHtml += '    <td>' + listNum + '</td>                                                         ';
             listHtml += '    <td>                                                                           ';
-            listHtml += '        <a href="' + getNoticeViewUrl(obj.ID) + '" class="subject_link">' + obj.TITLE + '</a>';
+            listHtml += '        <a href="' + getNoticeViewUrl(obj.ID, searchMemId) + '" class="subject_link">' + obj.TITLE + '</a>';
             listHtml += '    </td>                                                                          ';
             listHtml += '    <td>' + obj.NICKNAME + '</td>';
             listHtml += '    <td>' + obj.REG_DATE.substring(2) + '</td>';

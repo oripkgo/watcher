@@ -57,9 +57,8 @@
 </div>
 
 <script type="text/javascript">
-
 	comm.loginObj.init(loginType);
 	comm.loginObj.kakaoInit(Kakao);
 	comm.loginObj.naverInit(naver_id_login);
-
+	comm.visitant.save(nowStoryMemId, refererUrl);
 </script>

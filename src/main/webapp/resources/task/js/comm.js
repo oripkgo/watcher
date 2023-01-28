@@ -948,8 +948,27 @@ let comm = function(){
             isYn : function(){
                 return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             }
-        }
+        },
 
+        visitant: {
+            save : function(memId, refererUrl){
+                const callUrl = location.href;
+                const callSvc = location.pathname;
+                const param = {
+                    accessPath : refererUrl,
+                    acc_pageUrl : callUrl,
+                    callService : callSvc,
+                    visitStoryMemId : memId,
+                };
+
+                comm.request({url:"/comm/visitant/insert", method : "POST", data : JSON.stringify(param)},function(resp){
+                    // 수정 성공
+                    if( resp.code == '0000'){
+                        console.log('방문자 히스토리 저장성공');
+                    }
+                })
+            }
+        }
     };
 
 

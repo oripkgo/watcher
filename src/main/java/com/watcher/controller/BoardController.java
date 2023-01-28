@@ -33,6 +33,7 @@ public class BoardController {
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
 		ModelAndView mav = new ModelAndView("notice/list");
+		noticeParam.setSearch_memId(memId);
 		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+memId);
 		return mav;
 	}
@@ -85,9 +86,18 @@ public class BoardController {
 		return result;
 	}
 
-
-	@RequestMapping(value={"/notice/view"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/notice/view",}, method = RequestMethod.GET)
 	public ModelAndView showNoticeViewPage(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@ModelAttribute("vo") NoticeParam noticeParam
+	) throws Exception {
+		return showNoticeViewPage(null, request, response, noticeParam);
+	}
+
+	@RequestMapping(value={"/{memId}/notice/view"}, method = RequestMethod.GET)
+	public ModelAndView showNoticeViewPage(
+			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam

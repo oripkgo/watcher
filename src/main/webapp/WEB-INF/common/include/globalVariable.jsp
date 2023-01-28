@@ -29,6 +29,7 @@
 %>
 
 <script type="text/javascript">
+    const refererUrl = '${header.referer}';
     const origin    = location.origin;
     const loginYn   = '${sessionScope.loginInfo.LOGIN_ID}'    ?   true    :   false;
     const loginId   = '${sessionScope.loginInfo.LOGIN_ID}';
@@ -38,8 +39,8 @@
     const storyUrlWrite = '${globalVar.storyUrlWrite}';
     const noticeUrlView = '${globalVar.noticeUrlView}';
     const noticeUrlWrite = '${globalVar.noticeUrlWrite}';
-
     const managementNotice = '${globalVar.managementNotice}';
+    const nowStoryMemId = '${memId}';
 
     const getStoryViewUrl = function (id, memId) {
         return '/' + memId + storyUrlView + '?id=' + id;
@@ -48,8 +49,8 @@
         return storyUrlWrite;
     }
 
-    const getNoticeViewUrl = function(id){
-        return noticeUrlView+'?id=' + id;
+    const getNoticeViewUrl = function(id, memId){
+        return (memId?"/"+memId:"")+noticeUrlView+'?id=' + id;
     }
     const getNoticeWriteUrl = function(){
         return noticeUrlWrite;
