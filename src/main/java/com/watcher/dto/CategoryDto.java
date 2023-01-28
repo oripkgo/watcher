@@ -1,6 +1,5 @@
 package com.watcher.dto;
 
-
 public class CategoryDto extends CommDto {
     private String id;
     private String regId;
