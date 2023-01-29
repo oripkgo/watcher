@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.VisitorMapper">
+
+	<select id="getChartVisitorCntList" resultType="map" parameterType="visitorParam">
+		SELECT
+		   DATE_FORMAT(REG_DATE,'%Y%m%d') AS VISIT_DATE,
+		   COUNT(ID) AS CNT
+		FROM VISITOR_HISTORY
+		WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+		  AND REG_MONTH_INQUIRY = DATE_FORMAT(NOW(),'%Y%m')
+		GROUP BY DATE_FORMAT(REG_DATE,'%Y%m%d')
+	</select>
+
+	<select id="getVisitorCnt" resultType="map" parameterType="visitorParam">
+		SELECT
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+				  AND REG_DATE_INQUIRY = DATE_FORMAT(NOW(),'%Y%m%d')
+			) AS TODAY_VISIT_CNT,
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+				  AND REG_DATE_INQUIRY = date_format((DATE_ADD(now(), INTERVAL -1 DAY)),'%Y%m%d')
+			) AS YESTERDAY_VISIT_CNT,
+			(
+				SELECT COUNT(*) FROM VISITOR_HISTORY
+				WHERE VISIT_STORY_MEM_ID IN (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{search_login_id})
+			) AS CUMULATIVE_VISIT_CNT,
+			DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') AS VISIT_STATIS_CRITERIA
+		FROM DUAL
+	</select>
+
+	<insert id="insert" parameterType="visitorParam" useGeneratedKeys="true">
+		INSERT INTO VISITOR_HISTORY(
+			 ACCESS_PATH
+			,ACC_PAGE_URL
+			,CUSTOMER_IP
+			,CLIENT_ID
+			,CALL_SERVICE
+			,VISIT_STORY_MEM_ID
+			,REG_MONTH_INQUIRY
+			,REG_DATE_INQUIRY
+			,REG_DATE
+		)
+		VALUES (
+			 #{accessPath}
+			,#{accPageUrl}
+			,#{customerIp}
+			,#{clientId}
+			,#{callService}
+			,#{visitStoryMemId}
+			,#{regMonthInquiry}
+			,#{regDateInquiry}
+			,NOW()
+		)
+	</insert>
+</mapper>

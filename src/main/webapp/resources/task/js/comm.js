@@ -956,12 +956,12 @@ let comm = function(){
                 const callSvc = location.pathname;
                 const param = {
                     accessPath : refererUrl,
-                    acc_pageUrl : callUrl,
+                    accPageUrl : callUrl,
                     callService : callSvc,
                     visitStoryMemId : memId,
                 };
 
-                comm.request({url:"/comm/visitant/insert", method : "POST", data : JSON.stringify(param)},function(resp){
+                comm.request({url:"/visitant/insert", method : "POST", data : JSON.stringify(param)},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         console.log('방문자 히스토리 저장성공');

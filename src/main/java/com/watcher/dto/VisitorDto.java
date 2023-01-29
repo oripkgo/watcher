@@ -4,7 +4,7 @@ package com.watcher.dto;
 public class VisitorDto extends CommDto {
     String id;
     String accessPath;
-    String acc_pageUrl;
+    String accPageUrl;
     String customerIp;
     String clientId;
     String callService;
@@ -29,12 +29,12 @@ public class VisitorDto extends CommDto {
         this.accessPath = accessPath;
     }
 
-    public String getAcc_pageUrl() {
-        return acc_pageUrl;
+    public String getAccPageUrl() {
+        return accPageUrl;
     }
 
-    public void setAcc_pageUrl(String acc_pageUrl) {
-        this.acc_pageUrl = acc_pageUrl;
+    public void setAccPageUrl(String accPageUrl) {
+        this.accPageUrl = accPageUrl;
     }
 
     public String getCustomerIp() {

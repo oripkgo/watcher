@@ -60,9 +60,9 @@
             }
         };
 
-        if( maxData <= 0 ){
+        if( /*maxData <= 0*/ true ){
             config.options.scales.y.min = 0;
-            config.options.scales.y.max = 25;
+            config.options.scales.y.max = maxData+5;
         }
 
         const myChart = new Chart(
