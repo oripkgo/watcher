@@ -27,3 +27,4 @@ target/
 .idea/
 
 *watcher.iml
+.gradle
