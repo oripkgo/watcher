@@ -423,7 +423,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .btn_sort a {display:inline-block;vertical-align:top;;font-size:13px;color:#757575;font-weight:300;border:1px solid #ddd;border-bottom:none;margin-left:-1px;padding:5px 20px;transition:all .3s ease; -webkit-transition:all .3s ease;}
 .btn_sort a.on, .btn_sort a:hover {background:#000;color:#fff;}
 
-.graph_wrap02 {border-top:4px solid #333;border-bottom:4px solid #333;text-align:center;padding-top:30px;margin:0px auto 0px;}
+.graph_wrap02 {border-top:4px solid #333;border-bottom:4px solid #333;text-align:center;/*padding-top:30px;*/margin:0px auto 0px;}
 .keys_wrap {border-top:1px solid #ddd;margin-top:30px;}
 .keys_wrap:after {display:block;visibility:hidden;clear:both;content:""}
 .keys_wrap li {float:left;width:50%;border-right:1px solid #ddd;padding:25px 40px;}
@@ -580,6 +580,11 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 #backgroundPopup{ background-color: #000; bottom: 0; left: 0; opacity: 0.5; filter: alpha(opacity = 50); /* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 998; display:none;}
 
+.canvasDiv {
+	width: 100%;
+	height: 300px;
+}
+
 @media (max-width:1200px) {
 
 	.head_wrap {height:70px;}
@@ -636,6 +641,11 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 	.manage_layout {padding:0px 20px;}
 	.storybox_search_wrap {position:absolute;top:0px;right:0px;}
+
+	.canvasDiv {
+		width: 100%;
+		height: 200px;
+	}
 }
 
 @media (max-width:750px) {
@@ -816,7 +826,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.revenue_box em {display:inline-block;font-size:17px;color:#696969;padding-bottom:3px;}
 	.aw_tip {position:absolute;bottom:-7px;left:85px;z-index:999;background:url('../img/ab_tip.png') no-repeat center;width:15px;height:7px;}
 
-	.graph_wrap02 {border-top:4px solid #333;border-bottom:4px solid #333;text-align:center;padding-top:30px;margin:0px auto 0px;}
+	.graph_wrap02 {border-top:4px solid #333;border-bottom:4px solid #333;text-align:center;/*padding-top:30px;*/margin:0px auto 0px;}
 	.keys_wrap {border-top:1px solid #ddd;margin-top:30px;}
 	.keys_wrap li {float:none;width:100%;border-right:0px solid #ddd;border-bottom:1px solid #ddd;padding:25px 30px;}
 
