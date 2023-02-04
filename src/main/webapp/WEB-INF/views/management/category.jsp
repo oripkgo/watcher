@@ -109,6 +109,9 @@
     }
 
     function disableFields(){
+        $("#categoryComents, #categoryNm, #defalutCategId", "#fieldsObj").val("");
+        $("[name='showYn'][value='Y']").prop("checked",true);
+
         $("select, input, textarea", "#fieldsObj").prop("disabled", true);
     }
 
@@ -143,8 +146,16 @@
         comm.message.confirm("선택한 카테고리를 삭제하시겠습니까?",function(result){
             if( result ){
                 const target = $("." + categListNm+".on", "." + categListSpaceNm);
-                $(target).data()["DELETE_YN"] = "Y";
-                $(target).hide();
+                if( !$(target).data()['ID'] ){
+                    $(target).remove();
+                }else{
+                    $(target).data()["DELETE_YN"] = "Y";
+                    $(target).hide();
+
+                }
+                $(".category_1st.on" ).removeClass("on");
+                disableFields();
+
             }
         });
     }
