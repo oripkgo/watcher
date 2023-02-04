@@ -14,7 +14,7 @@
             <div class="manage_box_wrap">
                 <%@include file="include/commVisitorInfo.jsp"%>
 
-                <div  class="graph_wrap" style="height: 300px;">
+                <div  class="graph_wrap">
                     <%@include file="include/commCharts.jsp"%>
                     <%--<img src="/resources/img/graph.jpg">--%>
                 </div>

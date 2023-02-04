@@ -7,8 +7,9 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
-
-<canvas class="graph_canvas" style="width: 100%; height: 100%;"></canvas>
+<div class="canvasDiv">
+    <canvas class="graph_canvas" style="width: 100%; height: 100%;"></canvas>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -90,9 +91,9 @@
         }
 
         visitList.forEach(function(obj){
-
-            result[ (obj.VISIT_DATE.substring(6)*1) ] = obj.CNT;
-
+            if( obj.VISIT_DATE ){
+                result[ (obj.VISIT_DATE.substring(6)*1) ] = obj.CNT;
+            }
         })
 
         return result;

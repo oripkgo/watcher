@@ -14,24 +14,7 @@
             <div class="manage_box_wrap">
 
                 <div class="title_box">방문 통계</div>
-                <div class="manage_box_top">
-                    <div>
-                        <span>오늘 방문수</span>
-                        <strong>52</strong>
-                    </div>
-                    <div>
-                        <span>어제 방문수</span>
-                        <strong>10</strong>
-                    </div>
-                    <div>
-                        <span>누적 방문수</span>
-                        <strong>1520</strong>
-                    </div>
-                    <div class="manage_box_btn">
-                        <em>2021-11-26 15:40 기준</em>
-                        <a href="javascript:;">방문 통계</a>
-                    </div>
-                </div>
+                <%@include file="include/commVisitorInfo.jsp"%>
 
                 <br><br>
                 <div class="title_box">
@@ -43,7 +26,8 @@
                     </div>
                 </div>
                 <div class="graph_wrap02">
-                    <img src="/resources/img/graph.jpg">
+                    <%--<img src="/resources/img/graph.jpg">--%>
+                    <%@include file="include/commCharts.jsp"%>
                     <ul class="keys_wrap">
                         <li>
                             <div class="keys_txt">
