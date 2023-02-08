@@ -438,29 +438,49 @@ let comm = function(){
             return tagsHtml;
         },
 
-        getDate : function(date,format){
-            let date_format = format || ''
+        date : {
+            getDayOfTheWeek : function(date){
+                const d = date;
+                const weekday = [];new Array(7);
+                weekday[0] = "일";
+                weekday[1] = "월";
+                weekday[2] = "화";
+                weekday[3] = "수";
+                weekday[4] = "목";
+                weekday[5] = "금";
+                weekday[6] = "토";
 
-            let year = date.getFullYear(); // 년도
-            let month = date.getMonth() + 1;  // 월
-            let dt = date.getDate();  // 날짜
-            let day = date.getDay();  // 요일
+                return weekday[d.getDay()];
+            },
 
-            month = ( "00"+month )
-            month = month.substring(month.length-2,month.length);
+            getToDay : function(format){
+                return this.date.getDate(new Date(),format);
+            },
 
-            dt = ( "00"+dt )
-            dt = dt.substring(dt.length-2,dt.length);
+            getDate : function(date,format){
+                let date_format = format || ''
 
-            return year + date_format + month + date_format + dt;
+                let year = date.getFullYear(); // 년도
+                let month = date.getMonth() + 1;  // 월
+                let dt = date.getDate();  // 날짜
+                let day = date.getDay();  // 요일
+
+                month = ( "00"+month )
+                month = month.substring(month.length-2,month.length);
+
+                dt = ( "00"+dt )
+                dt = dt.substring(dt.length-2,dt.length);
+
+                return year + date_format + month + date_format + dt;
+            },
         },
 
         last_time_cal : function(last_date){
             let write_date = new Date(last_date) ;
             let now_date = new Date();
 
-            if( this.getDate(now_date) != this.getDate(write_date)){
-                write_date = new Date(this.getDate(write_date,'-')) ;
+            if( this.date.getDate(now_date) != this.date.getDate(write_date)){
+                write_date = new Date(this.date.getDate(write_date,'-')) ;
             }
 
             let last_time_result = now_date.getTime() - write_date.getTime();
