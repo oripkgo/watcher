@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<script type="text/javascript">
+    $(document).ready(function(){
+        const d = new Date();
+        $(".manager_statistics_today").text(comm.date.getDate(d, '.') + ' ' + comm.date.getDayOfTheWeek(d));
+    })
+</script>
 
 <div class="section uline2">
     <div class="ani-in manage_layout">
@@ -18,10 +24,10 @@
 
                 <br><br>
                 <div class="title_box">
-                    2021.11.30 목
+                    <p class="manager_statistics_today">2021.11.30 목</p>
                     <div class="btn_sort">
                         <a href="javascript:;" class="on">일간</a>
-                        <a href="javascript:;">주간</a>
+                        <%--<a href="javascript:;">주간</a>--%>
                         <a href="javascript:;">월간</a>
                     </div>
                 </div>
@@ -47,7 +53,7 @@
                         <li>
                             <div class="keys_txt">
                                 <span>SNS</span>
-                                <strong>1,222</strong>
+                                <strong>0</strong>
                             </div>
                             <div class="keys_sub">
                                 <span>네이버 검색</span><em>0</em>
@@ -63,59 +69,7 @@
                 </div>
 
 
-                <div class="manage_line">인기글</div>
-                <div class="conts_rel">
-                    <ul style="padding:20px 0px;">
-                        <li>
-                            <a href="story_detail.html">
-                                <img src="/resources/img/sample01.jpg">
-                                <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                            </a>
-                            <p>
-                                <em>댓글 222</em>
-                                <img src="/resources/img/line.png">
-                                <em>공감 21</em>
-                            </p>
-                        </li>
-                        <li>
-                            <a href="story_detail.html">
-                                <img src="/resources/img/sample02.jpg">
-                                <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                            </a>
-                            <p>
-                                <em>댓글 222</em>
-                                <img src="/resources/img/line.png">
-                                <em>공감 21</em>
-                            </p>
-                        </li>
-                        <li>
-                            <a href="story_detail.html">
-                                <img src="/resources/img/sample03.jpg">
-                                <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                            </a>
-                            <p>
-                                <em>댓글 222</em>
-                                <img src="/resources/img/line.png">
-                                <em>공감 21</em>
-                            </p>
-                        </li>
-                        <li>
-                            <a href="story_detail.html">
-                                <img src="/resources/img/sample01.jpg">
-                                <strong>[칼럼] 재난지원인가 빈민구휼인가?</strong>
-                                <span>18세기 조선에서는 큰 역병이 돌았다. 1783년에는 돌림병 1786에는 전국적으로 대홍역이 돌아 조선사회는 큰 충격에 휩싸였다.</span>
-                            </a>
-                            <p>
-                                <em>댓글 222</em>
-                                <img src="/resources/img/line.png">
-                                <em>공감 21</em>
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                <%@include file="include/commPopularArticles.jsp"%>
 
             </div><!-------------//manage_box_wrap------------->
 
