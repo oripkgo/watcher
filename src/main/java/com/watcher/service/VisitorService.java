@@ -31,6 +31,10 @@ public class VisitorService {
     public Map<String, String> insertVisitor(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
+        String accessTargets[] = new String[]{"naver","daum","yahoo","google","zoom"};
+        String local = "localhost";
+
+
         visitorMapper.insert(visitorParam);
 
         result.put("code", "0000");
