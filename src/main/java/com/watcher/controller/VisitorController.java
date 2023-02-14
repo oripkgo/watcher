@@ -1,7 +1,6 @@
 package com.watcher.controller;
 
 import com.watcher.param.VisitorParam;
-import com.watcher.service.CategoryService;
 import com.watcher.service.VisitorService;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.DateUtil;
@@ -13,18 +12,64 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
-@RequestMapping(value = "/visitant")
+@RequestMapping(value = "/visitor")
 public class VisitorController {
 
 
     @Autowired
     VisitorService visitorService;
 
+    @RequestMapping(value = {"/cnt"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getVisitorCnt(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            VisitorParam visitorParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        visitorParam.setMemId(String.valueOf(memId));
+        result.putAll(visitorService.getVisitorCnt(visitorParam));
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/chart/cnts"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getChartVisitorCnt(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            VisitorParam visitorParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        visitorParam.setMemId(String.valueOf(memId));
+        result.putAll(visitorService.getChartVisitorCnt(visitorParam));
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/chart/cnts/month"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getMonthChartVisitorCnt(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            VisitorParam visitorParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        visitorParam.setMemId(String.valueOf(memId));
+        result.putAll(visitorService.getChartMonthVisitorCnt(visitorParam));
+
+        return result;
+    }
+
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
     @ResponseBody
-    public LinkedHashMap<String, Object> insertVisitant(
+    public LinkedHashMap<String, Object> insertvisitor(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody VisitorParam visitorParam

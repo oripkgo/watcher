@@ -13,6 +13,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    const drawTarget = document.getElementsByClassName('graph_canvas')[0];
     const drawChart = function(obj, datas, customTitle){
         let toDay = new Date();
         const m = toDay.getMonth() == 12 ? 1 : toDay.getMonth() + 1;
@@ -66,10 +67,16 @@
             config.options.scales.y.max = maxData+5;
         }
 
-        const myChart = new Chart(
-            (obj),
-            config
-        );
+        if( window.myChart ){
+            window.myChart.data = config.data;
+            window.myChart.options = config.options;
+            window.myChart.update();
+        }else{
+            window.myChart = new Chart(
+                (obj),
+                config
+            );
+        }
     }
 
     const getChartData = function(visitList){
@@ -99,9 +106,50 @@
         return result;
     }
 
-    comm.request({url:"/management/visitor/chart/cnts", method : "GET"},function(resp){
-        if( resp.code == '0000'){
-            drawChart(document.getElementsByClassName('graph_canvas')[0], getChartData(resp.visitInfoList));
+    function getMonthChartData(visitList){
+        let result = {};
+
+        let toDay = new Date();
+        const y = toDay.getFullYear();
+        const m = toDay.getMonth() == 12 ? 1 : toDay.getMonth() + 1;
+        const d = toDay.getDate();
+
+
+        for (let i = 1; i <= 12; i++) {
+            if(i > m){
+                result[i+'월'] = null;
+            }else{
+                result[i+'월'] = 0;
+            }
+
         }
-    })
+
+        visitList.forEach(function(obj){
+            if( obj.VISIT_MONTH ){
+                result[ (obj.VISIT_MONTH.substring(4)*1)+'월' ] = obj.CNT;
+            }
+        })
+
+        return result;
+    }
+
+    function getDailyVisitors(){
+        comm.request({url:"/visitor/chart/cnts", method : "GET"},function(resp){
+            if( resp.code == '0000'){
+                drawChart(drawTarget, getChartData(resp.visitInfoList));
+            }
+        })
+    }
+
+    function getMonthVisitors(){
+        comm.request({url:"/visitor/chart/cnts/month", method : "GET"},function(resp){
+            if( resp.code == '0000'){
+                drawChart(drawTarget, getMonthChartData(resp.visitInfoList), '월별 방문자수');
+            }
+        })
+    }
+
+    getDailyVisitors();
+    // getMonthVisitors();
+
 </script>

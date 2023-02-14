@@ -7,7 +7,16 @@
     $(document).ready(function(){
         const d = new Date();
         $(".manager_statistics_today").text(comm.date.getDate(d, '.') + ' ' + comm.date.getDayOfTheWeek(d));
+
+        $('a','.btn_sort').on("click", function(){
+            IndicateButtonClicked(this);
+        })
     })
+
+    function IndicateButtonClicked(obj){
+        $('a','.btn_sort').removeClass('on')
+        $(obj).addClass('on');
+    }
 </script>
 
 <div class="section uline2">
@@ -26,9 +35,9 @@
                 <div class="title_box">
                     <p class="manager_statistics_today">2021.11.30 목</p>
                     <div class="btn_sort">
-                        <a href="javascript:;" class="on">일간</a>
+                        <a href="javascript:;" class="on" onclick="getDailyVisitors();">일간</a>
                         <%--<a href="javascript:;">주간</a>--%>
-                        <a href="javascript:;">월간</a>
+                        <a href="javascript:;" onclick="getMonthVisitors();">월간</a>
                     </div>
                 </div>
                 <div class="graph_wrap02">

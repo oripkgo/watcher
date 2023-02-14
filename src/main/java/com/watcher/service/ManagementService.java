@@ -22,49 +22,6 @@ public class ManagementService {
     @Autowired
     MemberMapper memberMapper;
 
-
-    @Transactional
-    public Map<String, String> getVisitorCnt(ManagementParam managementParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        Map<String, Object> visitInfo = managementMapper.getVisitorCnt(managementParam);
-        result.put("visitInfo", visitInfo);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-
-    @Transactional
-    public Map<String, String> getChartVisitorCnt(ManagementParam managementParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        List<Map<String, Object>> visitInfoList = managementMapper.getChartVisitorCntList(managementParam);
-        result.put("visitInfoList", visitInfoList);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-
-    @Transactional
-    public Map<String, String> getPopularityArticles(ManagementParam managementParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        List<Map<String, Object>> visitInfoList = managementMapper.getPopularityArticleList(managementParam);
-        result.put("visitInfoList", visitInfoList);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-
     public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception {
         return managementMapper.getManagerSettings(managementParam);
     }

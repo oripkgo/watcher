@@ -60,5 +60,5 @@
 	comm.loginObj.init(loginType);
 	comm.loginObj.kakaoInit(Kakao);
 	comm.loginObj.naverInit(naver_id_login);
-	comm.visitant.save(nowStoryMemId, refererUrl);
+	comm.visitor.save(nowStoryMemId, refererUrl);
 </script>

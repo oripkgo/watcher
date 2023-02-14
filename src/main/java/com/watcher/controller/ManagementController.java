@@ -76,35 +76,6 @@ public class ManagementController {
         return mav;
     }
 
-    @RequestMapping(value = {"/visitor/cnt"}, method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Object> getVisitorCnt(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        ManagementParam managementParam
-    ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        result.putAll(managementService.getVisitorCnt(managementParam));
-
-        return result;
-    }
-
-    @RequestMapping(value = {"/visitor/chart/cnts"}, method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Object> getChartVisitorCnt(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            ManagementParam managementParam
-    ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        managementParam.setSearch_login_id(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
-        result.putAll(managementService.getChartVisitorCnt(managementParam));
-
-        return result;
-    }
-
-
     @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularityStorys(

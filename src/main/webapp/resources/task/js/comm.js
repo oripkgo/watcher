@@ -970,7 +970,7 @@ let comm = function(){
             }
         },
 
-        visitant: {
+        visitor: {
             save : function(memId, refererUrl){
                 const callUrl = location.href;
                 const callSvc = location.pathname;
@@ -981,7 +981,7 @@ let comm = function(){
                     visitStoryMemId : memId,
                 };
 
-                comm.request({url:"/visitant/insert", method : "POST", data : JSON.stringify(param)},function(resp){
+                comm.request({url:"/visitor/insert", method : "POST", data : JSON.stringify(param)},function(resp){
                     // 수정 성공
                     if( resp.code == '0000'){
                         console.log('방문자 히스토리 저장성공');

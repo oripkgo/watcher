@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +17,47 @@ public class VisitorService {
     @Autowired
     VisitorMapper visitorMapper;
 
-    public List<Map<String, Object>> getVisitors(String memId) throws Exception {
-        List<Map<String,Object>> list = null;
-        if( list == null ){
-            list = new ArrayList<>();
-        }
 
-        return list;
+    @Transactional
+    public Map<String, String> getVisitorCnt(VisitorParam visitorParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        Map<String, Object> visitInfo = visitorMapper.getVisitorCnt(visitorParam);
+        result.put("visitInfo", visitInfo);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
     }
+
+
+    @Transactional
+    public Map<String, String> getChartVisitorCnt(VisitorParam visitorParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        List<Map<String, Object>> visitInfoList = visitorMapper.getChartVisitorCntList(visitorParam);
+        result.put("visitInfoList", visitInfoList);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
+    public Map<String, String> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        List<Map<String, Object>> visitInfoList = visitorMapper.getChartMonthVisitorCntList(visitorParam);
+        result.put("visitInfoList", visitInfoList);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
 
     @Transactional
     public Map<String, String> insertVisitor(VisitorParam visitorParam) throws Exception {
@@ -33,7 +65,6 @@ public class VisitorService {
 
         String accessTargets[] = new String[]{"naver","daum","yahoo","google","zoom"};
         String local = "localhost";
-
 
         visitorMapper.insert(visitorParam);
 
