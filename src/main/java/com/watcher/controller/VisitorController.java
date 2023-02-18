@@ -22,6 +22,21 @@ public class VisitorController {
     @Autowired
     VisitorService visitorService;
 
+    @RequestMapping(value = {"/search/cnt"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getVisitorSearchCnt(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            VisitorParam visitorParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        visitorParam.setMemId(String.valueOf(memId));
+        result.putAll(visitorService.getVisitorSearchCnt(visitorParam));
+
+        return result;
+    }
+
     @RequestMapping(value = {"/cnt"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getVisitorCnt(

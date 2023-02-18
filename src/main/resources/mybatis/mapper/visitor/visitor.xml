@@ -34,6 +34,19 @@
 		GROUP BY REG_DATE_INQUIRY
 	</select>
 
+	<select id="getVisitorSearchCnt" resultType="map" parameterType="visitorParam">
+		SELECT
+			20450 AS ALL_CNT,
+		    2 AS NAVER_CNT,
+		    6 AS DAUM_CNT,
+		    7 AS GOOGLE_CNT,
+		    8 AS ZOOM_CNT,
+		    4 AS YAHOO_CNT,
+		    9 AS ETC_CNT
+		FROM DUAL
+	</select>
+
+
 	<select id="getVisitorCnt" resultType="map" parameterType="visitorParam">
 		SELECT
 			(
@@ -72,6 +85,7 @@
 	<insert id="insert" parameterType="visitorParam" useGeneratedKeys="true">
 		INSERT INTO VISITOR_HISTORY(
 			 ACCESS_PATH
+			,ACCESS_TARGET
 			,ACC_PAGE_URL
 			,CUSTOMER_IP
 			,CLIENT_ID
@@ -83,6 +97,7 @@
 		)
 		VALUES (
 			 #{accessPath}
+			,#{accessTarget}
 			,#{accPageUrl}
 			,#{customerIp}
 			,#{clientId}

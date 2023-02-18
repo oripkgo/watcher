@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Mapper
 public interface VisitorMapper {
+	public Map<String, Object> getVisitorSearchCnt(VisitorParam visitorParam);
 	public Map<String, Object> getVisitorCnt(VisitorParam visitorParam);
 	public List<Map<String, Object>> getChartVisitorCntList(VisitorParam visitorParam);
 	public List<Map<String, Object>> getChartMonthVisitorCntList(VisitorParam visitorParam);

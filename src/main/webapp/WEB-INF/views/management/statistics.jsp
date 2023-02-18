@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        setVisitorFromSearch();
         const d = new Date();
         $(".manager_statistics_today").text(comm.date.getDate(d, '.') + ' ' + comm.date.getDayOfTheWeek(d));
 
@@ -12,6 +13,24 @@
             IndicateButtonClicked(this);
         })
     })
+
+    function getLocaleString(numStr){
+        return (numStr*1).toLocaleString()
+    }
+
+    function setVisitorFromSearch(){
+        comm.request({url: "/visitor/search/cnt", method: "GET"}, function (resp) {
+            if (resp.code == '0000') {
+                $(".all",".searchVisitor").text( getLocaleString(resp['visitInfo']['ALL_CNT']));
+                $(".naver",".searchVisitor").text(getLocaleString(resp['visitInfo']['NAVER_CNT']));
+                $(".daum",".searchVisitor").text(getLocaleString(resp['visitInfo']['DAUM_CNT']));
+                $(".google",".searchVisitor").text(getLocaleString(resp['visitInfo']['GOOGLE_CNT']));
+                $(".zoom",".searchVisitor").text(getLocaleString(resp['visitInfo']['ZOOM_CNT']));
+                $(".yahoo",".searchVisitor").text(getLocaleString(resp['visitInfo']['YAHOO_CNT']));
+                $(".etc",".searchVisitor").text(getLocaleString(resp['visitInfo']['ETC_CNT']));
+            }
+        })
+    }
 
     function IndicateButtonClicked(obj){
         $('a','.btn_sort').removeClass('on')
@@ -44,19 +63,18 @@
                     <%--<img src="/resources/img/graph.jpg">--%>
                     <%@include file="include/commCharts.jsp"%>
                     <ul class="keys_wrap">
-                        <li>
+                        <li class="searchVisitor">
                             <div class="keys_txt">
                                 <span>검색</span>
-                                <strong>1,222</strong>
+                                <strong class="all">0</strong>
                             </div>
                             <div class="keys_sub">
-                                <span>네이버 검색</span><em>0</em>
-                                <span>다음 검색</span><em>0</em>
-                                <span>구글 검색</span><em>0</em>
-                                <span>줌 검색</span><em>0</em>
-                                <span>빙 검색</span><em>0</em>
-                                <span>야후 검색</span><em>0</em>
-                                <span>기타 검색</span><em>0</em>
+                                <span>네이버</span><em class="naver">0</em>
+                                <span>다음</span><em class="daum">0</em>
+                                <span>구글</span><em class="google">0</em>
+                                <span>줌</span><em class="zoom">0</em>
+                                <span>야후</span><em class="yahoo">0</em>
+                                <span>기타</span><em class="etc">0</em>
                             </div>
                         </li>
                         <li>
@@ -65,13 +83,12 @@
                                 <strong>0</strong>
                             </div>
                             <div class="keys_sub">
-                                <span>네이버 검색</span><em>0</em>
-                                <span>다음 검색</span><em>0</em>
-                                <span>구글 검색</span><em>0</em>
-                                <span>줌 검색</span><em>0</em>
-                                <span>빙 검색</span><em>0</em>
-                                <span>야후 검색</span><em>0</em>
-                                <span>기타 검색</span><em>0</em>
+                                <span>네이버</span><em>0</em>
+                                <span>다음</span><em>0</em>
+                                <span>구글</span><em>0</em>
+                                <span>줌</span><em>0</em>
+                                <span>야후</span><em>0</em>
+                                <span>기타</span><em>0</em>
                             </div>
                         </li>
                     </ul>

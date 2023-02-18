@@ -19,6 +19,19 @@ public class VisitorService {
 
 
     @Transactional
+    public Map<String, String> getVisitorSearchCnt(VisitorParam visitorParam) throws Exception {
+        LinkedHashMap result = new LinkedHashMap();
+
+        Map<String, Object> visitInfo = visitorMapper.getVisitorSearchCnt(visitorParam);
+        result.put("visitInfo", visitInfo);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @Transactional
     public Map<String, String> getVisitorCnt(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
@@ -65,6 +78,18 @@ public class VisitorService {
 
         String accessTargets[] = new String[]{"naver","daum","yahoo","google","zoom"};
         String local = "localhost";
+
+        for(String target:accessTargets){
+            if( visitorParam.getAccessPath().indexOf(target) > -1){
+                visitorParam.setAccessTarget(target);
+                break;
+            }
+
+            if( visitorParam.getAccessPath().indexOf(local) > -1){
+                visitorParam.setAccessTarget("local");
+                break;
+            }
+        }
 
         visitorMapper.insert(visitorParam);
 
