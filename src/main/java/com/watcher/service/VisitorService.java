@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ public class VisitorService {
     @Transactional
     public Map<String, String> getVisitorSearchCnt(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
+        String accessTargets[] = new String[]{"NAVER","DAUM","YAHOO","GOOGLE","ZOOM"};
 
+        visitorParam.setSearchTargetList(Arrays.asList(accessTargets));
         Map<String, Object> visitInfo = visitorMapper.getVisitorSearchCnt(visitorParam);
         result.put("visitInfo", visitInfo);
 

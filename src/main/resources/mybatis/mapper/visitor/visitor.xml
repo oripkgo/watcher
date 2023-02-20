@@ -36,13 +36,50 @@
 
 	<select id="getVisitorSearchCnt" resultType="map" parameterType="visitorParam">
 		SELECT
-			20450 AS ALL_CNT,
-		    2 AS NAVER_CNT,
-		    6 AS DAUM_CNT,
-		    7 AS GOOGLE_CNT,
-		    8 AS ZOOM_CNT,
-		    4 AS YAHOO_CNT,
-		    9 AS ETC_CNT
+			(
+			    SELECT
+			    	COUNT(*)
+			    FROM (
+				  SELECT
+					  ID
+				  FROM VISITOR_HISTORY
+				  WHERE VISIT_STORY_MEM_ID IN(#{memId})
+					/*AND ACCESS_TARGET IN ('naver','daum','yahoo','google','zoom')*/
+				  GROUP BY REG_DATE_INQUIRY, CLIENT_ID, VISIT_STORY_MEM_ID, ACCESS_TARGET
+			  	) A
+			) AS ALL_CNT,
+
+			<foreach item="item" index="index" collection="searchTargetList">
+				(
+					SELECT
+						COUNT(*)
+					FROM (
+					  SELECT
+						  ID
+					  FROM VISITOR_HISTORY
+					  WHERE VISIT_STORY_MEM_ID IN(#{memId})
+						AND ACCESS_TARGET IN (#{item})
+					  GROUP BY REG_DATE_INQUIRY, CLIENT_ID, VISIT_STORY_MEM_ID, ACCESS_TARGET
+					) A
+				) AS ${item}_CNT,
+			</foreach>
+
+			(
+			    SELECT
+			        COUNT(*)
+			    FROM (
+				  SELECT
+					  ID
+				  FROM VISITOR_HISTORY
+				  WHERE VISIT_STORY_MEM_ID IN(#{memId})
+					AND ACCESS_TARGET NOT IN
+					<foreach item="item" index="index" collection="searchTargetList"
+							 open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				  GROUP BY REG_DATE_INQUIRY, CLIENT_ID, VISIT_STORY_MEM_ID, ACCESS_TARGET
+			  	) A
+			) AS ETC_CNT
 		FROM DUAL
 	</select>
 
