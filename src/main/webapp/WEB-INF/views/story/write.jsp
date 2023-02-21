@@ -196,7 +196,7 @@
                             <td class="non story_thumbnailImg">
                                 <label for="thumbnailImgPathParam" class="input-file-button">썸네일 이미지</label>
                                 <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam" accept="image/gif, image/jpeg, image/png">
-                                <input type="text" disabled name="thumbnailImgPathParam_text" id="thumbnailImgPathParam_text" placeholder="썸네일 이미지를 선택하세요" value="${vo.THUMBNAIL_IMG_PATH}">
+                                <input type="text" disabled name="thumbnailImgPathParam_text" id="thumbnailImgPathParam_text" placeholder="썸네일 이미지를 선택하세요" value="${vo.REAL_FILE_NAME}">
                             </td>
                         </tr>
                         </tbody></table>

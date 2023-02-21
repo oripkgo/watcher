@@ -103,7 +103,7 @@
                 listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
 
                 if( obj.THUMBNAIL_IMG_PATH ){
-                    listHtml += '<div><img src="'+obj.THUMBNAIL_IMG_PATH+'"></div>';
+                    listHtml += '<div><img src="'+obj.THUMBNAIL_IMG_PATH.replace(/[\\]/g,'/')+'"></div>';
                 }
 
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
