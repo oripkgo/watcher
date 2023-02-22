@@ -155,7 +155,7 @@
 
         <div class="mystory_top ani_y delay1">
 
-            <div class="mystory_title">태균스토리</div>
+            <div class="mystory_title"><a href="/${memId}/myStory">태균스토리</a></div>
             <div class="storybox_search_wrap">
                 <%--<div class="storybox_search">
                     <input type="text" placeholder="이 스토리에서 검색">
