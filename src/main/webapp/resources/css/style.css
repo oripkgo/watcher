@@ -183,6 +183,10 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .detail_memo em {display:inline-block;vertical-align:middle;font-size:11px;color:#878787;font-weight:300;line-height:23px;font-style:italic;}
 .detail_memo span {display:inline-block;vertical-align:middle;font-size:11px;color:#878787;font-weight:300;line-height:23px;}
 .detail_memo > img {margin:0px 15px;}
+a.hover_line:hover {
+	text-decoration: underline;
+	border-bottom: 1px #333;
+}
 
 .btn_basic {position:absolute;top:0px;right:-50px;border:1px solid #ddd;height:30px;border-radius:15px;overflow:hidden;padding:0px 10px;}
 .btn_basic a {display:inline-block;vertical-align:middle;font-size:11px;color:#878787;font-weight:400;line-height:28px;padding:0px 10px;}
