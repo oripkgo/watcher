@@ -61,7 +61,7 @@
             <div class="detail_kind">스토리</div>
             <strong>${vo.TITLE}</strong>
             <div class="detail_memo">
-                <em>by ${vo.NICKNAME}</em>
+                <em><a class="hover_line" href="/${vo.MEMBER_ID}/myStory">by ${vo.NICKNAME}</a></em>
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
