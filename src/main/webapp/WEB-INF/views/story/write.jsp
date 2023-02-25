@@ -38,9 +38,7 @@
     const memberCategoryId  = '${vo.MEMBER_CATEGORY_ID}';
 
     $(document).on("ready",function(){
-
         $(".write_confirm").on("click",function(){
-
             if($("#story_category").val() == ''){
                 comm.message.alert("카테고리를 선택해주세요.");
                 return;
@@ -50,7 +48,6 @@
                 comm.message.alert("제목을 입력해주세요.");
                 return;
             }
-
 
             let category_obj = $("#story_category option:selected").data();
 
@@ -76,23 +73,12 @@
                 contentType : false,
             },function(res){
                 // 성공
-
                 if( res.code == '0000' ){
-
-                    if( id ){
-                        comm.message.alert('스토리가 수정되었습니다.', function(){
-                            location.href="/story/list";
-                        });
-                    }else{
-                        comm.message.alert('스토리가 등록되었습니다.', function(){
-                            location.href="/story/list";
-                        });
-                    }
-
+                    comm.message.alert('스토리가 '+(id?'수정':'등록')+'되었습니다.', function(){
+                        location.href="/story/list";
+                    });
                 }
-
             })
-
         });
 
         $(".write_cancel").on("click",function(){

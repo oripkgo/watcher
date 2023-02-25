@@ -49,7 +49,6 @@
 
     function initKeywordSearch(){
         $("#search").on("click", function () {
-
             let id = $("#seachCategory").val();
 
             if (!id) {
@@ -71,7 +70,13 @@
             defaultList(id, function(){
                 $(".tab_"+id).click();
             });
+        })
 
+        $("#keyword").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                $("#search").click();
+                return false;
+            }
         });
     }
 
@@ -158,14 +163,12 @@
     function defaultList(id, callback){
 
         comm.list('#defaultListForm'+id, listUrl,function(data){
-
             $("#defaultList"+id).empty();
 
             for (let i = 0; i < data.list.length; i++) {
                 let obj = data.list[i];
                 let listHtml = '';
                 let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
-
 
                 listHtml += '<li>';
                 listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
@@ -216,17 +219,13 @@
                 $(listHtml).data(obj);
 
                 $("#defaultList"+id).append(listHtml);
-
             }
-
 
             if( callback ){
                 callback();
             }
 
         }, pageNo, listNo, pagigRange);
-
-
     }
 
 

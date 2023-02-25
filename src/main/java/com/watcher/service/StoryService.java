@@ -4,6 +4,7 @@ import com.watcher.mapper.BoardMapper;
 import com.watcher.mapper.StoryMapper;
 import com.watcher.param.FileParam;
 import com.watcher.param.StoryParam;
+import com.watcher.util.RequestUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class StoryService {
     @Transactional
     public Map<String, String> insertStory(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
+
+        // 스토리 내용에 script 제거
+        storyParam.setSummary(RequestUtil.cleanXSS(storyParam.getSummary()));
+        storyParam.setContents(RequestUtil.cleanXSS(storyParam.getContents()));
 
         if( storyParam.getId() == null || storyParam.getId().isEmpty() ){
             storyMapper.insert(storyParam);
