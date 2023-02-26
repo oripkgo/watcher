@@ -182,9 +182,11 @@
                 </div>
                --%>
 
+                    <%--
+                    <div class="ad_banner">
+                    </div>
+                    --%>
             </div>
-
         </div>
     </div>
-
 </form>
