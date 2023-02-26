@@ -103,7 +103,7 @@
         });
 
 
-        $(contents_obj).css({"height":"400px","font-size":"14px"});
+        $(contents_obj).css({"height":"400px","font-size":"15px"});
         quill = new Quill(contents_obj, {
 
             modules: {
