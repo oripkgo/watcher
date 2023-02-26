@@ -15,10 +15,14 @@
                 <span>COPYRIGHT ©ALAND ALL RIGHTS RESERVED</span>
             </div>
             <div class="footer_right">
-                <%--<a href="javascript:;">스토리</a>--%>
-                <a href="javascript:;">이용약관</a><br>
-                <%--<a href="javascript:;">공지사항</a>--%>
-                <a href="javascript:;">개인정보처리방침</a>
+                <a href="/terms/use">이용약관</a><br>
+                <a href="/terms/privacy">개인정보처리방침</a><br>
+                <a href="/terms/copyright">저작권 정책</a><br>
+            </div>
+
+            <div class="footer_right">
+                <a href="/terms/advertisement">광고 정책</a><br>
+                <a href="/terms/guide">커뮤니티 가이드라인</a>
             </div>
         </div>
 

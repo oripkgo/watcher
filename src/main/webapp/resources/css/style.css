@@ -250,7 +250,7 @@ a.hover_line:hover {
 .write_wrap a {position:absolute;bottom:12px;right:15px;z-index:999;display:inline-block;vertical-align:middle;height:30px;line-height:28px;font-size:12px;color:#c4c4c4;font-weight:400;border:1px solid #ddd;border-radius:15px;overflow:hidden;padding:0px 15px;transition:all .3s ease; -webkit-transition:all .3s ease;}
 .write_wrap a:hover {border:1px solid #000;color:#000;}
 
-.ad_banner {position:relative;margin:40px auto;background:#78afd4;min-height:144px;text-align:center;}
+.ad_banner {position:relative;margin:40px auto;/*background:#78afd4;*/min-height:144px;text-align:center;}
 .ad_banner span {position:absolute;top:10px;right:10px;z-index:999;display:inline-block;vertical-align:middle;height:16px;line-height:14px;font-size:10px;color:#fff;font-weight:600;border:1px solid #fff;border-radius:8px;overflow:hidden;padding:0px 5px;}
 
 .ad_banner_left {position:absolute;top:65px;left:-250px;background:#78afd4;width:250px;min-height:500px;text-align:center;}

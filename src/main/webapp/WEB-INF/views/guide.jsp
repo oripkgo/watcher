@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-${data }
+커뮤니티 가이드라인
 </body>
 </html>
