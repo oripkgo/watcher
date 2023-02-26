@@ -20,7 +20,7 @@ select {height:32px;border:1px solid #d9d9d9;line-height:auto;background:url('..
 select::-ms-expand {display:none;}
 ::-webkit-expand {display:none;}
 /* font */
-body{color:#333; font-size:13px;font-family: 'Noto Sans KR', sans-serif;letter-spacing:-0.5px;}
+body{color:#333; /*font-size:13px;*/font-family: 'Noto Sans KR', sans-serif;letter-spacing:-0.5px;}
 input, select, textarea{color:#777; font-size:14px;font-family: 'Noto Sans KR', sans-serif;font-weight:400; }
 ::selection {background:#ed7109;color: #fff;}
 /* anchor */
