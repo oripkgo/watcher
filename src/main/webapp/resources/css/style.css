@@ -360,6 +360,10 @@ a.hover_line:hover {
 .map_wrap {border:1px solid #f1f1f1;width:598px;height:308px;overflow:hidden;font-size:17px;color:#363636;font-weight:400;}
 .map_wrap .root_daum_roughmap_landing {width:100%;height:100%;}
 
+.private {border-top:4px solid #000;font-size:22px;color:#4e4e4e;font-weight:300;line-height:200%;padding-bottom:80px;white-space:normal;word-break:break-all;word-wrap:break-word;word-break:keep-all;}
+.private strong {display:block;font-size:22px;color:#292929;font-weight:600;padding:50px 0px 20px 0px;}
+.private div {padding-left:27px;}
+
 .pt10 {padding-top:10px;}
 .pt20 {padding-top:20px;}
 .pt30 {padding-top:30px;}
@@ -463,7 +467,9 @@ a.hover_line:hover {
 .category_right table td select:disabled {width:100%;background: url('../img/s_arrow.png') no-repeat 96% center #f1f1f1}
 .category_right table td textarea:disabled {background:#f1f1f1;}
 
-/*.story_top {display:block;font-size:25px;font-weight:bold;padding:15px 0px;padding-left:30px;padding-right:10px;}*/
+.terms_top {display:block;font-size:25px;font-weight:bold;padding:15px 0px;padding-left:30px;padding-right:10px;}
+
+
 .story_top select, .notice_top select {width:300px;height:45px;}
 .story_tb, .notice_tb {/*border-top:3px solid #000;*/border-bottom:1px solid #000;}
 

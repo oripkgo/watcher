@@ -207,7 +207,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .btn_url {display:block;text-align:center;margin:20px auto 15px;background:#000;width:120px;height:26px;line-height:24px;font-size:11px;color:#fff;font-weight:300;border-radius:13px;overflow:hidden;padding:0px 20px;}
 .uptip {position:absolute;top:-8px;left:40px;background:url('../img/up_arrow.png') no-repeat center;width:13px;height:8px;}
 
-.conts_tit {display:block;font-size:15px;color:#000;font-weight:600;padding:50px 0px 15px 0px;border-bottom: 3px solid #333;}
+.conts_tit {display:block;font-size:15px;color:#000;font-weight:600;padding:50px 0px 15px 0px;}
 .conts_tit em {margin:0px 10px;color:#78afd4;font-weight:700;}
 
 .conts_tag a {display:inline-block;vertical-align:middle;height:30px;line-height:28px;font-size:15px;color:#000;font-weight:400;border:1px solid #ddd;border-radius:15px;overflow:hidden;padding:0px 15px;margin:2px 5px 2px 0px;}
@@ -290,7 +290,7 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .pagging_wrap a {display:inline-block;vertical-align:middle;padding:2px 0px;margin:0px 10px;font-size:13px;color:#878787;font-weight:300;border-bottom:1px solid transparent;}
 .pagging_wrap a.on {border-bottom:1px solid #000;font-weight:600;color:#000;}
 
-.manage_top {position:relative;margin:30px auto;z-index:998;}
+.manage_top {position:relative;margin:30px auto;z-index:999;}
 .mystory_member_wrap {position:absolute;top:0px;right:0px;}
 
 .manage_conts {position:relative;padding:50px 0px 80px 0px;min-height:600px;}
@@ -342,6 +342,10 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 
 .map_wrap {border:1px solid #f1f1f1;width:598px;height:308px;overflow:hidden;font-size:17px;color:#363636;font-weight:400;}
 .map_wrap .root_daum_roughmap_landing {width:100%;height:100%;}
+
+.private {border-top:4px solid #000;font-size:22px;color:#4e4e4e;font-weight:300;line-height:200%;padding-bottom:80px;white-space:normal;word-break:break-all;word-wrap:break-word;word-break:keep-all;}
+.private strong {display:block;font-size:22px;color:#292929;font-weight:600;padding:50px 0px 20px 0px;}
+.private div {padding-left:27px;}
 
 .pt10 {padding-top:10px;}
 .pt20 {padding-top:20px;}
@@ -434,6 +438,24 @@ a.btn_story2:hover {border:2px solid #fee500;color:#fee500;}
 .category_right table td input[type=text] {width:100%;background:#f1f1f1;}
 .category_right table td textarea {width:100%;height:120px;background:#f1f1f1;}
 
+.notice_top {display:block;font-size:25px;font-weight:bold;padding:15px 0px;}
+.notice_tb {border-top:3px solid #000;border-bottom:1px solid #000;}
+.notice_tb table {width:100%;}
+.notice_tb table th {width:150px;font-size:16px;font-weight:500;color:#000;padding:10px 10px 10px 30px;border-bottom:1px solid #ddd;text-align:left;}
+.notice_tb table td {font-size:16px;font-weight:400;padding:10px 30px 10px 0px;border-bottom:1px solid #ddd;}
+.notice_tb table td:first-child {padding-left:30px;padding-right:30px;}
+
+.notice_tb .non {border:none;}
+.notice_tb input[type=text] {height:45px;font-size:16px;color:#000;}
+.notice_tb input[type=file] {height:35px;font-size:14px;color:#000;padding:5px 0px;}
+.notice_tb input[type=checkbox] {margin-left:20px;}
+.notice_tb textarea {height:400px;font-size:16px;color:#000;padding:15px;}
+
+.not_btn {text-align:center;padding:30px 0px;}
+.not_btn a {display:inline-block;vertical-align:top;padding:0px 40px;border:1px solid #ddd;text-align:center;font-size:15px;color:#878787;line-height:40px;margin:2px;}
+.not_btn a.on {border:1px solid #000;font-size:15px;color:#fff;background:#000;}
+
+
 .footer_wrap {width:90%;margin:0px auto;}
 .footer_left {display:inline-block;vertical-align:middle;}
 .footer_right {display:inline-block;vertical-align:middle;margin-left:10%;}
@@ -483,7 +505,6 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 .manage_btn, .mystory_menu_mobile {display:none;}
 
-#backgroundPopup{ background-color: #000; bottom: 0; left: 0; opacity: 0.5; filter: alpha(opacity = 50); /* IE7 & 8 */ position: fixed; right: 0; top: 0; z-index: 998; display:none;}
 
 @media (max-width:1200px) {
 
@@ -545,8 +566,6 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 @media (max-width:750px) {
 
-    .swiper_banner .swiper-pagination-bullet {width: 12px;height: 12px;}
-        
 	.head_wrap {height:60px;}
 	.head_tip {height:60px;}
 
@@ -559,15 +578,14 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 	.quick_wrap {width:40px;}
 
-	.notice_wrap {position:relative;padding:10px 0px 10px 10px;bottom:0px;width:100%;}
+	.notice_wrap {padding:10px 0px 10px 10px;bottom:0px;width:100%;}
 	.notice_tit {width:80px;font-size:14px;}
 	.notice_area {width:calc(100% - 230px);margin-left:40px;}
 	.notice_area a {font-size:14px;}
 	.notice_btn {width:50px;margin-left:20px;}
 	.notice_btn a {width:20px;height:20px;}
 
-	.swiper_product .swiper-pagination {bottom: 50px !important;}
-	.btn_story {/*top:35%;left:50%;*/font-size:1em;height:3vh;line-height:3vh;padding:0px 10px;}
+	.btn_story {top:35%;left:50%;font-size:14px;height:40px;line-height:36px;padding:0px 10px;}
 
 	.bg_grey {padding-top:30px;}
 	.bg_grey2 {padding:50px 0px;}
@@ -577,11 +595,11 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 	.title_main span {line-height:22px;font-size:22px;}
 	.stip {display:none;}
 
-	.swiper_banner .swiper-pagination {top:0px !important;bottom:auto !important;}
+	.swiper_banner .swiper-pagination {top:0px !important;bottom:auto !important}
 
-	.issue_box {position:absolute;bottom:0px;right:0px;width:50%;height:auto;background:#fff;z-index:99;padding:20px 20px 40px 20px;}
-	.issue_box span {font-size:12px;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;word-wrap:break-word;}
-	.issue_box strong {font-size:14px;padding:15px 0px 10px 0px;}
+	.issue_box {position:absolute;bottom:0px;right:0px;width:80%;height:auto;background:#fff;z-index:99;padding:20px 20px 40px 20px;}
+	.issue_box span {font-size:14px;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;word-wrap:break-word;}
+	.issue_box strong {font-size:20px;padding:20px 0px 10px 0px;}
 	.issue_box span.kind {font-size:12px;}
 	.issue_box em {font-size:13px;margin-top:10px;}
 	.issue_box a {position:absolute;bottom:0px;left:50%;margin-left:-83px;}
@@ -694,7 +712,7 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 	.manage_line {font-size:16px;border-bottom:3px solid #333;}
 	.graph_wrap {border-top:3px solid #333;}
-	.manage_btn {display:block;position:absolute;top:-10px;right:150px;background:url('../img/all_navi_t.png') no-repeat center #fff;width:50px;height:50px;z-index:998;background-size:60% auto;}
+	.manage_btn {display:block;position:absolute;top:-10px;right:150px;background:url('../img/all_navi_t.png') no-repeat center #fff;width:50px;height:50px;z-index:999;background-size:60% auto;}
 
 	.revenue_left {display:block;width:100%;padding:20px 30px;}
 	.revenue_right {display:block;width:100%;padding:20px 30px;border-left:0px solid #ddd;border-top:1px solid #ddd;}
@@ -762,5 +780,22 @@ a.page_top_link {display:block;color:#fff;text-align:center;font-size:14px;line-
 
 	.mystory_menu_mobile {display:block;position:relative;background:#fff;z-index:999;}
 	.mystory_menu_mobile a {display:inline-block;font-size:16px;color:#000;font-weight:600;padding:5px 15px;border:1px solid #ddd;margin:5px 2px;}
+
+	.notice_top {font-size:20px;}
+	.notice_tb table th {width:120px;font-size:14px;padding:10px 10px 10px 10px;}
+	.notice_tb table td {font-size:14px;padding:10px 10px 10px 0px;}
+	.notice_tb table td:first-child {padding-left:10px;padding-right:10px;}
+	.notice_tb input[type=text] {height:40px;font-size:14px;color:#000;}
+	.notice_tb input[type=file] {height:30px;font-size:12px;color:#000;padding:5px 0px;}
+	.notice_tb input[type=checkbox] {margin-left:10px;}
+	.notice_tb textarea {height:250px;font-size:14px;color:#000;padding:15px;}
+
+	.not_btn {text-align:center;padding:30px 0px;}
+	.not_btn a {display:inline-block;vertical-align:top;padding:0px 40px;border:1px solid #ddd;text-align:center;font-size:15px;color:#878787;line-height:40px;margin:2px;}
+	.not_btn a.on {border:1px solid #000;font-size:15px;color:#fff;background:#000;}
+
+	.private {border-top:2px solid #000;font-size:15px;line-height:170%;padding-bottom:50px;}
+	.private strong {font-size:15px;padding:30px 0px 20px 0px;}
+	.private div {padding-left:15px;}
 }
 
