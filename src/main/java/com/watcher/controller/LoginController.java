@@ -61,6 +61,7 @@ public class LoginController {
 			memberParam.setNickname(loginVo.getNickname());
 			memberParam.setName(loginVo.getName());
 			memberParam.setEmail(loginVo.getEmail());
+			memberParam.setGender(loginVo.getGender());
 			memberParam.setMemProfileImg(loginVo.getProfile());
 
 			memberService.insertUpdate(memberParam);

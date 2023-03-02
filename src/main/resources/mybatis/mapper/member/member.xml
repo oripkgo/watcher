@@ -32,6 +32,8 @@
 			,PASSWORD
 			,EMAIL
 			,PHONE_NUM
+			,GENDER
+			,BIRTH
 			,NAME
 			,NICKNAME
 			,MEM_TYPE
@@ -46,6 +48,8 @@
 			,#{password}
 			,#{email}
 			,#{phoneNum}
+			,#{gender}
+			,#{birth}
 			,#{name}
 			,#{nickname}
 			,#{memType}

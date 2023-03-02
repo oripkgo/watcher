@@ -8,6 +8,8 @@ public class MemberDto extends CommDto {
     private String loginId;         // 회원 아이디
     private String email;           // 이메일
     private String phoneNum;        // 회원 휴대푠 번호
+    private String gender;          // 회원 성별
+    private String birth;           // 회원 생년월일
     private String name;            // 회원 이름
     private String nickname;        // 회원 유형별명
     private String memType;         // 회원 유형
@@ -52,6 +54,22 @@ public class MemberDto extends CommDto {
 
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBirth() {
+        return birth;
+    }
+
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
     public String getName() {

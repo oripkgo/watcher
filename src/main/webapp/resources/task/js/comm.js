@@ -581,14 +581,34 @@ let comm = function(){
                     param.name 		= obj.name;
                     param.profile 	= obj.profile_image;
 
+                    if( obj.gender ){
+                        if( obj.gender == 'M' ){
+                            param.gender = '1';
+                        }else{
+                            param.gender = '2';
+                        }
+                    }
                 }else{
                     param.type 		= obj.type;
                     param.id 		= obj.id;
-                    param.email 	= obj.email;
-                    param.name 		= obj.name;
-                    param.nickname 	= obj.properties.nickname;
-                    param.profile 	= obj.properties.profile_image;
 
+                    if( obj.properties ){
+                        param.nickname 	= obj.properties.nickname;
+                        param.profile 	= obj.properties.profile_image;
+                    }
+
+                    if( obj.kakao_account ){
+                        param.email 	= obj.kakao_account.email;
+                        //param.gender 	= obj.kakao_account.gender &&
+
+                        if( obj.kakao_account.gender ){
+                            if( obj.kakao_account.gender == "male" ){
+                                param.gender = '1';
+                            }else{
+                                param.gender = '2';
+                            }
+                        }
+                    }
                 }
 
                 comm.request({
