@@ -5,7 +5,7 @@
 
         <div class="manage_conts">
 
-            <div class="terms_top">저작권 정책</div>
+            <div class="terms_top">저작권 및 지적재산권 보호 정책</div>
             <div class="private">
                 <strong>제1조 (목적)</strong>
                 본 약관은 회원(본 약관에 동의한 자를 말하며 이하 "회원"이라고 합니다)이 주식회사 카카오(이하 "회사"라고 합니다)가 제공하는 티스토리(Tistory) 서비스(이하 "서비스"라고 합니다)를 이용함에 있어 회사와 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.
