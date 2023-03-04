@@ -22,7 +22,7 @@
 
             <div class="footer_right">
                 <a href="/terms/advertisement">광고 정책</a><br>
-                <a href="/terms/guide">커뮤니티 가이드라인</a>
+<%--                <a href="/terms/guide">커뮤니티 가이드라인</a>--%>
             </div>
         </div>
 
