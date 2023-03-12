@@ -2,43 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<script>
+	const swiper = {
+		init : function(){
+			if( $(".swiper-wrapper", ".swiper_product").find(".swiper-slide").length <= 1 ){
+				$(".swiper-pagination", ".swiper_product").hide();
+			}
 
-<div class="section">
-	<div class="ani-in">
-
-		<div class="swiper_product ani_y delay1">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide">
-					<img src="/resources/img/main_visual01.jpg">
-					<a href="javascript:;" class="btn_story">나의 스토리 바로가기</a>
-				</div>
-				<div class="swiper-slide">
-					<img src="/resources/img/main_visual01.jpg">
-					<a href="javascript:;" class="btn_story">나의 스토리 바로가기</a>
-				</div>
-				<div class="swiper-slide">
-					<img src="/resources/img/main_visual01.jpg">
-					<a href="javascript:;" class="btn_story">나의 스토리 바로가기</a>
-				</div>
-			</div>
-			<div class="swiper-pagination"></div>
-			<!--
-			<div class="swiper-button-next swiper-button-white"></div>
-			<div class="swiper-button-prev swiper-button-white"></div>
-			-->
-
-			<div class="notice_wrap">
-				<div class="notice_tit">공지사항</div>
-				<div class="notice_area"><a href="javascript:;">공지합니다. 내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</a></div>
-				<div class="notice_btn">
-					<a href="javascript:;" class="prev_a"></a>
-					<a href="javascript:;" class="next_a"></a>
-				</div>
-			</div>
-
-		</div>
-		<script>
-			var swiper = new Swiper('.swiper_product', {
+			new Swiper('.swiper_product', {
 				centeredSlides: true,
 				loop: true,
 				autoplay: {
@@ -54,8 +25,127 @@
 					prevEl: '.swiper-button-prev',
 				}
 			});
-		</script>
 
+			new Swiper('.swiper_banner', {
+				slidesPerView: 'auto',
+				speed : 600,
+				spaceBetween: 0,
+				loop: true,
+				autoplay: {
+					delay: 8000,
+					disableOnInteraction: false,
+				},
+				//initialSlide: 1,
+				//freeMode: true,
+				//centeredSlides: true,
+				pagination: {
+					el: '.swiper-pagination',
+					clickable: true,
+				}
+			});
+		}
+	}
+
+	const notice = {
+		init : function(){
+			this.list();
+		},
+
+		isHide : function(regDt){
+			let result = false;
+			let regDate = new Date(regDt);
+			let toDay = new Date();
+
+			var dateDif = (toDay.getTime() - regDate.getTime()) / (1000*60*60*24) ;
+
+			if( dateDif > 14) {
+				result = true;
+			}
+
+			return result;
+		},
+
+		list : function(){
+			const noticeObj = this;
+			comm.list('#mainNoticeForm', '/notice/list/data', function (data) {
+				let node = $('<a href="javascript:;" style="display:none;"></a>')
+				if (data.code == '0000' && (data.list && data.list.length > 0)) {
+					if( noticeObj.isHide(data.list[0]['REG_DATE']) ){
+						return;
+					}
+
+					data.list.forEach(function (obj, idx) {
+						let copyNode = $(node).clone(true);
+						$(copyNode).text(obj['TITLE']);
+						$(copyNode).attr("href", getNoticeViewUrl(obj['ID']));
+
+						$(copyNode).data(obj)
+
+						$("#noticeList").append(copyNode)
+					})
+					$("#noticeList").parents(".notice_wrap").show();
+					$("a:eq(0)", "#noticeList").show();
+
+					$(".notice_wrap").find(".prev_a, .next_a").on("click", function () {
+						let aIndex = $("a", "#noticeList").index($("a:visible", "#noticeList"));
+						let target;
+
+						if ($(this).hasClass("prev_a")) {
+							target = $($("a", "#noticeList")[--aIndex]);
+						} else {
+							target = $($("a", "#noticeList")[++aIndex]);
+						}
+						if( $(target).length > 0 ){
+							$("a", "#noticeList").hide();
+							$(target).show();
+						}
+					})
+				}
+			}, 1, 5);
+		}
+	};
+
+	$(document).on("ready",function(){
+		swiper.init();
+		notice.init();
+	})
+
+</script>
+<form name="mainNoticeForm" id="mainNoticeForm"></form>
+
+<div class="section">
+	<div class="ani-in">
+
+		<div class="swiper_product ani_y delay1">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="/resources/img/main_visual01.jpg">
+				</div>
+				<%--
+				<div class="swiper-slide">
+					<img src="/resources/img/main_visual01.jpg">
+				</div>
+				<div class="swiper-slide">
+					<img src="/resources/img/main_visual01.jpg">
+				</div>
+				--%>
+			</div>
+			<div class="swiper-pagination"></div>
+			<!--
+			<div class="swiper-button-next swiper-button-white"></div>
+			<div class="swiper-button-prev swiper-button-white"></div>
+			-->
+
+			<div class="notice_wrap" style="display: none;">
+				<div class="notice_tit">공지사항</div>
+				<div class="notice_area" id="noticeList"></div>
+				<div class="notice_btn">
+					<a href="javascript:;" class="prev_a"></a>
+					<a href="javascript:;" class="next_a"></a>
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
 
@@ -98,28 +188,19 @@
 							<a href="javascript:;"><img src="/resources/img/btn_more.png"></a>
 						</div>
 					</div>
+					<div class="swiper-slide">
+						<img src="/resources/img/mid_visual01.jpg">
+						<div class="issue_box">
+							<span class="kind">정치.환경</span>
+							<strong>인류는 지구온난화를 <br>막을 수 있을것인가?</strong>
+							<span>넓은 의미에서 지구온난화는 장기간에 걸쳐 전지구 평균 지표면 기온이 상승하는 것을 의미한다. 하지만 좀더 일반적으로 지구온난화는 산업혁명 이후 전지구 지표면 평균 기온표면 평균 기온표면 평...</span>
+							<em>by gauni1229</em>
+							<a href="javascript:;"><img src="/resources/img/btn_more.png"></a>
+						</div>
+					</div>
 				</div>
 				<div class="swiper-pagination"></div>
 			</div>
-			<script>
-				var swiper = new Swiper('.swiper_banner', {
-					slidesPerView: 'auto',
-					speed : 600,
-					spaceBetween: 0,
-					loop: true,
-					autoplay: {
-						delay: 8000,
-						disableOnInteraction: false,
-					},
-					//initialSlide: 1,
-					//freeMode: true,
-					//centeredSlides: true,
-					pagination: {
-						el: '.swiper-pagination',
-						clickable: true,
-					}
-				});
-			</script>
 
 		</div>
 
