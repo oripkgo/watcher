@@ -24,6 +24,7 @@
 				  AND A.CONTENTS_TYPE = #{contentsType}
 				  AND A.CONTENTS_ID = #{contentsId}
 				  AND A.LOGIN_ID = #{loginId}
+				  AND A.LIKE_TYPE = '01'
 				  AND A.CANCEL_YN = 'N'
 				ORDER BY A.REG_DATE DESC
 				LIMIT 1
@@ -33,6 +34,7 @@
 				AND B.CONTENTS_TYPE = #{contentsType}
 				AND B.CONTENTS_ID = #{contentsId}
 				AND B.LOGIN_ID = #{loginId}
+				AND B.LIKE_TYPE = '01'
 				AND B.CANCEL_YN = 'N'
 			)  AS LIKE_YN
 		FROM DUAL
