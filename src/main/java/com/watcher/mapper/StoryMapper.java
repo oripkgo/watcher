@@ -11,6 +11,8 @@ import java.util.Map;
 public interface StoryMapper {
     public Map<String, Object> view(StoryParam storyParam);
 
+    public List<Map<String, Object>> getMainPopularStory(StoryParam storyParam);
+
     public List<Map<String, Object>> list(StoryParam storyParam);
 
     public int listCnt(StoryParam storyParam);

@@ -9,6 +9,10 @@
 				$(".swiper-pagination", ".swiper_product").hide();
 			}
 
+			this.product();
+
+		},
+		product : function(){
 			new Swiper('.swiper_product', {
 				centeredSlides: true,
 				loop: true,
@@ -25,7 +29,8 @@
 					prevEl: '.swiper-button-prev',
 				}
 			});
-
+		},
+		banner : function(){
 			new Swiper('.swiper_banner', {
 				slidesPerView: 'auto',
 				speed : 600,
@@ -43,7 +48,7 @@
 					clickable: true,
 				}
 			});
-		}
+		},
 	}
 
 	const notice = {
@@ -105,9 +110,64 @@
 		}
 	};
 
+	const story = {
+		init : function(){
+			this.getPopularList();
+		},
+		getPopularList : function(){
+			comm.request({
+				url:'/story/popular',
+				method : "GET",
+				headers : {"Content-type":"application/x-www-form-urlencoded"},
+			},function(data){
+				if( data.code == '0000' && ( data.getPopularStorys && data.getPopularStorys.length > 0 ) ){
+
+					data.getPopularStorys.forEach(function(obj){
+						let story = $('<div class="swiper-slide"></div>')
+						let storyHtml = '';
+
+						if( obj.THUMBNAIL_IMG_PATH ){
+							storyHtml += '<img width="1000" height="500" src="'+obj.THUMBNAIL_IMG_PATH.replace(/[\\]/g,'/')+'">';
+						}else{
+							return;
+						}
+
+						storyHtml += '<div class="issue_box">';
+						storyHtml += '<span class="kind">'+obj.CATEGORY_NM+'</span>';
+						storyHtml += '<strong>'+obj.TITLE+'</strong>';
+
+						let summary = obj.SUMMARY || '';
+						if( summary.length < 100 ){
+							summary = summary;
+						}else{
+							summary = summary.substring(0,100)+' ...';
+						}
+
+						storyHtml += '<span>'+summary+'</span>';
+						storyHtml += '<em>by ' + obj.NICKNAME + '</em>';
+						storyHtml += '<a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '"><img src="/resources/img/btn_more.png"></a>';
+						storyHtml += '</div>';
+
+						$(story).html(storyHtml)
+						$(story).data(obj);
+
+						$("#popularStoryList").append(story);
+					})
+				}
+
+				if( $(".swiper-slide","#popularStoryList").length == 0 ){
+					$("#popularStorys").remove();
+				}else{
+					swiper.banner();
+				}
+			});
+		},
+	}
+
 	$(document).on("ready",function(){
 		swiper.init();
 		notice.init();
+		story.init();
 	})
 
 </script>
@@ -149,7 +209,7 @@
 	</div>
 </div>
 
-<div class="section bg_grey">
+<div class="section bg_grey" id="popularStorys">
 	<div class="ani-in layout">
 
 		<div class="issue_wrap ani_y delay1">
@@ -157,8 +217,8 @@
 			<div class="title_main"><span>issue</span></div>
 
 			<div class="swiper_banner">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide">
+				<div class="swiper-wrapper" id="popularStoryList">
+					<%--<div class="swiper-slide">
 						<img src="/resources/img/mid_visual01.jpg">
 						<div class="issue_box">
 							<span class="kind">정치.환경</span>
@@ -197,7 +257,7 @@
 							<em>by gauni1229</em>
 							<a href="javascript:;"><img src="/resources/img/btn_more.png"></a>
 						</div>
-					</div>
+					</div>--%>
 				</div>
 				<div class="swiper-pagination"></div>
 			</div>

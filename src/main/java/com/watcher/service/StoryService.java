@@ -196,4 +196,16 @@ public class StoryService {
     }
 
 
+    public Map<String, Object> getPopularStory(StoryParam storyParam) throws Exception {
+        Map<String, Object> result = new HashMap<String, Object>();
+
+        result.put("getPopularStorys", storyMapper.getMainPopularStory(storyParam));
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+
 }

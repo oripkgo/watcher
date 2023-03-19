@@ -148,4 +148,21 @@ public class StoryController {
         return result;
     }
 
+
+    @RequestMapping(value = {"/story/popular"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getPopularStory(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        result.putAll(storyService.getPopularStory(storyParam));
+        result.put("vo", storyParam);
+
+        return result;
+    }
+
 }
