@@ -20,7 +20,6 @@ public class CommController {
     StoryService storyService;
 
     @RequestMapping(value = {"/category/list"})
-
     public LinkedHashMap<String, Object> showStoryListPage(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 

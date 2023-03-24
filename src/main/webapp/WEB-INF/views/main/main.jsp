@@ -2,7 +2,84 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script>
+<script type="text/javascript">
+
+	const category = {
+		list : JSON.parse('${category_list}'),
+		init : function(){
+			const categoryObj = this;
+			categoryObj.list.forEach(function(obj,idx){
+				const id = obj['ID'];
+				const nm = obj['CATEGORY_NM'];
+
+				if( idx == 0 ){
+					$('.category_tab').append('<a href="javascript:;" class="tab_ov tab_'+id+'"><span>'+nm+'</span></a>');
+				}else{
+					$('.category_tab').append('<a href="javascript:;" class="tab_'+id+'"><span>'+nm+'</span></a>');
+				}
+
+				const tabObj = categoryObj.tab.append(id, $("#tab_parent"));
+				$(tabObj).html(categoryObj.tab.drawInTags(id));
+
+				categoryObj.tab.event();
+			})
+		},
+		tab : {
+			drawInTags : function(id){
+				let tabInHtml = '';
+
+				tabInHtml += '<form id="RecommendedListForm'+id+'" name="RecommendedListForm'+id+'">';
+				tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="YY">';
+				tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
+				tabInHtml += '    <input type="hidden" name="limitNum" value="3">';
+				tabInHtml += '';
+				tabInHtml += '    <ul class="story_wrap" id="RecommendedDataList'+id+'">';
+				tabInHtml += '    </ul>';
+				tabInHtml += '';
+				tabInHtml += '</form>';
+				tabInHtml += '';
+				tabInHtml += '<form id="defaultListForm'+id+'" name="defaultListForm'+id+'">';
+				tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="NN">';
+				tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
+				tabInHtml += '    <div class="story_wrap01">';
+				tabInHtml += '        <ul id="defaultList'+id+'">';
+				tabInHtml += '        </ul>';
+				tabInHtml += '    </div>';
+				tabInHtml += '';
+				tabInHtml += '    <div class="pagging_wrap"></div>';
+				tabInHtml += '';
+				tabInHtml += '</form>';
+				tabInHtml += '';
+				tabInHtml += '';
+
+				return tabInHtml;
+			},
+
+			append : function(id, target){
+				let tabId = 'tabObj_'+id;
+				let tabHtml = '';
+
+				tabHtml += '<div class="obj" id="'+tabId+'">';
+				tabHtml += '<a href="javascript:;" class="btn_story2"></a>';
+				tabHtml += '</div>';
+
+				$(target).append(tabHtml);
+
+				return $("#"+tabId, target);
+			},
+
+			event : function(){
+				var param = "#tab_box";
+				var btn = "#tab_cnt>a";
+				var obj = "#tab_box .obj";
+				var img = false;
+				var event = "click";
+				document_tab(param,btn,obj,img,event);
+			},
+		},
+	}
+
+
 	const swiper = {
 		init : function(){
 			if( $(".swiper-wrapper", ".swiper_product").find(".swiper-slide").length <= 1 ){
@@ -168,6 +245,7 @@
 		swiper.init();
 		notice.init();
 		story.init();
+		category.init();
 	})
 
 </script>
@@ -273,8 +351,11 @@
 
 		<div class="tab_wrap ani_y delay2">
 			<!--탭메뉴-->
+			$('.category_tab').append('<a href="javascript:;" class="tab_ov tab_'+id+'"><span>'+nm+'</span></a>');
+
 			<div id="tab_box">
-				<div id="tab_cnt">
+				<div id="tab_cnt" class="category_tab">
+					<%--
 					<a href="javascript:;" class="tab_ov"><span>라이프</span></a>
 					<a href="javascript:;"><span>여행</span></a>
 					<a href="javascript:;"><span>맛집</span></a>
@@ -283,8 +364,10 @@
 					<a href="javascript:;"><span>IT</span></a>
 					<a href="javascript:;"><span>게임</span></a>
 					<a href="javascript:;"><span>스포츠</span></a>
+					--%>
 				</div>
-				<div class="grap">
+				<div class="grap" id="tab_parent">
+					<%--
 					<div class="obj">
 						<!--------------------라이프------------------------>
 						<ul class="story_wrap">
@@ -540,7 +623,7 @@
 						<a href="javascript:;" class="btn_story2">스토리보러가기</a>
 						<!--------------------//스포츠------------------------>
 					</div>
-
+					--%>
 				</div>
 			</div>
 			<script type="text/javascript">

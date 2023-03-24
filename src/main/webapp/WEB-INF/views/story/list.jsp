@@ -4,7 +4,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script type="text/javascript">
-
     const category_list = JSON.parse('${category_list}');
     const pageNo = '${vo.pageNo}' || '1';
     const listNo = '${vo.listNo}' || '1';
@@ -12,16 +11,12 @@
     const listUrl = '/story/list/data';
 
     $(document).on('ready',function(){
-
         initKeywordSearch();
-
         initCategory();
-
     })
 
     function initCategory(){
         category_list.forEach(function(obj,idx){
-
             const id = obj['ID'];
             const nm = obj['CATEGORY_NM'];
 
@@ -43,7 +38,6 @@
 
             // 기본 목록
             defaultList(id);
-
         })
     }
 
@@ -96,7 +90,6 @@
             , method : "GET"
             , headers : {"Content-type":"application/x-www-form-urlencoded"}
         },function(data){
-
             $("#RecommendedDataList"+id).empty();
 
             for (let i = 0; i < data.list.length; i++) {
@@ -153,15 +146,11 @@
                 $(listHtml).data(obj);
 
                 $("#RecommendedDataList"+id).append(listHtml);
-
             }
-
-
         });
     }
 
     function defaultList(id, callback){
-
         comm.list('#defaultListForm'+id, listUrl,function(data){
             $("#defaultList"+id).empty();
 
@@ -224,13 +213,11 @@
             if( callback ){
                 callback();
             }
-
         }, pageNo, listNo, pagigRange);
     }
 
 
     function append_tab(id,target){
-
         let tabId = 'tabObj_'+id;
         let tabHtml = '';
 
@@ -241,7 +228,6 @@
         $(target).append(tabHtml);
 
         return $("#"+tabId, target);
-
     }
 
 
@@ -390,19 +376,13 @@
 
 </script>
 
-
-
-
-
 <div class="section">
     <div class="ani-in layout">
-
         <div class="story_search_wrap ani_y delay1">
             <div class="sub_title">Story</div>
             <span>다양한 지식을 공유 해보세요</span>
             <form name="searchForm" id="searchForm">
                 <div class="story_search">
-
                         <select id="seachCategory">
                             <option value="">카테고리</option>
         <%--                    <c:if test="${ !((empty category_list) || fn:length(category_list) == 0) }">--%>
@@ -412,8 +392,6 @@
         <%--                    </c:if>--%>
                         </select>
                         <input type="text" id="keyword" placeholder="키워드 입력">
-
-
                     <a href="javascript:;" id="search"><img src="/resources/img/btn_search_b.png"></a>
                 </div>
             </form>

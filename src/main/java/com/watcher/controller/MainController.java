@@ -3,6 +3,7 @@ package com.watcher.controller;
 import java.util.List;
 
 import com.watcher.service.CategoryService;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,6 @@ import com.watcher.service.MainService;
 @Controller
 @RequestMapping(value="/")
 public class MainController {
-
 	@Autowired
 	MainService mainSv;
 
@@ -27,8 +27,10 @@ public class MainController {
 	@RequestMapping(value={"main","/"})
 	public ModelAndView showMainPage() throws Exception {
 		ModelAndView mav = new ModelAndView("main/main");
+
+		JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+		mav.addObject("category_list", jsonArray);
+
 		return mav;
 	}
-
-
 }
