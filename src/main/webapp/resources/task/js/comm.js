@@ -973,6 +973,13 @@ let comm = function(){
             return obj;
         },
 
+        appendForm: function (id, name) {
+            let formObj = $('<form></form>');
+            $(formObj).attr("id", id);
+            $(formObj).attr("name", (name || (id || "")));
+            return formObj;
+        },
+
         appendInput : function(form, name, value){
             if( $("#"+name).length > 0 ){
                 $("#"+name).remove();

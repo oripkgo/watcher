@@ -230,36 +230,25 @@
         return $("#"+tabId, target);
     }
 
-
     function draw_tags_in_tabs(id){
-        let tabInHtml = '';
+        let div = $('<div></div>')
+        let recommendedListForm = comm.appendForm('RecommendedListForm'+id);
+        let defaultListForm = comm.appendForm('defaultListForm'+id);
 
-        tabInHtml += '<form id="RecommendedListForm'+id+'" name="RecommendedListForm'+id+'">';
-        tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="YY">';
-        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
-        tabInHtml += '    <input type="hidden" name="limitNum" value="3">';
-        tabInHtml += '';
-        tabInHtml += '    <ul class="story_wrap" id="RecommendedDataList'+id+'">';
-        tabInHtml += '    </ul>';
-        tabInHtml += '';
-        tabInHtml += '</form>';
-        tabInHtml += '';
-        tabInHtml += '<form id="defaultListForm'+id+'" name="defaultListForm'+id+'">';
-        tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="NN">';
-        tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
-        tabInHtml += '    <div class="story_wrap01">';
-        tabInHtml += '        <ul id="defaultList'+id+'">';
-        tabInHtml += '        </ul>';
-        tabInHtml += '    </div>';
-        tabInHtml += '';
-        tabInHtml += '    <div class="pagging_wrap"></div>';
-        tabInHtml += '';
-        tabInHtml += '</form>';
-        tabInHtml += '';
-        tabInHtml += '';
+        comm.appendInput(recommendedListForm, "SortByRecommendationYn", "YY");
+        comm.appendInput(recommendedListForm, "search_category_id", id);
+        comm.appendInput(recommendedListForm, "limitNum", "3");
+        $(recommendedListForm).append('<ul class="story_wrap" id="RecommendedDataList'+id+'"></ul>')
 
-        return tabInHtml;
+        comm.appendInput(defaultListForm, "SortByRecommendationYn", "NN");
+        comm.appendInput(defaultListForm, "search_category_id", id);
+        $(defaultListForm).append('<div class="story_wrap01"><ul id="defaultList'+id+'"></ul></div>');
+        $(defaultListForm).append('<div class="pagging_wrap"></div>');
 
+        $(div).append(recommendedListForm);
+        $(div).append(defaultListForm);
+
+        return $(div).html();
     }
 
 

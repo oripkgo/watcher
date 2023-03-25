@@ -5,10 +5,11 @@
 <script type="text/javascript">
 
 	const category = {
-		list : JSON.parse('${category_list}'),
+		listUrl : '/story/list/data',
+		data : JSON.parse('${category_list}'),
 		init : function(){
 			const categoryObj = this;
-			categoryObj.list.forEach(function(obj,idx){
+			categoryObj.data.forEach(function(obj,idx){
 				const id = obj['ID'];
 				const nm = obj['CATEGORY_NM'];
 
@@ -22,37 +23,92 @@
 				$(tabObj).html(categoryObj.tab.drawInTags(id));
 
 				categoryObj.tab.event();
+
+				// 추천순 목록
+				categoryObj.recommendedList(id);
 			})
 		},
+
+		recommendedList : function(id){
+			comm.request({
+				form:$("#RecommendedListForm"+id)
+				, url:this.listUrl
+				, method : "GET"
+				, headers : {"Content-type":"application/x-www-form-urlencoded"}
+			},function(data){
+				$("#RecommendedDataList"+id).empty();
+
+				for (let i = 0; i < data.list.length; i++) {
+					let obj = data.list[i];
+					let listHtml = '';
+					let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
+
+					listHtml += '<li>';
+					listHtml += '    <a href="' + getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+
+					if( obj.THUMBNAIL_IMG_PATH ){
+						listHtml += '<div><img src="'+obj.THUMBNAIL_IMG_PATH.replace(/[\\]/g,'/')+'"></div>';
+					}
+
+					listHtml += '        <strong>'+obj.TITLE+'</strong>';
+					listHtml += '        <span>';
+
+					if( !obj.SUMMARY ){
+						obj.SUMMARY = '';
+					}
+
+					if( obj.SUMMARY.length < 100 ){
+						listHtml += obj.SUMMARY;
+					}else{
+						listHtml += (obj.SUMMARY || '').substring(0,100)+' ...';
+					}
+
+					listHtml += '        </span>';
+					listHtml += '    </a>';
+					listHtml += '    <div class="story_key">';
+
+					if( obj.TAGS ){
+						let tag_arr = obj.TAGS.split(',');
+
+						tag_arr.forEach(function(tag,index){
+							listHtml += '        <a href="javascript:;">#'+tag.trim()+'</a>';
+						})
+					}
+					listHtml += '    </div>';
+					listHtml += '    <div class="story_key">';
+
+					listHtml += '        <span>'+comm.last_time_cal(obj.REG_DATE)+'</span>';
+					listHtml += '        <span>공감 ' + obj.LIKE_CNT + '</span>';
+					listHtml += '        <em>by ' + obj.NICKNAME + '</em>';
+
+
+					// listHtml += '        <a href="javascript:;">#컬처</a>';
+					// listHtml += '        <a href="javascript:;">#영화</a>';
+					// listHtml += '        <a href="javascript:;">#영화컬처</a>';
+					listHtml += '    </div>';
+					listHtml += '</li>';
+					listHtml = $(listHtml);
+
+					$(listHtml).data(obj);
+
+					$("#RecommendedDataList"+id).append(listHtml);
+				}
+			});
+		},
+
 		tab : {
 			drawInTags : function(id){
-				let tabInHtml = '';
+				let div = $('<div></div>')
+				let recommendedListForm = comm.appendForm('RecommendedListForm'+id);
 
-				tabInHtml += '<form id="RecommendedListForm'+id+'" name="RecommendedListForm'+id+'">';
-				tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="YY">';
-				tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
-				tabInHtml += '    <input type="hidden" name="limitNum" value="3">';
-				tabInHtml += '';
-				tabInHtml += '    <ul class="story_wrap" id="RecommendedDataList'+id+'">';
-				tabInHtml += '    </ul>';
-				tabInHtml += '';
-				tabInHtml += '</form>';
-				tabInHtml += '';
-				tabInHtml += '<form id="defaultListForm'+id+'" name="defaultListForm'+id+'">';
-				tabInHtml += '    <input type="hidden" name="SortByRecommendationYn" value="NN">';
-				tabInHtml += '    <input type="hidden" name="search_category_id" value="'+id+'">';
-				tabInHtml += '    <div class="story_wrap01">';
-				tabInHtml += '        <ul id="defaultList'+id+'">';
-				tabInHtml += '        </ul>';
-				tabInHtml += '    </div>';
-				tabInHtml += '';
-				tabInHtml += '    <div class="pagging_wrap"></div>';
-				tabInHtml += '';
-				tabInHtml += '</form>';
-				tabInHtml += '';
-				tabInHtml += '';
+				comm.appendInput(recommendedListForm, "SortByRecommendationYn", "YY");
+				comm.appendInput(recommendedListForm, "search_category_id", id);
+				comm.appendInput(recommendedListForm, "limitNum", "3");
+				$(recommendedListForm).append('<ul class="story_wrap" id="RecommendedDataList'+id+'"></ul>')
 
-				return tabInHtml;
+				$(div).append(recommendedListForm);
+
+				return $(div).html();
 			},
 
 			append : function(id, target){
@@ -626,14 +682,6 @@
 					--%>
 				</div>
 			</div>
-			<script type="text/javascript">
-				var param = "#tab_box";
-				var btn = "#tab_cnt>a";
-				var obj = "#tab_box .obj";
-				var img = false;
-				var event = "click";
-				document_tab(param,btn,obj,img,event);
-			</script>
 			<!--//탭메뉴 끝-->
 
 		</div>
