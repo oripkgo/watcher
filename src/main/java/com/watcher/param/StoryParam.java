@@ -17,6 +17,8 @@ public class StoryParam extends StoryDto {
     private String category_nm;
     private String tags;
 
+    private String isOneYearData;
+
     List id_list;
 
     MultipartFile thumbnailImgPathParam;
@@ -107,5 +109,13 @@ public class StoryParam extends StoryDto {
 
     public void setThumbnailImgPathParam(MultipartFile thumbnailImgPathParam) {
         this.thumbnailImgPathParam = thumbnailImgPathParam;
+    }
+
+    public String getIsOneYearData() {
+        return isOneYearData;
+    }
+
+    public void setIsOneYearData(String isOneYearData) {
+        this.isOneYearData = isOneYearData;
     }
 }
