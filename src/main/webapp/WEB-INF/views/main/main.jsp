@@ -3,6 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script type="text/javascript">
+	const keyword = {
+		search : function(obj){
+			if( event.type == 'keypress' && event.keyCode != 13 ){
+				return;
+			}
+
+			const param = {};
+			param.keyword = $("#keyword").val();
+
+			comm.request({url:"/keyword/popular", method : "POST", data : JSON.stringify(param)},function(resp){
+				// 수정 성공
+				if( resp.code == '0000'){
+				}
+			})
+		}
+	}
 
 	const category = {
 		listUrl : '/story/list/data',
@@ -303,7 +319,6 @@
 		story.init();
 		category.init();
 	})
-
 </script>
 <form name="mainNoticeForm" id="mainNoticeForm"></form>
 
@@ -691,13 +706,11 @@
 
 <div class="section bg_grey2">
 	<div class="ani-in layout">
-
 		<div class="keyword_wrap ani_y delay2">
-
 			<div class="keyword_tit">keyword</div>
 			<div class="keyword_search">
-				<input type="text" placeholder="나의 감성을 더해줄 이야기를 찾아보세요.">
-				<a href="javascript:;"><img src="/resources/img/btn_search_b.png"></a>
+				<input type="text" onkeypress="keyword.search(this);" name="keyword" id="keyword" placeholder="나의 감성을 더해줄 이야기를 찾아보세요.">
+				<a href="javascript:;" onclick="keyword.search(this);"><img src="/resources/img/btn_search_b.png"></a>
 			</div>
 			<div class="keyword_box_wrap">
 				<a href="javascript:;">
@@ -769,3 +782,4 @@
 
 	</div>
 </div>
+

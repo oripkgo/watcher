@@ -12,6 +12,7 @@
 		<typeAlias type="com.watcher.param.FileParam" 			alias="fileParam"			/>
 		<typeAlias type="com.watcher.param.ManagementParam" 	alias="managementParam"		/>
 		<typeAlias type="com.watcher.param.VisitorParam" 		alias="visitorParam"		/>
+		<typeAlias type="com.watcher.param.KeywordParam" 		alias="keywordParam"		/>
 	</typeAliases>
 
 </configuration>

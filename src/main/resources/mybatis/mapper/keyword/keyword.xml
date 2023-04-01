@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.watcher.mapper.KeywordMapper">
+
+	<insert id="insert" parameterType="keywordParam" useGeneratedKeys="true" keyColumn="id">
+		INSERT INTO SEARCH_TERMS (
+			REG_ID,
+			REG_DATE,
+			UPT_ID,
+			UPT_DATE,
+			CLIENT_IP,
+			CLIENT_ID,
+			KEYWORD
+		)VALUES(
+			#{regId},
+			NOW(),
+			#{regId},
+			NOW(),
+		   #{clientIp},
+		   #{clientId},
+		   #{keyword}
+	   )
+	</insert>
+
+
+</mapper>
