@@ -171,16 +171,7 @@
 				FROM COMMENT
 				WHERE CONTENTS_TYPE = 'STORY' AND CONTENTS_ID = A.ID
 			) AS COMMENT_CNT
-
-		<choose>
-			<when test="isMaxDataLimit == 'YY'">
-				FROM (SELECT * FROM STORY LIMIT 10000) A
-			</when>
-			<otherwise>
-				FROM STORY A
-			</otherwise>
-		</choose>
-
+		FROM STORY A
 		LEFT JOIN MEMBER B ON 1 = 1
 		AND B.LOGIN_ID = A.REG_ID
 		LEFT JOIN BOARD_TAGS C ON 1=1

@@ -18,7 +18,6 @@ public class StoryParam extends StoryDto {
     private String tags;
 
     private String isOneYearData;
-    private String isMaxDataLimit;
 
     List id_list;
 
@@ -96,6 +95,14 @@ public class StoryParam extends StoryDto {
         this.tags = tags;
     }
 
+    public String getIsOneYearData() {
+        return isOneYearData;
+    }
+
+    public void setIsOneYearData(String isOneYearData) {
+        this.isOneYearData = isOneYearData;
+    }
+
     public List getId_list() {
         return id_list;
     }
@@ -110,21 +117,5 @@ public class StoryParam extends StoryDto {
 
     public void setThumbnailImgPathParam(MultipartFile thumbnailImgPathParam) {
         this.thumbnailImgPathParam = thumbnailImgPathParam;
-    }
-
-    public String getIsOneYearData() {
-        return isOneYearData;
-    }
-
-    public void setIsOneYearData(String isOneYearData) {
-        this.isOneYearData = isOneYearData;
-    }
-
-    public String getIsMaxDataLimit() {
-        return isMaxDataLimit;
-    }
-
-    public void setIsMaxDataLimit(String isMaxDataLimit) {
-        this.isMaxDataLimit = isMaxDataLimit;
     }
 }
