@@ -86,7 +86,7 @@
 			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
 		<if test="search_keyword != null and search_keyword != ''">
-		  	AND (A.TITLE LIKE '%${search_keyword}%' OR A.SUMMARY LIKE '%${search_keyword}%')
+		  	AND (A.TITLE LIKE CONCAT('%',#{search_keyword},'%') OR A.SUMMARY LIKE CONCAT('%',#{search_keyword},'%'))
 		</if>
 
 	</select>
