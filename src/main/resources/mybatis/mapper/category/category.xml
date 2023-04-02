@@ -43,7 +43,7 @@
 			 ,SHOW_YN
 			 ,DELETE_YN
 			 ,'member' AS CATEGORY_TYPE
-		FROM MEM_DEFINE_MENU_CATEG
+		FROM USER_DEFINE_CATEGORY
 		WHERE 1=1
 		AND DELETE_YN = 'N'
 		<if test="!(memId==null or memId=='')">
@@ -55,7 +55,7 @@
 	</select>
 
 	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyColumn="id">
-		INSERT INTO MEM_DEFINE_MENU_CATEG(
+		INSERT INTO USER_DEFINE_CATEGORY(
 			 REG_ID
 			,REG_DATE
 			,UPT_ID
@@ -82,7 +82,7 @@
 	</insert>
 
 	<update id="update" parameterType="MemberCategoryParam">
-			UPDATE MEM_DEFINE_MENU_CATEG SET
+			UPDATE USER_DEFINE_CATEGORY SET
 			<if test="defalutCategId != null and defalutCategId != ''">
 				DEFALUT_CATEG_ID = #{defalutCategId} ,
 			</if>
