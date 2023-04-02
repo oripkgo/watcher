@@ -980,12 +980,16 @@ let comm = function(){
             return formObj;
         },
 
-        appendInput : function(form, name, value){
+        appendInput : function(form, name, value, isHideId){
             if( $("#"+name).length > 0 ){
                 $("#"+name).remove();
             }
 
-            $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+            if(isHideId){
+                $(form).append('<input type="hidden" name="'+name+'">');
+            }else{
+                $(form).append('<input type="hidden" name="'+name+'" id="'+name+'">');
+            }
 
             $(form).find("input[name='"+name+"']").val(value);
             return $(form).find("input[name='"+name+"']");
