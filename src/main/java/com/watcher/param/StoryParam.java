@@ -18,6 +18,7 @@ public class StoryParam extends StoryDto {
     private String tags;
 
     private String isOneYearData;
+    private String isMaxDataLimit;
 
     List id_list;
 
@@ -117,5 +118,13 @@ public class StoryParam extends StoryDto {
 
     public void setIsOneYearData(String isOneYearData) {
         this.isOneYearData = isOneYearData;
+    }
+
+    public String getIsMaxDataLimit() {
+        return isMaxDataLimit;
+    }
+
+    public void setIsMaxDataLimit(String isMaxDataLimit) {
+        this.isMaxDataLimit = isMaxDataLimit;
     }
 }

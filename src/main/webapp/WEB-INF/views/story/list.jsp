@@ -240,7 +240,7 @@
         comm.appendInput(recommendedListForm, "limitNum", "3");
         $(recommendedListForm).append('<ul class="story_wrap" id="RecommendedDataList'+id+'"></ul>')
 
-        comm.appendInput(defaultListForm, "isOneYearData", "YY");
+        comm.appendInput(defaultListForm, "isMaxDataLimit", "YY");
         comm.appendInput(defaultListForm, "SortByRecommendationYn", "NN");
         comm.appendInput(defaultListForm, "search_category_id", id);
         $(defaultListForm).append('<div class="story_wrap01"><ul id="defaultList'+id+'"></ul></div>');
