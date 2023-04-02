@@ -10,9 +10,18 @@
     const pagigRange = '${vo.pagigRange}' || '1';
     const listUrl = '/story/list/data';
 
+    const SEARCH_CATEGORY_ID = '${vo.search_category_id}';
+    const SEARCH_KEYWORD = '${vo.search_keyword}';
+
     $(document).on('ready',function(){
-        initKeywordSearch();
         initCategory();
+        initKeywordSearch();
+        if( SEARCH_CATEGORY_ID && SEARCH_KEYWORD ){
+            $("#seachCategory").val(SEARCH_CATEGORY_ID);
+            $("#keyword").val(SEARCH_KEYWORD);
+            $("#search").click();
+        }
+
     })
 
     function initCategory(){
@@ -58,7 +67,6 @@
 
             let keyword = $("#searchForm").find("#keyword").val();
 
-            comm.appendInput($('#defaultListForm' + id), 'search_keyword', keyword);
             comm.appendInput($('#defaultListForm' + id), 'search_keyword', keyword);
 
             // 기본 목록

@@ -32,8 +32,8 @@ public class NoticeService {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (
-                (noticeParam.getSearch_memId() == null || noticeParam.getSearch_memId().isEmpty()) &&
-                        (noticeParam.getSearch_level() == null || noticeParam.getSearch_level().isEmpty())) {
+            (noticeParam.getSearch_memId() == null || noticeParam.getSearch_memId().isEmpty()) &&
+                (noticeParam.getSearch_level() == null || noticeParam.getSearch_level().isEmpty())) {
             noticeParam.setSearch_level("9");
         }
 
@@ -58,7 +58,6 @@ public class NoticeService {
 
         result.put("code", "0000");
         result.put("message", "OK");
-
 
         return result;
     }
@@ -122,9 +121,9 @@ public class NoticeService {
                 fileParam.setUptId(noticeParam.getRegId());
 
                 fileService.upload(
-                        noticeParam.getAttachFiles(),
-                        fileUploadPath,
-                        fileParam
+                    noticeParam.getAttachFiles(),
+                    fileUploadPath,
+                    fileParam
                 );
             }
         }else{
@@ -139,9 +138,9 @@ public class NoticeService {
                 fileParam.setUptId(noticeParam.getRegId());
 
                 fileService.upload(
-                        noticeParam.getAttachFiles(),
-                        fileUploadPath,
-                        fileParam
+                    noticeParam.getAttachFiles(),
+                    fileUploadPath,
+                    fileParam
                 );
             }
         }

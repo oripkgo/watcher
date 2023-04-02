@@ -23,7 +23,6 @@
 		AND DELETE_YN = 'N'
 		AND SHOW_YN = 'Y'
 		ORDER BY SORT ASC
-
 	</select>
 
 
@@ -55,6 +54,7 @@
 	</select>
 
 	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyColumn="id">
+		/*category > insert*/
 		INSERT INTO USER_DEFINE_CATEGORY(
 			 REG_ID
 			,REG_DATE
@@ -82,6 +82,7 @@
 	</insert>
 
 	<update id="update" parameterType="MemberCategoryParam">
+			/*category > update*/
 			UPDATE USER_DEFINE_CATEGORY SET
 			<if test="defalutCategId != null and defalutCategId != ''">
 				DEFALUT_CATEG_ID = #{defalutCategId} ,

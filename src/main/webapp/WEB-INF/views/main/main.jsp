@@ -4,20 +4,65 @@
 
 <script type="text/javascript">
 	const keyword = {
+		listUrl : '/keyword/popular',
+		init : function(){
+			this.getPopularList();
+		},
+
 		search : function(obj){
 			if( event.type == 'keypress' && event.keyCode != 13 ){
 				return;
 			}
 
+			const $this = this;
 			const param = {};
 			param.keyword = $("#keyword").val();
 
-			comm.request({url:"/keyword/popular", method : "POST", data : JSON.stringify(param)},function(resp){
+			comm.request({url:"/keyword/search", method : "POST", data : JSON.stringify(param)},function(resp){
 				// 수정 성공
 				if( resp.code == '0000'){
+					$this.render(resp.list);
 				}
 			})
-		}
+		},
+
+		getPopularList : function(){
+			const $this = this;
+			comm.request({
+				url:this.listUrl,
+				method : "GET",
+				headers : {"Content-type":"application/x-www-form-urlencoded"}
+			},function(data){
+				if (data.code == '0000' && data.list) {
+					$this.render(data.list);
+				}
+			});
+		},
+
+		render: function (list) {
+			let $node = $('<a href="javascript:;"></a>');
+			$("#popularKeywordList").empty();
+			list.forEach(function (obj, idx) {
+				let $nodeCopy = $($node).clone(true);
+				let nodeHtml = '';
+
+				if (obj['CATEGORY_IMG_PATH']) {
+					nodeHtml += '<img src="' + obj['CATEGORY_IMG_PATH'] + '">';
+				}
+
+				nodeHtml += '<div>';
+				nodeHtml += '	<strong>' + obj['CATEGORY_NM'] + '</strong>';
+				nodeHtml += '	<span>#' + obj['TAGS'] + '</span>';
+				nodeHtml += '</div>';
+
+				$($nodeCopy).attr("href", getStoryListUrl(obj['CATEGORY_ID'], obj['TAGS']))
+
+				$($nodeCopy).data(obj);
+				$($nodeCopy).html(nodeHtml);
+
+				$("#popularKeywordList").append($nodeCopy);
+			})
+		},
 	}
 
 	const category = {
@@ -318,6 +363,7 @@
 		notice.init();
 		story.init();
 		category.init();
+		keyword.init();
 	})
 </script>
 <form name="mainNoticeForm" id="mainNoticeForm"></form>
@@ -712,8 +758,8 @@
 				<input type="text" onkeypress="keyword.search(this);" name="keyword" id="keyword" placeholder="나의 감성을 더해줄 이야기를 찾아보세요.">
 				<a href="javascript:;" onclick="keyword.search(this);"><img src="/resources/img/btn_search_b.png"></a>
 			</div>
-			<div class="keyword_box_wrap">
-				<a href="javascript:;">
+			<div class="keyword_box_wrap" id="popularKeywordList">
+				<%--<a href="javascript:;">
 					<img src="/resources/img/keyword01.jpg">
 					<div>
 						<strong>여행</strong>
@@ -775,7 +821,7 @@
 						<strong>여행</strong>
 						<span>#달고나만들기</span>
 					</div>
-				</a>
+				</a>--%>
 			</div>
 
 		</div>

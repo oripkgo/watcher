@@ -22,14 +22,16 @@ public class KeywordController {
     KeywordService keywordService;
 
     @RequestMapping(value = {"/popular"}, method = RequestMethod.GET)
+    @ResponseBody
     public LinkedHashMap<String, Object> getPopularKeywords(@ModelAttribute("vo") KeywordParam keywordParam) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        result.putAll(keywordService.getPopularKeywordList(keywordParam));
         return result;
     }
 
-    @RequestMapping(value = {"/popular"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/search"}, method = RequestMethod.POST)
     @ResponseBody
-    public LinkedHashMap<String, Object> setPopularKeyword(
+    public LinkedHashMap<String, Object> setKeywordSearch(
         HttpServletRequest request,
         @RequestBody KeywordParam keywordParam
     ) throws Exception {
@@ -38,7 +40,7 @@ public class KeywordController {
         keywordParam.setClientIp(RequestUtil.getClientIp(request));
         keywordParam.setClientId(new CookieUtil(request).getValue("JSESSIONID"));
 
-        keywordService.insert(keywordParam);
+        result.putAll(keywordService.insert(keywordParam));
 
         return result;
     }

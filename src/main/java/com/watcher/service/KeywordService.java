@@ -1,6 +1,5 @@
 package com.watcher.service;
 
-import com.watcher.mapper.BoardMapper;
 import com.watcher.mapper.KeywordMapper;
 import com.watcher.param.KeywordParam;
 import org.slf4j.Logger;
@@ -17,23 +16,52 @@ import java.util.Map;
 public class KeywordService {
     private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
+    private static int POPULAR_KEYWORD_LIMIT = 10;
+    private static int POPULAR_KEYWORD_SEARCH_LIMIT = 10;
+
     @Autowired
     KeywordMapper keywordMapper;
 
 
-    public Map<String, Object> insert(KeywordParam keywordParam){
+    public Map<String, Object> getPopularKeywordList(){
+        return this.getPopularKeywordList(null);
+    }
+
+
+    public Map<String, Object> getPopularKeywordList(KeywordParam keywordParam){
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        if( StringUtils.hasText(keywordParam.getKeyword())){
-            try{
+        Map<String,Object> param = new LinkedHashMap<>();
+        param.put("limit", POPULAR_KEYWORD_LIMIT);
+
+        if (keywordParam != null && StringUtils.hasText(keywordParam.getKeyword())) {
+            param.put("searchKeyword", keywordParam.getKeyword());
+            param.put("limit", POPULAR_KEYWORD_SEARCH_LIMIT);
+        }
+
+        result.put("list",keywordMapper.getPopularKeywordList(param));
+
+        result.put("code","0000");
+        result.put("message","OK");
+        return result;
+    }
+
+
+    public Map<String, Object> insert(KeywordParam keywordParam) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        if (StringUtils.hasText(keywordParam.getKeyword())) {
+            try {
                 keywordMapper.insert(keywordParam);
-            }catch (DuplicateKeyException e){
+            } catch (DuplicateKeyException e) {
                 LOGGER.debug("검색 키워드 중복");
             }
         }
 
-        result.put("code","0000");
-        result.put("message","OK");
+        result.putAll(this.getPopularKeywordList(keywordParam));
+
+        result.put("code", "0000");
+        result.put("message", "OK");
         return result;
     }
 }

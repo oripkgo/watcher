@@ -18,6 +18,7 @@
     globalVar.put("managementStatistics"   , "/management/statistics");
 
     // 메뉴 리스트
+    globalVar.put("storyUrlList"           , "/story/list"           );
     globalVar.put("storyUrlView"           , "/story/view"           );
     globalVar.put("storyUrlWrite"          , "/story/write"          );
     globalVar.put("noticeUrlView"          , "/notice/view"          );
@@ -35,12 +36,27 @@
     const loginId   = '${sessionScope.loginInfo.LOGIN_ID}';
     const loginType = '${sessionScope.loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
     const memberId  = '${sessionScope.loginInfo.ID}';
+    const storyUrlList = '${globalVar.storyUrlList}';
     const storyUrlView = '${globalVar.storyUrlView}';
     const storyUrlWrite = '${globalVar.storyUrlWrite}';
     const noticeUrlView = '${globalVar.noticeUrlView}';
     const noticeUrlWrite = '${globalVar.noticeUrlWrite}';
     const managementNotice = '${globalVar.managementNotice}';
     const nowStoryMemId = '${memId}';
+
+    const getStoryListUrl = function (categoryId, keyword) {
+        let listUrl = storyUrlList;
+
+        if( categoryId ){
+            listUrl += '?search_category_id=' + categoryId;
+        }
+
+        if( keyword ){
+            listUrl += '&search_keyword=' + keyword;
+        }
+
+        return listUrl;
+    }
 
     const getStoryViewUrl = function (id, memId) {
         return '/' + memId + storyUrlView + '?id=' + id;

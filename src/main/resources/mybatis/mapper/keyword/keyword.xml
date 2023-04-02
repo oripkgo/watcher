@@ -2,8 +2,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.mapper.KeywordMapper">
+	<select id="getPopularKeywordList" resultType="map" parameterType="map">
+		/*keyword > getPopularKeywordList*/
+		SELECT
+			A.REG_DATE,
+			A.TAGS,
+			A.CONTENTS_ID,
+			(SELECT COUNT(ID) FROM BOARD_TAGS WHERE FIND_IN_SET(A.TAGS, REPLACE(TAGS, ' ', ''))) AS CNT,
+			C.ID AS CATEGORY_ID,
+			C.CATEGORY_NM,
+			C.CATEGORY_IMG_PATH
+		FROM (
+			SELECT
+				SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(B.TAGS, ' ', ''), ',', A.IDX), ',', -1) AS TAGS,
+				B.CONTENTS_ID,
+				B.REG_DATE
+			FROM (
+				SELECT IDX FROM (
+					SELECT 1 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 2 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 3 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 4 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 5 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 6 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 7 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 8 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 9 AS IDX FROM DUAL
+					UNION ALL
+					SELECT 10 AS IDX FROM DUAL
+				) A
+			) A
+			<choose>
+				<when test="searchKeyword != null and searchKeyword != ''">
+					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY' AND B.TAGS LIKE concat('%',#{searchKeyword},'%')
+				</when>
+			    <otherwise>
+					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY'
+				</otherwise>
+			</choose>
+		) A
+		INNER JOIN STORY B ON B.ID = A.CONTENTS_ID
+		INNER JOIN CATEGORY C ON C.ID = B.CATEGORY_ID
+		GROUP BY TAGS
+		ORDER BY CNT DESC, REG_DATE DESC
+		LIMIT ${limit}
+	</select>
 
 	<insert id="insert" parameterType="keywordParam" useGeneratedKeys="true" keyColumn="id">
+		/*keyword > insert*/
 		INSERT INTO SEARCH_TERMS (
 			REG_ID,
 			REG_DATE,
@@ -22,6 +76,4 @@
 		   #{keyword}
 	   )
 	</insert>
-
-
 </mapper>

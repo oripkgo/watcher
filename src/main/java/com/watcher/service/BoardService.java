@@ -18,23 +18,19 @@ public class BoardService {
 
 
     public void views_count(String contentsType, String contentsId, String loginId) throws Exception {
-
         LinkedHashMap param = new LinkedHashMap();
 
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
 
         boardMapper.views_count(param);
-
     }
 
     public int comment_select_cnt(LinkedHashMap param) throws Exception {
         return boardMapper.comment_select_cnt(param);
-
     }
 
     public Map<String, Object> comment_select(LinkedHashMap param) throws Exception {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         List<Map<String,String>> list = boardMapper.comment_select(param);
@@ -45,18 +41,15 @@ public class BoardService {
         result.put("list", list);
 
         return result;
-
     }
 
     public Map<String, Object> comment_select_info(LinkedHashMap param) throws Exception {
-
         Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("cnt", comment_select_cnt(param));
         result.putAll(comment_select(param));
 
         return result;
-
     }
 
     public Map<String, String> comment_insert(LinkedHashMap param) throws Exception {
@@ -69,7 +62,6 @@ public class BoardService {
 
 
     public Map<String, String> comment_update(LinkedHashMap param) throws Exception {
-
         LinkedHashMap result = new LinkedHashMap();
         boardMapper.comment_update(param);
 
@@ -77,7 +69,6 @@ public class BoardService {
     }
 
     public Map<String, String> comment_delete(LinkedHashMap param) throws Exception {
-
         LinkedHashMap result = new LinkedHashMap();
         boardMapper.comment_delete(param);
 
@@ -87,7 +78,6 @@ public class BoardService {
 
 
     public Map<String, String> view_tags_select(String contentsType, String contentsId) throws Exception {
-
         LinkedHashMap param = new LinkedHashMap();
         Map<String, String> result = null;
 
@@ -103,12 +93,10 @@ public class BoardService {
         }
 
         return result;
-
     }
 
 
     public Map<String, String> view_like_yn_select(String contentsType, String contentsId, String loginId) throws Exception {
-
         LinkedHashMap param = new LinkedHashMap();
         Map<String, String> result = null;
 
@@ -123,7 +111,6 @@ public class BoardService {
         }
 
         return result;
-
     }
 
     public void like_insert(Map<String, Object> param) throws Exception {
@@ -132,7 +119,5 @@ public class BoardService {
 
     public void like_update(Map<String, Object> param) throws Exception {
         boardMapper.like_update(param);
-
     }
-
 }
