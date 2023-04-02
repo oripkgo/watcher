@@ -63,6 +63,10 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
+		<if test="isOneYearData == 'YY'">
+			AND (A.REG_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY) OR A.UPT_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY))
+		</if>
+
 		<choose>
 			<when test="search_secret_yn == 'ALL'">
 				AND A.SECRET_YN IN ('Y','N')
