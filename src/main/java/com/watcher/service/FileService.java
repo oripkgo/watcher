@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import sun.awt.image.ImageDecoder;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -45,6 +46,7 @@ public class FileService {
             String original_filename = file.getOriginalFilename();
             String server_filename = String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();
+            String extension = server_filename.substring(server_filename.lastIndexOf(".")+1);
 
             original_filename = changeFileSeparator(original_filename);
             server_filename = changeFileSeparator(server_filename);
@@ -62,17 +64,24 @@ public class FileService {
             String newFilePath = changeFileSeparator(fileUploadRootPath + upload_full_path + File.separator + server_filename);
             File newFileName = new File(newFilePath);
 
-            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-            Image image = bufferedImage.getScaledInstance(400, 400, Image.SCALE_DEFAULT);
+            BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
-            BufferedImage newImage = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
-            Graphics graphics = newImage.getGraphics();
-            graphics.drawImage(image, 0, 0, null);
-            graphics.dispose();
+            // 이미지 크기 결정
+            int scaledWidth = inputImage.getWidth() * 2;
+            int scaledHeight = inputImage.getHeight() * 2;
 
+            // 스케일링을 위한 BufferedImage 생성
+            BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
+
+            // Graphics2D를 이용한 스케일링
+            Graphics2D g2d = outputImage.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
+            g2d.dispose();
+
+            // 스케일링된 이미지 저장
             file.transferTo(newFileName);
-            ImageIO.write(newImage, "png", new File(newFilePath));
-
+            ImageIO.write(outputImage, extension, new File(newFilePath));
 
             fileParam.setRealFileName(original_filename);
             fileParam.setSavePath(upload_full_path);
