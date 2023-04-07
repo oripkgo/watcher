@@ -1,22 +1,15 @@
 package com.watcher.service;
 
 import com.watcher.config.WatcherConfig;
-import com.watcher.dto.FileDto;
-import com.watcher.mapper.BoardMapper;
 import com.watcher.mapper.FileMapper;
-import com.watcher.mapper.StoryMapper;
 import com.watcher.param.FileParam;
-import com.watcher.param.StoryParam;
-import jdk.nashorn.internal.runtime.regexp.joni.encoding.IntHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import sun.awt.image.ImageDecoder;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
