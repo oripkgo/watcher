@@ -35,7 +35,7 @@ public class LoginController {
 
 	@RequestMapping(value={"loginSuccess"})
 	public ModelAndView showLoginSuccessPage() throws Exception {
-		ModelAndView mav = new ModelAndView("login/loginSuccess");
+		ModelAndView mav = new ModelAndView("/login/naverLoginSuccess");
 		return mav;
 	}
 
