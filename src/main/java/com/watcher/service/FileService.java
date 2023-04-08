@@ -60,8 +60,8 @@ public class FileService {
             BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
             // 이미지 크기 결정
-            int scaledWidth = inputImage.getWidth() * 2;
-            int scaledHeight = inputImage.getHeight() * 2;
+            int scaledWidth = 1000;
+            int scaledHeight = 1000;
 
             // 스케일링을 위한 BufferedImage 생성
             BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
