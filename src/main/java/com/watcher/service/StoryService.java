@@ -107,6 +107,7 @@ public class StoryService {
 
         }
 
+        result.put("storyId", storyParam.getId());
         result.put("code", "0000");
         result.put("message", "OK");
 

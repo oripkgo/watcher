@@ -75,7 +75,7 @@
                 // 성공
                 if( res.code == '0000' ){
                     comm.message.alert('스토리가 '+(id?'수정':'등록')+'되었습니다.', function(){
-                        location.href="/story/list";
+                        location.href = getStoryViewUrl(res['storyId'], memberId);
                     });
                 }
             })
