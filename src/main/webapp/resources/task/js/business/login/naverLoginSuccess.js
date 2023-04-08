@@ -14,7 +14,6 @@ const naverLoginSuccess = {
             window.opener = window.open('', 'parentWindow');
         }
 
-        debugger;
         if( window.opener.login_success_callback ){
             window.opener.login_success_callback($.extend(window['inner_profileParams'],{"type":"naver"}));
         }
