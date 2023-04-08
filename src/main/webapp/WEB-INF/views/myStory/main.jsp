@@ -6,12 +6,12 @@
 <script type="text/javascript">
 
     const myStory_search_memberId   = '${memId}';
-    const notice_show_cnt           = 4;
     const pageNo                    = '${vo.pageNo}' || '1';
     const listNo                    = '${vo.listNo}' || '1';
     const pagigRange                = '${vo.pagigRange}' || '1';
     const categoryId                = '${vo.categoryId}';
     const member_category_list      = JSON.parse('${member_category_list}');
+    let notice_show_cnt             = 4;
 
 
     $(document).on("ready", function () {
@@ -129,6 +129,11 @@
             if( data.code == '0000' && ( data.list && data.list.length > 0 ) ){
 
                 $(".notice_list").empty();
+
+                if( notice_show_cnt > data.list.length ){
+                    notice_show_cnt = data.list.length;
+                }
+
                 for( let i=0;i<notice_show_cnt;i++ ){
                     const obj = data.list[i];
                     let li = $('<li></li>');
