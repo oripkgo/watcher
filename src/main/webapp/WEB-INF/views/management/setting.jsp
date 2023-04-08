@@ -3,30 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<script type="text/javascript" src="/resources/task/js/business/management/setting.js"></script>
 <script type="text/javascript">
     const managementInfo = JSON.parse('${managementInfo}');
 
     $(document).on("ready",function(){
-        initManagementInfo();
-    })
-
-    function initManagementInfo(){
         $("#commentPermStatus").val(managementInfo.COMMENT_PERM_STATUS);
-    }
-
-    function saveSettingInfo(){
-        comm.request({
-            url:"/management/setting/update",
-            method : "PUT",
-            form : $("#commentForm"),
-            headers: {"Content-type": "application/x-www-form-urlencoded"},
-        },function(resp){
-            // 성공
-            if( resp.code == '0000'){
-                comm.message.alert("스토리 설정정보가 저장되었습니다.");
-            }
-        })
-    }
+    })
 </script>
 <form id="commentForm" name="commentForm">
     <div class="section uline2">
@@ -38,7 +21,7 @@
                         댓글 설정
                         <div class="btn_tb_wrap">
                             <div class="btn_tb">
-                                <a href="javascript:;" class="on" onclick="saveSettingInfo()">변경사항 저장</a>
+                                <a href="javascript:;" class="on" onclick="settingObj.saveSettingInfo('#commentForm')">변경사항 저장</a>
                             </div>
                         </div>
                     </div>
