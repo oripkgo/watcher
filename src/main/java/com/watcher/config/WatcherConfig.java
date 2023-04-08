@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
@@ -129,5 +130,17 @@ public class WatcherConfig implements WebMvcConfigurer {
 	}
 	// DB 설정 (e)
 
+
+	/*
+	 * 로그인 인증 Interceptor 설정
+	 * */
+	@Autowired
+	CommonIntercepter commonIntercepter;
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(commonIntercepter)
+				.addPathPatterns("/**");
+	}
 
 }
