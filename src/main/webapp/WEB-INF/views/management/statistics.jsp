@@ -3,53 +3,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<script type="text/javascript" src="/resources/task/js/business/management/statistics.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        setVisitorFromSearch();
-        const d = new Date();
-        $(".manager_statistics_today").text(comm.date.getDate(d, '.') + ' ' + comm.date.getDayOfTheWeek(d));
+        $(".manager_statistics_today").text(statisticsObj.getTodayDateAndWeekday());
+
+        statisticsObj.setVisitorFromSearch(function(visitInfo){
+            $(".all",".searchVisitor").text( statisticsObj.getLocaleString(visitInfo['ALL_CNT']));
+            $(".naver",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['NAVER_CNT']));
+            $(".daum",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['DAUM_CNT']));
+            $(".google",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['GOOGLE_CNT']));
+            $(".zoom",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['ZOOM_CNT']));
+            $(".yahoo",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['YAHOO_CNT']));
+            $(".etc",".searchVisitor").text(statisticsObj.getLocaleString(visitInfo['ETC_CNT']));
+
+        });
 
         $('a','.btn_sort').on("click", function(){
-            IndicateButtonClicked(this);
+            $('a','.btn_sort').removeClass('on')
+            $(this).addClass('on');
         })
     })
-
-    function getLocaleString(numStr){
-        return (numStr*1).toLocaleString()
-    }
-
-    function setVisitorFromSearch(){
-        comm.request({url: "/visitor/search/cnt", method: "GET"}, function (resp) {
-            if (resp.code == '0000') {
-                $(".all",".searchVisitor").text( getLocaleString(resp['visitInfo']['ALL_CNT']));
-                $(".naver",".searchVisitor").text(getLocaleString(resp['visitInfo']['NAVER_CNT']));
-                $(".daum",".searchVisitor").text(getLocaleString(resp['visitInfo']['DAUM_CNT']));
-                $(".google",".searchVisitor").text(getLocaleString(resp['visitInfo']['GOOGLE_CNT']));
-                $(".zoom",".searchVisitor").text(getLocaleString(resp['visitInfo']['ZOOM_CNT']));
-                $(".yahoo",".searchVisitor").text(getLocaleString(resp['visitInfo']['YAHOO_CNT']));
-                $(".etc",".searchVisitor").text(getLocaleString(resp['visitInfo']['ETC_CNT']));
-            }
-        })
-    }
-
-    function IndicateButtonClicked(obj){
-        $('a','.btn_sort').removeClass('on')
-        $(obj).addClass('on');
-    }
 </script>
 
 <div class="section uline2">
     <div class="ani-in manage_layout">
-
         <div class="manage_conts">
-
             <%@include file="include/commMenu.jsp"%>
-
             <div class="manage_box_wrap">
-
                 <div class="title_box">방문 통계</div>
                 <%@include file="include/commVisitorInfo.jsp"%>
-
                 <br><br>
                 <div class="title_box">
                     <p class="manager_statistics_today">2021.11.30 목</p>
@@ -93,13 +76,8 @@
                         </li>
                     </ul>
                 </div>
-
-
                 <%@include file="include/commPopularArticles.jsp"%>
-
             </div><!-------------//manage_box_wrap------------->
-
         </div>
-
     </div>
 </div>
