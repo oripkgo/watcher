@@ -11,11 +11,11 @@
 <div class="manage_photo">
 
     <c:choose>
-        <c:when test="${!empty sessionScope.loginInfo}">
+        <c:when test="${!empty loginInfo}">
 
             <c:choose>
-                <c:when test="${!empty sessionScope.loginInfo.MEM_PROFILE_IMG }">
-                    <img src="${sessionScope.loginInfo.MEM_PROFILE_IMG}">
+                <c:when test="${!empty loginInfo.MEM_PROFILE_IMG }">
+                    <img src="${loginInfo.MEM_PROFILE_IMG}">
                 </c:when>
                 <c:otherwise>
                     <img src="/resources/img/member_ico_s.png">

@@ -5,6 +5,7 @@ import com.watcher.service.NoticeService;
 import com.watcher.dto.CommDto;
 import com.watcher.param.NoticeParam;
 
+import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +78,7 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+		Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
@@ -106,8 +107,8 @@ public class BoardController {
 		Map<String, Object> result = noticeService.view(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		if( request.getSession().getAttribute("loginInfo") == null
-				|| !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID")))){
+		if( RedisUtil.getSession(request.getSession().getId()) == null
+				|| !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID")))){
 			result.put("modify_authority_yn","N");
 		}else{
 			result.put("modify_authority_yn","Y");
@@ -129,8 +130,8 @@ public class BoardController {
 
 		LinkedHashMap param = new LinkedHashMap();
 
-		param.put("showYn"  ,"Y");
-		param.put("loginId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+		param.put("showYn"  	,"Y");
+		param.put("loginId"   	,RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
 
 		if( !(noticeParam.getId() == null || noticeParam.getId().isEmpty()) ){
 			mav.addAllObjects(noticeService.view(noticeParam));
@@ -150,7 +151,7 @@ public class BoardController {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 
-		Object loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+		Object loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
 
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
@@ -172,8 +173,8 @@ public class BoardController {
 
 		String loginId = "";
 
-		if( request.getSession().getAttribute("loginInfo") != null ){
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+		if( RedisUtil.getSession(request.getSession().getId()) != null ){
+			loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
 		}
 
 		String contentsType = String.valueOf(param.get("contentsType"));
@@ -235,8 +236,8 @@ public class BoardController {
 		String nickName = "";
 		String profile = "";
 
-		if( request.getSession().getAttribute("loginInfo") != null ){
-			Map<String, String> userData = ((Map<String, String>)request.getSession().getAttribute("loginInfo"));
+		if( RedisUtil.getSession(request.getSession().getId()) != null ){
+			Map<String, String> userData = RedisUtil.getSession(request.getSession().getId());
 
 			loginId = userData.get("LOGIN_ID");
 			nickName = userData.get("NICKNAME");
@@ -272,8 +273,8 @@ public class BoardController {
 
 		String loginId = "";
 
-		if( request.getSession().getAttribute("loginInfo") != null ){
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+		if( RedisUtil.getSession(request.getSession().getId()) != null ){
+			loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
 		}
 
 		LinkedHashMap comment_param = new LinkedHashMap();
@@ -327,10 +328,8 @@ public class BoardController {
 
 		String loginId = "";
 
-		if( request.getSession().getAttribute("loginInfo") != null ){
-
-			loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
-
+		if( RedisUtil.getSession(request.getSession().getId()) != null ){
+			loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
 		}
 
 		if( param.containsKey("likeId") && param.get("likeId") != null ){

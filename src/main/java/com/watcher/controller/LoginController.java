@@ -5,6 +5,7 @@ import com.watcher.service.LoginService;
 import com.watcher.service.MemberService;
 import com.watcher.util.HttpUtil;
 import com.watcher.param.LoginParam;
+import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,7 +104,7 @@ public class LoginController {
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
-			logOutParam.put("target_id"			, ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+			logOutParam.put("target_id"			, RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
 
 			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
 
@@ -111,7 +112,7 @@ public class LoginController {
 
 		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
 
-		request.getSession().removeAttribute("loginInfo");
+		RedisUtil.remove(request.getSession().getId());
 		Cookie cookie = new Cookie("userId",null);
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);

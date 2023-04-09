@@ -4,6 +4,7 @@ import com.watcher.param.VisitorParam;
 import com.watcher.service.VisitorService;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.DateUtil;
+import com.watcher.util.RedisUtil;
 import com.watcher.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class VisitorController {
             VisitorParam visitorParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorSearchCnt(visitorParam));
 
@@ -45,7 +46,7 @@ public class VisitorController {
             VisitorParam visitorParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorCnt(visitorParam));
 
@@ -60,7 +61,7 @@ public class VisitorController {
             VisitorParam visitorParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getChartVisitorCnt(visitorParam));
 
@@ -75,7 +76,7 @@ public class VisitorController {
             VisitorParam visitorParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getChartMonthVisitorCnt(visitorParam));
 

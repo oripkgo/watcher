@@ -32,8 +32,6 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Autowired
 	ApplicationContext applicationContext;
 
-
-
 	@Value("${db.url}")
 	String url;
 	@Value("${db.username}")

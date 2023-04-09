@@ -3,6 +3,7 @@ package com.watcher.service;
 import com.watcher.mapper.MemberMapper;
 import com.watcher.param.LoginParam;
 import com.watcher.param.MemberParam;
+import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class LoginService {
 
             Map<String, Object> userData = memberMapper.userSearch(memParam);
 
-            request.getSession().setAttribute("loginInfo", userData);
+            RedisUtil.setSession(request.getSession().getId(), userData);
         }
 
         result.put("code","0000");

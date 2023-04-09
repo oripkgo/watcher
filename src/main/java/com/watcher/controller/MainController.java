@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.watcher.service.MainService;
 
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -25,7 +26,7 @@ public class MainController {
 
 
 	@RequestMapping(value={"main","/"})
-	public ModelAndView showMainPage() throws Exception {
+	public ModelAndView showMainPage(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView("main/main");
 
 		JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());

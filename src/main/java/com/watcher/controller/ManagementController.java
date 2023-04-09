@@ -2,6 +2,7 @@ package com.watcher.controller;
 
 import com.watcher.param.*;
 import com.watcher.service.*;
+import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class ManagementController {
 
             LinkedHashMap param = new LinkedHashMap();
 
-            param.put("memId"     , ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID") );
+            param.put("memId"     , RedisUtil.getSession(request.getSession().getId()).get("ID") );
             //param.put("showYn"    , "Y"       );
 
             JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
@@ -66,7 +67,7 @@ public class ManagementController {
         }else if( "setting".equals(menu) ){
             mav = new ModelAndView("management/setting");
 
-            managementParam.setLoginId(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+            managementParam.setLoginId(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
             JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
             mav.addObject("managementInfo", managementDatas);
         }else if( "statistics".equals(menu) ){
@@ -85,7 +86,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         storyParam.setSearch_memId(String.valueOf(memId));
         storyParam.setSearch_secret_yn("ALL");
         storyParam.setSortByRecommendationYn("YY");
@@ -106,7 +107,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
         storyParam.setSearch_memId(String.valueOf(memId));
         storyParam.setSearch_secret_yn("ALL");
 
@@ -125,7 +126,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
 
@@ -143,7 +144,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
         storyParam.setSecretYn("Y");
@@ -162,7 +163,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
         storyParam.setSecretYn("N");
@@ -181,7 +182,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object memId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("ID"));
+        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
 
         noticeParam.setSearch_memId(String.valueOf(memId));
 
@@ -204,7 +205,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
 
@@ -223,7 +224,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
         noticeParam.setSecretYn("N");
@@ -243,7 +244,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
         noticeParam.setSecretYn("Y");
@@ -264,7 +265,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>) request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         memberCategoryParam.setRegId(String.valueOf(loginId));
         memberCategoryParam.setUptId(String.valueOf(loginId));
         memberCategoryParam.setLoginId(String.valueOf(loginId));
@@ -284,7 +285,7 @@ public class ManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        Object loginId = (((Map<String, String>) request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
         managementParam.setRegId(String.valueOf(loginId));
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));

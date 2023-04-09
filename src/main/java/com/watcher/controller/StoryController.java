@@ -3,6 +3,7 @@ package com.watcher.controller;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
+import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,8 @@ public class StoryController {
         result.putAll(storyService.view(storyParam));
 
         // 게시물 수정권한 여부 s
-        if( request.getSession().getAttribute("loginInfo") == null
-                || !(((Map)result.get("view")).get("REG_ID").equals(((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID")))){
+        if( RedisUtil.getSession(request.getSession().getId()) == null
+                || !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID")))){
             result.put("modify_authority_yn","N");
         }else{
             result.put("modify_authority_yn","Y");
@@ -61,7 +62,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+        String loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
         storyParam.setRegId(loginId);
         storyParam.setUptId(loginId);
 
@@ -84,7 +85,7 @@ public class StoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 
-        Object loginId = ((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID");
+        Object loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
 
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
@@ -106,8 +107,8 @@ public class StoryController {
         LinkedHashMap param = new LinkedHashMap();
 
 
-        param.put("showYn"  ,"Y");
-        param.put("loginId"   ,((Map<String, String>)request.getSession().getAttribute("loginInfo")).get("LOGIN_ID"));
+        param.put("showYn"      ,"Y");
+        param.put("loginId"     ,RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
         mav.addObject("category_list", jsonArray);

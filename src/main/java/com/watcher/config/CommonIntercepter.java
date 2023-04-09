@@ -1,5 +1,6 @@
 package com.watcher.config;
 
+import com.watcher.util.RedisUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +17,7 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        request.setAttribute("loginInfo", RedisUtil.getSession(request.getSession().getId()));
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 

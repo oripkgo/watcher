@@ -1,5 +1,6 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.LinkedHashMap" %>
+<%@ page import="org.springframework.data.redis.core.ValueOperations" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -26,16 +27,16 @@
     globalVar.put("noticeUrlUpdate"        , "/notice/update"         );
 
     request.setAttribute("globalVar" , globalVar);
-
 %>
 
 <script type="text/javascript">
+
     const refererUrl = '${header.referer}';
     const origin    = location.origin;
-    const loginYn   = '${sessionScope.loginInfo.LOGIN_ID}'    ?   true    :   false;
-    const loginId   = '${sessionScope.loginInfo.LOGIN_ID}';
-    const loginType = '${sessionScope.loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
-    const memberId  = '${sessionScope.loginInfo.ID}';
+    const loginYn   = '${loginInfo.LOGIN_ID}'    ?   true    :   false;
+    const loginId   = '${loginInfo.LOGIN_ID}';
+    const loginType = '${loginInfo.MEM_TYPE}' == '00' ? "naver" : "kakao";
+    const memberId  = '${loginInfo.ID}';
     const storyUrlList = '${globalVar.storyUrlList}';
     const storyUrlView = '${globalVar.storyUrlView}';
     const storyUrlWrite = '${globalVar.storyUrlWrite}';
