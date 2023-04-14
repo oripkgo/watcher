@@ -44,6 +44,7 @@
     const noticeUrlWrite = '${globalVar.noticeUrlWrite}';
     const managementNotice = '${globalVar.managementNotice}';
     const nowStoryMemId = '${memId}';
+    const apiToken = '${apiToken}';
 
     const getStoryListUrl = function (categoryId, keyword) {
         let listUrl = storyUrlList;

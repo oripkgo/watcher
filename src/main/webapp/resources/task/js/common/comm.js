@@ -717,6 +717,8 @@ let comm = function(){
                 type:opt.method || 'POST',
                 data : opt.data || null,
                 beforeSend: function (xhr) {
+                    xhr.setRequestHeader("authorization", 'Bearer '+apiToken);
+
                     if( opt.headers ){
                         $.map(opt.headers,function(val,key){
                             xhr.setRequestHeader(key,val);
