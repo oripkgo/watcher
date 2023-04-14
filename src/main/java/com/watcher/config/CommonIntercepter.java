@@ -17,7 +17,6 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
         // redis 세션 저장
         request.setAttribute("loginInfo", RedisUtil.getSession(request.getSession().getId()));
 
