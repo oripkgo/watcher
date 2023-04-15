@@ -10,9 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class CommonIntercepter implements HandlerInterceptor {
+    private static List compareValues = Arrays.asList(new String[]{"application/json", "application/x-www-form-urlencoded"});
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = (String)request.getSession().getAttribute("apiToken");
@@ -20,8 +24,8 @@ public class CommonIntercepter implements HandlerInterceptor {
         if( StringUtils.hasText(token) ){
             // 클라이언트에서 보낸 토큰과 서버 세션에 저장된 토큰이 일치한지 검증
             if(
-                    StringUtils.hasText(request.getHeader("Content-type")) &&
-                            "application/json".equals(request.getHeader("Content-type"))
+                StringUtils.hasText(request.getHeader("Content-type")) &&
+                compareValues.indexOf(request.getHeader("Content-type")) > -1
             ){
                 String authorization = request.getHeader("Authorization").replace("Bearer ", "");
 
