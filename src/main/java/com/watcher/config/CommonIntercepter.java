@@ -2,6 +2,7 @@ package com.watcher.config;
 
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,11 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 public class CommonIntercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         String token = (String)request.getSession().getAttribute("apiToken");
 
         if( StringUtils.hasText(token) ){
             // 클라이언트에서 보낸 토큰과 서버 세션에 저장된 토큰이 일치한지 검증
+            if(
+                    StringUtils.hasText(request.getHeader("Content-type")) &&
+                            "application/json".equals(request.getHeader("Content-type"))
+            ){
+                String authorization = request.getHeader("Authorization").replace("Bearer ", "");
+
+                if( !token.equals(authorization) ){
+                    throw new SignatureException("api 토큰검증 실패");
+                }
+            }
         }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
