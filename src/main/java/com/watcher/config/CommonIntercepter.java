@@ -43,11 +43,6 @@ public class CommonIntercepter implements HandlerInterceptor {
         // redis 세션 저장
         request.setAttribute("loginInfo", RedisUtil.getSession(request.getSession().getId()));
 
-        if( !StringUtils.hasText((String)request.getSession().getAttribute("apiToken")) ){
-            request.getSession().setAttribute("apiToken",JwtTokenUtil.createJWT(request.getSession().getId()));
-        }
-
-
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 
