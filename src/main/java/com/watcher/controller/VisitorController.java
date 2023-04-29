@@ -97,7 +97,7 @@ public class VisitorController {
         visitorParam.setRegMonthInquiry(DateUtil.getCurrentDay("yyyyMM"));
         visitorParam.setRegDateInquiry(DateUtil.getCurrentDay("yyyyMMdd"));
 
-        visitorService.insertVisitor(visitorParam);
+        result.putAll(visitorService.insertVisitor(visitorParam));
 
         return result;
     }
