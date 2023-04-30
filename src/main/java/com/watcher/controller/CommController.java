@@ -19,12 +19,16 @@ public class CommController {
     @Autowired
     StoryService storyService;
 
-    @RequestMapping(value = {"/category/list"})
+    @ResponseBody
+    @RequestMapping(value = {"/category/list"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> showStoryListPage(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
-        result.put("category_list", jsonArray);
+
+        result.put("category_list", jsonArray.toString());
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
