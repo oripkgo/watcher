@@ -18,8 +18,8 @@ public class LoginService {
     @Autowired
     MemberMapper memberMapper;
 
-    public Map<String,String> loginSuccessCallback(HttpServletRequest request, LoginParam loginVo) throws Exception{
-        Map<String,String> result = new HashMap<String,String>();
+    public Map<String, String> loginSuccessCallback(HttpServletRequest request, LoginParam loginVo) throws Exception {
+        Map<String, String> result = new HashMap<String, String>();
 
         if (!(loginVo.getId() == null || loginVo.getId().isEmpty())) {
 
@@ -33,6 +33,7 @@ public class LoginService {
             result.put("loginId", String.valueOf(userData.get("LOGIN_ID")));
             result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
             result.put("memberId", String.valueOf(userData.get("ID")));
+            result.put("memProfileImg", String.valueOf(userData.get("MEM_PROFILE_IMG")));
 
             String jwt = JwtTokenUtil.createJWT(request.getSession().getId());
             result.put("apiToken", jwt);
@@ -40,10 +41,10 @@ public class LoginService {
 
         }
 
-        result.put("sessionId",request.getSession().getId());
+        result.put("sessionId", request.getSession().getId());
 
-        result.put("code","0000");
-        result.put("message","OK");
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
