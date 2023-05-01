@@ -136,10 +136,13 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Autowired
 	CommonIntercepter commonIntercepter;
 
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(commonIntercepter)
-				.addPathPatterns("/**");
+				.addPathPatterns("/**")
+				.excludePathPatterns("/comm/token");
+
 	}
 
 	@Override
