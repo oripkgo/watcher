@@ -19,19 +19,14 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = (String)request.getSession().getAttribute("apiToken");
-
-        if( StringUtils.hasText(token) ){
-            // 클라이언트에서 보낸 토큰과 서버 세션에 저장된 토큰이 일치한지 검증
-            if(
+        if(
                 StringUtils.hasText(request.getHeader("Content-type")) &&
-                compareValues.indexOf(request.getHeader("Content-type")) > -1
-            ){
-                String authorization = request.getHeader("Authorization").replace("Bearer ", "");
+                        compareValues.indexOf(request.getHeader("Content-type")) > -1
+        ){
+            String authorization = request.getHeader("Authorization").replace("Bearer ", "");
 
-                if( !token.equals(authorization) ){
-                    throw new SignatureException("api 토큰검증 실패");
-                }
+            if( !JwtTokenUtil.verifyToken(authorization) ){
+                throw new SignatureException("api 토큰검증 실패");
             }
         }
 
@@ -40,9 +35,6 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        // redis 세션 저장
-        request.setAttribute("loginInfo", RedisUtil.getSession(request.getSession().getId()));
-
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 

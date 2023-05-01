@@ -5,6 +5,7 @@ import com.watcher.service.LoginService;
 import com.watcher.service.MemberService;
 import com.watcher.util.HttpUtil;
 import com.watcher.param.LoginParam;
+import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,6 +85,10 @@ public class LoginController {
 	) throws Exception {
 		Map<String,String> result = new HashMap<String,String>();
 
+		String sessionId = JwtTokenUtil.parseJwt(
+				request.getHeader("Authorization").replace("Bearer ", "")
+		).getBody().getId();
+
 		String logOutUrl = "";
 		Map<String, String> logOutHeaders = new LinkedHashMap<String,String>();
 		Map<String, String> logOutParam = new LinkedHashMap<String,String>();
@@ -97,22 +102,18 @@ public class LoginController {
 			logOutParam.put("client_secret"		,"nWJxzTmxwr");
 			logOutParam.put("access_token"		,loginVo.getAccess_token());
 			logOutParam.put("service_provider"	,"NAVER");
-
-
 		}else{
-
 			logOutUrl = "https://kapi.kakao.com/v1/user/unlink";
 
 			logOutParam.put("target_id_type"	, "user_id");
-			logOutParam.put("target_id"			, RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
+			logOutParam.put("target_id"			, RedisUtil.getSession(sessionId).get("LOGIN_ID"));
 
 			logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
-
 		}
 
 		HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
 
-		RedisUtil.remove(request.getSession().getId());
+		RedisUtil.remove(sessionId);
 		Cookie cookie = new Cookie("userId",null);
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);

@@ -29,7 +29,7 @@ public class LoginService {
 
             Map<String, Object> userData = memberMapper.userSearch(memParam);
 
-            RedisUtil.setSession(request.getSession().getId(), userData);
+
             result.put("loginId", String.valueOf(userData.get("LOGIN_ID")));
             result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
             result.put("memberId", String.valueOf(userData.get("ID")));
@@ -37,8 +37,10 @@ public class LoginService {
 
             String jwt = JwtTokenUtil.createJWT(request.getSession().getId());
             result.put("apiToken", jwt);
-            request.getSession().setAttribute("apiToken", jwt);
 
+            userData.put("apiToken", jwt);
+
+            RedisUtil.setSession(request.getSession().getId(), userData);
         }
 
         result.put("sessionId", request.getSession().getId());
