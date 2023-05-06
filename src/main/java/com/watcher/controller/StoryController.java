@@ -26,14 +26,14 @@ public class StoryController {
     StoryService storyService;
 
 
-    @RequestMapping(value = {"/{memId}/story/view"})
-    public ModelAndView showStoryView(
+    @RequestMapping(value = {"/{memId}/story/view"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> showStoryView(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("memId") String memId,
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
-        ModelAndView mav = new ModelAndView("story/view");
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         result.putAll(storyService.view(storyParam));
 
@@ -46,9 +46,7 @@ public class StoryController {
         }
         // 게시물 수정권한 여부 e
 
-        mav.addObject("result"  ,result);
-
-        return mav;
+        return result;
     }
 
 
