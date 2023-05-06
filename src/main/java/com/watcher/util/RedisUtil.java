@@ -21,7 +21,8 @@ public class RedisUtil {
 
     static private RedisTemplate<String, Object> redisTemplate;
 
-    static final int SECONDS = 30;
+    // 세션시간 30분
+    static final int SECONDS = (60*30);
 
     @Autowired
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
