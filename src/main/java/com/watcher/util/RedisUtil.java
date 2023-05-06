@@ -3,15 +3,10 @@ package com.watcher.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.session.Session;
-import org.springframework.session.data.redis.RedisOperationsSessionRepository;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -69,6 +64,5 @@ public class RedisUtil {
 
 //    final ValueOperations<String, RedisUserDto> valueOperations = redisTemplate.opsForValue();
 //    valueOperations.set(redisUserDto.getId(), redisUserDto);
-
 
 }
