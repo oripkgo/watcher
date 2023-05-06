@@ -188,6 +188,9 @@ public class BoardController {
 			result.put("loginYn","N");
 		}
 
+		result.put("code", "0000");
+		result.put("message", "OK");
+
 		return result;
 	}
 
@@ -217,6 +220,9 @@ public class BoardController {
 
 		commDto.setTotalCnt((int)comment_obj.get("cnt"));
 		result.put("vo", commDto);
+
+		result.put("code", "0000");
+		result.put("message", "OK");
 
 		return result;
 	}
@@ -347,6 +353,9 @@ public class BoardController {
 			boardService.like_insert(svc_param);
 			result.putAll(svc_param);
 		}
+
+		result.put("code", "0000");
+		result.put("message", "OK");
 
 		return result;
 	}
