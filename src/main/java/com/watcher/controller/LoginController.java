@@ -85,9 +85,7 @@ public class LoginController {
 	) throws Exception {
 		Map<String,String> result = new HashMap<String,String>();
 
-		String sessionId = JwtTokenUtil.parseJwt(
-				request.getHeader("Authorization").replace("Bearer ", "")
-		).getBody().getId();
+		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
 
 		String logOutUrl = "";
 		Map<String, String> logOutHeaders = new LinkedHashMap<String,String>();
