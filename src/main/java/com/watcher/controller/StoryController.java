@@ -97,31 +97,23 @@ public class StoryController {
         return result;
     }
 
-    @RequestMapping(value = {"/story/write","/story/update"})
-    public ModelAndView showStoryEditPage(
+    @RequestMapping(value = {"/story/write","/story/update"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> showStoryEditPage(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
-
     ) throws Exception {
-        ModelAndView mav = new ModelAndView("story/write");
-
-        LinkedHashMap param = new LinkedHashMap();
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
-
-        param.put("showYn"      ,"Y");
-        param.put("loginId"     ,RedisUtil.getSession(sessionId).get("LOGIN_ID"));
-
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
-        mav.addObject("category_list", jsonArray);
-
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
-            mav.addAllObjects(storyService.view(storyParam));
+            result.putAll(storyService.view(storyParam));
         }
 
+        result.put("code", "0000");
+        result.put("message", "OK");
 
-        return mav;
+        return result;
     }
 
 
