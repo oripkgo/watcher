@@ -95,4 +95,10 @@ public class JwtTokenUtil {
     static private Key getSignKey(){
         return Keys.hmacShaKeyFor(apikey.getBytes(StandardCharsets.UTF_8));
     }
+
+    static public String getId(String token){
+        Jws<Claims> claimsJws = parseJwt(token);
+        Claims claims = claimsJws.getBody();
+        return  claims.getId();
+    }
 }
