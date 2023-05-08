@@ -1,5 +1,6 @@
 package com.watcher.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watcher.service.BoardService;
 import com.watcher.service.NoticeService;
 import com.watcher.dto.CommDto;
@@ -40,17 +41,21 @@ public class BoardController {
 		return mav;
 	}
 
-
-	@RequestMapping(value={"/notice/list"})
-	public ModelAndView showNoticeListPage(
+	@RequestMapping(value={"/notice/list"}, method = RequestMethod.GET)
+	@ResponseBody
+	public LinkedHashMap<String, Object> showNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		ModelAndView mav = new ModelAndView("notice/list");
-		mav.addObject("noticeListUrl", "/notice/list/data");
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+		result.put("noticeListUrl", "/notice/list/data");
+		result.put("vo", new ObjectMapper().convertValue(noticeParam, Map.class));
 
-		return mav;
+		result.put("code","0000");
+		result.put("message", "OK");
+
+		return result;
 	}
 
 	@RequestMapping(value={"/notice/list/data"}, method = RequestMethod.GET)
