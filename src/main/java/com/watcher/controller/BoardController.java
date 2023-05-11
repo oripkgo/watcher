@@ -28,17 +28,23 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@RequestMapping(value={"/{memId}/notice/list"})
-	public ModelAndView showMemberNoticeListPage(
+	@RequestMapping(value = {"/{memId}/notice/list"})
+	@ResponseBody
+	public LinkedHashMap<String, Object> showMemberNoticeListPage(
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		ModelAndView mav = new ModelAndView("notice/list");
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
 		noticeParam.setSearch_memId(memId);
-		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+memId);
-		return mav;
+		result.put("vo", noticeParam);
+		result.put("noticeListUrl", "/notice/list/data?search_memId=" + memId);
+		result.put("code", "0000");
+		result.put("message", "OK");
+
+		return result;
 	}
 
 	@RequestMapping(value={"/notice/list"}, method = RequestMethod.GET)
@@ -94,36 +100,39 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = {"/notice/view",}, method = RequestMethod.GET)
-	public ModelAndView showNoticeViewPage(
+	@ResponseBody
+	public LinkedHashMap<String, Object> noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		return showNoticeViewPage(null, request, response, noticeParam);
+		return noticeView(null, request, response, noticeParam);
 	}
 
 	@RequestMapping(value={"/{memId}/notice/view"}, method = RequestMethod.GET)
-	public ModelAndView showNoticeViewPage(
+	@ResponseBody
+	public LinkedHashMap<String, Object> noticeView(
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		ModelAndView mav = new ModelAndView("notice/view");
-		Map<String, Object> result = noticeService.view(noticeParam);
+		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
+
+		Map<String, Object> noticeInfo = noticeService.view(noticeParam);
 
 		// 게시물 수정권한 여부 s
 		if( RedisUtil.getSession(request.getSession().getId()) == null
-				|| !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID")))){
-			result.put("modify_authority_yn","N");
+				|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID")))){
+			noticeInfo.put("modify_authority_yn","N");
 		}else{
-			result.put("modify_authority_yn","Y");
+			noticeInfo.put("modify_authority_yn","Y");
 		}
 		// 게시물 수정권한 여부 e
 
-		mav.addObject("result", result);
+		result.putAll(noticeInfo);
 
-		return mav;
+		return result;
 	}
 
 	@RequestMapping(value = {"/notice/write","/notice/update"})
