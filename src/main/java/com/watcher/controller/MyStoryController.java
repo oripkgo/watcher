@@ -28,29 +28,34 @@ public class MyStoryController {
 
 
     @RequestMapping(value = {"/{memId}/myStory/{categoryId}"})
-    public ModelAndView showMyStoryCategoryListPage(
+    @ResponseBody
+    public LinkedHashMap<String, Object> getMyStoryCategory(
             HttpServletRequest request,
             @PathVariable("memId") String memId,
             @PathVariable("categoryId") String categoryId,
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
-        ModelAndView mav = new ModelAndView("myStory/main");
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
         LinkedHashMap param = new LinkedHashMap();
 
-        param.put("showYn"    , "Y"       );
-        param.put("memId"     , memId    );
-
+        param.put("showYn", "Y");
+        param.put("memId", memId);
 
         JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
 
         storyParam.setListNo(10);
-        mav.addObject("member_category_list", member_category_list);
         storyParam.setCategoryId(categoryId);
-        mav.addObject("memId",memId);
-        mav.addObject("categoryListYn","Y");
 
-        return mav;
+        result.put("member_category_list", member_category_list.toString());
+        result.put("memId", memId);
+        result.put("categoryListYn", "Y");
+        result.put("vo", storyParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
     }
 
 
