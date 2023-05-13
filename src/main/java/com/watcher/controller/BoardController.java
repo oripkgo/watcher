@@ -28,17 +28,23 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 
-	@RequestMapping(value={"/{memId}/notice/list"})
-	public ModelAndView showMemberNoticeListPage(
+	@RequestMapping(value = {"/{memId}/notice/list"})
+	@ResponseBody
+	public LinkedHashMap<String, Object> showMemberNoticeListPage(
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		ModelAndView mav = new ModelAndView("notice/list");
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
 		noticeParam.setSearch_memId(memId);
-		mav.addObject("noticeListUrl", "/notice/list/data?search_memId="+memId);
-		return mav;
+		result.put("vo", noticeParam);
+		result.put("noticeListUrl", "/notice/list/data?search_memId=" + memId);
+		result.put("code", "0000");
+		result.put("message", "OK");
+
+		return result;
 	}
 
 	@RequestMapping(value={"/notice/list"}, method = RequestMethod.GET)
