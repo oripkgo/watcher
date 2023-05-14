@@ -1,9 +1,14 @@
 package com.watcher.controller;
 
 import com.watcher.dto.CommDto;
+import com.watcher.enums.ErrorCode;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
 import com.watcher.util.JwtTokenUtil;
+import com.watcher.util.RedisUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.security.SignatureException;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,22 +52,32 @@ public class CommController {
 
         String token = resultMap.get("token");
         String apiToken = "";
+        String loginYn = "N";
+        String code = "0000";
+        String msg = "OK";
+        String id = UUID.randomUUID().toString();
 
         if(StringUtils.hasText(token)){
             try{
-                apiToken = JwtTokenUtil.extendExpirationTime(token);
+                String sessionId = JwtTokenUtil.getId(token);
+                if( RedisUtil.getSession(sessionId) == null ){
+                    apiToken = JwtTokenUtil.createJWT(id);
+
+                }else{
+                    loginYn = "Y";
+                    apiToken = JwtTokenUtil.createJWT(sessionId);
+                }
             }catch (Exception e){
-                result.put("code", "9999");
-                result.put("message", "토큰 검증을 실패하였습니다.");
+                apiToken = JwtTokenUtil.createJWT(id);
             }
         }else{
-            String uuid = UUID.randomUUID().toString();
-            apiToken = JwtTokenUtil.createJWT(uuid);
+            apiToken = JwtTokenUtil.createJWT(id);
         }
 
+        result.put("loginYn", loginYn);
         result.put("apiToken", apiToken);
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", code);
+        result.put("message", msg);
 
         return result;
     }
