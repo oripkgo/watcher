@@ -15,10 +15,25 @@ public class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex){
+    public ResponseEntity<ErrorResponse> handleSignatureException(Exception ex){
         logger.error("SignatureException",ex);
 
         ErrorResponse response = new ErrorResponse(ErrorCode.ERROR_2001);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex){
+        logger.error("Exception",ex);
+
+        ErrorResponse response;
+
+        try{
+            response = new ErrorResponse(ErrorCode.valueOf("ERROR_"+ex.getMessage()));
+        }catch (IllegalArgumentException ex2){
+            response = new ErrorResponse(ErrorCode.valueOf("ERROR_9999"));
+        }
+
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
     }
 }
