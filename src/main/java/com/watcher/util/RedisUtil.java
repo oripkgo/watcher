@@ -56,7 +56,7 @@ public class RedisUtil {
     }
 
     static public Map<String, String> getSession(String id) {
-        redisTemplate.expire(id, SECONDS, TimeUnit.MINUTES);
+        redisTemplate.expire(id, SECONDS, TimeUnit.SECONDS);
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         final Object result = valueOperations.get(id);
         return (Map<String, String>)result;
