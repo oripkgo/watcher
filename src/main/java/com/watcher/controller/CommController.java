@@ -31,7 +31,7 @@ public class CommController {
 
     @ResponseBody
     @RequestMapping(value = {"/category/list"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> showStoryListPage(@ModelAttribute("vo") CommDto commDto) throws Exception {
+    public LinkedHashMap<String, Object> getCategoryList(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
