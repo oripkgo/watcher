@@ -1,20 +1,17 @@
 package com.watcher.controller;
 
 import com.watcher.dto.CommDto;
-import com.watcher.enums.ErrorCode;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.security.SignatureException;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -30,12 +27,30 @@ public class CommController {
 
     @ResponseBody
     @RequestMapping(value = {"/category/list"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> showStoryListPage(@ModelAttribute("vo") CommDto commDto) throws Exception {
+    public LinkedHashMap<String, Object> getCategoryList(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
 
         result.put("category_list", jsonArray.toString());
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = {"/category/list/member"}, method = RequestMethod.GET)
+    public LinkedHashMap<String, Object> getCategoryListMember(HttpServletRequest request) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        LinkedHashMap<String, Object> param = new LinkedHashMap<>();
+        param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.member_category_list(param));
+
+        result.put("member_category_list", jsonArray.toString());
         result.put("code", "0000");
         result.put("message", "OK");
 

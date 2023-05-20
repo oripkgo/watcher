@@ -2,10 +2,7 @@ package com.watcher.controller;
 
 import com.watcher.param.VisitorParam;
 import com.watcher.service.VisitorService;
-import com.watcher.util.CookieUtil;
-import com.watcher.util.DateUtil;
-import com.watcher.util.RedisUtil;
-import com.watcher.util.RequestUtil;
+import com.watcher.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +27,10 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
+        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorSearchCnt(visitorParam));
 
@@ -45,8 +44,10 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
+        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorCnt(visitorParam));
 
@@ -60,8 +61,10 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
+        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getChartVisitorCnt(visitorParam));
 
@@ -75,8 +78,10 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(request.getSession().getId()).get("ID"));
+        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getChartMonthVisitorCnt(visitorParam));
 
