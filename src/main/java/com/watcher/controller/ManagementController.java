@@ -71,6 +71,9 @@ public class ManagementController {
 
         }
 
+        result.put("code", "0000");
+        result.put("message", "OK");
+
         return result;
     }
 
@@ -133,7 +136,7 @@ public class ManagementController {
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
 
-        storyService.deleteStorys(storyParam);
+        result.putAll(storyService.deleteStorys(storyParam));
 
         return result;
     }
@@ -154,7 +157,7 @@ public class ManagementController {
         storyParam.setUptId(String.valueOf(loginId));
         storyParam.setSecretYn("Y");
 
-        storyService.updateStorys(storyParam);
+        result.putAll(storyService.updateStorys(storyParam));
 
         return result;
     }
