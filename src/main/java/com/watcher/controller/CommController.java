@@ -1,14 +1,10 @@
 package com.watcher.controller;
 
 import com.watcher.dto.CommDto;
-import com.watcher.enums.ErrorCode;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.security.SignatureException;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
