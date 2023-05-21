@@ -125,6 +125,10 @@
 			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
 
+		<if test="search_member_category_id != null and search_member_category_id != ''">
+			AND A.MEMBER_CATEGORY_ID = #{search_member_category_id}
+		</if>
+
  		<if test="search_keyword != null and search_keyword != ''">
 			AND (
 				A.TITLE LIKE CONCAT('%',#{search_keyword},'%')
