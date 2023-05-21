@@ -57,6 +57,25 @@ public class CommController {
         return result;
     }
 
+    @ResponseBody
+    @RequestMapping(value = {"/category/list/member/public"}, method = RequestMethod.GET)
+    public LinkedHashMap<String, Object> getCategoryListMemberPublic(HttpServletRequest request) throws Exception {
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        LinkedHashMap<String, Object> param = new LinkedHashMap<>();
+        param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
+        param.put("showYn", "Y");
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.member_category_list(param));
+
+        result.put("member_category_list", jsonArray.toString());
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
 
     @ResponseBody
     @RequestMapping(value = {"/token"}, method = RequestMethod.POST)
