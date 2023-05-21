@@ -1,6 +1,5 @@
 package com.watcher.controller;
 
-import com.watcher.param.LoginParam;
 import com.watcher.param.StoryParam;
 import com.watcher.service.CategoryService;
 import com.watcher.service.StoryService;
@@ -8,13 +7,10 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MyStoryController {
