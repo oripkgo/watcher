@@ -10,18 +10,16 @@ public class StoryParam extends StoryDto {
     private String search_id;
     private String search_keyword;
     private String search_category_id;
+    private String search_member_category_id;
     private String search_memId;
     private String search_secret_yn;
     private String SortByRecommendationYn;
     private String limitNum;
     private String category_nm;
     private String tags;
-
     private String isOneYearData;
-
-    List id_list;
-
-    MultipartFile thumbnailImgPathParam;
+    private List id_list;
+    private MultipartFile thumbnailImgPathParam;
 
     public String getSearch_id() {
         return search_id;
@@ -45,6 +43,14 @@ public class StoryParam extends StoryDto {
 
     public void setSearch_category_id(String search_category_id) {
         this.search_category_id = search_category_id;
+    }
+
+    public String getSearch_member_category_id() {
+        return search_member_category_id;
+    }
+
+    public void setSearch_member_category_id(String search_member_category_id) {
+        this.search_member_category_id = search_member_category_id;
     }
 
     public String getSearch_memId() {
