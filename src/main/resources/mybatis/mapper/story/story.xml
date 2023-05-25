@@ -60,6 +60,7 @@
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
 		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE WHERE LIKE_TYPE='01' AND CANCEL_YN='N' GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
+		LEFT JOIN USER_DEFINE_CATEGORY G ON G.ID = A.MEMBER_CATEGORY_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
@@ -165,6 +166,7 @@
 			A.ID,
 			A.CATEGORY_ID,
 			A.MEMBER_CATEGORY_ID,
+		    G.CATEGORY_NM AS MEMBER_CATEGORY_NM,
 			A.TITLE,
 			A.CONTENTS,
 		    D.REAL_FILE_NAME,
@@ -197,7 +199,7 @@
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
 		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE WHERE LIKE_TYPE='01' AND CANCEL_YN='N' GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
-
+		LEFT JOIN USER_DEFINE_CATEGORY G ON G.ID = A.MEMBER_CATEGORY_ID
 	</sql>
 
 
@@ -215,7 +217,6 @@
 		<if test="title != null and title != ''">
 			TITLE = #{title} ,
 		</if>
-
 
 		<if test="contents != null and contents != ''">
 			CONTENTS = #{contents} ,
@@ -257,7 +258,6 @@
 	</update>
 
 	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyProperty="id">
-
 		INSERT INTO STORY(
 			 REG_ID
 			,REG_DATE
