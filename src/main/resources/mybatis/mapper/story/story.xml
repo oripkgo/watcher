@@ -218,7 +218,6 @@
 			TITLE = #{title} ,
 		</if>
 
-
 		<if test="contents != null and contents != ''">
 			CONTENTS = #{contents} ,
 		</if>
@@ -259,7 +258,6 @@
 	</update>
 
 	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyProperty="id">
-
 		INSERT INTO STORY(
 			 REG_ID
 			,REG_DATE
