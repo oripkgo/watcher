@@ -150,6 +150,8 @@ public class BoardController {
 		param.put("showYn"  	,"Y");
 		param.put("loginId"   	,RedisUtil.getSession(sessionId).get("LOGIN_ID"));
 
+		result.put("code", "0000");
+		result.put("message", "OK");
 		if( !(noticeParam.getId() == null || noticeParam.getId().isEmpty()) ){
 			result.putAll(noticeService.view(noticeParam));
 		}
