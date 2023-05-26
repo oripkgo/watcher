@@ -205,6 +205,9 @@ public class ManagementController {
         result.putAll(noticeService.list(noticeParam));
         result.put("vo", noticeParam);
 
+        result.put("code", "0000");
+        result.put("message", "OK");
+
         return result;
     }
 
