@@ -11,7 +11,6 @@ import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,7 +79,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value = {"/notice/delete"})
+	@RequestMapping(value = {"/notice/delete"}, method = RequestMethod.DELETE)
 	@ResponseBody
 	public LinkedHashMap<String, Object> deleteNotice(
 			HttpServletRequest request,
@@ -88,9 +87,10 @@ public class BoardController {
 			@RequestBody NoticeParam noticeParam
 
 	) throws Exception {
+		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = (RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
+		Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
@@ -117,13 +117,14 @@ public class BoardController {
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
+		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
 		Map<String, Object> noticeInfo = noticeService.view(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		if( RedisUtil.getSession(request.getSession().getId()) == null
-				|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID")))){
+		if( RedisUtil.getSession(sessionId) == null
+				|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))){
 			noticeInfo.put("modify_authority_yn","N");
 		}else{
 			noticeInfo.put("modify_authority_yn","Y");
@@ -136,23 +137,24 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = {"/notice/write","/notice/update"})
-	public ModelAndView showNoticeEditPage(
+	@ResponseBody
+	public LinkedHashMap showNoticeEditPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		ModelAndView mav = new ModelAndView("notice/write");
-
+		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		LinkedHashMap result = new LinkedHashMap();
 		LinkedHashMap param = new LinkedHashMap();
 
 		param.put("showYn"  	,"Y");
-		param.put("loginId"   	,RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID"));
+		param.put("loginId"   	,RedisUtil.getSession(sessionId).get("LOGIN_ID"));
 
 		if( !(noticeParam.getId() == null || noticeParam.getId().isEmpty()) ){
-			mav.addAllObjects(noticeService.view(noticeParam));
+			result.putAll(noticeService.view(noticeParam));
 		}
 
-		return mav;
+		return result;
 	}
 
 	@RequestMapping(value = {"/notice/insert"})
@@ -162,11 +164,11 @@ public class BoardController {
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-
+		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 
-		Object loginId = RedisUtil.getSession(request.getSession().getId()).get("LOGIN_ID");
+		Object loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
 
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
