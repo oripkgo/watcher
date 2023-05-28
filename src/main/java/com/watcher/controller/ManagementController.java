@@ -66,7 +66,7 @@ public class ManagementController {
         }else if( "setting".equals(menu) ){
             managementParam.setLoginId(RedisUtil.getSession(sessionId).get("LOGIN_ID"));
             JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
-            result.put("managementInfo", managementDatas);
+            result.put("managementInfo", managementDatas.toString());
         }else if( "statistics".equals(menu) ){
 
         }
