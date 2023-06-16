@@ -61,7 +61,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 	}
 
 
-	// tiles (s)
+	/*// tiles (s)
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 
@@ -80,7 +80,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 		tilesViewResolver.setViewClass(TilesView.class);
 		return tilesViewResolver;
 	}
-	// tiles (e)
+	// tiles (e)*/
 
 
 	// DB 설정 (s)

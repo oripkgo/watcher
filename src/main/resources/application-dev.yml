@@ -1,3 +1,7 @@
+log:
+  path: /watcher/log
+  file: applicationLog
+
 logging:
   config: classpath:watcher-dev-logback.xml
 
