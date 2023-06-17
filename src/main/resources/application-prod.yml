@@ -1,6 +1,3 @@
-logging:
-  config: classpath:watcher-prod-logback.xml
-
 spring:
   config:
     activate:
@@ -32,3 +29,9 @@ db:
 
 server:
   port: 8081
+
+logging:
+  config: classpath:watcher-prod-logback.xml
+  file:
+    name: catalina
+    path: ${WATCHER_WAS_LOG}

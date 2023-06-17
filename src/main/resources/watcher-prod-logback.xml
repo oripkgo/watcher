@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 60초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
 <configuration scan="true" scanPeriod="60 seconds">
+	<springProperty scope="context" name="LOG_PATH" source="logging.file.path" defaultValue="logs" />
+	<springProperty scope="context" name="LOG_FILE" source="logging.file.name" defaultValue="logs" />
 
-	<!-- 로그 파일이 저장될 경로 -->
-	<property name="LOG_PATH" value="${log.path}"/>
-	<!-- 로그 파일 이름 -->
-	<property name="LOG_FILE" value="${log.file}"/>
+	<!--<Property name="LOG_PATH" value="${logging.file.path}"/>
+	<Property name="LOG_FILE" value="${logging.file.name}"/>-->
 
 	<!-- 로그 출력 패턴 -->
 	<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%logger{40}] - %msg%n"/>
