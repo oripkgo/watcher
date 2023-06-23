@@ -20,9 +20,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
-import org.springframework.web.servlet.view.tiles3.TilesView;
-import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import java.io.File;
 
@@ -49,6 +46,9 @@ public class WatcherConfig implements WebMvcConfigurer {
 	private String resourcePath;
 
 	static public String file_separator;
+
+	@Value("${cors.origin}")
+	private String corsOrigin;
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -149,7 +149,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-				.allowedOrigins("http://localhost:8081","http://localhost:8080")
+				.allowedOrigins(corsOrigin)
 				.allowedMethods(
 						HttpMethod.GET.name(),
 						HttpMethod.HEAD.name(),
