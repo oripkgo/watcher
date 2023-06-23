@@ -1,3 +1,7 @@
+cors:
+  origin: ${WATCHER_CORS_ORIGIN}
+  method: GET,POST,PUT,DELETE
+
 spring:
   config:
     activate:
