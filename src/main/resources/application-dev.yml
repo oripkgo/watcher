@@ -1,3 +1,5 @@
+server_domain: localhost
+
 naver:
   client:
     id: ThouS3nsCEwGnhkMwI1I
