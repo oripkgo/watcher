@@ -8,6 +8,7 @@ import com.watcher.param.LoginParam;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,12 @@ public class LoginController {
 
 	@Autowired
 	MemberService memberService;
+
+	@Value("${naver.client.id}")
+	String naverClientId;
+
+	@Value("${naver.client.secret}")
+	String naverClientSecret;
 
 	@RequestMapping(value={"loginSuccess"})
 	public ModelAndView showLoginSuccessPage() throws Exception {
@@ -96,8 +103,8 @@ public class LoginController {
 			logOutUrl = "https://nid.naver.com/oauth2.0/token";
 
 			logOutParam.put("grant_type"		,"delete");
-			logOutParam.put("client_id"			,"ThouS3nsCEwGnhkMwI1I");
-			logOutParam.put("client_secret"		,"nWJxzTmxwr");
+			logOutParam.put("client_id"			,naverClientId);
+			logOutParam.put("client_secret"		,naverClientSecret);
 			logOutParam.put("access_token"		,loginVo.getAccess_token());
 			logOutParam.put("service_provider"	,"NAVER");
 		}else{

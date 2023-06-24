@@ -1,3 +1,8 @@
+naver:
+  client:
+    id: r_P2RApQNgYR3fttFpHz
+    secret: kc57YTY7h0
+
 cors:
   origin: ${WATCHER_CORS_ORIGIN}
   method: GET,POST,PUT,DELETE
