@@ -1,3 +1,5 @@
+server_domain: ${WATCHER_DOMAIN}
+
 naver:
   client:
     id: r_P2RApQNgYR3fttFpHz
@@ -15,7 +17,7 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: D://watcher/upload
+      location: /home/ec2-user/watcher/upload
       max-file-size: 128MB
       max-request-size: 128MB
 
@@ -26,7 +28,7 @@ spring:
     port: 6379
 
 upload:
-  root: D://
+  root: /home/ec2-user
   path: /watcher/upload
 
 db:

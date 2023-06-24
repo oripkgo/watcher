@@ -3,6 +3,7 @@ package com.watcher.service;
 import com.watcher.mapper.VisitorMapper;
 import com.watcher.param.VisitorParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,9 @@ public class VisitorService {
 
     @Autowired
     VisitorMapper visitorMapper;
+
+    @Value("${server_domain}")
+    String serverDomain;
 
 
     @Transactional
@@ -80,7 +84,7 @@ public class VisitorService {
         LinkedHashMap result = new LinkedHashMap();
 
         String accessTargets[] = new String[]{"naver","daum","yahoo","google","zoom"};
-        String local = "localhost";
+        String local = serverDomain;
 
         for(String target:accessTargets){
             if( visitorParam.getAccessPath().indexOf(target) > -1){
