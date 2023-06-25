@@ -1,7 +1,6 @@
 package com.watcher.service;
 
 import com.watcher.mapper.CategoryMapper;
-import com.watcher.param.CategoryParam;
 import com.watcher.param.MemberCategoryParam;
 import org.json.JSONArray;
 import org.json.JSONObject;
