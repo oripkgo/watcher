@@ -84,7 +84,11 @@ public class StoryService {
                 tag_update_param.put("regId"        , storyParam.getRegId()     );
                 tag_update_param.put("uptId"        , storyParam.getUptId()     );
 
-                boardMapper.tag_update(tag_update_param);
+                if( storyParam.getTagsId().isEmpty() ){
+                    boardMapper.tag_insert(tag_update_param);
+                }else{
+                    boardMapper.tag_update(tag_update_param);
+                }
             }
 
             if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
