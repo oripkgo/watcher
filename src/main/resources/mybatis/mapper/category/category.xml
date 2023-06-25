@@ -53,7 +53,7 @@
 		</if>
 	</select>
 
-	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyColumn="id">
+	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		/*category > insert*/
 		INSERT INTO USER_DEFINE_CATEGORY(
 			 REG_ID

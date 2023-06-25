@@ -63,7 +63,7 @@ public class CategoryService {
     @Transactional
     public Map<String, String> insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-
+        JSONObject insertIds = new JSONObject();
         JSONArray jsonArr = new JSONArray(memberCategoryParam.getParamJson());
 
         for(int i=0;i<jsonArr.length();i++){
@@ -81,6 +81,7 @@ public class CategoryService {
 
             if(obj.isNull("ID")){
                 categoryMapper.insert(InsertOrUpdateParam);
+                insertIds.put(String.valueOf(obj.get("TAG_ID")), InsertOrUpdateParam.getId());
             }else{
                 InsertOrUpdateParam.setDeleteYn(obj.getString("DELETE_YN"));
                 InsertOrUpdateParam.setId(String.valueOf(obj.getInt("ID")));
@@ -88,6 +89,7 @@ public class CategoryService {
             }
         }
 
+        result.put("insertIds", insertIds.toString());
         result.put("code", "0000");
         result.put("message", "OK");
 
