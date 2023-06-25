@@ -18,6 +18,9 @@ import java.util.List;
 
 @Service
 public class FileService {
+    // 이미지 크기 결정
+    private int scaledWidth = 1000;
+    private int scaledHeight = 1000;
 
     @Autowired
     FileMapper fileMapper;
@@ -35,7 +38,6 @@ public class FileService {
         long millis = System.currentTimeMillis();
 
         for(MultipartFile file : uploadFiles){
-
             String original_filename = file.getOriginalFilename();
             String server_filename = String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();
@@ -59,10 +61,6 @@ public class FileService {
 
             BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
-            // 이미지 크기 결정
-            int scaledWidth = 1000;
-            int scaledHeight = 1000;
-
             // 스케일링을 위한 BufferedImage 생성
             BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, BufferedImage.TYPE_INT_RGB);
 
@@ -83,7 +81,6 @@ public class FileService {
 
             fileMapper.insert(fileParam);
             result.add(Integer.valueOf(fileParam.getId()));
-
         }
 
         return result;
@@ -105,9 +102,10 @@ public class FileService {
     }
 
     private String changeFileSeparator(String path){
-        return path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
+        if( "\\".equals(WatcherConfig.file_separator) ){
+            return path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
+        }
+
+        return path.replaceAll("/", WatcherConfig.file_separator);
     }
-
-
-
 }
