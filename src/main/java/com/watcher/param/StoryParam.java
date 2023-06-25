@@ -16,6 +16,7 @@ public class StoryParam extends StoryDto {
     private String SortByRecommendationYn;
     private String limitNum;
     private String category_nm;
+    private String tagsId;
     private String tags;
     private String isOneYearData;
     private List id_list;
@@ -91,6 +92,14 @@ public class StoryParam extends StoryDto {
 
     public void setCategory_nm(String category_nm) {
         this.category_nm = category_nm;
+    }
+
+    public String getTagsId() {
+        return tagsId;
+    }
+
+    public void setTagsId(String tagsId) {
+        this.tagsId = tagsId;
     }
 
     public String getTags() {
