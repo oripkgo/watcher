@@ -97,7 +97,7 @@ public class VisitorController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        visitorParam.setCustomerIp(RequestUtil.getClientIp(request));
+        visitorParam.setClientIp(RequestUtil.getClientIp(request));
         visitorParam.setClientId(new CookieUtil(request).getValue("JSESSIONID"));
         visitorParam.setRegMonthInquiry(DateUtil.getCurrentDay("yyyyMM"));
         visitorParam.setRegDateInquiry(DateUtil.getCurrentDay("yyyyMMdd"));
