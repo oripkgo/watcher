@@ -6,7 +6,7 @@ public class VisitorDto extends CommDto {
     String accessPath;
     String accessTarget;
     String accPageUrl;
-    String customerIp;
+    String clientIp;
     String clientId;
     String callService;
     String visitStoryMemId;
@@ -46,12 +46,12 @@ public class VisitorDto extends CommDto {
         this.accPageUrl = accPageUrl;
     }
 
-    public String getCustomerIp() {
-        return customerIp;
+    public String getClientIp() {
+        return clientIp;
     }
 
-    public void setCustomerIp(String customerIp) {
-        this.customerIp = customerIp;
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 
     public String getClientId() {
