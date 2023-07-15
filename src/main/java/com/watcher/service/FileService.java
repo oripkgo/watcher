@@ -1,5 +1,10 @@
 package com.watcher.service;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.watcher.config.WatcherConfig;
 import com.watcher.mapper.FileMapper;
 import com.watcher.param.FileParam;
@@ -72,6 +77,16 @@ public class FileService {
 
             // 스케일링된 이미지 저장
             file.transferTo(newFileName);
+
+            final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+            try {
+                s3.putObject("watcher-bucket", "TEST", newFileName);
+            } catch (AmazonServiceException e) {
+                System.err.println(e.getErrorMessage());
+                System.exit(1);
+            }
+
+
             ImageIO.write(outputImage, extension, new File(newFilePath));
 
             fileParam.setRealFileName(original_filename);

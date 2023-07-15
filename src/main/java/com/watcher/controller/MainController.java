@@ -1,7 +1,5 @@
 package com.watcher.controller;
 
-import java.util.List;
-
 import com.watcher.service.CategoryService;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
