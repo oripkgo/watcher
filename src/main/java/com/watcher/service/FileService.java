@@ -8,6 +8,8 @@ import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.watcher.config.WatcherConfig;
 import com.watcher.mapper.FileMapper;
 import com.watcher.param.FileParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,8 @@ import java.util.List;
 
 @Service
 public class FileService {
+    private final static Logger logger = LoggerFactory.getLogger(FileService.class);
+
     // 이미지 크기 결정
     private int scaledWidth = 1000;
     private int scaledHeight = 1000;
