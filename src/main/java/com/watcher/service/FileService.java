@@ -62,7 +62,7 @@ public class FileService {
             dirCheck.mkdirs();
 
             String newFilePath = changeFileSeparator(fileUploadRootPath + upload_full_path + File.separator + server_filename);
-            File newFileName = new File(newFilePath);
+            File newFile = new File(newFilePath);
 
             BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
@@ -75,8 +75,9 @@ public class FileService {
             g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
             g2d.dispose();
 
+            ImageIO.write(outputImage, extension, new File(newFilePath));
             // 스케일링된 이미지 저장
-            file.transferTo(newFileName);
+            file.transferTo(newFile);
 
             final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
             try {
@@ -85,9 +86,6 @@ public class FileService {
                 System.err.println(e.getErrorMessage());
                 System.exit(1);
             }
-
-
-            ImageIO.write(outputImage, extension, new File(newFilePath));
 
             fileParam.setRealFileName(original_filename);
             fileParam.setSavePath(upload_full_path);
