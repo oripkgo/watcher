@@ -4,10 +4,11 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.watcher.config.WatcherConfig;
 import com.watcher.mapper.FileMapper;
 import com.watcher.param.FileParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
 @Service
 public class FileService {
+    private final static Logger logger = LoggerFactory.getLogger(FileService.class);
+
     // 이미지 크기 결정
     private int scaledWidth = 1000;
     private int scaledHeight = 1000;
@@ -36,6 +39,12 @@ public class FileService {
     @Value("${upload.path}")
     String fileUploadPath;
 
+    @Value("${aws.bucket.name}")
+    String bucketName;
+
+    @Value("${aws.bucket.url}")
+    String bucketUrl;
+
     @Transactional
     public List<Integer> upload(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception {
         List<Integer> result = new ArrayList<>();
@@ -44,7 +53,7 @@ public class FileService {
 
         for(MultipartFile file : uploadFiles){
             String original_filename = file.getOriginalFilename();
-            String server_filename = String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
+            String server_filename = File.separator + String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();
             String extension = server_filename.substring(server_filename.lastIndexOf(".")+1);
 
@@ -62,7 +71,7 @@ public class FileService {
             dirCheck.mkdirs();
 
             String newFilePath = changeFileSeparator(fileUploadRootPath + upload_full_path + File.separator + server_filename);
-            File newFileName = new File(newFilePath);
+            File newFile = new File(newFilePath);
 
             BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
@@ -76,22 +85,21 @@ public class FileService {
             g2d.dispose();
 
             // 스케일링된 이미지 저장
-            file.transferTo(newFileName);
+            file.transferTo(newFile);
+            ImageIO.write(outputImage, extension, newFile);
 
             final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
             try {
-                s3.putObject("watcher-bucket", "TEST", newFileName);
+                s3.putObject(bucketName, upload_full_path+server_filename, newFile);
             } catch (AmazonServiceException e) {
-                System.err.println(e.getErrorMessage());
-                System.exit(1);
+                logger.error(e.getErrorMessage(), e);
             }
 
-
-            ImageIO.write(outputImage, extension, new File(newFilePath));
+            newFile.delete();
 
             fileParam.setRealFileName(original_filename);
-            fileParam.setSavePath(upload_full_path);
-            fileParam.setServerFileName(server_filename);
+            fileParam.setSavePath(bucketUrl + changeFileSeparatorAws(upload_full_path));
+            fileParam.setServerFileName(changeFileSeparatorAws(server_filename));
             fileParam.setPathSeparator(File.separator);
 
             fileMapper.insert(fileParam);
@@ -122,5 +130,17 @@ public class FileService {
         }
 
         return path.replaceAll("/", WatcherConfig.file_separator);
+    }
+
+    private String changeFileSeparatorAws(String path){
+        String tempPath = path;
+
+        tempPath = tempPath.replaceAll(WatcherConfig.file_separator+WatcherConfig.file_separator, "%5C");
+
+        if( tempPath.indexOf("%5C") == -1 ){
+            tempPath = tempPath.replaceAll(WatcherConfig.file_separator, "%5C");
+        }
+
+        return tempPath;
     }
 }

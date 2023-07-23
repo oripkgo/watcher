@@ -28,3 +28,7 @@ target/
 
 *watcher.iml
 .gradle
+
+*META-INF*
+
+*/src/main/maven/

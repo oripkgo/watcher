@@ -1,3 +1,9 @@
+aws:
+  bucket:
+    url: https://watcher-bucket-test.s3.ap-northeast-2.amazonaws.com/
+    name: watcher-bucket-test
+
+
 server_domain: localhost
 
 naver:
@@ -26,6 +32,10 @@ spring:
   redis:
     host: localhost
     port: 6379
+  jta:
+    atomikos:
+      properties:
+        default-max-wait-time-on-shutdown:
 
 #사용자 정의
 upload:
@@ -47,5 +57,9 @@ logging:
   file:
     name: catalina
     path: /watcher/logs
+
+
+
+
 
 
