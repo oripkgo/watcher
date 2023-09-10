@@ -45,6 +45,10 @@ public class FileService {
     @Value("${aws.bucket.url}")
     String bucketUrl;
 
+    @Value("${aws.separator}")
+    String awsSeparator;
+
+
     @Transactional
     public List<Integer> upload(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception {
         List<Integer> result = new ArrayList<>();
@@ -135,10 +139,10 @@ public class FileService {
     private String changeFileSeparatorAws(String path){
         String tempPath = path;
 
-        tempPath = tempPath.replaceAll(WatcherConfig.file_separator+WatcherConfig.file_separator, "%5C");
+        tempPath = tempPath.replaceAll(WatcherConfig.file_separator+WatcherConfig.file_separator, awsSeparator);
 
-        if( tempPath.indexOf("%5C") == -1 ){
-            tempPath = tempPath.replaceAll(WatcherConfig.file_separator, "%5C");
+        if( tempPath.indexOf(awsSeparator) == -1 ){
+            tempPath = tempPath.replaceAll(WatcherConfig.file_separator, awsSeparator);
         }
 
         return tempPath;
