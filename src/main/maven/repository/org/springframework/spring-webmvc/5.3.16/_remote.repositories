@@ -1,6 +1,0 @@
-#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Wed Jun 14 23:29:42 KST 2023
-spring-webmvc-5.3.16-javadoc.jar>central=
-spring-webmvc-5.3.16.jar>central=
-spring-webmvc-5.3.16-sources.jar>central=
-spring-webmvc-5.3.16.pom>central=
