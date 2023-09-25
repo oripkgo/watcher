@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -39,7 +39,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- jsp -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -54,7 +54,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 		<!-- // jsp -->
-		
+
 		<!-- 레이아웃 통합관리하는 템플릿  -->
 		<dependency>
 			<groupId>org.apache.tiles</groupId>
@@ -62,7 +62,7 @@
 			<version>3.0.7</version>
 		</dependency>
 		<!-- // 레이아웃 통합관리하는 템플릿  -->
-		
+
 		<!-- 파일을 수정할 때마다 자동으로 재컴파일 시켜주는 툴 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,7 +70,7 @@
 			<optional>true</optional>
 		</dependency>
 		<!-- // 파일을 수정할 때마다 자동으로 재컴파일 시켜주는 툴 -->
-		
+
 		<!-- java용 json 및 다양한 형식의 데이터를 지원하는 data-processing tool -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -96,12 +96,12 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 		</dependency>
-		
+
 		<!--
 		<dependency>
 			<groupId>mysql</groupId>
@@ -150,31 +150,6 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.12.504</version>
 		</dependency>
-
-		<!--aws lambda 라이브러리들-->
-		<!--<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-lambda-java-core</artifactId>
-			<version>1.2.2</version>
-		</dependency>
-		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-lambda-java-events</artifactId>
-			<version>3.11.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-lambda-java-log4j2</artifactId>
-			<version>1.5.1</version>
-		</dependency>-->
-
-		<!-- Spring Cloud Function 웹 스타터 -->
-		<!--aws lambda 로컬 테스트를 위해 추가-->
-		<!--<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-function-web</artifactId>
-			<version>3.2.5</version>
-		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -182,23 +157,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.5.0</version>
-				<configuration>
-					<createDependencyReducedPom>false</createDependencyReducedPom>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
