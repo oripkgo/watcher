@@ -31,4 +31,4 @@ target/
 
 *META-INF*
 
-src/main/maven/
+src/main/maven/repository/
