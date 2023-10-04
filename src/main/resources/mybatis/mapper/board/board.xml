@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.watcher.mapper.BoardMapper">
+<mapper namespace="com.watcher.business.board.mapper.BoardMapper">
 	<select id="view_tags_select" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			IFNULL(TAGS ,'') AS TAGS

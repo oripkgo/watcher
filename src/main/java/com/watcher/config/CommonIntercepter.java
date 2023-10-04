@@ -1,7 +1,6 @@
 package com.watcher.config;
 
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.io.File;
 
 @Configuration
-@MapperScan(basePackages="com.watcher.mapper")
+@MapperScan(basePackages="com.watcher.business.*.mapper")
 @EnableTransactionManagement						// TransactionManager 적용에 관해 설정하는 어노테이션
 public class WatcherConfig implements WebMvcConfigurer {
 
