@@ -14,8 +14,6 @@ import java.util.LinkedHashMap;
 @Controller
 @RequestMapping(value = "/visitor")
 public class VisitorController {
-
-
     @Autowired
     VisitorService visitorService;
 
@@ -105,6 +103,4 @@ public class VisitorController {
 
         return result;
     }
-
-
 }

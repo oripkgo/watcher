@@ -1,79 +1,18 @@
 package com.watcher.business.management.service;
 
-import com.watcher.business.management.mapper.ManagementMapper;
-import com.watcher.business.member.mapper.MemberMapper;
 import com.watcher.business.management.param.ManagementParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class ManagementService {
+public interface ManagementService {
+    public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception;
 
-    @Autowired
-    ManagementMapper managementMapper;
+    public Map<String, String> updateStorySetting(ManagementParam managementParam) throws Exception;
 
-    @Autowired
-    MemberMapper memberMapper;
+    /*
+    public Map<String, String> updateStory(StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception {
-        return managementMapper.getManagerSettings(managementParam);
-    }
+    public Map<String, Object> list(StoryParam storyParam) throws Exception;
 
-
-    @Transactional
-    public Map<String, String> updateStorySetting(ManagementParam managementParam) throws Exception {
-        Map<String, String> result = new HashMap<String, String>();
-
-        managementMapper.updateManagement(managementParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-
-
-    /*@Transactional
-    public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-        storyMapper.update(storyParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-
-    public Map<String, Object> list(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        storyParam.setTotalCnt( storyMapper.listCnt(storyParam) );
-        result.put("list", storyMapper.list(storyParam));
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-
-        return result;
-    }
-
-    public Map<String, Object> view(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        result.put("view", storyMapper.view(storyParam));
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-
-        return result;
-    }*/
-
-
+    public Map<String, Object> view(StoryParam storyParam) throws Exception;
+    */
 }

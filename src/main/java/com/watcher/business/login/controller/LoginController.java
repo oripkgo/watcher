@@ -1,7 +1,7 @@
 package com.watcher.business.login.controller;
 
-import com.watcher.business.member.param.MemberParam;
 import com.watcher.business.login.service.LoginService;
+import com.watcher.business.member.param.MemberParam;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.util.HttpUtil;
 import com.watcher.business.login.param.LoginParam;
@@ -27,11 +27,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value="/login")
 public class LoginController {
-
-
 	@Autowired
 	LoginService loginService;
-
 
 	@Autowired
 	MemberService memberService;

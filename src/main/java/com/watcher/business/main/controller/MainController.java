@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.watcher.business.main.service.MainService;
+import com.watcher.business.main.service.implementation.MainServiceImpl;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,12 +16,10 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value="/")
 public class MainController {
 	@Autowired
-	MainService mainSv;
-
+	MainServiceImpl mainSv;
 
 	@Autowired
 	CategoryService categoryService;
-
 
 	@RequestMapping(value={"main","/"})
 	public ModelAndView showMainPage(HttpSession session) throws Exception {
