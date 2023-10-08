@@ -3,17 +3,16 @@ package com.watcher.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 public class JwtTokenUtil {
-
     private static final String apikey = "8adfc822-6fc2-3506-6f60-2a724fd2126a";
     private static final String issuer = "watcher";
     private static final String subject = "token";

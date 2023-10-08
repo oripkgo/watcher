@@ -12,13 +12,10 @@ import java.util.Set;
 
 
 public class HttpUtil {
-
-
     private final static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
 
     static public String httpRequest(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
-
         //http 요청 시 url 주소와 파라미터 데이터를 결합하기 위한 변수 선언
         String totalUrl = UrlData.trim().toString();
 
@@ -39,7 +36,6 @@ public class HttpUtil {
             url = new URL(totalUrl);
             conn = (HttpURLConnection) url.openConnection();
 
-
             if (headersData != null) {
 
                 Set key = headersData.keySet();
@@ -50,7 +46,6 @@ public class HttpUtil {
 
                     //http 요청에 필요한 타입 정의 실시
                     conn.setRequestProperty(keyName, valueName);
-
                 }
             }else{
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -99,8 +94,6 @@ public class HttpUtil {
             writer.write(buffer.toString());
             writer.flush();
 
-
-
             //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
 
             br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
@@ -116,7 +109,6 @@ public class HttpUtil {
             String responseCode = String.valueOf(conn.getResponseCode());
             System.out.println("http 응답 코드 : "+responseCode);
             System.out.println("http 응답 데이터 : "+returnData);
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -130,17 +122,16 @@ public class HttpUtil {
             }
         }
 
-
         return returnData;
-
     }
+
 
     static public String httpRequest(String UrlData, Map<String,String> ParamData, Map<String,String> headersData){
         return httpRequest(UrlData,"",ParamData, headersData);
     }
 
+
     static public String httpRequest(String UrlData, Map<String,String> ParamData){
         return httpRequest(UrlData,"",ParamData,null);
     }
-
 }
