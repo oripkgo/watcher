@@ -47,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, Object> comment_select_info(LinkedHashMap param) throws Exception {
+    public Map<String, Object> getCommentInfo(LinkedHashMap param) throws Exception {
         Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("cnt", comment_select_cnt(param));
@@ -57,39 +57,39 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, String> comment_insert(LinkedHashMap param) throws Exception {
+    public Map<String, String> insertComment(LinkedHashMap param) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-        boardMapper.comment_insert(param);
+        boardMapper.insertComment(param);
         result.putAll(param);
 
         return result;
     }
 
     @Override
-    public Map<String, String> comment_update(LinkedHashMap param) throws Exception {
+    public Map<String, String> updateComment(LinkedHashMap param) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-        boardMapper.comment_update(param);
+        boardMapper.updateComment(param);
 
         return result;
     }
 
     @Override
-    public Map<String, String> comment_delete(LinkedHashMap param) throws Exception {
+    public Map<String, String> deleteComment(LinkedHashMap param) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-        boardMapper.comment_delete(param);
+        boardMapper.deleteComment(param);
 
         return result;
     }
 
     @Override
-    public Map<String, String> view_tags_select(String contentsType, String contentsId) throws Exception {
+    public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception {
         LinkedHashMap param = new LinkedHashMap();
         Map<String, String> result = null;
 
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
 
-        result = boardMapper.view_tags_select(param);
+        result = boardMapper.getTagDatas(param);
 
         if( result == null ){
             result = new LinkedHashMap<>();
@@ -101,7 +101,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, String> view_like_yn_select(String contentsType, String contentsId, String loginId) throws Exception {
+    public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception {
         LinkedHashMap param = new LinkedHashMap();
         Map<String, String> result = null;
 
@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
         param.put("contentsId"  , contentsId    );
         param.put("loginId"     , loginId       );
 
-        result = boardMapper.view_like_yn_select(param);
+        result = boardMapper.getLikeYn(param);
 
         if( result == null ){
             result = new LinkedHashMap<>();
@@ -119,12 +119,12 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void like_insert(Map<String, Object> param) throws Exception {
-        boardMapper.like_insert(param);
+    public void insertLike(Map<String, Object> param) throws Exception {
+        boardMapper.insertLike(param);
     }
 
     @Override
-    public void like_update(Map<String, Object> param) throws Exception {
-        boardMapper.like_update(param);
+    public void updateLike(Map<String, Object> param) throws Exception {
+        boardMapper.updateLike(param);
     }
 }

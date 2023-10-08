@@ -38,12 +38,12 @@ public class MyStoryController {
         param.put("showYn", "Y");
         param.put("memId", memId);
 
-        JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
+        JSONArray memberCategorys = new JSONArray().putAll(categoryService.getCategoryMember(param));
 
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
 
-        result.put("member_category_list", member_category_list.toString());
+        result.put("member_category_list", memberCategorys.toString());
         result.put("memId", memId);
         result.put("categoryListYn", "Y");
         result.put("vo", storyParam);
@@ -70,7 +70,7 @@ public class MyStoryController {
         param.put("showYn"  , "Y"     );
         param.put("memId"   , memId   );
 
-        result.put("member_category_list", (new JSONArray().putAll(categoryService.member_category_list(param))).toString() );
+        result.put("member_category_list", (new JSONArray().putAll(categoryService.getCategoryMember(param))).toString() );
         result.put("memId",memId);
         result.put("vo",storyParam);
         result.put("code", "0000");

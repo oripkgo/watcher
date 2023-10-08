@@ -10,19 +10,19 @@ public interface BoardService {
 
     public Map<String, Object> comment_select(LinkedHashMap param) throws Exception;
 
-    public Map<String, Object> comment_select_info(LinkedHashMap param) throws Exception;
+    public Map<String, Object> getCommentInfo(LinkedHashMap param) throws Exception;
 
-    public Map<String, String> comment_insert(LinkedHashMap param) throws Exception;
+    public Map<String, String> insertComment(LinkedHashMap param) throws Exception;
 
-    public Map<String, String> comment_update(LinkedHashMap param) throws Exception;
+    public Map<String, String> updateComment(LinkedHashMap param) throws Exception;
 
-    public Map<String, String> comment_delete(LinkedHashMap param) throws Exception;
+    public Map<String, String> deleteComment(LinkedHashMap param) throws Exception;
 
-    public Map<String, String> view_tags_select(String contentsType, String contentsId) throws Exception;
+    public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception;
 
-    public Map<String, String> view_like_yn_select(String contentsType, String contentsId, String loginId) throws Exception;
+    public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception;
 
-    public void like_insert(Map<String, Object> param) throws Exception;
+    public void insertLike(Map<String, Object> param) throws Exception;
 
-    public void like_update(Map<String, Object> param) throws Exception;
+    public void updateLike(Map<String, Object> param) throws Exception;
 }

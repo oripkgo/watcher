@@ -200,8 +200,8 @@ public class BoardController {
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
-		result.putAll(boardService.view_like_yn_select(contentsType, contentsId, loginId));
-		result.putAll(boardService.view_tags_select(contentsType, contentsId));
+		result.putAll(boardService.getLikeYn(contentsType, contentsId, loginId));
+		result.putAll(boardService.getTagDatas(contentsType, contentsId));
 
 		result.put("loginYn","Y");
 		if( loginId.isEmpty() ){
@@ -228,17 +228,17 @@ public class BoardController {
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
-		LinkedHashMap comment_select_param = new LinkedHashMap();
+		LinkedHashMap commentParam = new LinkedHashMap();
 
-		comment_select_param.put("contentsType"	, contentsType  		);
-		comment_select_param.put("contentsId"  	, contentsId    		);
-		comment_select_param.put("pageNo"  		, commDto.getPageNo()    );
-		comment_select_param.put("listNo"  		, commDto.getListNo()	);
+		commentParam.put("contentsType"	, contentsType  		);
+		commentParam.put("contentsId"  	, contentsId    		);
+		commentParam.put("pageNo"  		, commDto.getPageNo()    );
+		commentParam.put("listNo"  		, commDto.getListNo()	);
 
-		Map<String, Object> comment_obj = boardService.comment_select_info(comment_select_param);
-		result.put("comment", comment_obj);
+		Map<String, Object> commentObj = boardService.getCommentInfo(commentParam);
+		result.put("comment", commentObj);
 
-		commDto.setTotalCnt((int)comment_obj.get("cnt"));
+		commDto.setTotalCnt((int)commentObj.get("cnt"));
 		result.put("vo", commDto);
 
 		result.put("code", "0000");
@@ -271,18 +271,18 @@ public class BoardController {
 			profile = userData.get("MEM_PROFILE_IMG");
 		}
 
-		LinkedHashMap comment_param = new LinkedHashMap();
+		LinkedHashMap commentParam = new LinkedHashMap();
 
-		comment_param.put("contentsType"	, param.get("contentsType") );
-		comment_param.put("contentsId"  	, param.get("contentsId")   );
-		comment_param.put("refContentsId"  	, param.get("refContentsId"));
-		comment_param.put("coment"  		, param.get("coment")    	);
-		comment_param.put("regId"  			, loginId					);
-		comment_param.put("confirmId"  		, loginId    				);
-		comment_param.put("nickName"  		, nickName					);
-		comment_param.put("profile"  		, profile					);
+		commentParam.put("contentsType"		, param.get("contentsType") );
+		commentParam.put("contentsId"  		, param.get("contentsId")   );
+		commentParam.put("refContentsId"  	, param.get("refContentsId"));
+		commentParam.put("coment"  			, param.get("coment")    	);
+		commentParam.put("regId"  			, loginId					);
+		commentParam.put("confirmId"  		, loginId    				);
+		commentParam.put("nickName"  		, nickName					);
+		commentParam.put("profile"  		, profile					);
 
-		result.put("comment", boardService.comment_insert(comment_param));
+		result.put("comment", boardService.insertComment(commentParam));
 		result.put("code","0000");
 
 		return result;
@@ -305,13 +305,13 @@ public class BoardController {
 			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
 		}
 
-		LinkedHashMap comment_param = new LinkedHashMap();
+		LinkedHashMap commentParam = new LinkedHashMap();
 
-		comment_param.put("commentId"  		, param.get("commentId"));
-		comment_param.put("coment"  		, param.get("coment")   );
-		comment_param.put("uptId"  			, loginId 				);
+		commentParam.put("commentId"  	, param.get("commentId"));
+		commentParam.put("coment"  		, param.get("coment")   );
+		commentParam.put("uptId"  		, loginId 				);
 
-		result.put("comment", boardService.comment_update(comment_param));
+		result.put("comment", boardService.updateComment(commentParam));
 		result.put("code"	,"0000"	);
 
 		return result;
@@ -328,12 +328,12 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		LinkedHashMap comment_param = new LinkedHashMap();
+		LinkedHashMap commentParam = new LinkedHashMap();
 
-		comment_param.put("commentId"  		, param.get("commentId"));
-		comment_param.put("uptId"  			, param.get("regId"));
+		commentParam.put("commentId"  		, param.get("commentId"));
+		commentParam.put("uptId"  			, param.get("regId"));
 
-		result.put("comment", boardService.comment_delete(comment_param));
+		result.put("comment", boardService.deleteComment(commentParam));
 		result.put("code"	,"0000"	);
 
 		return result;
@@ -349,7 +349,7 @@ public class BoardController {
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		LinkedHashMap<String, Object> svc_param = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> likeParam = new LinkedHashMap<>();
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -362,19 +362,19 @@ public class BoardController {
 		}
 
 		if( param.containsKey("likeId") && param.get("likeId") != null ){
-			svc_param.put("likeId"	, param.get("likeId")	);
-			svc_param.put("uptId"	, loginId				);
+			likeParam.put("likeId"	, param.get("likeId")	);
+			likeParam.put("uptId"	, loginId				);
 
-			boardService.like_update(svc_param);
+			boardService.updateLike(likeParam);
 		}else{
-			svc_param.put("contentsType"	, param.get("contentsType")	);
-			svc_param.put("contentsId"		, param.get("contentsId")	);
-			svc_param.put("loginId"			, loginId					);
-			svc_param.put("likeType"		, param.get("likeType")		);
-			svc_param.put("regId"			, loginId					);
+			likeParam.put("contentsType"	, param.get("contentsType")	);
+			likeParam.put("contentsId"		, param.get("contentsId")	);
+			likeParam.put("loginId"			, loginId					);
+			likeParam.put("likeType"		, param.get("likeType")		);
+			likeParam.put("regId"			, loginId					);
 
-			boardService.like_insert(svc_param);
-			result.putAll(svc_param);
+			boardService.insertLike(likeParam);
+			result.putAll(likeParam);
 		}
 
 		result.put("code", "0000");

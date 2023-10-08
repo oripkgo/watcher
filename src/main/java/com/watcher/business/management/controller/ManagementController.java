@@ -55,7 +55,7 @@ public class ManagementController {
         if( "main".equals(menu) ){
 
         }else if( "board".equals(menu) ){
-            JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
+            JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryStory());
             result.put("category_list", jsonArray);
         }else if( "category".equals(menu) ){
             LinkedHashMap param = new LinkedHashMap();
@@ -63,10 +63,10 @@ public class ManagementController {
             param.put("memId"     , RedisUtil.getSession(sessionId).get("ID") );
             //param.put("showYn"    , "Y"       );
 
-            JSONArray member_category_list = new JSONArray().putAll(categoryService.member_category_list(param));
-            result.put("member_category_list", member_category_list);
+            JSONArray memberCategorys = new JSONArray().putAll(categoryService.getCategoryMember(param));
+            result.put("member_category_list", memberCategorys);
 
-            JSONArray jsonArray = new JSONArray().putAll(categoryService.story_category_serarch());
+            JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryStory());
             result.put("category_list", jsonArray);
         }else if( "notice".equals(menu) ){
 
@@ -321,7 +321,7 @@ public class ManagementController {
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(managementService.updateStorySetting(managementParam));
+        result.putAll(managementService.updateMyStorySettingInfo(managementParam));
         result.put("vo", managementParam);
 
         return result;

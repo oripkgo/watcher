@@ -30,7 +30,7 @@ public class CommController {
     public LinkedHashMap<String, Object> getCategoryList(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategorys());
 
         result.put("category_list", jsonArray.toString());
         result.put("code", "0000");
@@ -48,7 +48,7 @@ public class CommController {
 
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
         param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.member_category_list(param));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
 
         result.put("member_category_list", jsonArray.toString());
         result.put("code", "0000");
@@ -67,7 +67,7 @@ public class CommController {
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
         param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
         param.put("showYn", "Y");
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.member_category_list(param));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
 
         result.put("member_category_list", jsonArray.toString());
         result.put("code", "0000");

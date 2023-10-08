@@ -27,7 +27,7 @@ public class ManagementServiceImpl implements ManagementService {
 
     @Transactional
     @Override
-    public Map<String, String> updateStorySetting(ManagementParam managementParam) throws Exception {
+    public Map<String, String> updateMyStorySettingInfo(ManagementParam managementParam) throws Exception {
         Map<String, String> result = new HashMap<String, String>();
 
         managementMapper.updateManagement(managementParam);

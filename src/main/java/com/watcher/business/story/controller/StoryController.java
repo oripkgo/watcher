@@ -121,7 +121,7 @@ public class StoryController {
     public ModelAndView showStoryListPage(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategorys());
         mav.addObject("category_list", jsonArray);
 
         return mav;

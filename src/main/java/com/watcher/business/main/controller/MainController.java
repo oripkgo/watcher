@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping(value="/")
 public class MainController {
 	@Autowired
-	MainServiceImpl mainSv;
+	MainServiceImpl mainService;
 
 	@Autowired
 	CategoryService categoryService;
@@ -25,7 +25,7 @@ public class MainController {
 	public ModelAndView showMainPage(HttpSession session) throws Exception {
 		ModelAndView mav = new ModelAndView("main/main");
 
-		JSONArray jsonArray = new JSONArray().putAll(categoryService.category_list());
+		JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategorys());
 		mav.addObject("category_list", jsonArray);
 
 		return mav;

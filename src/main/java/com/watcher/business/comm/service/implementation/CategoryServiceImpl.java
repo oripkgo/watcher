@@ -22,8 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public List<Map<String, Object>> category_list() throws Exception {
-        List<Map<String,Object>> list = this.category_list(new LinkedHashMap());
+    public List<Map<String, Object>> getCategorys() throws Exception {
+        List<Map<String,Object>> list = this.getCategorys(new LinkedHashMap());
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -32,8 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> category_list(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.category_list(param);
+    public List<Map<String, Object>> getCategorys(LinkedHashMap param) throws Exception {
+        List<Map<String,Object>> list = categoryMapper.getCategorys(param);
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -42,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> member_category_list(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.member_category_list(param);
+    public List<Map<String, Object>> getCategoryMember(LinkedHashMap param) throws Exception {
+        List<Map<String,Object>> list = categoryMapper.getCategoryMember(param);
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -52,9 +52,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> story_category_serarch() throws Exception {
+    public List<Map<String, Object>> getCategoryStory() throws Exception {
 
-        List<Map<String,Object>> list = this.category_list();
+        List<Map<String,Object>> list = this.getCategorys();
         if( list == null ){
             list = new ArrayList<>();
         }

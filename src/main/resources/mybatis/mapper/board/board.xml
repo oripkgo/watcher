@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.board.mapper.BoardMapper">
-	<select id="view_tags_select" resultType="hashmap" parameterType="hashmap">
+	<select id="getTagDatas" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			IFNULL(TAGS ,'') AS TAGS
 		FROM BOARD_TAGS
@@ -11,7 +11,7 @@
 		  AND CONTENTS_ID = #{contentsId}
 	</select>
 
-	<select id="view_like_yn_select" resultType="hashmap" parameterType="hashmap">
+	<select id="getLikeYn" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			(
 				SELECT
@@ -37,7 +37,7 @@
 		FROM DUAL
 	</select>
 
-	<insert id="like_insert" parameterType="hashmap" keyProperty="like_id" useGeneratedKeys="true">
+	<insert id="insertLike" parameterType="hashmap" keyProperty="like_id" useGeneratedKeys="true">
 		INSERT INTO BOARD_LIKE(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -57,7 +57,7 @@
 		)
 	</insert>
 
-	<update id="like_update" parameterType="hashmap">
+	<update id="updateLike" parameterType="hashmap">
 		UPDATE BOARD_LIKE SET
 			 CANCEL_YN = IF(CANCEL_YN='N','Y','N')
 			,UPT_ID = #{uptId}
@@ -105,7 +105,7 @@
 	</select>
 
 
-	<insert id="comment_insert" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO COMMENT(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -127,7 +127,7 @@
 		)
 	</insert>
 
-	<update id="comment_update" parameterType="hashmap">
+	<update id="updateComment" parameterType="hashmap">
 		UPDATE COMMENT SET
 			COMENT = #{coment},
 			UPT_ID = #{uptId},
@@ -135,7 +135,7 @@
 		WHERE ID=#{commentId}
 	</update>
 
-	<update id="comment_delete" parameterType="hashmap">
+	<update id="deleteComment" parameterType="hashmap">
 		UPDATE COMMENT SET
 			DELETE_YN = 'Y',
 			UPT_ID = #{uptId},
