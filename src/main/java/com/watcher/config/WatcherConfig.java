@@ -50,6 +50,13 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Value("${cors.origin}")
 	private String corsOrigin;
 
+	/*
+	 * 로그인 인증 Interceptor 설정
+	 * */
+	@Autowired
+	CommonIntercepter commonIntercepter;
+
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
@@ -130,20 +137,11 @@ public class WatcherConfig implements WebMvcConfigurer {
 	}
 	// DB 설정 (e)
 
-
-	/*
-	 * 로그인 인증 Interceptor 설정
-	 * */
-	@Autowired
-	CommonIntercepter commonIntercepter;
-
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(commonIntercepter)
-				.addPathPatterns("/**")
-				.excludePathPatterns("/comm/token");
-
+				.excludePathPatterns("/comm/token")
+				.addPathPatterns("/**");
 	}
 
 	@Override
