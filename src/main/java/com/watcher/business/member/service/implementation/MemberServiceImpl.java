@@ -41,6 +41,8 @@ public class MemberServiceImpl implements MemberService {
         ManagementParam managementParam = new ManagementParam();
         managementParam.setLoginId(memberParam.getLoginId());
         managementParam.setCommentPermStatus("01");
+        managementParam.setStoryTitle(memberParam.getNickname() + "스토리");
+
         managementMapper.insertManagement(managementParam);
 
         result.put("code", "0000");

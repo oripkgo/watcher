@@ -1,6 +1,8 @@
 package com.watcher.business.story.controller;
 
 import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.management.param.ManagementParam;
+import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import org.json.JSONArray;
@@ -14,13 +16,14 @@ import java.util.LinkedHashMap;
 
 @Controller
 public class MyStoryController {
-
-
     @Autowired
     CategoryService categoryService;
 
     @Autowired
     StoryService storyService;
+
+    @Autowired
+    ManagementService managementService;
 
 
     @RequestMapping(value = {"/{memId}/myStory/{categoryId}"})
@@ -42,8 +45,13 @@ public class MyStoryController {
 
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
-
         result.put("member_category_list", memberCategorys.toString());
+
+        ManagementParam managementParam = new ManagementParam();
+        managementParam.setId(memId);
+        result.put("policy", managementService.getManagementDatas(managementParam));
+
+
         result.put("memId", memId);
         result.put("categoryListYn", "Y");
         result.put("vo", storyParam);
@@ -71,6 +79,14 @@ public class MyStoryController {
         param.put("memId"   , memId   );
 
         result.put("member_category_list", (new JSONArray().putAll(categoryService.getCategoryMember(param))).toString() );
+
+
+        ManagementParam managementParam = new ManagementParam();
+        managementParam.setId(memId);
+
+        result.put("policy", managementService.getManagementDatas(managementParam));
+
+
         result.put("memId",memId);
         result.put("vo",storyParam);
         result.put("code", "0000");

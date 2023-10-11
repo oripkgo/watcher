@@ -11,8 +11,18 @@
             , DATE_FORMAT(UPT_DATE,'%Y-%m-%d %H:%i') AS UPT_DATE
 		    , LOGIN_ID
             , COMMENT_PERM_STATUS
+            , STORY_REG_PERM_STATUS
+            , STORY_COMMENT_PUBLIC_STATUS
+            , STORY_TITLE
 		FROM MEM_MANAGEMENT
-		WHERE LOGIN_ID = #{loginId}
+		<where>
+			<if test="loginId != null and loginId != ''">
+				AND LOGIN_ID = #{loginId}
+			</if>
+			<if test="id != null and id != ''">
+				AND LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id})
+			</if>
+		</where>
 	</select>
 
 	<update id="updateManagement" parameterType="managementParam">
@@ -27,25 +37,34 @@
 
 	<insert id="insertManagement" parameterType="managementParam" useGeneratedKeys="true" keyColumn="loginId">
 		INSERT INTO MEM_MANAGEMENT(
-								   LOGIN_ID
-								  ,REG_ID
-								  ,REG_DATE
-								  ,UPT_ID
-								  ,UPT_DATE
-								  ,COMMENT_PERM_STATUS
+			LOGIN_ID
+			,REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
+			,COMMENT_PERM_STATUS
+			,STORY_REG_PERM_STATUS
+			,STORY_COMMENT_PUBLIC_STATUS
+			,STORY_TITLE
 		)
 		VALUES (
-				   #{loginId}
-			   ,#{loginId}
-			   ,NOW()
-			   ,#{loginId}
-			   ,NOW()
-			   ,'01'
-			   )
+			#{loginId}
+			,#{loginId}
+			,NOW()
+			,#{loginId}
+			,NOW()
+			,'01'
+			,'01'
+			,'01'
+			,#{storyTitle}
+		)
 
 		ON DUPLICATE KEY UPDATE
 		<if test="commentPermStatus != null and commentPermStatus != ''">
-			COMMENT_PERM_STATUS 	= #{commentPermStatus} ,
+			COMMENT_PERM_STATUS 		= #{commentPermStatus} ,
+			STORY_REG_PERM_STATUS 		= #{storyRegPermStatus} ,
+			STORY_COMMENT_PUBLIC_STATUS = #{storyCommentPublicStatus} ,
+			STORY_TITLE 				= #{storyTitle} ,
 		</if>
 		UPT_ID 	= #{loginId} ,
 		UPT_DATE 	= NOW()

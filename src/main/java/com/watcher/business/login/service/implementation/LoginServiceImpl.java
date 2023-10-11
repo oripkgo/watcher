@@ -36,6 +36,10 @@ public class LoginServiceImpl implements LoginService {
             result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
             result.put("memberId", String.valueOf(userData.get("ID")));
             result.put("memProfileImg", String.valueOf(userData.get("MEM_PROFILE_IMG")));
+            result.put("commentPermStatus", String.valueOf(userData.get("COMMENT_PERM_STATUS")));
+            result.put("storyRegPermStatus", String.valueOf(userData.get("STORY_REG_PERM_STATUS")));
+            result.put("storyCommentPublicStatus", String.valueOf(userData.get("STORY_COMMENT_PUBLIC_STATUS")));
+            result.put("storyTitle", String.valueOf(userData.get("STORY_TITLE")));
 
             String jwt = JwtTokenUtil.createJWT(request.getSession().getId());
             result.put("apiToken", jwt);

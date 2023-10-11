@@ -8,6 +8,9 @@ public class ManagementDto extends MemberDto {
     private String id;
     private String loginId;
     private String commentPermStatus;
+    private String storyRegPermStatus;
+    private String storyCommentPublicStatus;
+    private String storyTitle;
 
     @Override
     public String getId() {
@@ -35,5 +38,29 @@ public class ManagementDto extends MemberDto {
 
     public void setCommentPermStatus(String commentPermStatus) {
         this.commentPermStatus = commentPermStatus;
+    }
+
+    public String getStoryRegPermStatus() {
+        return storyRegPermStatus;
+    }
+
+    public void setStoryRegPermStatus(String storyRegPermStatus) {
+        this.storyRegPermStatus = storyRegPermStatus;
+    }
+
+    public String getStoryCommentPublicStatus() {
+        return storyCommentPublicStatus;
+    }
+
+    public void setStoryCommentPublicStatus(String storyCommentPublicStatus) {
+        this.storyCommentPublicStatus = storyCommentPublicStatus;
+    }
+
+    public String getStoryTitle() {
+        return storyTitle;
+    }
+
+    public void setStoryTitle(String storyTitle) {
+        this.storyTitle = storyTitle;
     }
 }

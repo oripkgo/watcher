@@ -5,23 +5,28 @@
 
 	<select id="userSearch" parameterType="memberParam" resultType="map">
 		SELECT
-			ID
-			,LOGIN_ID
-			,PASSWORD
-			,EMAIL
-			,PHONE_NUM
-			,NAME
-			,NICKNAME
-			,MEM_TYPE
-			,MEM_PROFILE_IMG
-			,REG_ID
-			,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
-			,UPT_ID
-			,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-		FROM MEMBER
+			 A.ID
+			,A.LOGIN_ID
+			,A.PASSWORD
+			,A.EMAIL
+			,A.PHONE_NUM
+			,A.NAME
+			,A.NICKNAME
+			,A.MEM_TYPE
+			,A.MEM_PROFILE_IMG
+			,A.REG_ID
+			,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			,A.UPT_ID
+			,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			,B.COMMENT_PERM_STATUS
+			,B.STORY_REG_PERM_STATUS
+			,B.STORY_COMMENT_PUBLIC_STATUS
+			,B.STORY_TITLE
+		FROM MEMBER A
+		INNER JOIN MEM_MANAGEMENT B ON B.LOGIN_ID = A.LOGIN_ID
 		WHERE 1=1
-		  AND LOGIN_ID = #{loginId}
-		  AND MEM_TYPE = #{memType}
+		  AND A.LOGIN_ID = #{loginId}
+		  AND A.MEM_TYPE = #{memType}
 	</select>
 
 
