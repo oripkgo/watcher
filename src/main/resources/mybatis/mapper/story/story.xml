@@ -83,15 +83,21 @@
 		<if test="search_memId != null and search_memId != ''">
 			AND A.REG_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId})
 		</if>
+
 		<if test="search_category_id != null and search_category_id != ''">
 			AND A.CATEGORY_ID = #{search_category_id}
 		</if>
+
+		<if test="search_member_category_id != null and search_member_category_id != ''">
+			AND A.MEMBER_CATEGORY_ID = #{search_member_category_id}
+		</if>
+
 		<if test="search_keyword != null and search_keyword != ''">
-		  	AND (
-		  	    A.TITLE LIKE CONCAT('%',#{search_keyword},'%')
-				OR A.SUMMARY LIKE CONCAT('%',#{search_keyword},'%')
-				OR FIND_IN_SET(#{search_keyword},REPLACE(C.TAGS,' ',''))
-		  	)
+			AND (
+			A.TITLE LIKE CONCAT('%',#{search_keyword},'%')
+			OR A.SUMMARY LIKE CONCAT('%',#{search_keyword},'%')
+			OR FIND_IN_SET(#{search_keyword},REPLACE(C.TAGS,' ',''))
+			)
 		</if>
 	</select>
 
