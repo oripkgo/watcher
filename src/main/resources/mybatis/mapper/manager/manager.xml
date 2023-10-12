@@ -27,8 +27,14 @@
 
 	<update id="updateManagement" parameterType="managementParam">
 		UPDATE MEM_MANAGEMENT SET
+		<if test="storyCommentPublicStatus != null and storyCommentPublicStatus != ''">
+			STORY_COMMENT_PUBLIC_STATUS 	= #{storyCommentPublicStatus} ,
+		</if>
 		<if test="commentPermStatus != null and commentPermStatus != ''">
 			COMMENT_PERM_STATUS 	= #{commentPermStatus} ,
+		</if>
+		<if test="storyRegPermStatus != null and storyRegPermStatus != ''">
+			STORY_REG_PERM_STATUS 	= #{storyRegPermStatus} ,
 		</if>
 		UPT_ID 	= #{loginId} ,
 		UPT_DATE 	= NOW()
