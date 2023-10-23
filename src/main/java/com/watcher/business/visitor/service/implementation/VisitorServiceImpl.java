@@ -16,6 +16,8 @@ import java.util.Map;
 
 @Service
 public class VisitorServiceImpl implements VisitorService {
+    String visitorInflowSourceSiteDomain[] = new String[]{"naver","daum","yahoo","google","zoom"};
+
     @Autowired
     VisitorMapper visitorMapper;
 
@@ -24,12 +26,11 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Transactional
     @Override
-    public Map<String, String> getVisitorSearchCnt(VisitorParam visitorParam) throws Exception {
+    public Map<String, String> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-        String accessTargets[] = new String[]{"NAVER","DAUM","YAHOO","GOOGLE","ZOOM"};
 
-        visitorParam.setSearchTargetList(Arrays.asList(accessTargets));
-        Map<String, Object> visitInfo = visitorMapper.getVisitorSearchCnt(visitorParam);
+        visitorParam.setSearchTargetList(Arrays.asList(visitorInflowSourceSiteDomain));
+        Map<String, Object> visitInfo = visitorMapper.getVisitorInflowSourceCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
         result.put("code", "0000");
@@ -40,10 +41,10 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Transactional
     @Override
-    public Map<String, String> getVisitorCnt(VisitorParam visitorParam) throws Exception {
+    public Map<String, String> getVisitorCount(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        Map<String, Object> visitInfo = visitorMapper.getVisitorCnt(visitorParam);
+        Map<String, Object> visitInfo = visitorMapper.getVisitorCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
         result.put("code", "0000");
@@ -54,10 +55,10 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Transactional
     @Override
-    public Map<String, String> getChartVisitorCnt(VisitorParam visitorParam) throws Exception {
+    public Map<String, String> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        List<Map<String, Object>> visitInfoList = visitorMapper.getChartVisitorCntList(visitorParam);
+        List<Map<String, Object>> visitInfoList = visitorMapper.getChartDailyVisitorCntList(visitorParam);
         result.put("visitInfoList", visitInfoList);
 
         result.put("code", "0000");
@@ -85,10 +86,9 @@ public class VisitorServiceImpl implements VisitorService {
     public Map<String, String> insertVisitor(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        String accessTargets[] = new String[]{"naver","daum","yahoo","google","zoom"};
         String local = serverDomain;
 
-        for(String target:accessTargets){
+        for(String target:visitorInflowSourceSiteDomain){
             if( visitorParam.getAccessPath().indexOf(target) > -1){
                 visitorParam.setAccessTarget(target);
                 break;

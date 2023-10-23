@@ -17,9 +17,9 @@ public class VisitorController {
     @Autowired
     VisitorService visitorService;
 
-    @RequestMapping(value = {"/search/cnt"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/count/inflow/source"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getVisitorSearchCnt(
+    public LinkedHashMap<String, Object> getVisitorInflowSourceCount(
             HttpServletRequest request,
             HttpServletResponse response,
             VisitorParam visitorParam
@@ -29,14 +29,14 @@ public class VisitorController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getVisitorSearchCnt(visitorParam));
+        result.putAll(visitorService.getVisitorInflowSourceCount(visitorParam));
 
         return result;
     }
 
-    @RequestMapping(value = {"/cnt"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/count"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getVisitorCnt(
+    public LinkedHashMap<String, Object> getVisitorCount(
             HttpServletRequest request,
             HttpServletResponse response,
             VisitorParam visitorParam
@@ -46,14 +46,14 @@ public class VisitorController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getVisitorCnt(visitorParam));
+        result.putAll(visitorService.getVisitorCount(visitorParam));
 
         return result;
     }
 
-    @RequestMapping(value = {"/chart/cnts"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/chart/count/daily"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getChartVisitorCnt(
+    public LinkedHashMap<String, Object> getDailyChartVisitorCnt(
             HttpServletRequest request,
             HttpServletResponse response,
             VisitorParam visitorParam
@@ -63,12 +63,12 @@ public class VisitorController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getChartVisitorCnt(visitorParam));
+        result.putAll(visitorService.getDailyChartVisitorCnt(visitorParam));
 
         return result;
     }
 
-    @RequestMapping(value = {"/chart/cnts/month"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/chart/count/month"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getMonthChartVisitorCnt(
             HttpServletRequest request,

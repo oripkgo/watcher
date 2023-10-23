@@ -22,12 +22,12 @@ public class MemberServiceImpl implements MemberService {
     ManagementMapper managementMapper;
 
     @Override
-    public Map<String,Object> getUserData(String id, String type) throws Exception{
+    public Map<String,Object> search(String id, String type) throws Exception{
         MemberParam memParam = new MemberParam();
         memParam.setLoginId(id);
         memParam.setMemType(("naver".equals(type) ? "00" : "01"));
 
-        return memberMapper.userSearch(memParam);
+        return memberMapper.search(memParam);
     }
 
     @Transactional

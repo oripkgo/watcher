@@ -17,9 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping(value = "/story")
 public class StoryController {
-
-
     @Autowired
     CategoryService categoryService;
 
@@ -27,7 +26,7 @@ public class StoryController {
     StoryService storyService;
 
 
-    @RequestMapping(value = {"/{memId}/story/view"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> showStoryView(
             HttpServletRequest request,
@@ -53,7 +52,7 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/story/delete"})
+    @RequestMapping(value = {"/delete"})
     @ResponseBody
     public LinkedHashMap<String, Object> deleteStory(
         HttpServletRequest request,
@@ -76,7 +75,7 @@ public class StoryController {
 
 
 
-    @RequestMapping(value = {"/story/insert"})
+    @RequestMapping(value = {"/insert"})
     @ResponseBody
     public LinkedHashMap<String, Object> insertStory(
             HttpServletRequest request,
@@ -97,7 +96,7 @@ public class StoryController {
         return result;
     }
 
-    @RequestMapping(value = {"/story/write","/story/update"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/write","/update"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> showStoryEditPage(
             HttpServletRequest request,
@@ -117,7 +116,7 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/story/list"})
+    @RequestMapping(value = {"/list"})
     public ModelAndView showStoryListPage(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
         ModelAndView mav = new ModelAndView("story/list");
 
@@ -127,7 +126,8 @@ public class StoryController {
         return mav;
     }
 
-    @RequestMapping(value = {"/story/list/data"}, method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getStoryListAsync(
             HttpServletRequest request,
@@ -144,7 +144,7 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/story/popular"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/popular"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularStory(
             HttpServletRequest request,
@@ -159,5 +159,4 @@ public class StoryController {
 
         return result;
     }
-
 }

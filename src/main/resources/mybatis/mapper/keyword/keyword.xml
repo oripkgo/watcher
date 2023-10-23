@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.watcher.business.keyword.mapper.KeywordMapper">
-	<select id="getPopularKeywordList" resultType="map" parameterType="map">
+<mapper namespace="com.watcher.business.keyword.mapper.PopularKeywordMapper">
+	<select id="search" resultType="map" parameterType="map">
 		/*keyword > getPopularKeywordList*/
 		SELECT
 			A.REG_DATE,
@@ -56,7 +56,7 @@
 		LIMIT ${limit}
 	</select>
 
-	<insert id="insert" parameterType="keywordParam" useGeneratedKeys="true" keyColumn="id">
+	<insert id="insert" parameterType="popularKeywordParam" useGeneratedKeys="true" keyColumn="id">
 		/*keyword > insert*/
 		INSERT INTO SEARCH_TERMS (
 			REG_ID,

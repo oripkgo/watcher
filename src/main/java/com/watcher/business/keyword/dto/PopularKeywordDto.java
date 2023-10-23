@@ -3,7 +3,7 @@ package com.watcher.business.keyword.dto;
 
 import com.watcher.business.comm.dto.CommDto;
 
-public class KeywordDto extends CommDto {
+public class PopularKeywordDto extends CommDto {
     private String id;
     private String clientIp;
     private String clientId;

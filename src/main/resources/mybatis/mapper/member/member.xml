@@ -3,7 +3,7 @@
 
 <mapper namespace="com.watcher.business.member.mapper.MemberMapper">
 
-	<select id="userSearch" parameterType="memberParam" resultType="map">
+	<select id="search" parameterType="memberParam" resultType="map">
 		SELECT
 			 A.ID
 			,A.LOGIN_ID

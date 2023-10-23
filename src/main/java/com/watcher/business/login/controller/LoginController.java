@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping(value="/login")
+@RequestMapping(value="/log")
 public class LoginController {
 	@Autowired
 	LoginService loginService;
@@ -39,13 +39,7 @@ public class LoginController {
 	@Value("${naver.client.secret}")
 	String naverClientSecret;
 
-	@RequestMapping(value={"loginSuccess"})
-	public ModelAndView showLoginSuccessPage() throws Exception {
-		ModelAndView mav = new ModelAndView("/login/naverLoginSuccess");
-		return mav;
-	}
-
-	@RequestMapping(value = {"/loginSuccess/callback"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/in"}, method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> getLoginSuccessData(
 			HttpServletRequest request,
@@ -54,7 +48,7 @@ public class LoginController {
 	) throws Exception {
 		Map<String,String> result = new HashMap<String,String>();
 
-		Map<String,Object> userData = memberService.getUserData(loginVo.getId(), loginVo.getType());
+		Map<String,Object> userData = memberService.search(loginVo.getId(), loginVo.getType());
 
 		if( userData == null || userData.size() == 0 ){
 			Cookie cookie = new Cookie("userId",loginVo.getId());
@@ -79,7 +73,7 @@ public class LoginController {
 	}
 
 
-	@RequestMapping(value = {"logout"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"out"}, method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,String> logOut(
 			HttpServletRequest request,
@@ -123,6 +117,4 @@ public class LoginController {
 
 		return result;
 	}
-
-	
 }

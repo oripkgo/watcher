@@ -29,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
             memParam.setLoginId(loginVo.getId());
             memParam.setMemType(("naver".equals(loginVo.getType()) ? "00" : "01"));
 
-            Map<String, Object> userData = memberMapper.userSearch(memParam);
+            Map<String, Object> userData = memberMapper.search(memParam);
 
 
             result.put("loginId", String.valueOf(userData.get("LOGIN_ID")));

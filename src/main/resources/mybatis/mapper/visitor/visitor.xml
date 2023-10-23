@@ -18,7 +18,7 @@
 		GROUP BY A.REG_MONTH_INQUIRY
 	</select>
 
-	<select id="getChartVisitorCntList" resultType="map" parameterType="visitorParam">
+	<select id="getChartDailyVisitorCntList" resultType="map" parameterType="visitorParam">
 		SELECT
 			A.REG_DATE_INQUIRY  AS VISIT_DATE
 			 , COUNT(A.ID) AS CNT
@@ -34,7 +34,7 @@
 		GROUP BY REG_DATE_INQUIRY
 	</select>
 
-	<select id="getVisitorSearchCnt" resultType="map" parameterType="visitorParam">
+	<select id="getVisitorInflowSourceCount" resultType="map" parameterType="visitorParam">
 		SELECT
 			(
 			    SELECT
@@ -84,7 +84,7 @@
 	</select>
 
 
-	<select id="getVisitorCnt" resultType="map" parameterType="visitorParam">
+	<select id="getVisitorCount" resultType="map" parameterType="visitorParam">
 		SELECT
 			(
 				SELECT COUNT(A.ID) FROM (

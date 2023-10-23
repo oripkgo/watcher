@@ -26,7 +26,7 @@ public class MyStoryController {
     ManagementService managementService;
 
 
-    @RequestMapping(value = {"/{memId}/myStory/{categoryId}"})
+    @RequestMapping(value = {"/myStory/{memId}/{categoryId}"})
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStoryCategory(
             HttpServletRequest request,
@@ -63,7 +63,7 @@ public class MyStoryController {
     }
 
 
-    @RequestMapping(value = {"/{memId}/myStory"})
+    @RequestMapping(value = {"/myStory/{memId}"})
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStory(
             HttpServletRequest request,
@@ -95,7 +95,7 @@ public class MyStoryController {
         return result;
     }
 
-    @RequestMapping(value = {"/myStory/list/data"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/myStory/list"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStorylistData(
             HttpServletRequest request,

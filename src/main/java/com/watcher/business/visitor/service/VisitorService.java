@@ -7,13 +7,13 @@ import java.util.Map;
 
 public interface VisitorService {
     @Transactional
-    public Map<String, String> getVisitorSearchCnt(VisitorParam visitorParam) throws Exception;
+    public Map<String, String> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> getVisitorCnt(VisitorParam visitorParam) throws Exception;
+    public Map<String, String> getVisitorCount(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> getChartVisitorCnt(VisitorParam visitorParam) throws Exception;
+    public Map<String, String> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception;
 
     @Transactional
     public Map<String, String> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception;
