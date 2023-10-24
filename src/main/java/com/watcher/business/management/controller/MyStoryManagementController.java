@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
 
 @Controller
 @RequestMapping(value = "/management")
-public class ManagementController {
+public class MyStoryManagementController {
     @Autowired
     NoticeService noticeService;
 
@@ -40,49 +40,6 @@ public class ManagementController {
     @Autowired
     MemberService memberService;
 
-    @RequestMapping(value = {"/{menu}"})
-    @ResponseBody
-    public LinkedHashMap getManagementMainPage(
-            @PathVariable("menu") String menu,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @ModelAttribute("vo") ManagementParam managementParam
-    ) throws Exception {
-        ModelAndView mav = null;
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
-
-        if( "main".equals(menu) ){
-
-        }else if( "board".equals(menu) ){
-            JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryStory());
-            result.put("category_list", jsonArray);
-        }else if( "category".equals(menu) ){
-            LinkedHashMap param = new LinkedHashMap();
-
-            param.put("memId"     , RedisUtil.getSession(sessionId).get("ID") );
-            //param.put("showYn"    , "Y"       );
-
-            JSONArray memberCategorys = new JSONArray().putAll(categoryService.getCategoryMember(param));
-            result.put("member_category_list", memberCategorys);
-
-            JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryStory());
-            result.put("category_list", jsonArray);
-        }else if( "notice".equals(menu) ){
-
-        }else if( "setting".equals(menu) ){
-            managementParam.setLoginId(RedisUtil.getSession(sessionId).get("LOGIN_ID"));
-            JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
-            result.put("managementInfo", managementDatas.toString());
-        }else if( "statistics".equals(menu) ){
-
-        }
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
 
     @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
@@ -305,9 +262,30 @@ public class ManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/setting/update"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/my/story/info"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> updateSetting(
+    public LinkedHashMap<String, Object> getMyStoryManagementInfo(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @ModelAttribute("vo") ManagementParam managementParam
+    ) throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+        managementParam.setLoginId(RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
+        result.put("info", managementDatas.toString());
+
+        result.put("code", "0000");
+        result.put("message", "OK");
+
+        return result;
+    }
+
+    @RequestMapping(value = {"/my/story/info"}, method = RequestMethod.PUT)
+    @ResponseBody
+    public LinkedHashMap<String, Object> updateMyStoryManagementInfo(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") ManagementParam managementParam
@@ -321,7 +299,7 @@ public class ManagementController {
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(managementService.updateMyStorySettingInfo(managementParam));
+        result.putAll(managementService.updateManagementDatas(managementParam));
         result.put("vo", managementParam);
 
         return result;

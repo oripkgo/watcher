@@ -27,7 +27,7 @@ public class ManagementServiceImpl implements ManagementService {
 
     @Transactional
     @Override
-    public Map<String, String> updateMyStorySettingInfo(ManagementParam managementParam) throws Exception {
+    public Map<String, String> updateManagementDatas(ManagementParam managementParam) throws Exception {
         Map<String, String> result = new HashMap<String, String>();
 
         managementMapper.updateManagement(managementParam);
@@ -37,45 +37,4 @@ public class ManagementServiceImpl implements ManagementService {
 
         return result;
     }
-
-    /*
-    @Transactional
-    @Override
-    public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-        storyMapper.update(storyParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
-    }
-
-    @Override
-    public Map<String, Object> list(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        storyParam.setTotalCnt( storyMapper.listCnt(storyParam) );
-        result.put("list", storyMapper.list(storyParam));
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-
-        return result;
-    }
-
-    @Override
-    public Map<String, Object> view(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        result.put("view", storyMapper.view(storyParam));
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-
-        return result;
-    }
-    */
 }
