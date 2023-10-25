@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Map;
 
 public interface MemberService {
-    public Map<String,Object> search(String id, String type) throws Exception;
+    public Map<String,Object> select(MemberParam memberParam) throws Exception;
 
     @Transactional
     public Map<String, String> insertUpdate(MemberParam memberParam) throws Exception;

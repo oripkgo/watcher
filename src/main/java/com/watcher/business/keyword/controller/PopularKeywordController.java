@@ -21,9 +21,11 @@ public class PopularKeywordController {
 
     @RequestMapping(value = {"/popular"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getPopularKeywords(@ModelAttribute("vo") PopularKeywordParam popularKeywordParam) throws Exception {
+    public LinkedHashMap<String, Object> getPopularKeywords(
+            @ModelAttribute("vo") PopularKeywordParam popularKeywordParam
+    ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        result.putAll(popularKeywordService.search(popularKeywordParam));
+        result.putAll(popularKeywordService.select(popularKeywordParam));
         return result;
     }
 

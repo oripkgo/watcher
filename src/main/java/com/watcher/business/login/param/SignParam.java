@@ -3,9 +3,7 @@ package com.watcher.business.login.param;
 
 import com.watcher.business.comm.dto.CommDto;
 
-public class LoginParam extends CommDto {
-
-
+public class SignParam extends CommDto {
     private String access_token;
     private String type;
     private String id;

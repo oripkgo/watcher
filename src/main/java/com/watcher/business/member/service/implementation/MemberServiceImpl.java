@@ -3,6 +3,7 @@ package com.watcher.business.member.service.implementation;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.watcher.business.login.param.SignParam;
 import com.watcher.business.management.mapper.ManagementMapper;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.member.param.MemberParam;
@@ -21,13 +22,10 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     ManagementMapper managementMapper;
 
-    @Override
-    public Map<String,Object> search(String id, String type) throws Exception{
-        MemberParam memParam = new MemberParam();
-        memParam.setLoginId(id);
-        memParam.setMemType(("naver".equals(type) ? "00" : "01"));
 
-        return memberMapper.search(memParam);
+    @Override
+    public Map<String, Object> select(MemberParam memberParam) throws Exception {
+        return memberMapper.select(memberParam);
     }
 
     @Transactional
@@ -39,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.insertDetail(memberParam);
 
         ManagementParam managementParam = new ManagementParam();
-        managementParam.setLoginId(memberParam.getLoginId());
+        managementParam.setLoginId( memberParam.getLoginId());
         managementParam.setCommentPermStatus("01");
         managementParam.setStoryTitle(memberParam.getNickname() + "스토리");
 

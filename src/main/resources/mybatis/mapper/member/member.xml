@@ -3,7 +3,7 @@
 
 <mapper namespace="com.watcher.business.member.mapper.MemberMapper">
 
-	<select id="search" parameterType="memberParam" resultType="map">
+	<select id="select" parameterType="memberParam" resultType="map">
 		SELECT
 			 A.ID
 			,A.LOGIN_ID
@@ -31,7 +31,6 @@
 
 
 	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
-
 		INSERT INTO MEMBER(
 			 LOGIN_ID
 			,PASSWORD
@@ -94,7 +93,6 @@
 	</insert>
 
 	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
-
 		INSERT INTO MEM_DETAIL(
 		 LOGIN_ID
 		,REG_ID

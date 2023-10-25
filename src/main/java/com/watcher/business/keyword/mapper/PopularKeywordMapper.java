@@ -8,6 +8,6 @@ import java.util.Map;
 
 @Mapper
 public interface PopularKeywordMapper {
-    public List search(Map<String,Object> param);
+    public List select(PopularKeywordParam popularKeywordParam);
     public void insert(PopularKeywordParam popularKeywordParam);
 }

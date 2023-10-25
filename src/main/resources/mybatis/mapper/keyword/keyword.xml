@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.keyword.mapper.PopularKeywordMapper">
-	<select id="search" resultType="map" parameterType="map">
+	<select id="select" resultType="map" parameterType="popularKeywordParam">
 		/*keyword > getPopularKeywordList*/
 		SELECT
 			A.REG_DATE,
@@ -41,8 +41,8 @@
 				) A
 			) A
 			<choose>
-				<when test="searchKeyword != null and searchKeyword != ''">
-					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY' AND B.TAGS LIKE concat('%',#{searchKeyword},'%')
+				<when test="keyword != null and keyword != ''">
+					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY' AND B.TAGS LIKE concat('%',#{keyword},'%')
 				</when>
 			    <otherwise>
 					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY'
@@ -53,7 +53,7 @@
 		INNER JOIN CATEGORY C ON C.ID = B.CATEGORY_ID
 		GROUP BY TAGS
 		ORDER BY CNT DESC, REG_DATE DESC
-		LIMIT ${limit}
+		LIMIT ${listNo}
 	</select>
 
 	<insert id="insert" parameterType="popularKeywordParam" useGeneratedKeys="true" keyColumn="id">
