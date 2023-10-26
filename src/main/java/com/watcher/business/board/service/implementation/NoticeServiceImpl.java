@@ -29,7 +29,7 @@ public class NoticeServiceImpl implements NoticeService {
     private String fileUploadPath = "/notice";
 
 
-    public Map<String, Object> list(NoticeParam noticeParam) throws Exception {
+    public Map<String, Object> getNoticeList(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (
@@ -38,8 +38,8 @@ public class NoticeServiceImpl implements NoticeService {
             noticeParam.setSearch_level("9");
         }
 
-        noticeParam.setTotalCnt( noticeMapper.listCnt(noticeParam) );
-        result.put("list", noticeMapper.list(noticeParam));
+        noticeParam.setTotalCnt( noticeMapper.selectNoticeCnt(noticeParam) );
+        result.put("list", noticeMapper.selectNotice(noticeParam));
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -65,6 +65,26 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
+    public void updateNoticesPublic(NoticeParam noticeParam) throws Exception {
+        noticeParam.setSecretYn("N");
+        JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
+
+        noticeParam.setId_list(noticeIds.toList());
+        noticeMapper.update(noticeParam);
+    }
+
+    @Transactional
+    @Override
+    public void updateNoticesPrivate(NoticeParam noticeParam) throws Exception {
+        noticeParam.setSecretYn("Y");
+        JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
+
+        noticeParam.setId_list(noticeIds.toList());
+        noticeMapper.update(noticeParam);
+    }
+
+    @Transactional
+    @Override
     public Map<String, Object> updates(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -75,7 +95,6 @@ public class NoticeServiceImpl implements NoticeService {
 
         result.put("code", "0000");
         result.put("message", "OK");
-
 
         return result;
     }

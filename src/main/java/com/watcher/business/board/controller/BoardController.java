@@ -6,7 +6,7 @@ import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.board.param.NoticeParam;
 
-import com.watcher.util.JwtTokenUtil;
+import com.watcher.business.login.service.SignService;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +26,9 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+
+	@Autowired
+	SignService signService;
 
 	@RequestMapping(value = {"/{memId}/notice/list"})
 	@ResponseBody
@@ -72,7 +75,7 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		result.putAll(noticeService.list(noticeParam));
+		result.putAll(noticeService.getNoticeList(noticeParam));
 		result.put("vo", noticeParam);
 
 		return result;
@@ -87,7 +90,7 @@ public class BoardController {
 			@RequestBody NoticeParam noticeParam
 
 	) throws Exception {
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 		Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
@@ -117,7 +120,7 @@ public class BoardController {
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
 		Map<String, Object> noticeInfo = noticeService.view(noticeParam);
@@ -143,7 +146,7 @@ public class BoardController {
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap result = new LinkedHashMap();
 		LinkedHashMap param = new LinkedHashMap();
 
@@ -166,7 +169,7 @@ public class BoardController {
 			HttpServletResponse response,
 			@ModelAttribute("vo") NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 
@@ -190,7 +193,7 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
 
 		if( RedisUtil.getSession(sessionId) != null ){
@@ -258,7 +261,7 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
 		String nickName = "";
 		String profile = "";
@@ -298,7 +301,7 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
 
 		if( RedisUtil.getSession(sessionId) != null ){
@@ -354,7 +357,7 @@ public class BoardController {
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
-		String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
 
 		if( RedisUtil.getSession(sessionId) != null ){

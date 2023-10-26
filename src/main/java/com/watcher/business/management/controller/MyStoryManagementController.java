@@ -3,20 +3,17 @@ package com.watcher.business.management.controller;
 import com.watcher.business.board.param.NoticeParam;
 import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.login.service.SignService;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.param.MemberCategoryParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
-import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +37,9 @@ public class MyStoryManagementController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    SignService signService;
+
 
     @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
@@ -50,16 +50,14 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = signService.getSessionUser(sessionId).get("ID");
         storyParam.setSearch_memId(String.valueOf(memId));
-        storyParam.setSearch_secret_yn("ALL");
-        storyParam.setSortByRecommendationYn("YY");
-        storyParam.setLimitNum("4");
 
-        result.putAll(storyService.list(storyParam));
-        result.put("vo", storyParam);
+        result.put("list", storyService.getPublicPopularList(storyParam));
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -73,14 +71,16 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = signService.getSessionUser(sessionId).get("ID");
         storyParam.setSearch_memId(String.valueOf(memId));
-        storyParam.setSearch_secret_yn("ALL");
 
-        result.putAll(storyService.list(storyParam));
-        result.put("vo", storyParam);
+        result.put("list", storyService.getPublicList(storyParam));
+        result.put("param", storyParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -94,9 +94,9 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
 
@@ -114,14 +114,15 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
-        storyParam.setSecretYn("Y");
+        storyService.updateStorysPrivate(storyParam);
 
-        result.putAll(storyService.updateStorys(storyParam));
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -135,14 +136,15 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
-        storyParam.setSecretYn("N");
+        storyService.updateStorysPublic(storyParam);
 
-        storyService.updateStorys(storyParam);
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -156,9 +158,9 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = signService.getSessionUser(sessionId).get("ID");
 
         noticeParam.setSearch_memId(String.valueOf(memId));
 
@@ -166,8 +168,8 @@ public class MyStoryManagementController {
             noticeParam.setSearch_secret_yn("ALL");
         }
 
-        result.putAll(noticeService.list(noticeParam));
-        result.put("vo", noticeParam);
+        result.putAll(noticeService.getNoticeList(noticeParam));
+        result.put("param", noticeParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -184,14 +186,13 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
 
         result.putAll(noticeService.deletes(noticeParam));
-        result.put("vo", noticeParam);
 
         return result;
     }
@@ -205,15 +206,15 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
-        noticeParam.setSecretYn("N");
+        noticeService.updateNoticesPublic(noticeParam);
 
-        result.putAll(noticeService.updates(noticeParam));
-        result.put("vo", noticeParam);
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -226,15 +227,16 @@ public class MyStoryManagementController {
             @RequestBody NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
-        noticeParam.setSecretYn("Y");
+        noticeService.updateNoticesPrivate(noticeParam);
 
-        result.putAll(noticeService.updates(noticeParam));
-        result.put("vo", noticeParam);
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
@@ -249,20 +251,19 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         memberCategoryParam.setRegId(String.valueOf(loginId));
         memberCategoryParam.setUptId(String.valueOf(loginId));
         memberCategoryParam.setLoginId(String.valueOf(loginId));
 
         result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
-        result.put("vo", memberCategoryParam);
 
         return result;
     }
 
-    @RequestMapping(value = {"/my/story/info"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/myStory/info"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStoryManagementInfo(
             HttpServletRequest request,
@@ -271,9 +272,10 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
-        managementParam.setLoginId(RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        managementParam.setLoginId(String.valueOf(loginId));
         JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
         result.put("info", managementDatas.toString());
 
@@ -283,7 +285,7 @@ public class MyStoryManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/my/story/info"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/myStory/info"}, method = RequestMethod.PUT)
     @ResponseBody
     public LinkedHashMap<String, Object> updateMyStoryManagementInfo(
             HttpServletRequest request,
@@ -292,9 +294,9 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         managementParam.setRegId(String.valueOf(loginId));
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));

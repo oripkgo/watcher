@@ -24,8 +24,12 @@ public class PopularKeywordController {
     public LinkedHashMap<String, Object> getPopularKeywords(
             @ModelAttribute("vo") PopularKeywordParam popularKeywordParam
     ) throws Exception {
+        popularKeywordService.validation(popularKeywordParam);
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        result.putAll(popularKeywordService.select(popularKeywordParam));
+
+        result.putAll(popularKeywordService.getList(popularKeywordParam));
+
         return result;
     }
 
@@ -35,6 +39,8 @@ public class PopularKeywordController {
         HttpServletRequest request,
         @RequestBody PopularKeywordParam popularKeywordParam
     ) throws Exception {
+        popularKeywordService.validation(popularKeywordParam);
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         popularKeywordParam.setClientIp(RequestUtil.getClientIp(request));

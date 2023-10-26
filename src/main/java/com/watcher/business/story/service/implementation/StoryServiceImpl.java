@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -135,14 +136,34 @@ public class StoryServiceImpl implements StoryService {
 
     @Transactional
     @Override
+    public void updateStorysPublic(StoryParam storyParam) throws Exception {
+        storyParam.setSecretYn("N");
+
+        JSONArray storyIds = new JSONArray(storyParam.getParamJson());
+
+        storyParam.setId_list(storyIds.toList());
+        storyMapper.update(storyParam);
+    }
+
+    @Transactional
+    @Override
+    public void updateStorysPrivate(StoryParam storyParam) throws Exception {
+        storyParam.setSecretYn("Y");
+
+        JSONArray storyIds = new JSONArray(storyParam.getParamJson());
+
+        storyParam.setId_list(storyIds.toList());
+        storyMapper.update(storyParam);
+    }
+
+    @Transactional
+    @Override
     public Map<String, String> updateStorys(StoryParam storyParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
         storyParam.setId_list(storyIds.toList());
-        storyMapper.update(storyParam);
-
         storyMapper.update(storyParam);
 
         result.put("code", "0000");
@@ -181,6 +202,22 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
+    @Override
+    public List<Map<String, Object>> getPublicPopularList(StoryParam storyParam) throws Exception {
+        storyParam.setSearch_secret_yn("ALL");
+        storyParam.setSortByRecommendationYn("YY");
+        storyParam.setLimitNum("4");
+        return storyMapper.list(storyParam);
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getPublicList(StoryParam storyParam) throws Exception {
+        storyParam.setSearch_secret_yn("ALL");
+        return storyMapper.list(storyParam);
+    }
+
     @Override
     public Map<String, Object> list(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -190,7 +227,6 @@ public class StoryServiceImpl implements StoryService {
 
         result.put("code", "0000");
         result.put("message", "OK");
-
 
         return result;
     }
@@ -209,10 +245,10 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public Map<String, Object> getPopularStory(StoryParam storyParam) throws Exception {
+    public Map<String, Object> getPopularStoryMain(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        result.put("popularStorys", storyMapper.getMainPopularStory(storyParam));
+        result.put("popularStorys", storyMapper.getPopularStoryMain(storyParam));
 
         result.put("code", "0000");
         result.put("message", "OK");

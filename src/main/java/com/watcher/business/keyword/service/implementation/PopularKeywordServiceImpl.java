@@ -24,12 +24,17 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
     PopularKeywordMapper popularKeywordMapper;
 
     @Override
-    public Map<String, Object> select(){
-        return this.select(null);
+    public void validation(PopularKeywordParam popularKeywordParam) throws Exception {
+
     }
 
     @Override
-    public Map<String, Object> select(PopularKeywordParam popularKeywordParam){
+    public Map<String, Object> getList(){
+        return this.getList(null);
+    }
+
+    @Override
+    public Map<String, Object> getList(PopularKeywordParam popularKeywordParam){
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         popularKeywordParam.setListNo(POPULAR_KEYWORD_LIMIT);
@@ -57,7 +62,7 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
             }
         }
 
-        result.putAll(this.select(popularKeywordParam));
+        result.putAll(this.getList(popularKeywordParam));
 
         result.put("code", "0000");
         result.put("message", "OK");

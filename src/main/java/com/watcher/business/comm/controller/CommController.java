@@ -2,8 +2,8 @@ package com.watcher.business.comm.controller;
 
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.service.StoryService;
-import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ public class CommController {
     @Autowired
     StoryService storyService;
 
+    @Autowired
+    SignService signService;
+
     @ResponseBody
     @RequestMapping(value = {"/category/list"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> getCategoryList(@ModelAttribute("vo") CommDto commDto) throws Exception {
@@ -42,7 +45,7 @@ public class CommController {
     @ResponseBody
     @RequestMapping(value = {"/category/list/member"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> getCategoryListMember(HttpServletRequest request) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
@@ -60,7 +63,7 @@ public class CommController {
     @ResponseBody
     @RequestMapping(value = {"/category/list/member/public"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> getCategoryListMemberPublic(HttpServletRequest request) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
@@ -93,19 +96,20 @@ public class CommController {
 
         if(StringUtils.hasText(token)){
             try{
-                String sessionId = JwtTokenUtil.getId(token);
-                if( RedisUtil.getSession(sessionId) == null ){
-                    apiToken = JwtTokenUtil.createJWT(id);
+                String sessionId = signService.getSessionId(token);
+
+                if( signService.getSessionUser(sessionId) == null ){
+                    apiToken = signService.getToken(id);
 
                 }else{
                     loginYn = "Y";
-                    apiToken = JwtTokenUtil.createJWT(sessionId);
+                    apiToken = signService.getToken(sessionId);
                 }
             }catch (Exception e){
-                apiToken = JwtTokenUtil.createJWT(id);
+                apiToken = signService.getToken(id);
             }
         }else{
-            apiToken = JwtTokenUtil.createJWT(id);
+            apiToken = signService.getToken(id);
         }
 
         result.put("loginYn", loginYn);

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.watcher.business.board.mapper.NoticeMapper">
 
-	<select id="listCnt" resultType="int" parameterType="noticeParam">
+	<select id="selectNoticeCnt" resultType="int" parameterType="noticeParam">
 		SELECT
 			COUNT(*)
 		FROM NOTICE A
@@ -56,7 +56,7 @@
 	</select>
 
 
-	<select id="list" resultType="map" parameterType="noticeParam">
+	<select id="selectNotice" resultType="map" parameterType="noticeParam">
 		/*Notice > list*/
 		<include refid="notice_select"/>
 		WHERE 1=1

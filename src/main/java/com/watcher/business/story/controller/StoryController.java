@@ -1,9 +1,9 @@
 package com.watcher.business.story.controller;
 
 import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
-import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,8 @@ public class StoryController {
     @Autowired
     StoryService storyService;
 
+    @Autowired
+    SignService signService;
 
     @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
     @ResponseBody
@@ -35,7 +37,8 @@ public class StoryController {
             @ModelAttribute("vo") StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         result.putAll(storyService.view(storyParam));
 
@@ -60,7 +63,8 @@ public class StoryController {
         @RequestBody StoryParam storyParam
     ) throws Exception {
 
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         String loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
@@ -84,7 +88,7 @@ public class StoryController {
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         Object loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
 
@@ -144,9 +148,9 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/popular"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/popular/main"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getPopularStory(
+    public LinkedHashMap<String, Object> getPopularStoryMain(
             HttpServletRequest request,
             HttpServletResponse response,
             @ModelAttribute("vo") StoryParam storyParam
@@ -154,7 +158,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.getPopularStory(storyParam));
+        result.putAll(storyService.getPopularStoryMain(storyParam));
         result.put("vo", storyParam);
 
         return result;

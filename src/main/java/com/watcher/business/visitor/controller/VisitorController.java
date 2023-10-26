@@ -1,5 +1,6 @@
 package com.watcher.business.visitor.controller;
 
+import com.watcher.business.login.service.SignService;
 import com.watcher.business.visitor.param.VisitorParam;
 import com.watcher.business.visitor.service.VisitorService;
 import com.watcher.util.*;
@@ -17,6 +18,9 @@ public class VisitorController {
     @Autowired
     VisitorService visitorService;
 
+    @Autowired
+    SignService signService;
+
     @RequestMapping(value = {"/count/inflow/source"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getVisitorInflowSourceCount(
@@ -24,7 +28,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -41,7 +45,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -58,7 +62,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -75,7 +79,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = JwtTokenUtil.getId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));

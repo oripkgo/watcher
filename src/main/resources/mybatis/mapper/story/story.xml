@@ -3,7 +3,7 @@
 
 <mapper namespace="com.watcher.business.story.mapper.StoryMapper">
 
-	<select id="getMainPopularStory" resultType="map" parameterType="storyParam">
+	<select id="getPopularStoryMain" resultType="map" parameterType="storyParam">
 		SELECT
 			A.ID,
 			A.TITLE,
