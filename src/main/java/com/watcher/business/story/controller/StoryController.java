@@ -120,29 +120,18 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/list"})
-    public ModelAndView showStoryListPage(@ModelAttribute("vo") StoryParam storyParam) throws Exception {
-        ModelAndView mav = new ModelAndView("story/list");
-
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategorys());
-        mav.addObject("category_list", jsonArray);
-
-        return mav;
-    }
-
-
     @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getStoryListAsync(
             HttpServletRequest request,
             HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.list(storyParam));
-        result.put("vo", storyParam);
+        result.putAll(storyService.getListPublic(storyParam));
+        result.put("dto", storyParam);
 
         return result;
     }

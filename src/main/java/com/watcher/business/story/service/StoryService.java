@@ -20,11 +20,13 @@ public interface StoryService {
 
     public Map<String, String> deleteStorys(StoryParam storyParam) throws Exception;
 
-    public List<Map<String, Object>> getPublicPopularList(StoryParam storyParam) throws Exception;
+    public List<Map<String, Object>> getManagemenListPopular(StoryParam storyParam) throws Exception;
 
-    public List<Map<String, Object>> getPublicList(StoryParam storyParam) throws Exception;
+    public Map<String, Object> getManagementList(StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> list(StoryParam storyParam) throws Exception;
+    public Map<String, Object> getListPublic(StoryParam storyParam) throws Exception;
+
+    public Map<String, Object> getList(StoryParam storyParam) throws Exception;
 
     public Map<String, Object> view(StoryParam storyParam) throws Exception;
 
