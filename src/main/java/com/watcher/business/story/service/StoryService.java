@@ -27,6 +27,8 @@ public interface StoryService {
 
     public Map<String, Object> getListPublic(StoryParam storyParam) throws Exception;
 
+    public Map<String, Object> getList(String memId, StoryParam storyParam) throws Exception;
+
     public Map<String, Object> getList(StoryParam storyParam) throws Exception;
 
     public Map<String, Object> view(StoryParam storyParam) throws Exception;

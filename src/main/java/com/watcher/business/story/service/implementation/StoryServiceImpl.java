@@ -243,6 +243,15 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
+    public Map<String, Object> getList(String memId, StoryParam storyParam) throws Exception {
+        if( memId != null && memId.equals(storyParam.getSearch_memId()) ){
+            storyParam.setSearch_secret_yn("ALL");
+        }
+
+        return this.getList(storyParam);
+    }
+
+    @Override
     public Map<String, Object> getList(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 

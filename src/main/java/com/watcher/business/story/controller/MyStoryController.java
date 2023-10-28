@@ -107,7 +107,12 @@ public class MyStoryController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.getList(storyParam));
+        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+
+        result.putAll(storyService.getList(memId, storyParam));
+
+
         result.put("dto", storyParam);
         result.put("code", "0000");
         result.put("message", "OK");
