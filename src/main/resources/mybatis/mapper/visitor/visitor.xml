@@ -44,7 +44,7 @@
 					  ID
 				  FROM VISITOR_HISTORY
 				  WHERE VISIT_STORY_MEM_ID IN(#{memId})
-					/*AND ACCESS_TARGET IN ('naver','daum','yahoo','google','zoom')*/
+					AND ACCESS_TARGET IN ('naver','daum','yahoo','google','zoom','local')
 				  GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
 			  	) A
 			) AS ALL_CNT,

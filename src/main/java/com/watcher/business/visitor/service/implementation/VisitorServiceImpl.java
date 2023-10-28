@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Service
 public class VisitorServiceImpl implements VisitorService {
-    String visitorInflowSourceSiteDomain[] = new String[]{"naver","daum","yahoo","google","zoom"};
+    String visitorInflowSourceSiteDomain[] = new String[]{"NAVER","DAUM","YAHOO","GOOGLE","ZOOM"};
 
     @Autowired
     VisitorMapper visitorMapper;
@@ -89,8 +89,8 @@ public class VisitorServiceImpl implements VisitorService {
         String local = serverDomain;
 
         for(String target:visitorInflowSourceSiteDomain){
-            if( visitorParam.getAccessPath().indexOf(target) > -1){
-                visitorParam.setAccessTarget(target);
+            if( visitorParam.getAccessPath().indexOf(target.toLowerCase()) > -1){
+                visitorParam.setAccessTarget(target.toLowerCase());
                 break;
             }
 
