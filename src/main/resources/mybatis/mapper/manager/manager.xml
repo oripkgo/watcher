@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.management.mapper.ManagementMapper">
-	<select id="getManagerSettings" resultType="map" parameterType="managementParam">
+	<select id="getStorySettingInfo" resultType="map" parameterType="managementParam">
 		SELECT
 			  ID
 			, REG_ID
@@ -25,7 +25,7 @@
 		</where>
 	</select>
 
-	<update id="updateManagement" parameterType="managementParam">
+	<update id="updateStorySettingInfo" parameterType="managementParam">
 		UPDATE MEM_MANAGEMENT SET
 		<if test="storyCommentPublicStatus != null and storyCommentPublicStatus != ''">
 			STORY_COMMENT_PUBLIC_STATUS 	= #{storyCommentPublicStatus} ,

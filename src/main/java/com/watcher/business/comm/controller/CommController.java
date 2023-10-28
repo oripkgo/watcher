@@ -53,7 +53,7 @@ public class CommController {
         param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
 
-        result.put("member_category_list", jsonArray.toString());
+        result.put("memberCategoryList", jsonArray.toString());
         result.put("code", "0000");
         result.put("message", "OK");
 
@@ -72,7 +72,7 @@ public class CommController {
         param.put("showYn", "Y");
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
 
-        result.put("member_category_list", jsonArray.toString());
+        result.put("memberCategoryList", jsonArray.toString());
         result.put("code", "0000");
         result.put("message", "OK");
 

@@ -1,6 +1,7 @@
 package com.watcher.business.story.controller;
 
 import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.login.service.SignService;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 
 @Controller
+@RequestMapping(value = "/myStory")
 public class MyStoryController {
     @Autowired
     CategoryService categoryService;
@@ -25,14 +27,16 @@ public class MyStoryController {
     @Autowired
     ManagementService managementService;
 
+    @Autowired
+    SignService signService;
 
-    @RequestMapping(value = {"/myStory/{memId}/{categoryId}"})
+    @RequestMapping(value = {"/{memId}/{categoryId}"})
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStoryCategory(
             HttpServletRequest request,
             @PathVariable("memId") String memId,
             @PathVariable("categoryId") String categoryId,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
@@ -45,16 +49,16 @@ public class MyStoryController {
 
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
-        result.put("member_category_list", memberCategorys.toString());
+        result.put("memberCategoryList", memberCategorys.toString());
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
-        result.put("policy", managementService.getManagementDatas(managementParam));
+        result.put("policy", managementService.getStorySettingInfo(managementParam));
 
 
         result.put("memId", memId);
         result.put("categoryListYn", "Y");
-        result.put("vo", storyParam);
+        result.put("dto", storyParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -63,12 +67,12 @@ public class MyStoryController {
     }
 
 
-    @RequestMapping(value = {"/myStory/{memId}"})
+    @RequestMapping(value = {"/{memId}"})
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStory(
             HttpServletRequest request,
             @PathVariable("memId") String memId,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
@@ -78,35 +82,35 @@ public class MyStoryController {
         param.put("showYn"  , "Y"     );
         param.put("memId"   , memId   );
 
-        result.put("member_category_list", (new JSONArray().putAll(categoryService.getCategoryMember(param))).toString() );
-
+        result.put("memberCategoryList", (new JSONArray().putAll(categoryService.getCategoryMember(param))).toString() );
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
 
-        result.put("policy", managementService.getManagementDatas(managementParam));
+        result.put("policy", managementService.getStorySettingInfo(managementParam));
 
 
         result.put("memId",memId);
-        result.put("vo",storyParam);
+        result.put("dto",storyParam);
         result.put("code", "0000");
         result.put("message", "OK");
 
         return result;
     }
 
-    @RequestMapping(value = {"/myStory/list"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getMyStorylistData(
             HttpServletRequest request,
             HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.list(storyParam));
-        result.put("vo", storyParam);
+        result.putAll(storyService.getList(storyParam));
+        result.put("dto", storyParam);
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }

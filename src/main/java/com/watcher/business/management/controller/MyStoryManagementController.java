@@ -44,18 +44,18 @@ public class MyStoryManagementController {
     @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularityStorys(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            StoryParam storyParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object memId = signService.getSessionUser(sessionId).get("ID");
         storyParam.setSearch_memId(String.valueOf(memId));
 
-        result.put("list", storyService.getPublicPopularList(storyParam));
+        result.put("list", storyService.getManagemenListPopular(storyParam));
         result.put("code", "0000");
         result.put("message", "OK");
 
@@ -65,19 +65,19 @@ public class MyStoryManagementController {
     @RequestMapping(value = {"/board/storys"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getStorys(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object memId = signService.getSessionUser(sessionId).get("ID");
         storyParam.setSearch_memId(String.valueOf(memId));
 
-        result.put("list", storyService.getPublicList(storyParam));
-        result.put("param", storyParam);
+        result.putAll(storyService.getManagementList(storyParam));
+        result.put("dto", storyParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -88,13 +88,13 @@ public class MyStoryManagementController {
     @RequestMapping(value = {"/board/storys"}, method = RequestMethod.DELETE)
     @ResponseBody
     public LinkedHashMap<String, Object> deleteStorys(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody StoryParam storyParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -107,14 +107,14 @@ public class MyStoryManagementController {
 
     @RequestMapping(value = {"/board/storys/private"}, method = RequestMethod.PUT)
     @ResponseBody
-    public LinkedHashMap<String, Object> updatePrivate(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody StoryParam storyParam
+    public LinkedHashMap<String, Object> updateStorysPrivate(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -129,14 +129,14 @@ public class MyStoryManagementController {
 
     @RequestMapping(value = {"/board/storys/public"}, method = RequestMethod.PUT)
     @ResponseBody
-    public LinkedHashMap<String, Object> updatePublic(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody StoryParam storyParam
+    public LinkedHashMap<String, Object> updateStorysPublic(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -152,13 +152,13 @@ public class MyStoryManagementController {
     @RequestMapping(value = {"/board/notices"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getNotices(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @ModelAttribute("vo") NoticeParam noticeParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object memId = signService.getSessionUser(sessionId).get("ID");
 
@@ -169,7 +169,7 @@ public class MyStoryManagementController {
         }
 
         result.putAll(noticeService.getNoticeList(noticeParam));
-        result.put("param", noticeParam);
+        result.put("dto", noticeParam);
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -180,33 +180,36 @@ public class MyStoryManagementController {
     @RequestMapping(value = {"/board/notices"}, method = RequestMethod.DELETE)
     @ResponseBody
     public LinkedHashMap<String, Object> deleteNotices(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody NoticeParam noticeParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
         noticeParam.setUptId(String.valueOf(loginId));
 
-        result.putAll(noticeService.deletes(noticeParam));
+        noticeService.deletes(noticeParam);
+
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }
 
     @RequestMapping(value = {"/board/notices/public"}, method = RequestMethod.PUT)
     @ResponseBody
-    public LinkedHashMap<String, Object> updatePublic(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody NoticeParam noticeParam
+    public LinkedHashMap<String, Object> updateNoticesPublic(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
@@ -221,14 +224,14 @@ public class MyStoryManagementController {
 
     @RequestMapping(value = {"/board/notices/private"}, method = RequestMethod.PUT)
     @ResponseBody
-    public LinkedHashMap<String, Object> updatePrivate(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody NoticeParam noticeParam
+    public LinkedHashMap<String, Object> updateNoticesPrivate(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
@@ -242,16 +245,16 @@ public class MyStoryManagementController {
     }
 
 
-    @RequestMapping(value = {"/category/insert"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/category"}, method = RequestMethod.POST)
     @ResponseBody
     public LinkedHashMap<String, Object> insertCategory(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @RequestBody MemberCategoryParam memberCategoryParam
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody MemberCategoryParam memberCategoryParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         memberCategoryParam.setRegId(String.valueOf(loginId));
@@ -260,23 +263,26 @@ public class MyStoryManagementController {
 
         result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
 
+        result.put("code", "0000");
+        result.put("message", "OK");
+
         return result;
     }
 
-    @RequestMapping(value = {"/myStory/info"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/setting/story"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getMyStoryManagementInfo(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @ModelAttribute("vo") ManagementParam managementParam
+    public LinkedHashMap<String, Object> getMyStorySettingInfo(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        ManagementParam managementParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
         managementParam.setLoginId(String.valueOf(loginId));
-        JSONObject managementDatas = new JSONObject(managementService.getManagementDatas(managementParam));
+        JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
         result.put("info", managementDatas.toString());
 
         result.put("code", "0000");
@@ -285,24 +291,26 @@ public class MyStoryManagementController {
         return result;
     }
 
-    @RequestMapping(value = {"/myStory/info"}, method = RequestMethod.PUT)
+    @RequestMapping(value = {"/setting/story"}, method = RequestMethod.PUT)
     @ResponseBody
-    public LinkedHashMap<String, Object> updateMyStoryManagementInfo(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @ModelAttribute("vo") ManagementParam managementParam
+    public LinkedHashMap<String, Object> updateMyStorySettingInfo(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        ManagementParam managementParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         managementParam.setRegId(String.valueOf(loginId));
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(managementService.updateManagementDatas(managementParam));
-        result.put("vo", managementParam);
+        result.putAll(managementService.updateStorySettingInfo(managementParam));
+
+        result.put("code", "0000");
+        result.put("message", "OK");
 
         return result;
     }

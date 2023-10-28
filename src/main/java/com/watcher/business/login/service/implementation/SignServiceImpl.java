@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,6 +30,38 @@ public class SignServiceImpl implements SignService {
     String naverSignOutApiUrl = "https://nid.naver.com/oauth2.0/token";
     String kakaoSignOutApiUrl = "https://kapi.kakao.com/v1/user/unlink";
 
+
+    @Override
+    public String validation(String token) throws Exception {
+        String sessionId;
+
+        try{
+            if( token == null || token.isEmpty() ){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            throw new Exception("2004");
+        }
+
+        try{
+            sessionId = this.getSessionId(token);
+            if( sessionId == null || sessionId.isEmpty() ){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            throw new Exception("2002");
+        }
+
+        try{
+            if( this.getSessionUser(sessionId) == null || this.getSessionUser(sessionId).isEmpty() ){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            throw new Exception("2003");
+        }
+
+        return token;
+    }
 
     @Override
     public void validation(SignParam signParam) throws Exception {
@@ -93,7 +126,8 @@ public class SignServiceImpl implements SignService {
 
     @Override
     public Map getSessionUser(String sessionId) throws Exception {
-        return RedisUtil.getSession(sessionId);
+        Map result = RedisUtil.getSession(sessionId);
+        return result == null || result.isEmpty() ? new HashMap() : result;
     }
 
     @Override

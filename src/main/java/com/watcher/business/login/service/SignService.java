@@ -4,6 +4,7 @@ import com.watcher.business.login.param.SignParam;
 import java.util.Map;
 
 public interface SignService {
+    public String validation(String token) throws Exception;
     public void validation(SignParam signParam) throws Exception;
     public void handleIn(SignParam signParam, String sessionId) throws Exception;
     public void handleOut(SignParam signParam, String sessionId) throws Exception;

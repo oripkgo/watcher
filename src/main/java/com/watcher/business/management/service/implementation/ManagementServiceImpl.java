@@ -21,16 +21,16 @@ public class ManagementServiceImpl implements ManagementService {
     MemberMapper memberMapper;
 
     @Override
-    public Map<String, Object> getManagementDatas(ManagementParam managementParam) throws Exception {
-        return managementMapper.getManagerSettings(managementParam);
+    public Map<String, Object> getStorySettingInfo(ManagementParam managementParam) throws Exception {
+        return managementMapper.getStorySettingInfo(managementParam);
     }
 
     @Transactional
     @Override
-    public Map<String, String> updateManagementDatas(ManagementParam managementParam) throws Exception {
+    public Map<String, String> updateStorySettingInfo(ManagementParam managementParam) throws Exception {
         Map<String, String> result = new HashMap<String, String>();
 
-        managementMapper.updateManagement(managementParam);
+        managementMapper.updateStorySettingInfo(managementParam);
 
         result.put("code", "0000");
         result.put("message", "OK");

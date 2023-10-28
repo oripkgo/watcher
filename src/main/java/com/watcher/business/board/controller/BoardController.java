@@ -97,7 +97,10 @@ public class BoardController {
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
-		result.putAll(noticeService.delete(noticeParam));
+		noticeService.delete(noticeParam);
+
+		result.put("code", "0000");
+		result.put("message", "OK");
 
 		return result;
 	}

@@ -101,32 +101,19 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public Map<String, Object> delete(NoticeParam noticeParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
+    public void delete(NoticeParam noticeParam) throws Exception {
         noticeParam.setDeleteYn("Y");
         noticeMapper.update(noticeParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
     }
 
     @Transactional
     @Override
-    public Map<String, Object> deletes(NoticeParam noticeParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public void deletes(NoticeParam noticeParam) throws Exception {
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
         noticeParam.setId_list(noticeIds.toList());
         noticeParam.setDeleteYn("Y");
         noticeMapper.update(noticeParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
     }
 
     @Transactional

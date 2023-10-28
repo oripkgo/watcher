@@ -22,7 +22,7 @@ public class PopularKeywordController {
     @RequestMapping(value = {"/popular"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularKeywords(
-            @ModelAttribute("vo") PopularKeywordParam popularKeywordParam
+        PopularKeywordParam popularKeywordParam
     ) throws Exception {
         popularKeywordService.validation(popularKeywordParam);
 

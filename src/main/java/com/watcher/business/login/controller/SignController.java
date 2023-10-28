@@ -27,7 +27,7 @@ public class SignController {
 
 	@RequestMapping(value = {"/in"}, method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getLoginSuccessData(
+	public Map<String, Object> signIn(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody SignParam loginVo
@@ -62,17 +62,16 @@ public class SignController {
 
 	@RequestMapping(value = {"out"}, method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> logOut(
+	public Map<String, Object> signOut(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody SignParam loginVo
-
 	) throws Exception {
 		signService.validation(loginVo);
 
 		Map<String,Object> result = new HashMap<>();
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
 		signService.handleOut(loginVo, sessionId);
 

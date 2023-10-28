@@ -15,9 +15,9 @@ public interface NoticeService {
 
     public Map<String, Object> updates(NoticeParam noticeParam) throws Exception;
 
-    public Map<String, Object> delete(NoticeParam noticeParam) throws Exception;
+    public void delete(NoticeParam noticeParam) throws Exception;
 
-    public Map<String, Object> deletes(NoticeParam noticeParam) throws Exception;
+    public void deletes(NoticeParam noticeParam) throws Exception;
 
     public Map<String, String> insert(NoticeParam noticeParam) throws Exception;
 }
