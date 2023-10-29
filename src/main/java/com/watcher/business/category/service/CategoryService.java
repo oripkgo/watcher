@@ -1,4 +1,4 @@
-package com.watcher.business.comm.service;
+package com.watcher.business.category.service;
 
 import com.watcher.business.management.param.MemberCategoryParam;
 

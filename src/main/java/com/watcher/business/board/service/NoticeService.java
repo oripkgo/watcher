@@ -5,6 +5,8 @@ import com.watcher.business.board.param.NoticeParam;
 import java.util.Map;
 
 public interface NoticeService {
+    public Map<String, Object> getNoticeList(String sessionMemId, NoticeParam noticeParam) throws Exception;
+
     public Map<String, Object> getNoticeList(NoticeParam noticeParam) throws Exception;
 
     public Map<String, Object> view(NoticeParam noticeParam) throws Exception;

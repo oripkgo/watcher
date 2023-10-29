@@ -28,7 +28,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -45,7 +45,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -62,7 +62,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));
@@ -79,7 +79,7 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         Object memId = (RedisUtil.getSession(sessionId).get("ID"));

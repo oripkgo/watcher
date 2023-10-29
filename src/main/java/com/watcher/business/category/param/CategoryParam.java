@@ -1,7 +1,7 @@
-package com.watcher.business.comm.param;
+package com.watcher.business.category.param;
 
 
-import com.watcher.business.comm.dto.CategoryDto;
+import com.watcher.business.category.dto.CategoryDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

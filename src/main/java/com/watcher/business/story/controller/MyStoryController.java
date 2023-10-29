@@ -1,6 +1,6 @@
 package com.watcher.business.story.controller;
 
-import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.service.ManagementService;
@@ -110,7 +110,7 @@ public class MyStoryController {
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
         String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
-        result.putAll(storyService.getList(memId, storyParam));
+        result.putAll(storyService.getListMyStory(memId, storyParam));
 
 
         result.put("dto", storyParam);

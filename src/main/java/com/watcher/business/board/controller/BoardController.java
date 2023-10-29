@@ -36,13 +36,13 @@ public class BoardController {
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		noticeParam.setSearch_memId(memId);
-		result.put("vo", noticeParam);
-		result.put("noticeListUrl", "/notice/list/data?search_memId=" + memId);
+		noticeParam.setSearchMemId(memId);
+		result.put("dto", noticeParam);
+		result.put("noticeListUrl", "/"+memId+"/notice/list/data");
 		result.put("code", "0000");
 		result.put("message", "OK");
 
@@ -54,11 +54,11 @@ public class BoardController {
 	public LinkedHashMap<String, Object> showNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 		result.put("noticeListUrl", "/notice/list/data");
-		result.put("vo", new ObjectMapper().convertValue(noticeParam, Map.class));
+		result.put("dto", new ObjectMapper().convertValue(noticeParam, Map.class));
 
 		result.put("code","0000");
 		result.put("message", "OK");
@@ -71,12 +71,33 @@ public class BoardController {
 	public LinkedHashMap<String, Object> getNoticeListAsync(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+		result.putAll(noticeService.getNoticeList(memId, noticeParam));
+		result.put("dto", noticeParam);
 
-		result.putAll(noticeService.getNoticeList(noticeParam));
-		result.put("vo", noticeParam);
+		return result;
+	}
+
+
+	@RequestMapping(value={"/{memId}/notice/list/data"}, method = RequestMethod.GET)
+	@ResponseBody
+	public LinkedHashMap<String, Object> getNoticeListAsync(
+			@PathVariable("memId") String memId,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			NoticeParam noticeParam
+	) throws Exception {
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionMemId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+		noticeParam.setSearchMemId(memId);
+
+		result.putAll(noticeService.getNoticeList(sessionMemId, noticeParam));
+		result.put("dto", noticeParam);
 
 		return result;
 	}
@@ -88,7 +109,6 @@ public class BoardController {
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@RequestBody NoticeParam noticeParam
-
 	) throws Exception {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -110,7 +130,7 @@ public class BoardController {
 	public LinkedHashMap<String, Object> noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		return noticeView(null, request, response, noticeParam);
 	}
@@ -121,7 +141,7 @@ public class BoardController {
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
@@ -147,7 +167,7 @@ public class BoardController {
 	public LinkedHashMap showNoticeEditPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap result = new LinkedHashMap();
@@ -170,11 +190,10 @@ public class BoardController {
 	public LinkedHashMap<String, Object> insertStory(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
 
 		Object loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
 
@@ -191,7 +210,7 @@ public class BoardController {
 	public LinkedHashMap getBoardViewInitData(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommDto commDto,
+			CommDto commDto,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -226,7 +245,7 @@ public class BoardController {
 	public LinkedHashMap getCommentList(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommDto commDto,
+			CommDto commDto,
 			@RequestParam Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -245,7 +264,7 @@ public class BoardController {
 		result.put("comment", commentObj);
 
 		commDto.setTotalCnt((int)commentObj.get("cnt"));
-		result.put("vo", commDto);
+		result.put("dto", commDto);
 
 		result.put("code", "0000");
 		result.put("message", "OK");
@@ -299,7 +318,7 @@ public class BoardController {
 	public LinkedHashMap updateComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@ModelAttribute("vo") CommDto commDto,
+			CommDto commDto,
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();

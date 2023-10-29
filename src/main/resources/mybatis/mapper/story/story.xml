@@ -104,7 +104,7 @@
 
 	<select id="list" resultType="map" parameterType="storyParam">
 		/* story > list */
-		<include refid="story_select"/>
+		<include refid="storySelect"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
@@ -159,7 +159,7 @@
 
 	<select id="view" resultType="map" parameterType="storyParam">
 		/*story > view*/
-		<include refid="story_select"/>
+		<include refid="storySelect"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 		<if test="!(id==null or id=='')">
@@ -167,7 +167,7 @@
 		</if>
 	</select>
 
-	<sql id="story_select">
+	<sql id="storySelect">
 		SELECT
 			A.ID,
 			A.CATEGORY_ID,

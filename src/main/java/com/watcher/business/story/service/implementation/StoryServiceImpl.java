@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,6 +30,11 @@ public class StoryServiceImpl implements StoryService {
     FileService fileService;
 
     private String fileUploadPath = "/story";
+
+    @Override
+    public void validation(StoryParam storyParam) throws Exception {
+
+    }
 
     @Transactional
     @Override
@@ -243,8 +247,8 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public Map<String, Object> getList(String memId, StoryParam storyParam) throws Exception {
-        if( memId != null && memId.equals(storyParam.getSearch_memId()) ){
+    public Map<String, Object> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception {
+        if( sessionMemId != null && sessionMemId.equals(storyParam.getSearch_memId()) ){
             storyParam.setSearch_secret_yn("ALL");
         }
 

@@ -1,4 +1,4 @@
-package com.watcher.business.comm.mapper;
+package com.watcher.business.category.mapper;
 
 import com.watcher.business.management.param.MemberCategoryParam;
 import org.apache.ibatis.annotations.Mapper;

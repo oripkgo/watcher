@@ -6,7 +6,7 @@
 	<typeAliases>
 		<typeAlias type="com.watcher.business.member.param.MemberParam" alias="memberParam"			/>
 		<typeAlias type="com.watcher.business.board.param.NoticeParam" alias="noticeParam"			/>
-		<typeAlias type="com.watcher.business.comm.param.CategoryParam" alias="categoryParam"		/>
+		<typeAlias type="com.watcher.business.category.param.CategoryParam" alias="categoryParam"		/>
 		<typeAlias type="com.watcher.business.management.param.MemberCategoryParam" alias="memberCategoryParam"	/>
 		<typeAlias type="com.watcher.business.story.param.StoryParam" alias="storyParam"			/>
 		<typeAlias type="com.watcher.business.comm.param.FileParam" alias="fileParam"			/>

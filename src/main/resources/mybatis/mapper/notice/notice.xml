@@ -19,10 +19,10 @@
 		AND A.DELETE_YN = 'N'
 
 		<choose>
-			<when test="search_secret_yn == 'ALL'">
+			<when test="searchSecretYn == 'ALL'">
 				AND A.SECRET_YN IN ('Y','N')
 			</when>
-			<when test="search_secret_yn == 'YY'">
+			<when test="searchSecretYn == 'YY'">
 				AND A.SECRET_YN IN ('Y')
 			</when>
 			<otherwise>
@@ -32,24 +32,24 @@
 
 		AND A.REG_ID IN (
 			<choose>
-				<when test="search_memId != null and search_memId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
+				<when test="searchMemId != null and searchMemId != ''">
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId}
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel}
 				</otherwise>
 			</choose>
 		)
-		<if test="search_keyword != null and search_keyword != ''">
+		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
-				<when test="search_id == '01'">
-					AND A.TITLE LIKE '%${search_keyword}%'
+				<when test="searchId == '01'">
+					AND A.TITLE LIKE '%${searchKeyword}%'
 				</when>
-				<when test="search_id == '02'">
-					AND A.CONTENTS LIKE '%${search_keyword}%'
+				<when test="searchId == '02'">
+					AND A.CONTENTS LIKE '%${searchKeyword}%'
 				</when>
 				<otherwise>
-					AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
+					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
 				</otherwise>
 			</choose>
 		</if>
@@ -63,10 +63,10 @@
 		AND A.DELETE_YN = 'N'
 
 		<choose>
-			<when test="search_secret_yn == 'ALL'">
+			<when test="searchSecretYn == 'ALL'">
 				AND A.SECRET_YN IN ('Y','N')
 			</when>
-			<when test="search_secret_yn == 'YY'">
+			<when test="searchSecretYn == 'YY'">
 				AND A.SECRET_YN IN ('Y')
 			</when>
 			<otherwise>
@@ -76,24 +76,24 @@
 
 		AND A.REG_ID IN (
 			<choose>
-				<when test="search_memId != null and search_memId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId}
+				<when test="searchMemId != null and searchMemId != ''">
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId}
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{search_level}
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel}
 				</otherwise>
 			</choose>
 		)
--- 		<if test="search_keyword != null and search_keyword != ''">
+-- 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
-				<when test="search_id == '01'">
-					AND A.TITLE LIKE '%${search_keyword}%'
+				<when test="searchId == '01'">
+					AND A.TITLE LIKE '%${searchKeyword}%'
 				</when>
-				<when test="search_id == '02'">
-					AND A.CONTENTS LIKE '%${search_keyword}%'
+				<when test="searchId == '02'">
+					AND A.CONTENTS LIKE '%${searchKeyword}%'
 				</when>
 				<otherwise>
-					AND (A.TITLE LIKE '%${search_keyword}%' OR A.CONTENTS LIKE '%${search_keyword}%')
+					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
 				</otherwise>
 			</choose>
 		</if>
@@ -195,9 +195,9 @@
 		WHERE 1=1
 
 		<choose>
-			<when test="id_list != null">
+			<when test="idList != null">
 				AND ID IN
-				<foreach collection="id_list" item="item" open="(" close=")" separator=",">
+				<foreach collection="idList" item="item" open="(" close=")" separator=",">
 					#{item}
 				</foreach>
 			</when>

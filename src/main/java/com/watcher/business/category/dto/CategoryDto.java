@@ -1,4 +1,6 @@
-package com.watcher.business.comm.dto;
+package com.watcher.business.category.dto;
+
+import com.watcher.business.comm.dto.CommDto;
 
 public class CategoryDto extends CommDto {
     private String id;

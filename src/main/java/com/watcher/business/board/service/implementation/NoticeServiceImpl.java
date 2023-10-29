@@ -28,14 +28,22 @@ public class NoticeServiceImpl implements NoticeService {
 
     private String fileUploadPath = "/notice";
 
+    @Override
+    public Map<String, Object> getNoticeList(String sessionMemId, NoticeParam noticeParam) throws Exception {
+        if( sessionMemId != null && sessionMemId.equals(noticeParam.getSearchMemId()) ){
+            noticeParam.setSearchSecretYn("ALL");
+        }
+
+        return this.getNoticeList(noticeParam);
+    }
 
     public Map<String, Object> getNoticeList(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (
-            (noticeParam.getSearch_memId() == null || noticeParam.getSearch_memId().isEmpty()) &&
-                (noticeParam.getSearch_level() == null || noticeParam.getSearch_level().isEmpty())) {
-            noticeParam.setSearch_level("9");
+            (noticeParam.getSearchMemId() == null || noticeParam.getSearchMemId().isEmpty()) &&
+                (noticeParam.getSearchLevel() == null || noticeParam.getSearchLevel().isEmpty())) {
+            noticeParam.setSearchLevel("9");
         }
 
         noticeParam.setTotalCnt( noticeMapper.selectNoticeCnt(noticeParam) );
@@ -69,7 +77,7 @@ public class NoticeServiceImpl implements NoticeService {
         noticeParam.setSecretYn("N");
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
-        noticeParam.setId_list(noticeIds.toList());
+        noticeParam.setIdList(noticeIds.toList());
         noticeMapper.update(noticeParam);
     }
 
@@ -79,7 +87,7 @@ public class NoticeServiceImpl implements NoticeService {
         noticeParam.setSecretYn("Y");
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
-        noticeParam.setId_list(noticeIds.toList());
+        noticeParam.setIdList(noticeIds.toList());
         noticeMapper.update(noticeParam);
     }
 
@@ -90,7 +98,7 @@ public class NoticeServiceImpl implements NoticeService {
 
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
-        noticeParam.setId_list(noticeIds.toList());
+        noticeParam.setIdList(noticeIds.toList());
         noticeMapper.update(noticeParam);
 
         result.put("code", "0000");
@@ -111,7 +119,7 @@ public class NoticeServiceImpl implements NoticeService {
     public void deletes(NoticeParam noticeParam) throws Exception {
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
-        noticeParam.setId_list(noticeIds.toList());
+        noticeParam.setIdList(noticeIds.toList());
         noticeParam.setDeleteYn("Y");
         noticeMapper.update(noticeParam);
     }

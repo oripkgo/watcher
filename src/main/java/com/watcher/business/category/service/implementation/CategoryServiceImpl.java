@@ -1,7 +1,7 @@
-package com.watcher.business.comm.service.implementation;
+package com.watcher.business.category.service.implementation;
 
-import com.watcher.business.comm.mapper.CategoryMapper;
-import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.category.mapper.CategoryMapper;
+import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.management.param.MemberCategoryParam;
 import org.json.JSONArray;
 import org.json.JSONObject;

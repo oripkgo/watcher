@@ -7,62 +7,62 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public class NoticeParam extends NoticeDto {
-    private String search_id;
-    private String search_keyword;
-    private String search_level;
-    private String search_memId;
-    private String search_secret_yn;
+    private String searchId;
+    private String searchKeyword;
+    private String searchLevel;
+    private String searchMemId;
+    private String searchSecretYn;
 
-    private List id_list;
+    private List idList;
 
     MultipartFile[] attachFiles;
 
-    public String getSearch_id() {
-        return search_id;
+    public String getSearchId() {
+        return searchId;
     }
 
-    public void setSearch_id(String search_id) {
-        this.search_id = search_id;
+    public void setSearchId(String searchId) {
+        this.searchId = searchId;
     }
 
-    public String getSearch_keyword() {
-        return search_keyword;
+    public String getSearchKeyword() {
+        return searchKeyword;
     }
 
-    public void setSearch_keyword(String search_keyword) {
-        this.search_keyword = search_keyword;
+    public void setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
     }
 
-    public String getSearch_level() {
-        return search_level;
+    public String getSearchLevel() {
+        return searchLevel;
     }
 
-    public void setSearch_level(String search_level) {
-        this.search_level = search_level;
+    public void setSearchLevel(String searchLevel) {
+        this.searchLevel = searchLevel;
     }
 
-    public String getSearch_memId() {
-        return search_memId;
+    public String getSearchMemId() {
+        return searchMemId;
     }
 
-    public void setSearch_memId(String search_memId) {
-        this.search_memId = search_memId;
+    public void setSearchMemId(String searchMemId) {
+        this.searchMemId = searchMemId;
     }
 
-    public String getSearch_secret_yn() {
-        return search_secret_yn;
+    public String getSearchSecretYn() {
+        return searchSecretYn;
     }
 
-    public void setSearch_secret_yn(String search_secret_yn) {
-        this.search_secret_yn = search_secret_yn;
+    public void setSearchSecretYn(String searchSecretYn) {
+        this.searchSecretYn = searchSecretYn;
     }
 
-    public List getId_list() {
-        return id_list;
+    public List getIdList() {
+        return idList;
     }
 
-    public void setId_list(List id_list) {
-        this.id_list = id_list;
+    public void setIdList(List idList) {
+        this.idList = idList;
     }
 
     public MultipartFile[] getAttachFiles() {

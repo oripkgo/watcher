@@ -1,15 +1,13 @@
 package com.watcher.business.story.controller;
 
-import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.util.RedisUtil;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

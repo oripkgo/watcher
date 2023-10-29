@@ -2,7 +2,7 @@ package com.watcher.business.management.controller;
 
 import com.watcher.business.board.param.NoticeParam;
 import com.watcher.business.board.service.NoticeService;
-import com.watcher.business.comm.service.CategoryService;
+import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.param.MemberCategoryParam;
@@ -52,8 +52,7 @@ public class MyStoryManagementController {
 
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
-        Object memId = signService.getSessionUser(sessionId).get("ID");
-        storyParam.setSearch_memId(String.valueOf(memId));
+        storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
         result.put("list", storyService.getManagemenListPopular(storyParam));
         result.put("code", "0000");
@@ -73,8 +72,7 @@ public class MyStoryManagementController {
 
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
-        Object memId = signService.getSessionUser(sessionId).get("ID");
-        storyParam.setSearch_memId(String.valueOf(memId));
+        storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
         result.putAll(storyService.getManagementList(storyParam));
         result.put("dto", storyParam);
@@ -160,12 +158,10 @@ public class MyStoryManagementController {
 
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
-        Object memId = signService.getSessionUser(sessionId).get("ID");
+        noticeParam.setSearchMemId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
-        noticeParam.setSearch_memId(String.valueOf(memId));
-
-        if( noticeParam.getSearch_secret_yn() == null || noticeParam.getSearch_secret_yn().isEmpty() ){
-            noticeParam.setSearch_secret_yn("ALL");
+        if( noticeParam.getSearchSecretYn() == null || noticeParam.getSearchSecretYn().isEmpty() ){
+            noticeParam.setSearchSecretYn("ALL");
         }
 
         result.putAll(noticeService.getNoticeList(noticeParam));
@@ -279,9 +275,8 @@ public class MyStoryManagementController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
-        Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
-        managementParam.setLoginId(String.valueOf(loginId));
+        managementParam.setLoginId(String.valueOf(signService.getSessionUser(sessionId).get("LOGIN_ID")));
         JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
         result.put("info", managementDatas.toString());
 
