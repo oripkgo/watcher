@@ -45,7 +45,7 @@ public class MyStoryController {
         param.put("showYn", "Y");
         param.put("memId", memId);
 
-        JSONArray memberCategorys = new JSONArray().putAll(categoryService.getCategoryMember(param));
+        JSONArray memberCategorys = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
@@ -82,7 +82,7 @@ public class MyStoryController {
         param.put("showYn"  , "Y"     );
         param.put("memId"   , memId   );
 
-        result.put("memberCategoryList", (new JSONArray().putAll(categoryService.getCategoryMember(param))).toString() );
+        result.put("memberCategoryList", (new JSONArray().putAll(categoryService.getListCategoryMember(param))).toString() );
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);

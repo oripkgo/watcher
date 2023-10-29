@@ -4,8 +4,8 @@
 <mapper namespace="com.watcher.business.category.mapper.CategoryMapper">
 
 
-	<select id="getCategorys" resultType="map" parameterType="categoryParam">
-		/*category > category_list*/
+	<select id="getListCategory" resultType="map" parameterType="categoryParam">
+		/*category > getListCategory*/
 		SELECT
 			 ID
 			,REG_ID
@@ -26,8 +26,8 @@
 	</select>
 
 
-	<select id="getCategoryMember" resultType="map" parameterType="categoryParam">
-		/*category > getCategoryMember*/
+	<select id="getListCategoryMember" resultType="map" parameterType="categoryParam">
+		/*category > getListCategoryMember*/
 		SELECT
 			  ID
 			 ,REG_ID

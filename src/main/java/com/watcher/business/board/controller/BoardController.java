@@ -76,7 +76,7 @@ public class BoardController {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
-		result.putAll(noticeService.getNoticeList(memId, noticeParam));
+		result.putAll(noticeService.getListNotice(memId, noticeParam));
 		result.put("dto", noticeParam);
 
 		return result;
@@ -96,7 +96,7 @@ public class BoardController {
 		String sessionMemId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 		noticeParam.setSearchMemId(memId);
 
-		result.putAll(noticeService.getNoticeList(sessionMemId, noticeParam));
+		result.putAll(noticeService.getListNotice(sessionMemId, noticeParam));
 		result.put("dto", noticeParam);
 
 		return result;

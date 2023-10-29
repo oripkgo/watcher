@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 public interface CategoryService {
-    public List<Map<String, Object>> getCategorys() throws Exception;
+    public List<Map<String, Object>> getListCategory() throws Exception;
 
-    public List<Map<String, Object>> getCategorys(LinkedHashMap param) throws Exception;
+    public List<Map<String, Object>> getListCategory(LinkedHashMap param) throws Exception;
 
-    public List<Map<String, Object>> getCategoryMember(LinkedHashMap param) throws Exception;
-
-    public List<Map<String, Object>> getCategoryStory() throws Exception;
+    public List<Map<String, Object>> getListCategoryMember(LinkedHashMap param) throws Exception;
 
     public Map<String, String> insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception;
 }

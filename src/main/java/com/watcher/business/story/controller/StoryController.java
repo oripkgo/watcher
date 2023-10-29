@@ -70,7 +70,7 @@ public class StoryController {
         storyParam.setUptId(loginId);
 
         result.putAll(storyService.deleteStory(storyParam));
-        result.put("vo",storyParam);
+        result.put("dto",storyParam);
 
         return result;
     }
@@ -128,7 +128,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.getListPublic(storyParam));
+        result.putAll(storyService.getListStoryPublic(storyParam));
         result.put("dto", storyParam);
 
         return result;

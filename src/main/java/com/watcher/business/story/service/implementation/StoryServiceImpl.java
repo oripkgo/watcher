@@ -209,7 +209,7 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public List<Map<String, Object>> getManagemenListPopular(StoryParam storyParam) throws Exception {
+    public List<Map<String, Object>> getListManagemenPopular(StoryParam storyParam) throws Exception {
         storyParam.setSearch_secret_yn("ALL");
         storyParam.setSortByRecommendationYn("YY");
         storyParam.setLimitNum("4");
@@ -218,7 +218,7 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public Map<String, Object> getManagementList(StoryParam storyParam) throws Exception {
+    public Map<String, Object> getListManagement(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("ALL");
@@ -232,7 +232,7 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public Map<String, Object> getListPublic(StoryParam storyParam) throws Exception {
+    public Map<String, Object> getListStoryPublic(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("NN");

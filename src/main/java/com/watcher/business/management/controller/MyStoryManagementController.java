@@ -54,7 +54,7 @@ public class MyStoryManagementController {
 
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
-        result.put("list", storyService.getManagemenListPopular(storyParam));
+        result.put("list", storyService.getListManagemenPopular(storyParam));
         result.put("code", "0000");
         result.put("message", "OK");
 
@@ -74,7 +74,7 @@ public class MyStoryManagementController {
 
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
-        result.putAll(storyService.getManagementList(storyParam));
+        result.putAll(storyService.getListManagement(storyParam));
         result.put("dto", storyParam);
 
         result.put("code", "0000");
@@ -164,7 +164,7 @@ public class MyStoryManagementController {
             noticeParam.setSearchSecretYn("ALL");
         }
 
-        result.putAll(noticeService.getNoticeList(noticeParam));
+        result.putAll(noticeService.getListNotice(noticeParam));
         result.put("dto", noticeParam);
 
         result.put("code", "0000");

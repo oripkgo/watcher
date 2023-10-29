@@ -1,17 +1,12 @@
 package com.watcher.business.comm.controller;
 
-import com.watcher.business.comm.dto.CommDto;
-import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.service.StoryService;
-import com.watcher.util.RedisUtil;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;

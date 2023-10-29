@@ -22,8 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryMapper categoryMapper;
 
     @Override
-    public List<Map<String, Object>> getCategorys() throws Exception {
-        List<Map<String,Object>> list = this.getCategorys(new LinkedHashMap());
+    public List<Map<String, Object>> getListCategory() throws Exception {
+        List<Map<String,Object>> list = this.getListCategory(new LinkedHashMap());
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -32,8 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> getCategorys(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.getCategorys(param);
+    public List<Map<String, Object>> getListCategory(LinkedHashMap param) throws Exception {
+        List<Map<String,Object>> list = categoryMapper.getListCategory(param);
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -42,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> getCategoryMember(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.getCategoryMember(param);
+    public List<Map<String, Object>> getListCategoryMember(LinkedHashMap param) throws Exception {
+        List<Map<String,Object>> list = categoryMapper.getListCategoryMember(param);
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -51,16 +51,6 @@ public class CategoryServiceImpl implements CategoryService {
         return list;
     }
 
-    @Override
-    public List<Map<String, Object>> getCategoryStory() throws Exception {
-
-        List<Map<String,Object>> list = this.getCategorys();
-        if( list == null ){
-            list = new ArrayList<>();
-        }
-
-        return list;
-    }
 
     @Transactional
     @Override

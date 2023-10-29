@@ -27,10 +27,10 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getCategoryList(@ModelAttribute("vo") CommDto commDto) throws Exception {
+    public LinkedHashMap<String, Object> getListCategory(@ModelAttribute("vo") CommDto commDto) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategorys());
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategory());
 
         result.put("categoryList", jsonArray.toString());
         result.put("code", "0000");
@@ -42,14 +42,14 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value = {"/list/member"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getCategoryListMember(HttpServletRequest request) throws Exception {
+    public LinkedHashMap<String, Object> getListCategoryMember(HttpServletRequest request) throws Exception {
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
         param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());
         result.put("code", "0000");
@@ -68,7 +68,7 @@ public class CategoryController {
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
         param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
         param.put("showYn", "Y");
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getCategoryMember(param));
+        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());
         result.put("code", "0000");

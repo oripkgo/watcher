@@ -23,11 +23,11 @@ public interface StoryService {
 
     public Map<String, String> deleteStorys(StoryParam storyParam) throws Exception;
 
-    public List<Map<String, Object>> getManagemenListPopular(StoryParam storyParam) throws Exception;
+    public List<Map<String, Object>> getListManagemenPopular(StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> getManagementList(StoryParam storyParam) throws Exception;
+    public Map<String, Object> getListManagement(StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> getListPublic(StoryParam storyParam) throws Exception;
+    public Map<String, Object> getListStoryPublic(StoryParam storyParam) throws Exception;
 
     public Map<String, Object> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception;
 

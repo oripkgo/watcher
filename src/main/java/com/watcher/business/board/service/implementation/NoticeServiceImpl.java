@@ -29,15 +29,15 @@ public class NoticeServiceImpl implements NoticeService {
     private String fileUploadPath = "/notice";
 
     @Override
-    public Map<String, Object> getNoticeList(String sessionMemId, NoticeParam noticeParam) throws Exception {
+    public Map<String, Object> getListNotice(String sessionMemId, NoticeParam noticeParam) throws Exception {
         if( sessionMemId != null && sessionMemId.equals(noticeParam.getSearchMemId()) ){
             noticeParam.setSearchSecretYn("ALL");
         }
 
-        return this.getNoticeList(noticeParam);
+        return this.getListNotice(noticeParam);
     }
 
-    public Map<String, Object> getNoticeList(NoticeParam noticeParam) throws Exception {
+    public Map<String, Object> getListNotice(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         if (
