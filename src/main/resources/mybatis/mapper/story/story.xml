@@ -46,7 +46,7 @@
 	</select>
 
 
-	<select id="listCnt" resultType="int" parameterType="storyParam">
+	<select id="selectStoryCnt" resultType="int" parameterType="storyParam">
 		SELECT
 			COUNT(*)
 		FROM STORY A
@@ -102,8 +102,8 @@
 	</select>
 
 
-	<select id="list" resultType="map" parameterType="storyParam">
-		/* story > list */
+	<select id="selectStory" resultType="map" parameterType="storyParam">
+		/* story > selectStory */
 		<include refid="storySelect"/>
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'

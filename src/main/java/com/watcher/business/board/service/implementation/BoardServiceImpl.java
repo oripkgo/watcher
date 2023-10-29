@@ -18,25 +18,25 @@ public class BoardServiceImpl implements BoardService {
     BoardMapper boardMapper;
 
     @Override
-    public void views_count(String contentsType, String contentsId, String loginId) throws Exception {
+    public void getViewsCount(String contentsType, String contentsId, String loginId) throws Exception {
         LinkedHashMap param = new LinkedHashMap();
 
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
 
-        boardMapper.views_count(param);
+        boardMapper.selectViewsCount(param);
     }
 
     @Override
-    public int comment_select_cnt(LinkedHashMap param) throws Exception {
-        return boardMapper.comment_select_cnt(param);
+    public int getCommentListCnt(LinkedHashMap param) throws Exception {
+        return boardMapper.selectCommentCnt(param);
     }
 
     @Override
-    public Map<String, Object> comment_select(LinkedHashMap param) throws Exception {
+    public Map<String, Object> getCommentList(LinkedHashMap param) throws Exception {
         Map<String, Object> result = new LinkedHashMap<>();
 
-        List<Map<String,String>> list = boardMapper.comment_select(param);
+        List<Map<String,String>> list = boardMapper.selectComment(param);
         if( result == null ){
             list = new ArrayList<>();
         }
@@ -50,8 +50,8 @@ public class BoardServiceImpl implements BoardService {
     public Map<String, Object> getCommentInfo(LinkedHashMap param) throws Exception {
         Map<String, Object> result = new LinkedHashMap<>();
 
-        result.put("cnt", comment_select_cnt(param));
-        result.putAll(comment_select(param));
+        result.put("cnt", getCommentListCnt(param));
+        result.putAll(getCommentList(param));
 
         return result;
     }
@@ -89,7 +89,7 @@ public class BoardServiceImpl implements BoardService {
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
 
-        result = boardMapper.getTagDatas(param);
+        result = boardMapper.selectTagDatas(param);
 
         if( result == null ){
             result = new LinkedHashMap<>();
@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
         param.put("contentsId"  , contentsId    );
         param.put("loginId"     , loginId       );
 
-        result = boardMapper.getLikeYn(param);
+        result = boardMapper.selectLikeYn(param);
 
         if( result == null ){
             result = new LinkedHashMap<>();

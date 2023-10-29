@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.visitor.mapper.VisitorMapper">
-	<select id="getChartMonthVisitorCntList" resultType="map" parameterType="visitorParam">
+	<select id="selectChartMonthVisitorCntList" resultType="map" parameterType="visitorParam">
 		SELECT
 			A.REG_MONTH_INQUIRY AS VISIT_MONTH,
 			COUNT(A.ID) AS CNT
@@ -18,7 +18,7 @@
 		GROUP BY A.REG_MONTH_INQUIRY
 	</select>
 
-	<select id="getChartDailyVisitorCntList" resultType="map" parameterType="visitorParam">
+	<select id="selectChartDailyVisitorCntList" resultType="map" parameterType="visitorParam">
 		SELECT
 			A.REG_DATE_INQUIRY  AS VISIT_DATE
 			 , COUNT(A.ID) AS CNT
@@ -34,7 +34,7 @@
 		GROUP BY REG_DATE_INQUIRY
 	</select>
 
-	<select id="getVisitorInflowSourceCount" resultType="map" parameterType="visitorParam">
+	<select id="selectVisitorInflowSourceCount" resultType="map" parameterType="visitorParam">
 		SELECT
 			(
 			    SELECT
@@ -84,7 +84,7 @@
 	</select>
 
 
-	<select id="getVisitorCount" resultType="map" parameterType="visitorParam">
+	<select id="selectVisitorCount" resultType="map" parameterType="visitorParam">
 		SELECT
 			(
 				SELECT COUNT(A.ID) FROM (

@@ -28,17 +28,17 @@ public class StoryController {
 
     @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> showStoryView(
+    public LinkedHashMap<String, Object> getStoryView(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("memId") String memId,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        result.putAll(storyService.view(storyParam));
+        result.putAll(storyService.getData(storyParam));
 
         // 게시물 수정권한 여부 s
         if( RedisUtil.getSession(sessionId) == null
@@ -82,7 +82,7 @@ public class StoryController {
     public LinkedHashMap<String, Object> insertStory(
             HttpServletRequest request,
             HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -100,15 +100,15 @@ public class StoryController {
 
     @RequestMapping(value = {"/write","/update"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> showStoryEditPage(
+    public LinkedHashMap<String, Object> getStoryEditData(
             HttpServletRequest request,
             HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
-            result.putAll(storyService.view(storyParam));
+            result.putAll(storyService.getData(storyParam));
         }
 
         result.put("code", "0000");
@@ -120,7 +120,7 @@ public class StoryController {
 
     @RequestMapping(value = {"/list/data"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getStoryListAsync(
+    public LinkedHashMap<String, Object> getStoryList(
             HttpServletRequest request,
             HttpServletResponse response,
             StoryParam storyParam
@@ -140,13 +140,13 @@ public class StoryController {
     public LinkedHashMap<String, Object> getPopularStoryMain(
             HttpServletRequest request,
             HttpServletResponse response,
-            @ModelAttribute("vo") StoryParam storyParam
+            StoryParam storyParam
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         result.putAll(storyService.getPopularStoryMain(storyParam));
-        result.put("vo", storyParam);
+        result.put("dto", storyParam);
 
         return result;
     }

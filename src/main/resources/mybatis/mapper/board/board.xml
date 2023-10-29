@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.board.mapper.BoardMapper">
-	<select id="getTagDatas" resultType="hashmap" parameterType="hashmap">
+	<select id="selectTagDatas" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			IFNULL(TAGS ,'') AS TAGS
 		FROM BOARD_TAGS
@@ -11,7 +11,7 @@
 		  AND CONTENTS_ID = #{contentsId}
 	</select>
 
-	<select id="getLikeYn" resultType="hashmap" parameterType="hashmap">
+	<select id="selectLikeYn" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			(
 				SELECT
@@ -65,7 +65,7 @@
 		WHERE ID=#{likeId}
 	</update>
 
-	<select id="comment_select_cnt" resultType="int" parameterType="hashmap">
+	<select id="selectCommentCnt" resultType="int" parameterType="hashmap">
 		SELECT
 			COUNT(A.ID)
 		FROM COMMENT A
@@ -78,7 +78,7 @@
 	</select>
 
 
-	<select id="comment_select" resultType="hashmap" parameterType="hashmap">
+	<select id="selectComment" resultType="hashmap" parameterType="hashmap">
 		SELECT
 			 A.ID
 			,A.CONTENTS_TYPE
@@ -143,7 +143,7 @@
 		WHERE ID=#{commentId}
 	</update>
 
-	<insert id="views_count" parameterType="hashmap">
+	<insert id="selectViewsCount" parameterType="hashmap">
 		INSERT INTO VIEWS SET
 			  CONTENTS_TYPE = #{contentsType}
 			, CONTENTS_ID = #{contentsId}
@@ -157,14 +157,14 @@
 	</insert>
 
 
-	<insert id="tag_insert" parameterType="hashmap">
+	<insert id="insertTag" parameterType="hashmap">
 		INSERT INTO BOARD_TAGS
 			(CONTENTS_TYPE, CONTENTS_ID, TAGS, REG_ID, REG_DATE, UPT_ID, UPT_DATE)
 		VALUES (#{contentsType}, #{contentsId}, #{tags}, #{regId}, NOW(), #{uptId},
 				NOW());
 	</insert>
 
-	<update id="tag_update" parameterType="hashmap">
+	<update id="updateTag" parameterType="hashmap">
 		UPDATE BOARD_TAGS SET
 			<if test="tags != null and tags != ''">
 				TAGS=#{tags},

@@ -146,7 +146,7 @@ public class BoardController {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
-		Map<String, Object> noticeInfo = noticeService.view(noticeParam);
+		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
 
 		// 게시물 수정권한 여부 s
 		if( RedisUtil.getSession(sessionId) == null
@@ -179,7 +179,7 @@ public class BoardController {
 		result.put("code", "0000");
 		result.put("message", "OK");
 		if( !(noticeParam.getId() == null || noticeParam.getId().isEmpty()) ){
-			result.putAll(noticeService.view(noticeParam));
+			result.putAll(noticeService.getData(noticeParam));
 		}
 
 		return result;

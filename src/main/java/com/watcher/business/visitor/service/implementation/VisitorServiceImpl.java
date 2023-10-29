@@ -34,7 +34,7 @@ public class VisitorServiceImpl implements VisitorService {
         LinkedHashMap result = new LinkedHashMap();
 
         visitorParam.setSearchTargetList(Arrays.asList(visitorInflowSourceSiteDomain));
-        Map<String, Object> visitInfo = visitorMapper.getVisitorInflowSourceCount(visitorParam);
+        Map<String, Object> visitInfo = visitorMapper.selectVisitorInflowSourceCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
         result.put("code", "0000");
@@ -48,7 +48,7 @@ public class VisitorServiceImpl implements VisitorService {
     public Map<String, String> getVisitorCount(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        Map<String, Object> visitInfo = visitorMapper.getVisitorCount(visitorParam);
+        Map<String, Object> visitInfo = visitorMapper.selectVisitorCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
         result.put("code", "0000");
@@ -62,7 +62,7 @@ public class VisitorServiceImpl implements VisitorService {
     public Map<String, String> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        List<Map<String, Object>> visitInfoList = visitorMapper.getChartDailyVisitorCntList(visitorParam);
+        List<Map<String, Object>> visitInfoList = visitorMapper.selectChartDailyVisitorCntList(visitorParam);
         result.put("visitInfoList", visitInfoList);
 
         result.put("code", "0000");
@@ -76,7 +76,7 @@ public class VisitorServiceImpl implements VisitorService {
     public Map<String, String> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        List<Map<String, Object>> visitInfoList = visitorMapper.getChartMonthVisitorCntList(visitorParam);
+        List<Map<String, Object>> visitInfoList = visitorMapper.selectChartMonthVisitorCntList(visitorParam);
         result.put("visitInfoList", visitInfoList);
 
         result.put("code", "0000");

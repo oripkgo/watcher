@@ -9,7 +9,7 @@ public interface NoticeService {
 
     public Map<String, Object> getListNotice(NoticeParam noticeParam) throws Exception;
 
-    public Map<String, Object> view(NoticeParam noticeParam) throws Exception;
+    public Map<String, Object> getData(NoticeParam noticeParam) throws Exception;
 
     public void updateNoticesPublic(NoticeParam noticeParam) throws Exception;
 

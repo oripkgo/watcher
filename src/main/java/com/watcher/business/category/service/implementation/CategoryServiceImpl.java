@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Map<String, Object>> getListCategory(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.getListCategory(param);
+        List<Map<String,Object>> list = categoryMapper.selectListCategory(param);
         if( list == null ){
             list = new ArrayList<>();
         }
@@ -43,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Map<String, Object>> getListCategoryMember(LinkedHashMap param) throws Exception {
-        List<Map<String,Object>> list = categoryMapper.getListCategoryMember(param);
+        List<Map<String,Object>> list = categoryMapper.selectListCategoryMember(param);
         if( list == null ){
             list = new ArrayList<>();
         }

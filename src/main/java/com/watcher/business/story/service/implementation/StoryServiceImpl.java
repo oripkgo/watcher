@@ -56,7 +56,7 @@ public class StoryServiceImpl implements StoryService {
                 tag_insert_param.put("regId"        , storyParam.getRegId()     );
                 tag_insert_param.put("uptId"        , storyParam.getUptId()     );
 
-                boardMapper.tag_insert(tag_insert_param);
+                boardMapper.insertTag(tag_insert_param);
 
             }
 
@@ -94,9 +94,9 @@ public class StoryServiceImpl implements StoryService {
                 tag_update_param.put("uptId"        , storyParam.getUptId()     );
 
                 if( storyParam.getTagsId().isEmpty() ){
-                    boardMapper.tag_insert(tag_update_param);
+                    boardMapper.insertTag(tag_update_param);
                 }else{
-                    boardMapper.tag_update(tag_update_param);
+                    boardMapper.updateTag(tag_update_param);
                 }
             }
 
@@ -213,7 +213,7 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setSearch_secret_yn("ALL");
         storyParam.setSortByRecommendationYn("YY");
         storyParam.setLimitNum("4");
-        return storyMapper.list(storyParam);
+        return storyMapper.selectStory(storyParam);
     }
 
 
@@ -222,8 +222,8 @@ public class StoryServiceImpl implements StoryService {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("ALL");
-        storyParam.setTotalCnt( storyMapper.listCnt(storyParam) );
-        result.put("list", storyMapper.list(storyParam));
+        storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
+        result.put("list", storyMapper.selectStory(storyParam));
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -236,8 +236,8 @@ public class StoryServiceImpl implements StoryService {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("NN");
-        storyParam.setTotalCnt( storyMapper.listCnt(storyParam) );
-        result.put("list", storyMapper.list(storyParam));
+        storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
+        result.put("list", storyMapper.selectStory(storyParam));
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -259,8 +259,8 @@ public class StoryServiceImpl implements StoryService {
     public Map<String, Object> getList(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        storyParam.setTotalCnt( storyMapper.listCnt(storyParam) );
-        result.put("list", storyMapper.list(storyParam));
+        storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
+        result.put("list", storyMapper.selectStory(storyParam));
 
         result.put("code", "0000");
         result.put("message", "OK");
@@ -269,7 +269,7 @@ public class StoryServiceImpl implements StoryService {
     }
 
     @Override
-    public Map<String, Object> view(StoryParam storyParam) throws Exception {
+    public Map<String, Object> getData(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("view", storyMapper.view(storyParam));

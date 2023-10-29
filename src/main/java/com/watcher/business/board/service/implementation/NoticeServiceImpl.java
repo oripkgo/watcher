@@ -58,12 +58,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public Map<String, Object> view(NoticeParam noticeParam) throws Exception {
+    public Map<String, Object> getData(NoticeParam noticeParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("view", noticeMapper.view(noticeParam));
 
-        boardServiceImpl.views_count("NOTICE", noticeParam.getId(), noticeParam.getRegId());
+        boardServiceImpl.getViewsCount("NOTICE", noticeParam.getId(), noticeParam.getRegId());
 
         result.put("code", "0000");
         result.put("message", "OK");

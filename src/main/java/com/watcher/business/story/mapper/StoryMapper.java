@@ -13,9 +13,9 @@ public interface StoryMapper {
 
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);
 
-    public List<Map<String, Object>> list(StoryParam storyParam);
+    public List<Map<String, Object>> selectStory(StoryParam storyParam);
 
-    public int listCnt(StoryParam storyParam);
+    public int selectStoryCnt(StoryParam storyParam);
 
     public void insert(StoryParam storyParam);
 

@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Mapper
 public interface VisitorMapper {
-	public Map<String, Object> getVisitorInflowSourceCount(VisitorParam visitorParam);
-	public Map<String, Object> getVisitorCount(VisitorParam visitorParam);
-	public List<Map<String, Object>> getChartDailyVisitorCntList(VisitorParam visitorParam);
-	public List<Map<String, Object>> getChartMonthVisitorCntList(VisitorParam visitorParam);
-	public List<Map<String, String>> getChartDailyVisitorCntList(Map<String,Object> param);
-	public List<Map<String, String>> getVisitorCount(Map<String,Object> param);
+	public Map<String, Object> selectVisitorInflowSourceCount(VisitorParam visitorParam);
+	public Map<String, Object> selectVisitorCount(VisitorParam visitorParam);
+	public List<Map<String, Object>> selectChartDailyVisitorCntList(VisitorParam visitorParam);
+	public List<Map<String, Object>> selectChartMonthVisitorCntList(VisitorParam visitorParam);
+	public List<Map<String, String>> selectChartDailyVisitorCntList(Map<String,Object> param);
+	public List<Map<String, String>> selectVisitorCount(Map<String,Object> param);
 	public void insert(VisitorParam visitorParam);
 }
