@@ -7,6 +7,7 @@ import java.util.List;
 
 public class VisitorParam extends VisitorDto {
     String memId;
+    String searchDate;
     List searchTargetList;
 
     public String getMemId() {
@@ -15,6 +16,14 @@ public class VisitorParam extends VisitorDto {
 
     public void setMemId(String memId) {
         this.memId = memId;
+    }
+
+    public String getSearchDate() {
+        return searchDate;
+    }
+
+    public void setSearchDate(String searchDate) {
+        this.searchDate = searchDate;
     }
 
     public List getSearchTargetList() {
