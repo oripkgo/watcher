@@ -205,13 +205,13 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value={"/board/view/init"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/board/view/init"}, method = RequestMethod.GET)
 	@ResponseBody
 	public LinkedHashMap getBoardViewInitData(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			CommDto commDto,
-			@RequestBody Map<String,Object> param
+			@RequestParam Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
