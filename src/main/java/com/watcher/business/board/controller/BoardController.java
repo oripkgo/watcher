@@ -395,7 +395,7 @@ public class BoardController {
 			likeParam.put("contentsType"	, param.get("contentsType")	);
 			likeParam.put("contentsId"		, param.get("contentsId")	);
 			likeParam.put("loginId"			, loginId					);
-			likeParam.put("likeType"		, param.get("likeType")		);
+			likeParam.put("likeType"		, "01"						);
 			likeParam.put("regId"			, loginId					);
 
 			boardService.insertLike(likeParam);
