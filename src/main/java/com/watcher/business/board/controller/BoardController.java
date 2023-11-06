@@ -301,7 +301,7 @@ public class BoardController {
 		commentParam.put("contentsType"		, param.get("contentsType") );
 		commentParam.put("contentsId"  		, param.get("contentsId")   );
 		commentParam.put("refContentsId"  	, param.get("refContentsId"));
-		commentParam.put("coment"  			, param.get("coment")    	);
+		commentParam.put("comment"  		, param.get("comment")    	);
 		commentParam.put("regId"  			, loginId					);
 		commentParam.put("confirmId"  		, loginId    				);
 		commentParam.put("nickName"  		, nickName					);
@@ -333,7 +333,7 @@ public class BoardController {
 		LinkedHashMap commentParam = new LinkedHashMap();
 
 		commentParam.put("commentId"  	, param.get("commentId"));
-		commentParam.put("coment"  		, param.get("coment")   );
+		commentParam.put("comment"  	, param.get("comment")   );
 		commentParam.put("uptId"  		, loginId 				);
 
 		result.put("comment", boardService.updateComment(commentParam));

@@ -84,7 +84,7 @@
 			,A.CONTENTS_TYPE
 			,A.CONTENTS_ID
 			,A.REF_CONTENTS_ID
-			,A.COMENT
+			,A.COMMENT
 			,A.CONFIRM_ID
 		    ,A.DELETE_YN
 			,A.REG_ID
@@ -110,7 +110,7 @@
 			 CONTENTS_TYPE
 			,CONTENTS_ID
 			,REF_CONTENTS_ID
-			,COMENT
+			,COMMENT
 			,CONFIRM_ID
 			,DELETE_YN
 			,REG_ID
@@ -119,7 +119,7 @@
 			 #{contentsType}
 			,#{contentsId}
 			,#{refContentsId}
-			,#{coment}
+			,#{comment}
 			,#{confirmId}
 			,'N'
 			,#{regId}
@@ -129,7 +129,7 @@
 
 	<update id="updateComment" parameterType="hashmap">
 		UPDATE COMMENT SET
-			COMENT = #{coment},
+			COMMENT = #{comment},
 			UPT_ID = #{uptId},
 			UPT_DATE = NOW()
 		WHERE ID=#{commentId}
