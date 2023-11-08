@@ -313,7 +313,7 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value={"/board/comment/update"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/board/comment/update"}, method = RequestMethod.PUT)
 	@ResponseBody
 	public LinkedHashMap updateComment(
 			HttpServletRequest request,
@@ -346,13 +346,13 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value={"/board/comment/delete"}, method = RequestMethod.POST)
+	@RequestMapping(value={"/board/comment/delete"}, method = RequestMethod.DELETE)
 	@ResponseBody
 	public LinkedHashMap deleteComment(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			@ModelAttribute("vo") CommDto commDto,
-			@RequestBody Map<String,Object> param
+			@RequestParam Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
