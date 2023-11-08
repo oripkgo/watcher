@@ -332,12 +332,15 @@ public class BoardController {
 
 		LinkedHashMap commentParam = new LinkedHashMap();
 
-		commentParam.put("commentId"  	, param.get("commentId"));
-		commentParam.put("comment"  	, param.get("comment")   );
-		commentParam.put("uptId"  		, loginId 				);
+		commentParam.put("commentId"  	, param.get("commentId")	);
+		commentParam.put("comment"  	, param.get("comment")   	);
+		commentParam.put("uptId"  		, loginId 					);
 
-		result.put("comment", boardService.updateComment(commentParam));
-		result.put("code"	,"0000"	);
+		boardService.updateComment(commentParam);
+
+		result.put("comment"	, param.get("comment"));
+		result.put("code"		,"0000"	);
+		result.put("message"	,"OK"	);
 
 		return result;
 	}
