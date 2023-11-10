@@ -205,12 +205,11 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value={"/board/view/init"}, method = RequestMethod.GET)
+
+	@RequestMapping(value={"/board/like"}, method = RequestMethod.GET)
 	@ResponseBody
-	public LinkedHashMap getBoardViewInitData(
+	public LinkedHashMap getBoardLikeData(
 			HttpServletRequest request,
-			HttpServletResponse response,
-			CommDto commDto,
 			@RequestParam Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -226,6 +225,80 @@ public class BoardController {
 		String contentsId = String.valueOf(param.get("contentsId"));
 
 		result.putAll(boardService.getLikeYn(contentsType, contentsId, loginId));
+
+		result.put("loginYn","Y");
+		if( loginId.isEmpty() ){
+			result.put("loginYn","N");
+		}
+
+		result.put("code", "0000");
+		result.put("message", "OK");
+
+		return result;
+	}
+
+
+	@RequestMapping(value={"/board/like"}, method = RequestMethod.POST)
+	@ResponseBody
+	public LinkedHashMap modifyBoardLike(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestBody Map<String,Object> param
+	) throws Exception {
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> likeParam = new LinkedHashMap<>();
+
+		String contentsType = String.valueOf(param.get("contentsType"));
+		String contentsId = String.valueOf(param.get("contentsId"));
+
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String loginId = "";
+
+		if( RedisUtil.getSession(sessionId) != null ){
+			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+		}
+
+		if( param.containsKey("likeId") && param.get("likeId") != null ){
+			likeParam.put("likeId"	, param.get("likeId")	);
+			likeParam.put("uptId"	, loginId				);
+
+			boardService.updateLike(likeParam);
+		}else{
+			likeParam.put("contentsType"	, param.get("contentsType")	);
+			likeParam.put("contentsId"		, param.get("contentsId")	);
+			likeParam.put("loginId"			, loginId					);
+			likeParam.put("likeType"		, "01"						);
+			likeParam.put("regId"			, loginId					);
+
+			boardService.insertLike(likeParam);
+			result.putAll(likeParam);
+		}
+
+		result.put("code", "0000");
+		result.put("message", "OK");
+
+		return result;
+	}
+
+
+	@RequestMapping(value={"/board/tags"}, method = RequestMethod.GET)
+	@ResponseBody
+	public LinkedHashMap getBoardTagsData(
+			HttpServletRequest request,
+			@RequestParam Map<String,Object> param
+	) throws Exception {
+		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String loginId = "";
+
+		if( RedisUtil.getSession(sessionId) != null ){
+			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+		}
+
+		String contentsType = String.valueOf(param.get("contentsType"));
+		String contentsId = String.valueOf(param.get("contentsId"));
+
 		result.putAll(boardService.getTagDatas(contentsType, contentsId));
 
 		result.put("loginYn","Y");
@@ -363,50 +436,6 @@ public class BoardController {
 
 		result.put("comment", boardService.deleteComment(commentParam));
 		result.put("code"	,"0000"	);
-
-		return result;
-	}
-
-
-
-	@RequestMapping(value={"/board/like/modify"}, method = RequestMethod.POST)
-	@ResponseBody
-	public LinkedHashMap modifyBoardLike(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			@RequestBody Map<String,Object> param
-	) throws Exception {
-		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		LinkedHashMap<String, Object> likeParam = new LinkedHashMap<>();
-
-		String contentsType = String.valueOf(param.get("contentsType"));
-		String contentsId = String.valueOf(param.get("contentsId"));
-
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		String loginId = "";
-
-		if( RedisUtil.getSession(sessionId) != null ){
-			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
-		}
-
-		if( param.containsKey("likeId") && param.get("likeId") != null ){
-			likeParam.put("likeId"	, param.get("likeId")	);
-			likeParam.put("uptId"	, loginId				);
-
-			boardService.updateLike(likeParam);
-		}else{
-			likeParam.put("contentsType"	, param.get("contentsType")	);
-			likeParam.put("contentsId"		, param.get("contentsId")	);
-			likeParam.put("loginId"			, loginId					);
-			likeParam.put("likeType"		, "01"						);
-			likeParam.put("regId"			, loginId					);
-
-			boardService.insertLike(likeParam);
-			result.putAll(likeParam);
-		}
-
-		result.put("code", "0000");
-		result.put("message", "OK");
 
 		return result;
 	}
