@@ -24,9 +24,9 @@ public class CommController {
 
 
     @ResponseBody
-    @RequestMapping(value = {"/token"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/token"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> getTokenNonMember(
-            @RequestBody Map<String, String> resultMap
+            @RequestParam Map<String, String> resultMap
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
