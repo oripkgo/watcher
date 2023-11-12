@@ -12,10 +12,9 @@ public class NoticeParam extends NoticeDto {
     private String searchLevel;
     private String searchMemId;
     private String searchSecretYn;
-
+    private String paramJson;
     private List idList;
-
-    MultipartFile[] attachFiles;
+    private MultipartFile[] attachFiles;
 
     public String getSearchId() {
         return searchId;
@@ -55,6 +54,16 @@ public class NoticeParam extends NoticeDto {
 
     public void setSearchSecretYn(String searchSecretYn) {
         this.searchSecretYn = searchSecretYn;
+    }
+
+    @Override
+    public String getParamJson() {
+        return paramJson;
+    }
+
+    @Override
+    public void setParamJson(String paramJson) {
+        this.paramJson = paramJson;
     }
 
     public List getIdList() {

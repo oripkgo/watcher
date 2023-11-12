@@ -146,7 +146,7 @@ public class StoryServiceImpl implements StoryService {
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
-        storyParam.setId_list(storyIds.toList());
+        storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
     }
 
@@ -157,7 +157,7 @@ public class StoryServiceImpl implements StoryService {
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
-        storyParam.setId_list(storyIds.toList());
+        storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
     }
 
@@ -168,7 +168,7 @@ public class StoryServiceImpl implements StoryService {
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
-        storyParam.setId_list(storyIds.toList());
+        storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
 
         result.put("code", "0000");
@@ -197,7 +197,7 @@ public class StoryServiceImpl implements StoryService {
 
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
-        storyParam.setId_list(storyIds.toList());
+        storyParam.setIdList(storyIds.toList());
         storyParam.setDeleteYn("Y");
         storyMapper.update(storyParam);
 

@@ -88,7 +88,7 @@ public class MyStoryManagementController {
     public LinkedHashMap<String, Object> deleteStorys(
         HttpServletRequest request,
         HttpServletResponse response,
-        @RequestBody StoryParam storyParam
+        StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
@@ -178,7 +178,7 @@ public class MyStoryManagementController {
     public LinkedHashMap<String, Object> deleteNotices(
         HttpServletRequest request,
         HttpServletResponse response,
-        @RequestBody NoticeParam noticeParam
+        NoticeParam noticeParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
@@ -291,7 +291,7 @@ public class MyStoryManagementController {
     public LinkedHashMap<String, Object> updateMyStorySettingInfo(
         HttpServletRequest request,
         HttpServletResponse response,
-        ManagementParam managementParam
+        @RequestBody ManagementParam managementParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 

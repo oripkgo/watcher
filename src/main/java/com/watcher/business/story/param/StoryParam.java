@@ -19,7 +19,8 @@ public class StoryParam extends StoryDto {
     private String tagsId;
     private String tags;
     private String isOneYearData;
-    private List id_list;
+    private List idList;
+    private String paramJson;
     private MultipartFile thumbnailImgPathParam;
 
     public String getSearch_id() {
@@ -118,12 +119,22 @@ public class StoryParam extends StoryDto {
         this.isOneYearData = isOneYearData;
     }
 
-    public List getId_list() {
-        return id_list;
+    public List getIdList() {
+        return idList;
     }
 
-    public void setId_list(List id_list) {
-        this.id_list = id_list;
+    public void setIdList(List idList) {
+        this.idList = idList;
+    }
+
+    @Override
+    public String getParamJson() {
+        return paramJson;
+    }
+
+    @Override
+    public void setParamJson(String paramJson) {
+        this.paramJson = paramJson;
     }
 
     public MultipartFile getThumbnailImgPathParam() {

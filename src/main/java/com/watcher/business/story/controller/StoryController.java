@@ -53,12 +53,12 @@ public class StoryController {
     }
 
 
-    @RequestMapping(value = {"/delete"})
+    @RequestMapping(value = {"/delete"}, method = RequestMethod.DELETE)
     @ResponseBody
     public LinkedHashMap<String, Object> deleteStory(
         HttpServletRequest request,
         HttpServletResponse response,
-        @RequestBody StoryParam storyParam
+        StoryParam storyParam
     ) throws Exception {
 
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
@@ -77,7 +77,7 @@ public class StoryController {
 
 
 
-    @RequestMapping(value = {"/insert"})
+    @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
     @ResponseBody
     public LinkedHashMap<String, Object> insertStory(
             HttpServletRequest request,
