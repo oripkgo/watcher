@@ -45,10 +45,17 @@ public class ErrorResponse {
 
     @Override
     public String toString() {
-        return "ErrorResponse{" +
-                "status=" + status +
-                ", message='" + message + '\'' +
-                ", code='" + code + '\'' +
-                '}';
+        StringBuffer sbuf = new StringBuffer();
+
+        sbuf.append("ErrorResponse{status=");
+        sbuf.append(status);
+        sbuf.append(", message='");
+        sbuf.append(message);
+        sbuf.append("'");
+        sbuf.append(", code='");
+        sbuf.append(code);
+        sbuf.append("'}");
+
+        return sbuf.toString();
     }
 }

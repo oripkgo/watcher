@@ -107,8 +107,8 @@ public class HttpUtil {
 
             //http 요청 응답 코드 확인 실시
             String responseCode = String.valueOf(conn.getResponseCode());
-            System.out.println("http 응답 코드 : "+responseCode);
-            System.out.println("http 응답 데이터 : "+returnData);
+            logger.debug("http 응답 코드 : "+responseCode);
+            logger.debug("http 응답 데이터 : "+returnData);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
