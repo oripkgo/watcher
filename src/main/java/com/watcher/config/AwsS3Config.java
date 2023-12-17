@@ -13,12 +13,12 @@ import java.util.List;
 
 @Configuration
 public class AwsS3Config {
-    public AwsS3Config(@Value("${aws.bucket.name}") String bucketName) {
-        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
-        ListObjectsV2Result result = s3.listObjectsV2(bucketName);
-        List<S3ObjectSummary> objects = result.getObjectSummaries();
-        for (S3ObjectSummary os : objects) {
-            System.out.println("* " + os.getKey());
-        }
-    }
+//    public AwsS3Config(@Value("${aws.bucket.name}") String bucketName) {
+//        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+//        ListObjectsV2Result result = s3.listObjectsV2(bucketName);
+//        List<S3ObjectSummary> objects = result.getObjectSummaries();
+//        for (S3ObjectSummary os : objects) {
+//            System.out.println("* " + os.getKey());
+//        }
+//    }
 }

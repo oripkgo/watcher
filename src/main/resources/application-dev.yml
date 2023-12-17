@@ -44,8 +44,10 @@ logging:
 
 aws:
   bucket:
-    url: https://watcher-bucket-test.s3.ap-northeast-2.amazonaws.com/
-    name: watcher-bucket-test
+#    url: https://watcher-bucket-test.s3.ap-northeast-2.amazonaws.com/
+#    name: watcher-bucket-test
+    url: https://watcher-bucket.s3.ap-northeast-2.amazonaws.com/
+    name: watcher-bucket
   separator: '%5C'
 
 server_domain: localhost
