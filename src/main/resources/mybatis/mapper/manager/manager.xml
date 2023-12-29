@@ -4,23 +4,25 @@
 <mapper namespace="com.watcher.business.management.mapper.ManagementMapper">
 	<select id="getStorySettingInfo" resultType="map" parameterType="managementParam">
 		SELECT
-			  ID
-			, REG_ID
-			, DATE_FORMAT(REG_DATE,'%Y-%m-%d %H:%i') AS REG_DATE
-            , UPT_ID
-            , DATE_FORMAT(UPT_DATE,'%Y-%m-%d %H:%i') AS UPT_DATE
-		    , LOGIN_ID
-            , COMMENT_PERM_STATUS
-            , STORY_REG_PERM_STATUS
-            , STORY_COMMENT_PUBLIC_STATUS
-            , STORY_TITLE
-		FROM MEM_MANAGEMENT
+			  MM.ID
+			, MM.REG_ID
+			, DATE_FORMAT(MM.REG_DATE,'%Y-%m-%d %H:%i') AS REG_DATE
+			, MM.UPT_ID
+			, DATE_FORMAT(MM.UPT_DATE,'%Y-%m-%d %H:%i') AS UPT_DATE
+			, MM.LOGIN_ID
+			, MM.COMMENT_PERM_STATUS
+			, MM.STORY_REG_PERM_STATUS
+			, MM.STORY_COMMENT_PUBLIC_STATUS
+			, MM.STORY_TITLE
+			, M.MEM_PROFILE_IMG
+		FROM MEM_MANAGEMENT MM
+		INNER JOIN MEMBER M ON M.LOGIN_ID = MM.LOGIN_ID
 		<where>
 			<if test="loginId != null and loginId != ''">
-				AND LOGIN_ID = #{loginId}
+				AND MM.LOGIN_ID = #{loginId}
 			</if>
 			<if test="id != null and id != ''">
-				AND LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id})
+				AND MM.LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id})
 			</if>
 		</where>
 	</select>

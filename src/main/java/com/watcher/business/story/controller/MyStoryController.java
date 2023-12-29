@@ -53,7 +53,7 @@ public class MyStoryController {
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
-        result.put("policy", managementService.getStorySettingInfo(managementParam));
+        result.put("storyInfo", managementService.getStorySettingInfo(managementParam));
 
 
         result.put("memId", memId);
@@ -87,7 +87,7 @@ public class MyStoryController {
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
 
-        result.put("policy", managementService.getStorySettingInfo(managementParam));
+        result.put("storyInfo", managementService.getStorySettingInfo(managementParam));
 
 
         result.put("memId",memId);
