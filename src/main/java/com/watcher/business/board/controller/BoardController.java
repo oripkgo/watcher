@@ -369,6 +369,11 @@ public class BoardController {
 			profile = userData.get("MEM_PROFILE_IMG");
 		}
 
+
+		if( !param.containsKey("comment") || param.get("comment") == null || param.get("comment").equals("") ){
+			throw new Exception("2005");
+		}
+
 		LinkedHashMap commentParam = new LinkedHashMap();
 
 		commentParam.put("contentsType"		, param.get("contentsType") );
