@@ -5,9 +5,12 @@ import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.util.RedisUtil;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,30 +29,35 @@ public class StoryController {
     @Autowired
     SignService signService;
 
+
     @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Object> getStoryView(
+    public ModelAndView getStoryView(
             HttpServletRequest request,
             HttpServletResponse response,
             @PathVariable("memId") String memId,
             StoryParam storyParam
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        String sessionId = request.getSession().getId();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        ModelAndView mv = new ModelAndView("story/view");
+
 
         result.putAll(storyService.getData(storyParam));
 
         // 게시물 수정권한 여부 s
         if( RedisUtil.getSession(sessionId) == null
                 || !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))){
-            result.put("modify_authority_yn","N");
+            mv.addObject("modify_authority_yn","N");
         }else{
-            result.put("modify_authority_yn","Y");
+            mv.addObject("modify_authority_yn","Y");
         }
         // 게시물 수정권한 여부 e
 
-        return result;
+        mv.addObject("memId",memId);
+        mv.addAllObjects(result);
+
+        return mv;
     }
 
 
@@ -99,22 +107,33 @@ public class StoryController {
     }
 
     @RequestMapping(value = {"/write","/update"}, method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Object> getStoryEditData(
+    public ModelAndView getStoryEditData(
             HttpServletRequest request,
             HttpServletResponse response,
             StoryParam storyParam
     ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        ModelAndView mav = new ModelAndView("story/edit");
 
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
-            result.putAll(storyService.getData(storyParam));
+            mav.addAllObjects(storyService.getData(storyParam));
         }
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        return mav;
+    }
 
-        return result;
+
+    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+    public ModelAndView getStoryListPage(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            StoryParam storyParam
+    ) throws Exception {
+        ModelAndView mv = new ModelAndView("story/list");
+
+        mv.addObject("searchKeyword", storyParam.getSearch_keyword());
+        mv.addObject("searchCategoryId", storyParam.getSearch_category_id());
+
+        return mv;
     }
 
 
@@ -127,6 +146,8 @@ public class StoryController {
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        storyParam.setListNo(10);
 
         result.putAll(storyService.getListStoryPublic(storyParam));
         result.put("dto", storyParam);

@@ -1,0 +1,62 @@
+@media (max-width:1200px) {
+
+    .head_wrap {height:70px;}
+    .head_tip {height:70px;}
+
+    .logo a {top:10px;left:3%;font-size:20px;padding:10px 10px 10px 36px;background:url('../img/ico_home.png') no-repeat left center;}
+    .menu_wrap {padding:22px 10px;}
+    .menu_wrap a {font-size:18px;margin:0px 20px;}
+
+    .top_navi {position:absolute;top:20px;right:3%;}
+    .btn_start {font-size:15px;height:34px;line-height:30px;border-radius:17px;padding:0px 30px;}
+
+    .quick_wrap {width:50px;}
+
+    .notice_wrap {padding:10px 0px 10px 10px;bottom:0px;width:70%;}
+    .notice_tit {width:100px;font-size:15px;}
+    .notice_area {width:calc(100% - 270px);margin-left:40px;}
+    .notice_area a {font-size:14px;}
+    .notice_btn {width:70px;margin-left:20px;}
+    .notice_btn a {width:30px;height:30px;}
+
+    .swiper_product .swiper-pagination {bottom:10px !important;}
+    .btn_story {top:65%;left:12%;font-size:16px;height:46px;line-height:44px;padding:0px 20px;}
+
+    .bg_grey {padding-top:50px;}
+    .bg_grey2 {background:#eee;padding:100px 0px;}
+    .bg_grey3 {background:#333;padding:50px 0px;}
+
+    .title_main {padding:30px 0px 20px 50px;}
+    .title_main span {line-height:38px;font-size:38px;}
+    .stip {position:absolute;top:0px;right:0px;width:43px;height:120px;background:#333;z-index:999;}
+
+    .swiper_banner .swiper-pagination {top:120px !important;bottom:auto !important}
+
+    .issue_box {position:absolute;bottom:0px;right:0px;width:60%;height:455px;background:#fff;z-index:99;padding:30px 50px 30px 50px;}
+    .issue_box span {display:block;font-size:16px;color:#333;font-weight:400;}
+    .issue_box strong {display:block;font-size:35px;color:#333;font-weight:600;padding:40px 0px 30px 0px;}
+    .issue_box span.kind {font-size:14px;color:#40a2c7;font-weight:400;}
+    .issue_box em {display:inline-block;font-size:14px;color:#7b7b7b;font-weight:300;margin-top:30px;font-style:italic;}
+    .issue_box a {position:absolute;bottom:0px;left:50%;margin-left:-83px;}
+
+    .tab_wrap {padding:60px 0px;width:90%;margin:0px auto;}
+    #tab_cnt {padding:10px 0px;}
+    #tab_cnt a {margin:0px 20px;font-size:28px;}
+
+    .story_search_wrap {width:90%;margin:50px auto 0px;position:relative;padding:20px;}
+    .sub_title {font-size:25px;}
+    .story_search_wrap span {font-size:22px;padding:20px 0px;}
+
+    .story_search {position:absolute;bottom:-30px;right:20px;display:block;margin:0px;width:475px;height:48px;border-radius:25px;border:2px solid #000;overflow:hidden;background:none;padding-left:25px;}
+    .story_search input[type=text] {display:inline-block;vertical-align:middle;border:none;height:48px;font-size:16px;font-weight:400;color:#000;padding-left:20px;width:68%;}
+    .story_search a {display:inline-block;vertical-align:middle;}
+    .story_search select {display:inline-block;vertical-align:middle;border:none;height:48px;font-size:16px;font-weight:400;color:#000;}
+
+    .manage_layout {padding:0px 20px;}
+    .storybox_search_wrap {position:absolute;top:0px;right:0px;}
+
+    .canvasDiv {
+        width: 100%;
+        height: 200px;
+    }
+}

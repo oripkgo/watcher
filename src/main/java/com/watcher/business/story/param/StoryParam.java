@@ -22,6 +22,7 @@ public class StoryParam extends StoryDto {
     private List idList;
     private String paramJson;
     private MultipartFile thumbnailImgPathParam;
+    private String token;
 
     public String getSearch_id() {
         return search_id;
@@ -143,5 +144,13 @@ public class StoryParam extends StoryDto {
 
     public void setThumbnailImgPathParam(MultipartFile thumbnailImgPathParam) {
         this.thumbnailImgPathParam = thumbnailImgPathParam;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

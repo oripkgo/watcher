@@ -1,0 +1,20 @@
+@media (max-width:840px) {
+    .manage_box_top > div{
+        margin-right:4%;
+    }
+    .manage_box_top > div > span{
+        font-size: 13px;
+    }
+    .manage_box_top > div > strong{
+        font-size: 30px;
+    }
+
+    .manage_box_btn{
+        top:25px;
+        padding-left:15px;
+    }
+
+    .manage_box_btn > em{
+        padding:0;
+    }
+}

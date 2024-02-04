@@ -43,7 +43,6 @@ public class CommController {
 
                 if( signService.getSessionUser(sessionId) == null ){
                     apiToken = signService.getToken(id);
-
                 }else{
                     loginYn = "Y";
                     apiToken = signService.getToken(sessionId);

@@ -33,7 +33,7 @@ db:
   driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 
 server:
-  port: 8081
+  port: 8080
 
 logging:
   config: classpath:watcher-dev-logback.xml
@@ -53,9 +53,16 @@ aws:
 server_domain: localhost
 
 naver:
+  login:
+    token: ThouS3nsCEwGnhkMwI1I
+    callback: http://localhost:8081/sign/naver/success
   client:
     id: ThouS3nsCEwGnhkMwI1I
     secret: nWJxzTmxwr
+
+kakao:
+  login:
+    token: 16039b88287b9f46f214f7449158dfde
 
 cors:
   origin: http://localhost:8080

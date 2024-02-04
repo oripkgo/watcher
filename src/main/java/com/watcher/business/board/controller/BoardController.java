@@ -11,6 +11,7 @@ import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,39 +32,35 @@ public class BoardController {
 	SignService signService;
 
 	@RequestMapping(value = {"/{memId}/notice/list"})
-	@ResponseBody
-	public LinkedHashMap<String, Object> showMemberNoticeListPage(
+	public ModelAndView showMemberNoticeListPage(
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
+		ModelAndView mav = new ModelAndView("notice/list");
 		noticeParam.setSearchMemId(memId);
-		result.put("dto", noticeParam);
-		result.put("noticeListUrl", "/"+memId+"/notice/list/data");
-		result.put("code", "0000");
-		result.put("message", "OK");
 
-		return result;
+		mav.addObject("dto", noticeParam);
+		mav.addObject("noticeListUrl", "/"+memId+"/notice/list/data");
+		mav.addObject("code", "0000");
+		mav.addObject("message", "OK");
+
+		return mav;
 	}
 
 	@RequestMapping(value={"/notice/list"}, method = RequestMethod.GET)
-	@ResponseBody
-	public LinkedHashMap<String, Object> showNoticeListPage(
+	public ModelAndView showNoticeListPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		result.put("noticeListUrl", "/notice/list/data");
-		result.put("dto", new ObjectMapper().convertValue(noticeParam, Map.class));
+		ModelAndView mav = new ModelAndView("notice/list");
 
-		result.put("code","0000");
-		result.put("message", "OK");
+		mav.addObject("noticeListUrl"	, "/notice/list/data");
+		mav.addObject("dto"				, noticeParam);
 
-		return result;
+		return mav;
 	}
 
 	@RequestMapping(value={"/notice/list/data"}, method = RequestMethod.GET)
@@ -108,7 +105,7 @@ public class BoardController {
 	public LinkedHashMap<String, Object> deleteNotice(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody NoticeParam noticeParam
+			NoticeParam noticeParam
 	) throws Exception {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
@@ -125,26 +122,15 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value = {"/notice/view",}, method = RequestMethod.GET)
-	@ResponseBody
-	public LinkedHashMap<String, Object> noticeView(
+	@RequestMapping(value = {"/notice/view"}, method = RequestMethod.GET)
+	public ModelAndView noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		return noticeView(null, request, response, noticeParam);
-	}
+		ModelAndView mav = new ModelAndView("notice/view");
 
-	@RequestMapping(value={"/{memId}/notice/view"}, method = RequestMethod.GET)
-	@ResponseBody
-	public LinkedHashMap<String, Object> noticeView(
-			@PathVariable("memId") String memId,
-			HttpServletRequest request,
-			HttpServletResponse response,
-			NoticeParam noticeParam
-	) throws Exception {
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
+		String sessionId = request.getSession().getId();
 
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
 
@@ -157,33 +143,42 @@ public class BoardController {
 		}
 		// 게시물 수정권한 여부 e
 
-		result.putAll(noticeInfo);
+		mav.addAllObjects(noticeInfo);
 
-		return result;
+		return mav;
 	}
 
+
 	@RequestMapping(value = {"/notice/write","/notice/update"})
-	@ResponseBody
-	public LinkedHashMap showNoticeEditPage(
+	public ModelAndView showNoticeEditPage(
 			HttpServletRequest request,
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		LinkedHashMap result = new LinkedHashMap();
-		LinkedHashMap param = new LinkedHashMap();
+		ModelAndView mav = new ModelAndView("notice/edit");
 
-		param.put("showYn"  	,"Y");
-		param.put("loginId"   	,RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+		String sessionId = request.getSession().getId();
+		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 
-		result.put("code", "0000");
-		result.put("message", "OK");
-		if( !(noticeParam.getId() == null || noticeParam.getId().isEmpty()) ){
-			result.putAll(noticeService.getData(noticeParam));
+		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
+
+		// 게시물 수정권한 여부 s
+		if(
+			RedisUtil.getSession(sessionId) == null
+			|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))
+		){
+			noticeInfo.put("modify_authority_yn","N");
+		}else{
+			noticeInfo.put("modify_authority_yn","Y");
 		}
+		// 게시물 수정권한 여부 e
 
-		return result;
+		mav.addAllObjects(noticeInfo);
+
+		return mav;
 	}
+
+
 
 	@RequestMapping(value = {"/notice/insert"})
 	@ResponseBody
@@ -214,12 +209,15 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = "";
 		String loginId = "";
 
-		if( RedisUtil.getSession(sessionId) != null ){
-			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
-		}
+		try{
+			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+			if( RedisUtil.getSession(sessionId) != null ){
+				loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+			}
+		}catch (Exception e){}
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -251,12 +249,16 @@ public class BoardController {
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
+		String sessionId = "";
 
-		if( RedisUtil.getSession(sessionId) != null ){
-			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
-		}
+		try{
+			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+			if( RedisUtil.getSession(sessionId) != null ){
+				loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+			}
+		}catch (Exception e){}
+
 
 		if( param.containsKey("likeId") && param.get("likeId") != null ){
 			likeParam.put("likeId"	, param.get("likeId")	);
@@ -289,7 +291,12 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String sessionId = "";
+
+		try{
+			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		}catch (Exception e){}
+
 		String loginId = "";
 
 		if( RedisUtil.getSession(sessionId) != null ){

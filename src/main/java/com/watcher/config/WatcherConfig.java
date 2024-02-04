@@ -20,6 +20,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesView;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import java.io.File;
 
@@ -68,7 +71,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 	}
 
 
-	/*// tiles (s)
+	// tiles (s)
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 
@@ -87,7 +90,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 		tilesViewResolver.setViewClass(TilesView.class);
 		return tilesViewResolver;
 	}
-	// tiles (e)*/
+	// tiles (e)
 
 
 	// DB 설정 (s)

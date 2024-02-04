@@ -28,8 +28,8 @@ public class FileServiceImpl implements FileService {
     private final static Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     // 이미지 크기 결정
-    private int scaledWidth = 1000;
-    private int scaledHeight = 1000;
+    private int scaledWidth = 1200;
+    private int scaledHeight = 630;
 
     @Autowired
     FileMapper fileMapper;

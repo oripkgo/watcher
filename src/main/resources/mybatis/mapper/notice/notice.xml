@@ -120,6 +120,7 @@
 			 ,A.TITLE
 			 ,A.CONTENTS
 			 ,A.THUMBNAIL_IMG_PATH
+		     ,A.SECRET_YN
 			 ,A.REG_ID
 			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
 			 ,A.UPT_ID

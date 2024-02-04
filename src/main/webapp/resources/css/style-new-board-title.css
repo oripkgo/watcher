@@ -1,0 +1,141 @@
+.layout_02 {
+    max-width: 1460px;
+    margin: 0px auto;
+    position: relative;
+    padding: 0px;
+    font-size: 0;
+}
+
+.layout_sub {
+    width: 90%;
+    margin: 50px auto 50px auto;
+    padding: 20px;
+}
+
+.title_box_02 .sub_title_top {
+    display: block;
+    font-size: 25px;
+    color: #000;
+    font-weight: 600;
+    text-align: left;
+    border-bottom: 3px solid #333;
+    padding: 5px 0px;
+    text-transform: uppercase;
+}
+
+.title_box_02 .sub_title_bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title_box_02 .title_description {
+    display: block;
+    font-size: 22px;
+    color: #000;
+    font-weight: 400;
+    padding: 20px 0px;
+}
+
+.title_box_02 .title_description {
+    flex: 50%;
+}
+
+.title_box_02 .search_box_02 {
+    flex: 50%;
+}
+
+.title_box_02 .search_group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    border: 2px solid #000;
+    width: 475px;
+    height: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+    float: right;
+}
+
+.title_box_02 .search_group select {
+    min-width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
+    height: 30px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    flex: 20%;
+}
+
+
+.title_box_02 .search_group input {
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
+    height: 48px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+    padding-left: 20px;
+    flex: 70%;
+}
+
+.title_box_02 .search_group a {
+    flex: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.title_box_02 .list {
+    min-height: 300px;
+}
+
+
+.title_box_02 .list.line {
+    border-top: 3px solid #333;
+}
+
+
+@media (max-width: 840px) {
+    .layout_sub {
+        width: 90%;
+        margin: 30px auto 30px auto;
+        padding: 10px;
+    }
+
+    .title_box_02 .sub_title_top {
+        font-size: 20px;
+    }
+
+    .title_box_02 .title_description {
+        font-size: 16px;
+        padding: 10px 0px;
+    }
+
+
+    .title_box_02 .sub_title_bottom {
+        display: block;
+    }
+
+
+    .title_box_02 .search_group
+    {
+        width: 100%;
+        margin-bottom:10px;
+    }
+
+    .title_box_02 .search_group select,
+    .title_box_02 .search_group input
+    {
+        width: 100%;
+        height: auto;
+    }
+
+
+    .title_box_02 .list {
+        margin-top:10px;
+    }
+}

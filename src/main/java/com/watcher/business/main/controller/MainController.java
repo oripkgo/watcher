@@ -22,7 +22,7 @@ public class MainController {
 
 	@RequestMapping(value={"main","/"})
 	public ModelAndView showMainPage(HttpSession session) throws Exception {
-		ModelAndView mav = new ModelAndView("main/main");
+		ModelAndView mav = new ModelAndView("main/index");
 
 		return mav;
 	}

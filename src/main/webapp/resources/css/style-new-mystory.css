@@ -1,0 +1,124 @@
+.new_mystory_layout {
+    max-width: 1280px;
+    margin: 0px auto;
+    position: relative;
+    padding: 0px 20px;
+}
+
+.new_mystory_layout .new_mystory_title_box {
+    line-height: 45px;
+    font-size: 45px;
+    color: #000;
+    font-weight: 600;
+    border-left: 10px solid #333;
+    padding-left: 20px;
+    position: relative;
+    margin: 30px auto;
+}
+
+.new_mystory_contents_box {
+    display: flex;
+    position: relative;
+    padding: 50px 0px 80px 0px;
+    min-height: 600px;
+}
+
+.new_mystory_menu_box {
+    display: inline-block;
+    vertical-align: top;
+    width: 220px;
+}
+
+.new_mystory_photo {
+    background: #a1a6b5;
+    text-align: center;
+}
+
+.new_mystory_photo img {
+    min-height: 145px;
+    min-width: 149px;
+}
+
+.new_mystory_menu_list ul {
+    padding: 30px 0px 30px 20px;
+}
+
+.new_mystory_menu_list a {
+    display: block;
+    font-size: 18px;
+    color: #000;
+    font-weight: 600;
+    padding: 10px 0px 10px 0px;
+}
+
+.new_mystory_menu_list a.on {
+    color: #000;
+    text-decoration: underline;
+}
+
+.new_mystory_contents {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 285px);
+    margin-left: 60px;
+}
+
+
+@media (max-width: 750px) {
+    .new_mystory_mobile_menu_btn {
+        display: block;
+        position: absolute;
+        top: -10px;
+        right: 0;
+        background: url('../img/all_navi_t.png') no-repeat center #fff;
+        width: 50px;
+        height: 50px;
+        z-index: 998;
+        background-size: 60% auto;
+    }
+
+    .new_mystory_layout .new_mystory_title_box {
+        line-height: 25px;
+        font-size: 25px;
+        border-left: 5px solid #333;
+        padding-left: 15px;
+    }
+
+    .new_mystory_photo {
+        background: #a1a6b5;
+        text-align: center;
+        padding: 20px 20px;
+        display: none;
+    }
+
+    .new_mystory_menu_box {
+        position: fixed;
+        top: 0px;
+        bottom: 0px;
+        left: -180px;
+        z-index: 999;
+        display: block;
+        width: 180px;
+        background: #fff;
+        padding: 20px;
+        transition: all 0.2s ease-out;
+        -webkit-transition: all 0.2s ease-out;
+    }
+
+
+    .new_mystory_menu_box.on {
+        left: 0px;
+        border-right: 1px solid #e9e9e9;
+    }
+
+    .new_mystory_menu_list ul {
+        padding-left: 0px;
+    }
+
+    .new_mystory_contents{
+        width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}

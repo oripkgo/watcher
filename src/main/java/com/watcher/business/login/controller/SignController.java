@@ -5,10 +5,10 @@ import com.watcher.business.member.service.MemberService;
 import com.watcher.business.login.param.SignParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -23,6 +23,38 @@ public class SignController {
 
 	@Autowired
 	MemberService memberService;
+
+
+	@RequestMapping(value = {"/session/data"}, method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getSession(
+			HttpServletRequest request,
+			HttpServletResponse response
+	) throws Exception {
+		Map<String,Object> result = new HashMap<>();
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+
+		Map<String, String> userData = signService.getSessionUser(sessionId);
+
+		if ( userData != null ){
+			result.put("loginId", userData.get("LOGIN_ID"));
+			result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
+			result.put("memberId", userData.get("ID"));
+			result.put("memProfileImg", userData.get("MEM_PROFILE_IMG"));
+			result.put("commentPermStatus", userData.get("COMMENT_PERM_STATUS"));
+			result.put("storyRegPermStatus", userData.get("STORY_REG_PERM_STATUS"));
+			result.put("storyCommentPublicStatus", userData.get("STORY_COMMENT_PUBLIC_STATUS"));
+			result.put("storyTitle", userData.get("STORY_TITLE"));
+			result.put("apiToken", userData.get("API_TOKEN"));
+		}
+
+		result.put("sessionId", sessionId);
+		result.put("code","0000");
+		result.put("message", "OK");
+
+		return result;
+	}
+
 
 
 	@RequestMapping(value = {"/in"}, method = RequestMethod.POST)
@@ -80,4 +112,16 @@ public class SignController {
 
 		return result;
 	}
+
+
+	@RequestMapping(value = {"/naver/success"}, method = RequestMethod.GET)
+	public ModelAndView signSuccess(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam Map<String, String> param
+	) throws Exception {
+		ModelAndView mav = new ModelAndView("sign/naverSuccess");
+		return mav;
+	}
+
 }

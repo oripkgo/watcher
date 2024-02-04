@@ -15,13 +15,29 @@ import java.util.List;
 @Component
 public class CommonIntercepter implements HandlerInterceptor {
     private static List compareValues = Arrays.asList(new String[]{"application/json", "application/x-www-form-urlencoded"});
+//    private static List<String> excludeUrls = Arrays.asList(new String[]{"/story/html/page/view"});
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        boolean checkValue = false;
+
         if(
-                StringUtils.hasText(request.getHeader("Content-type")) &&
-                        compareValues.indexOf(request.getHeader("Content-type")) > -1
+            StringUtils.hasText(request.getHeader("Content-type")) &&
+            compareValues.indexOf(request.getHeader("Content-type")) > -1
         ){
+            checkValue = true;
+        }
+
+//        for( int i=0;i<excludeUrls.size();i++){
+//            String url = excludeUrls.get(i);
+//            if( request.getRequestURI().indexOf(url) > -1 ){
+//                checkValue = false;
+//                break;
+//            }
+//        }
+
+        if( checkValue ){
             String authorization = request.getHeader("Authorization").replace("Bearer ", "");
 
             if( !JwtTokenUtil.verifyToken(authorization) ){
