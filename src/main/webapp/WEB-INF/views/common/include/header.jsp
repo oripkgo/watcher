@@ -38,19 +38,17 @@
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
     //window.signNaverSuccess = SIGN_NAVER_SUCCESS;
-    $(document).on("ready",function(){
-        comm.token.init(function(){
-            comm.navigation.init(
-                document.querySelector(".top_navi"),
-                [
-                    {url: "/myStory/" + window.memberId, name: "내 스토리"},
-                    {url: "/management/main", name: "관리"},
-                    {url: window.storyUrlWrite, name: "글쓰기"},
-                ],
-            );
+    comm.token.init(function(){
+        comm.navigation.init(
+            document.querySelector(".top_navi"),
+            [
+                {url: "/myStory/" + window.memberId, name: "내 스토리"},
+                {url: "/management/main", name: "관리"},
+                {url: window.storyUrlWrite, name: "글쓰기"},
+            ],
+        );
 
-            comm.visitor.save(window.nowStoryMemId, window.refererUrl);
-        });
-    })
+        comm.visitor.save(window.nowStoryMemId, window.refererUrl);
+    });
 
 </script>
