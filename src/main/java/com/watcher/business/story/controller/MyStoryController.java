@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,71 +32,50 @@ public class MyStoryController {
     SignService signService;
 
     @RequestMapping(value = {"/{memId}/{categoryId}"})
-    @ResponseBody
-    public LinkedHashMap<String, Object> getMyStoryCategory(
+    public ModelAndView getMyStoryCategory(
             HttpServletRequest request,
             @PathVariable("memId") String memId,
             @PathVariable("categoryId") String categoryId,
             StoryParam storyParam
     ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
-
-        LinkedHashMap param = new LinkedHashMap();
-
-        param.put("showYn", "Y");
-        param.put("memId", memId);
-
-        JSONArray memberCategorys = new JSONArray().putAll(categoryService.getListCategoryMember(param));
+        ModelAndView mv = new ModelAndView("myStory/index");
 
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
-        result.put("memberCategoryList", memberCategorys.toString());
+        mv.addObject("dto", storyParam);
+        mv.addObject("boardTitle", storyParam.getCategory_nm());
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
-        result.put("storyInfo", managementService.getStorySettingInfo(managementParam));
+        mv.addObject("storyInfo", managementService.getStorySettingInfo(managementParam));
 
+        mv.addObject("memId", memId);
+        mv.addObject("noticeListYn", "Y");
 
-        result.put("memId", memId);
-        result.put("categoryListYn", "Y");
-        result.put("dto", storyParam);
-
-        result.put("code", "0000");
-        result.put("message", "OK");
-
-        return result;
+        return mv;
     }
 
 
     @RequestMapping(value = {"/{memId}"})
-    @ResponseBody
-    public LinkedHashMap<String, Object> getMyStory(
+    public ModelAndView getMyStory(
             HttpServletRequest request,
             @PathVariable("memId") String memId,
             StoryParam storyParam
     ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
-
-        storyParam.setListNo(10);
-
-        LinkedHashMap param = new LinkedHashMap();
-        param.put("showYn"  , "Y"     );
-        param.put("memId"   , memId   );
-
-        result.put("memberCategoryList", (new JSONArray().putAll(categoryService.getListCategoryMember(param))).toString() );
+        ModelAndView mv = new ModelAndView("myStory/index");
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);
 
-        result.put("storyInfo", managementService.getStorySettingInfo(managementParam));
+        mv.addObject("storyInfo", managementService.getStorySettingInfo(managementParam));
 
+        storyParam.setListNo(10);
+        mv.addObject("dto",storyParam);
 
-        result.put("memId",memId);
-        result.put("dto",storyParam);
-        result.put("code", "0000");
-        result.put("message", "OK");
+        mv.addObject("memId",memId);
+        mv.addObject("boardTitle","전체글");
 
-        return result;
+        return mv;
     }
 
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
@@ -110,6 +90,7 @@ public class MyStoryController {
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
         String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
+        storyParam.setListNo(10);
         result.putAll(storyService.getListMyStory(memId, storyParam));
 
 

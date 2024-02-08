@@ -122,7 +122,8 @@ public class BoardController {
 		return result;
 	}
 
-	@RequestMapping(value = {"/notice/view"}, method = RequestMethod.GET)
+
+	@RequestMapping(value = {"/notice/view", "/{memId}/notice/view"}, method = RequestMethod.GET)
 	public ModelAndView noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,
@@ -135,11 +136,11 @@ public class BoardController {
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		if( RedisUtil.getSession(sessionId) == null
-				|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))){
-			noticeInfo.put("modify_authority_yn","N");
-		}else{
-			noticeInfo.put("modify_authority_yn","Y");
+		if (RedisUtil.getSession(sessionId) == null
+				|| !(((Map) noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))) {
+			noticeInfo.put("modify_authority_yn", "N");
+		} else {
+			noticeInfo.put("modify_authority_yn", "Y");
 		}
 		// 게시물 수정권한 여부 e
 
