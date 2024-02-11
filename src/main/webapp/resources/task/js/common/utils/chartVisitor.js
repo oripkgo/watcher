@@ -1,4 +1,3 @@
-import REQUEST from "@/resources/task/js/common/utils/request";
 
 const dailyVisitorUrl = "/visitor/chart/count/daily?searchDate=";
 const monthVisitorUrl = "/visitor/chart/count/month?searchDate=";
@@ -166,6 +165,3 @@ const chartVisitor = {
         })
     },
 }
-
-
-export default chartVisitor;
