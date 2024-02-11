@@ -26,3 +26,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    $("[href='"+location.pathname+"']").addClass("on");
+</script>

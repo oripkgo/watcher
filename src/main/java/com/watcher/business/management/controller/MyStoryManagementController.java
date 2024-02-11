@@ -42,9 +42,9 @@ public class MyStoryManagementController {
     SignService signService;
 
 
-    @RequestMapping(value = {"/main"}, method = RequestMethod.GET)
-    public ModelAndView moveMain() throws Exception {
-        ModelAndView mv = new ModelAndView("management/index");
+    @RequestMapping(value = {"/{pageName}"}, method = RequestMethod.GET)
+    public ModelAndView movePage(@PathVariable("pageName") String pageName) throws Exception {
+        ModelAndView mv = new ModelAndView("management/"+pageName);
         return mv;
     }
 

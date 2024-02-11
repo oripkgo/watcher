@@ -43,7 +43,7 @@
             document.querySelector(".top_navi"),
             [
                 {url: "/myStory/" + window.memberId, name: "내 스토리"},
-                {url: "/management/main", name: "관리"},
+                {url: "/management/index", name: "관리"},
                 {url: window.storyUrlWrite, name: "글쓰기"},
             ],
         );

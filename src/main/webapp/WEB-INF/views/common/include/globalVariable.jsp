@@ -11,7 +11,7 @@
     Map<String, String> globalVar = new LinkedHashMap<>();
 
     // 나의 관리자 왼쪽 메뉴 리스트
-    globalVar.put("managementMain", "/management/main");
+    globalVar.put("managementMain", "/management/index");
     globalVar.put("managementBoard", "/management/board");
     globalVar.put("managementCategory", "/management/category");
     globalVar.put("managementNotice", "/management/notice");
@@ -66,7 +66,7 @@
 
         noticeUrlUpdate: "/notice/update",
 
-        managementMain: "/management/main",
+        managementMain: "/management/index",
 
         managementBoard: "/management/board",
 
