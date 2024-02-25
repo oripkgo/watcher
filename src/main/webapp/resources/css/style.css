@@ -414,10 +414,9 @@ a.hover_line:hover {
 .board_notice table {width:100%;margin-bottom:20px;}
 .board_notice th {border-bottom:1px solid #ddd;font-size:15px;color:#757575;font-weight:400;padding:15px 0px 15px 0px;}
 .board_notice td {border-bottom:1px solid #ddd;font-size:15px;color:#757575;font-weight:400;padding:15px;}
-.board_notice td:nth-child(1) {width:50px;text-align:center;}
-.board_notice td:nth-child(2) {font-size:15px;color:#000;font-weight:400;}
-.board_notice td:nth-child(3) {width:150px;text-align:right;font-size:12px;color:#878787;font-weight:300;}
-/*.board_notice th:nth-child(2) {text-align:right;}*/
+.board_notice td:not(.mobile-data) {text-align: center;}
+.board_notice td:nth-child(1) {width:50px;}
+.board_notice td.title {text-align: left;}
 
 /*22.06.11*/
 /*.board_notice.list th {text-align:center;}*/

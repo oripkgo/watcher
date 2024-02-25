@@ -1,0 +1,75 @@
+spring:
+  config:
+    activate:
+      on-profile: notebook
+
+  servlet:
+    multipart:
+      enabled: true
+      location: D://watcher/upload
+      max-file-size: 128MB
+      max-request-size: 128MB
+
+  session:
+    store-type: redis
+  redis:
+    host: localhost
+    port: 6379
+  jta:
+    atomikos:
+      properties:
+        default-max-wait-time-on-shutdown:
+
+#사용자 정의
+upload:
+  root: D://
+  path: /watcher/upload
+
+db:
+  url: jdbc:log4jdbc:mariadb://localhost:3306/watcher
+  #url: jdbc:log4jdbc:mariadb://192.168.0.5:3306/watcher
+  username: ${WATCHER_DB_USER}
+  password: ${WATCHER_DB_PASSWORD}
+  driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
+server:
+  port: 8080
+
+logging:
+  config: classpath:watcher-dev-logback.xml
+  file:
+    name: catalina
+    path: /watcher/logs
+
+
+aws:
+  bucket:
+#    url: https://watcher-bucket-test.s3.ap-northeast-2.amazonaws.com/
+#    name: watcher-bucket-test
+    url: https://watcher-bucket.s3.ap-northeast-2.amazonaws.com/
+    name: watcher-bucket
+  separator: '%5C'
+
+server_domain: localhost
+
+naver:
+  login:
+    token: ThouS3nsCEwGnhkMwI1I
+    callback: http://localhost:8081/sign/naver/success
+  client:
+    id: ThouS3nsCEwGnhkMwI1I
+    secret: nWJxzTmxwr
+
+kakao:
+  login:
+    token: 16039b88287b9f46f214f7449158dfde
+
+cors:
+  origin: http://localhost:8080
+  method: GET,POST,PUT,DELETE
+
+
+
+
+
+

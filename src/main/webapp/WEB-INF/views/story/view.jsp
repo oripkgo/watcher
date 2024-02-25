@@ -11,13 +11,12 @@
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
-                <c:if test="${modify_authority_yn eq 'Y'}">
+                <c:if test="${modifyAuthorityYn eq 'Y'}">
                     <div class="btn_basic">
                         <a href="javascript:;" onclick="updateStory()">수정</a>
                         <img src="/resources/img/line.png">
                         <a href="javascript:;" onclick="deleteStory()">삭제</a>
                     </div>
-
                 </c:if>
 
             </div>

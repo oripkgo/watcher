@@ -24,7 +24,7 @@ public interface BoardMapper {
 
 
 	// 게시글 상세
-	public void selectViewsCount(Map<String,Object> param);
+	public void insertViewsCount(Map<String,Object> param);
 
 	//  게시글 태그
 	public Map<String, String> selectTagDatas(Map<String,Object> param);

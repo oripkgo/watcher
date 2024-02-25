@@ -12,7 +12,7 @@
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
-                <c:if test="${modify_authority_yn eq 'Y'}">
+                <c:if test="${modifyAuthorityYn eq 'Y'}">
                     <div class="btn_basic" id="notice_edit">
                         <a href="javascript:;" id="story_update" onclick="moveEdit();">수정</a>
                         <img src="/resources/img/line.png">
@@ -55,7 +55,7 @@
     const nickName = '${view['NICKNAME']}';
     const contents = '${view['CONTENTS']}';
     const likeCnt = '${view['LIKE_CNT']}';
-    const regDate = '${view['REG_DATE']}' * 1;
+    const regDate = '${view['REG_DATE']}';
 
 
     const moveEdit = function () {

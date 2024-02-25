@@ -18,13 +18,13 @@ public class BoardServiceImpl implements BoardService {
     BoardMapper boardMapper;
 
     @Override
-    public void getViewsCount(String contentsType, String contentsId, String loginId) throws Exception {
+    public void insertViewsCount(String contentsType, String contentsId) throws Exception {
         LinkedHashMap param = new LinkedHashMap();
 
         param.put("contentsType", contentsType  );
         param.put("contentsId"  , contentsId    );
 
-        boardMapper.selectViewsCount(param);
+        boardMapper.insertViewsCount(param);
     }
 
     @Override

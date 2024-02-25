@@ -48,9 +48,9 @@ public class StoryController {
         // 게시물 수정권한 여부 s
         if( RedisUtil.getSession(sessionId) == null
                 || !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))){
-            mv.addObject("modify_authority_yn","N");
+            mv.addObject("modifyAuthorityYn","N");
         }else{
-            mv.addObject("modify_authority_yn","Y");
+            mv.addObject("modifyAuthorityYn","Y");
         }
         // 게시물 수정권한 여부 e
 

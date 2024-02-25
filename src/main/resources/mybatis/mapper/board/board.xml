@@ -143,7 +143,7 @@
 		WHERE ID=#{commentId}
 	</update>
 
-	<insert id="selectViewsCount" parameterType="hashmap">
+	<insert id="insertViewsCount" parameterType="hashmap">
 		INSERT INTO VIEWS SET
 			  CONTENTS_TYPE = #{contentsType}
 			, CONTENTS_ID = #{contentsId}

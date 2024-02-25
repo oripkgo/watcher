@@ -30,10 +30,10 @@
                     <table class="board_list_table">
                         <colgroup>
                             <col width="5%"/>
-                            <col width="50%"/>
+                            <col width="70%"/>
+                            <col width="10%"/>
                             <col width="20%"/>
-                            <col width="15%"/>
-                            <col width="5%"/>
+                            <col width="10%"/>
                         </colgroup>
 
                         <thead>
@@ -106,7 +106,7 @@
             listHtml += '<tr>                                                                               ';
             // listHtml += '    <td><input type="checkbox"></td>                                            ';
             listHtml += '    <td>' + listNum + '</td>                                                         ';
-            listHtml += '    <td>                                                                           ';
+            listHtml += '    <td class="title">                                                                           ';
             listHtml += '        <a href="' + window.getNoticeViewUrl(obj.ID) + '" class="subject_link">' + obj['TITLE'] + '</a>';
             listHtml += '    </td>                                                                          ';
             listHtml += '    <td>' + obj['NICKNAME'] + '</td>';
@@ -142,10 +142,6 @@
                 search();
                 return false;
             }
-        });
-
-        $(".manage_btn").click(function () {
-            $(".manage_menu").toggleClass("on");
         });
 
         search();

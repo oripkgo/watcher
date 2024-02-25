@@ -33,7 +33,7 @@
               <th>카테고리</th>
               <td class="story_top">
                 <select id="story_category">
-                  <option value="">카테고리</option>
+                  <option value="">선택</option>
                 </select>
               </td>
             </tr>
@@ -41,7 +41,7 @@
               <th>회원 카테고리</th>
               <td class="story_top">
                 <select id="story_category_member">
-                  <option value="">카테고리</option>
+                  <option value="">선택</option>
                 </select>
               </td>
             </tr>

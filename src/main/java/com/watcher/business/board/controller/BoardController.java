@@ -10,12 +10,14 @@ import com.watcher.business.login.service.SignService;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -134,17 +136,19 @@ public class BoardController {
 		String sessionId = request.getSession().getId();
 
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
+		noticeService.insertViewsCount(noticeParam);
 
 		// 게시물 수정권한 여부 s
 		if (RedisUtil.getSession(sessionId) == null
 				|| !(((Map) noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))) {
-			noticeInfo.put("modify_authority_yn", "N");
+			noticeInfo.put("modifyAuthorityYn", "N");
 		} else {
-			noticeInfo.put("modify_authority_yn", "Y");
+			noticeInfo.put("modifyAuthorityYn", "Y");
 		}
 		// 게시물 수정권한 여부 e
 
 		mav.addAllObjects(noticeInfo);
+
 
 		return mav;
 	}
@@ -158,19 +162,24 @@ public class BoardController {
 	) throws Exception {
 		ModelAndView mav = new ModelAndView("notice/edit");
 
-		String sessionId = request.getSession().getId();
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
+		String sessionId = request.getSession().getId();
 
-		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
+		Map<String, Object> noticeInfo = new HashMap<>();
+
+		if(StringUtils.hasText(noticeParam.getId())){
+			noticeInfo = noticeService.getData(noticeParam);
+		}
 
 		// 게시물 수정권한 여부 s
 		if(
-			RedisUtil.getSession(sessionId) == null
-			|| !(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))
+			RedisUtil.getSession(sessionId) == null ||
+			!noticeInfo.containsKey("view")	||
+			!(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))
 		){
-			noticeInfo.put("modify_authority_yn","N");
+			noticeInfo.put("modifyAuthorityYn","N");
 		}else{
-			noticeInfo.put("modify_authority_yn","Y");
+			noticeInfo.put("modifyAuthorityYn","Y");
 		}
 		// 게시물 수정권한 여부 e
 

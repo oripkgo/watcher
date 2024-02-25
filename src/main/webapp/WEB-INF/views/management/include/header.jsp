@@ -18,4 +18,10 @@
 
 <script>
     $(".mystory_title").text(window.storyTitle);
+
+    $(document).on("ready", function () {
+        $(".manage_btn").click(function () {
+            $(".manage_menu").toggleClass("on");
+        });
+    })
 </script>

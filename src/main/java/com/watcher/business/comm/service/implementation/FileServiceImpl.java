@@ -58,6 +58,10 @@ public class FileServiceImpl implements FileService {
         long millis = System.currentTimeMillis();
 
         for(MultipartFile file : uploadFiles){
+            if( file.isEmpty() ){
+                continue;
+            }
+
             String original_filename = file.getOriginalFilename();
             String server_filename = File.separator + String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();

@@ -59,14 +59,13 @@
 
 <script>
 
+    const type = 'NOTICE';
+    const id = '${view['ID']}';
     const title = '${view['TITLE']}';
     const contents = '${view['CONTENTS']}';
     const thumbnail = '${view['THUMBNAIL_IMG_PATH']}';
     const secretYn = '${view['SECRET_YN']}';
 
-    const id = '${view['ID']}';
-    const type = 'NOTICE';
-    const viewApiUrl = '/notice/view/api';
     const insertUrl = "/notice/insert";
     const editerId = '#editor';
     const toolbarOptions = [
@@ -89,22 +88,6 @@
         ['clean']                                         // remove formatting button
     ];
 
-    const getNoticeInfo = function (id, callback) {
-        let data = {id: id};
-        let path = viewApiUrl;
-
-        comm.request({
-            url: path,
-            method: "GET",
-            data: data,
-        }, function (resp) {
-            if (callback) {
-                callback(resp);
-            }
-        })
-
-        return data;
-    }
 
     const initEditer = function (id, option) {
         new window['Quill'](id, {
@@ -155,10 +138,12 @@
 
 
     $(document).on("ready", function () {
-        $("#title").val(title);
-        $("#editor").html(contents);
-        $("#attachFiles_text").val(thumbnail)
-        $("#secretYn").val(secretYn);
+        if( id ){
+            $("#title").val(title);
+            $("#editor").html(contents);
+            $("#attachFiles_text").val(thumbnail)
+            $("#secretYn").val(secretYn);
+        }
 
         initEditer(editerId, toolbarOptions);
 
