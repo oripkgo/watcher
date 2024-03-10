@@ -23,6 +23,12 @@
     <meta property="og:image" content="/resources/img/main_visual01.png">
     <meta property="og:url" content="">
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-mystory.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-management.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-board-title.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-1200.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-840.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-750.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/swiper.css"/>
     <script type="text/javascript" src="/resources/js/swiper.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
