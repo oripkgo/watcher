@@ -92,7 +92,7 @@ const COMMENT_ELEMENT = {
         commentElement.querySelector(".writer").innerHTML = nickName;
         commentElement.querySelector(".writer_time").innerHTML = regDate;
         commentElement.querySelector(".contents").innerHTML = comment;
-        commentElement.querySelector("[name='comment_modify']").value = comment;
+        commentElement.querySelector("[name='comment_modify']").value = (comment||"").replace(/<br>/g,"\n");
 
         commentElement.querySelector(".declaration_line").style.display = 'none';
         commentElement.querySelector(".declaration").style.display = 'none';

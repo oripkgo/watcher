@@ -43,7 +43,7 @@ const COMMENT = {
             let textarea = COMMENT_ELEMENT.textArea.getUpdate(parent);
             let contents = COMMENT_ELEMENT.area.getContents(parent);
 
-            textarea.value = contents.textContent;
+            textarea.value = (contents.innerHTML || "").replace(/<br>/g,"\n");
             updateWriteArea.style.display = 'none';
             contents.style.display = 'block';
 
