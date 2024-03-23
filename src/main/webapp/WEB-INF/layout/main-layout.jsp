@@ -5,23 +5,24 @@
 <!doctype html>
 <html lang="ko">
 <head>
+    <title>WATCHER</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="Expires" content="0"/>
     <meta http-equiv="Imagetoolbar" content="no">
     <meta http-equiv="Cache-Control" content="no-cache"/>
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport"
-          content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title>MY스토리</title>
-    <meta name="description" content="">
-    <meta name="keywords" content=""/>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+    <meta name="title" content="WATCHER">
+    <meta name="description" content="나만의 공간에서 이야기를 만들고 공유해보세요.">
+    <meta name="keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="MY스토리">
-    <meta property="og:description" content="">
-    <meta property="og:keywords" content="">
-    <meta property="og:image" content="/resources/img/main_visual01.png">
-    <meta property="og:url" content="">
+    <meta property="og:title" content="WATCHER">
+    <meta property="og:description" content="나의 이야기를 공유해보세요.">
+    <meta property="og:keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
+    <meta property="og:image" content="https://www.watcher.kr/resources/img/main_visual01.jpg">
+    <meta property="og:url" content="https://www.watcher.kr">
+
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/style-new-mystory.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/style-new-management.css"/>
@@ -46,18 +47,15 @@
     <script type="text/javascript" src="/resources/task/js/common/utils/availability.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/tags.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/like.js"></script>
-
     <script type="text/javascript" src="/resources/task/js/common/utils/comment/commentList.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/comment/commentElement.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/comment/commentDom.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/comment/comment.js"></script>
-
     <script type="text/javascript" src="/resources/task/js/common/utils/sign/signPopup.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/sign/signNaver.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/sign/signKakao.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/sign/signSession.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/sign/sign.js"></script>
-
     <script type="text/javascript" src="/resources/task/js/common/utils/mobile.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/visitor.js"></script>
     <script type="text/javascript" src="/resources/task/js/common/utils/dom.js"></script>

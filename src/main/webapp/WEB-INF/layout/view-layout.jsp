@@ -5,7 +5,6 @@
 <html lang="ko">
 <head>
     <title>WATCHER</title>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="Expires" content="0"/>
     <meta http-equiv="Imagetoolbar" content="no">
@@ -13,14 +12,14 @@
     <meta http-equiv="Pragma" content="no-cache"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <meta name="title" content="WATCHER">
-    <meta name="description" content="나만의 공간에서 이야기를 만들고 공유해보세요.">
-    <meta name="keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
+    <meta name="title" content="${view['TITLE']}">
+    <meta name="description" content="${view['SUMMARY']}">
+    <meta name="keywords" content="${view['TAGS']}">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="WATCHER">
-    <meta property="og:description" content="나의 이야기를 공유해보세요.">
-    <meta property="og:keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
-    <meta property="og:image" content="https://www.watcher.kr/resources/img/main_visual01.jpg">
+    <meta property="og:title" content="${view['TITLE']}">
+    <meta property="og:description" content="${view['SUMMARY']}">
+    <meta property="og:keywords" content="${view['TAGS']}">
+    <meta property="og:image" content="${view['THUMBNAIL_IMG_PATH']}">
     <meta property="og:url" content="https://www.watcher.kr">
 
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
@@ -70,22 +69,21 @@
 
 
 <script type="text/javascript">
-
-    var animateQueue = new Array();
-    var ready = true;
+    let animateQueue = new Array();
+    let ready = true;
 
     jQuery.fn.anchorAnimate = function (settings) {
         settings = jQuery.extend({
             speed: 1000
         }, settings);
         return this.each(function () {
-            var caller = this
+            let caller = this
             $(caller).click(function (event) {
                 event.preventDefault()
-                var locationHref = window.location.href
-                var elementClick = $(caller).attr("href")
+                let locationHref = window.location.href
+                let elementClick = $(caller).attr("href")
 
-                var destination = $(elementClick).offset().top - 0;
+                let destination = $(elementClick).offset().top - 0;
                 $("html:not(:animated),body:not(:animated)").animate({scrollTop: destination}, settings.speed, function () {
                     // window.location.hash = elementClick
                 });
@@ -96,8 +94,8 @@
 
     function triggerJqueryFadeIn() {
         $('.ani-in').each(function () {
-            var object_top = $(this).offset().top;
-            var window_bottom = $(window).scrollTop() + $(window).height() - 200;
+            let object_top = $(this).offset().top;
+            let window_bottom = $(window).scrollTop() + $(window).height() - 200;
             if (window_bottom > object_top) {
                 $(this).addClass('action');
             }
