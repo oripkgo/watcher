@@ -93,6 +93,7 @@
     }
 
     function triggerJqueryFadeIn() {
+        const $this = this;
         $('.ani-in').each(function () {
             let object_top = $(this).offset().top;
             let window_bottom = $(window).scrollTop() + $(window).height() - 200;
@@ -100,10 +101,10 @@
                 $(this).addClass('action');
             }
         });
-        triggerJqueryFadeInQueue();
+        triggerJqueryFadeInQueue($this);
     }
 
-    function triggerJqueryFadeInQueue() {
+    function triggerJqueryFadeInQueue($this) {
         if (animateQueue.length != 0 && ready) {
             ready = false;
             $this = animateQueue.shift();
