@@ -21,6 +21,8 @@
     <meta property="og:description" content="나의 이야기를 공유해보세요.">
     <meta property="og:keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
     <meta property="og:image" content="https://www.watcher.kr/resources/img/main_visual01.jpg">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="400">
     <meta property="og:url" content="https://www.watcher.kr">
 
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
@@ -96,17 +98,18 @@
     }
 
     function triggerJqueryFadeIn() {
+        const $this = this;
         $('.ani-in').each(function () {
-            var object_top = $(this).offset().top;
-            var window_bottom = $(window).scrollTop() + $(window).height() - 200;
+            let object_top = $(this).offset().top;
+            let window_bottom = $(window).scrollTop() + $(window).height() - 200;
             if (window_bottom > object_top) {
                 $(this).addClass('action');
             }
         });
-        triggerJqueryFadeInQueue();
+        triggerJqueryFadeInQueue($this);
     }
 
-    function triggerJqueryFadeInQueue() {
+    function triggerJqueryFadeInQueue($this) {
         if (animateQueue.length != 0 && ready) {
             ready = false;
             $this = animateQueue.shift();

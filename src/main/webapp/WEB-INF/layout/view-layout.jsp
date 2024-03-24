@@ -20,6 +20,8 @@
     <meta property="og:description" content="${view['SUMMARY']}">
     <meta property="og:keywords" content="${view['TAGS']}">
     <meta property="og:image" content="${view['THUMBNAIL_IMG_PATH']}">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="400">
     <meta property="og:url" content="https://www.watcher.kr">
 
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>

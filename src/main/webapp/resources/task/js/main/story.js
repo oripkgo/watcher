@@ -17,17 +17,11 @@ const story = {
             headers : {"Content-type":"application/x-www-form-urlencoded"},
         },function(data){
             if( data.code == '0000' && ( data['popularStorys'] && data['popularStorys'].length > 0 ) ){
-
                 data['popularStorys'].forEach(function(obj){
                     let story = $(swiperSlide).clone(true);
                     let storyHtml = '';
 
-                    if( obj['THUMBNAIL_IMG_PATH'] ){
-                        storyHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'], "main-middel-banner");
-                    }else{
-                        return;
-                    }
-
+                    storyHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'], "main-middel-banner");
                     storyHtml += '<div class="issue_box">';
                     storyHtml += '<span class="kind">'+obj['CATEGORY_NM']+'</span>';
                     storyHtml += '<strong>'+obj['TITLE']+'</strong>';
