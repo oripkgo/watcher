@@ -4,14 +4,17 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.watcher.business.comm.service.FileService;
-import com.watcher.config.WatcherConfig;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.watcher.business.comm.mapper.FileMapper;
 import com.watcher.business.comm.param.FileParam;
+import com.watcher.business.comm.service.FileService;
+import com.watcher.config.WatcherConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,16 +22,21 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.*;
 import java.util.List;
 
 @Service
 public class FileServiceImpl implements FileService {
+
+
     private final static Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     // 이미지 크기 결정
     private int scaledWidth = 1200;
+
     private int scaledHeight = 630;
 
     @Autowired
@@ -71,18 +79,6 @@ public class FileServiceImpl implements FileService {
             server_filename = changeFileSeparator(server_filename);
             upload_full_path = changeFileSeparator(upload_full_path);
 
-            String dirCheckPath = changeFileSeparator(fileUploadRootPath + upload_full_path);
-            File dirCheck = new File(dirCheckPath);
-
-            if( dirCheck.exists() ){
-                dirCheck.delete();
-            }
-
-            dirCheck.mkdirs();
-
-            String newFilePath = changeFileSeparator(fileUploadRootPath + upload_full_path + File.separator + server_filename);
-            File newFile = new File(newFilePath);
-
             BufferedImage inputImage = ImageIO.read(file.getInputStream());
 
             // 스케일링을 위한 BufferedImage 생성
@@ -94,18 +90,30 @@ public class FileServiceImpl implements FileService {
             g2d.drawImage(inputImage, 0, 0, scaledWidth, scaledHeight, null);
             g2d.dispose();
 
-            // 스케일링된 이미지 저장
-            file.transferTo(newFile);
-            ImageIO.write(outputImage, extension, newFile);
+            // BufferedImage를 바이트 배열로 변환합니다.
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(outputImage, extension, byteArrayOutputStream);
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            // 바이트 배열을 ByteArrayInputStream으로 변환하여 InputStream을 반환합니다.
+            ByteArrayInputStream imgInputStream = new ByteArrayInputStream(bytes);
 
-            final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
             try {
-                s3.putObject(bucketName, upload_full_path+server_filename, newFile);
+                ObjectMetadata metadata = new ObjectMetadata();
+                metadata.setContentType(MediaType.IMAGE_PNG_VALUE);
+                metadata.setContentLength(imgInputStream.available());
+
+                final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+                s3.putObject(
+                        new PutObjectRequest(
+                                bucketName
+                                , upload_full_path+server_filename
+                                , imgInputStream
+                                , metadata
+                        )
+                );
             } catch (AmazonServiceException e) {
                 logger.error(e.getErrorMessage(), e);
             }
-
-            newFile.delete();
 
             fileParam.setRealFileName(original_filename);
             fileParam.setSavePath(bucketUrl + changeFileSeparatorAws(upload_full_path));
@@ -119,11 +127,13 @@ public class FileServiceImpl implements FileService {
         return result;
     }
 
+
     @Transactional
     @Override
     public int uploadAfterSavePath(MultipartFile uploadfile,String savePath, FileParam fileParam) throws Exception {
         return uploadAfterSavePath(new MultipartFile[]{uploadfile}, savePath, fileParam).get(0);
     }
+
 
     @Transactional
     @Override
@@ -136,6 +146,7 @@ public class FileServiceImpl implements FileService {
         return result;
     }
 
+
     private String changeFileSeparator(String path){
         if( "\\".equals(WatcherConfig.file_separator) ){
             return path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
@@ -143,6 +154,7 @@ public class FileServiceImpl implements FileService {
 
         return path.replaceAll("/", WatcherConfig.file_separator);
     }
+
 
     private String changeFileSeparatorAws(String path){
         String tempPath = path;
@@ -155,4 +167,6 @@ public class FileServiceImpl implements FileService {
 
         return tempPath;
     }
+
+
 }
