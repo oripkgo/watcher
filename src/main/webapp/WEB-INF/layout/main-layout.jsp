@@ -20,7 +20,7 @@
     <meta property="og:title" content="WATCHER">
     <meta property="og:description" content="나의 이야기를 공유해보세요.">
     <meta property="og:keywords" content="블로그, 카페, 공유, 커뮤니티, 소통, 사진, 이야기, 글, 글쓰기, 글쟁이">
-    <meta property="og:image" content="https://www.watcher.kr/resources/img/main_visual01.jpg">
+    <meta property="og:image" content="https://www.watcher.kr/resources/img/meta_image_main.jpg">
     <meta property="og:image:width" content="800">
     <meta property="og:image:height" content="400">
     <meta property="og:url" content="https://www.watcher.kr">
