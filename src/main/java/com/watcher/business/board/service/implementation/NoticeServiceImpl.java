@@ -144,7 +144,7 @@ public class NoticeServiceImpl implements NoticeService {
                 fileParam.setRegId(noticeParam.getRegId());
                 fileParam.setUptId(noticeParam.getRegId());
 
-                fileService.upload(
+                fileService.uploadAfterSavePath(
                     noticeParam.getAttachFiles(),
                     fileUploadPath,
                     fileParam
@@ -161,7 +161,7 @@ public class NoticeServiceImpl implements NoticeService {
                 fileParam.setRegId(noticeParam.getRegId());
                 fileParam.setUptId(noticeParam.getRegId());
 
-                fileService.upload(
+                fileService.uploadAfterSavePath(
                     noticeParam.getAttachFiles(),
                     fileUploadPath,
                     fileParam

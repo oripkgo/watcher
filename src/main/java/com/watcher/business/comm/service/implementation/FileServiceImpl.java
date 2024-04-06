@@ -52,7 +52,7 @@ public class FileServiceImpl implements FileService {
 
     @Transactional
     @Override
-    public List<Integer> upload(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception {
+    public List<Integer> uploadAfterSavePath(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception {
         List<Integer> result = new ArrayList<>();
 
         long millis = System.currentTimeMillis();
@@ -121,8 +121,8 @@ public class FileServiceImpl implements FileService {
 
     @Transactional
     @Override
-    public int upload(MultipartFile uploadfile,String savePath, FileParam fileParam) throws Exception {
-        return upload(new MultipartFile[]{uploadfile}, savePath, fileParam).get(0);
+    public int uploadAfterSavePath(MultipartFile uploadfile,String savePath, FileParam fileParam) throws Exception {
+        return uploadAfterSavePath(new MultipartFile[]{uploadfile}, savePath, fileParam).get(0);
     }
 
     @Transactional

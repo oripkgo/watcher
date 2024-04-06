@@ -67,7 +67,7 @@ public class StoryServiceImpl implements StoryService {
                 fileParam.setRegId(storyParam.getRegId());
                 fileParam.setUptId(storyParam.getRegId());
 
-                int file_id = fileService.upload(
+                int file_id = fileService.uploadAfterSavePath(
                         storyParam.getThumbnailImgPathParam(),
                         fileUploadPath,
                         fileParam
@@ -107,7 +107,7 @@ public class StoryServiceImpl implements StoryService {
                 fileParam.setRegId(storyParam.getRegId());
                 fileParam.setUptId(storyParam.getRegId());
 
-                int file_id = fileService.upload(
+                int file_id = fileService.uploadAfterSavePath(
                         storyParam.getThumbnailImgPathParam(),
                         fileUploadPath,
                         fileParam
