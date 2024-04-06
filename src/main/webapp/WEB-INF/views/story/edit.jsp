@@ -7,10 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!-- Include stylesheet -->
+<%--<!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <!-- Main Quill library -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>--%>
+
+
+<!-- Place the first <script> tag in your HTML's <head> -->
+<script src="https://cdn.tiny.cloud/1/x4lfthehuygci0gyh27r2085hd2z6pljljatiadlrrdcjpae/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
 
 <form id="story_write_form">
 
@@ -60,7 +65,9 @@
             </tr>
             <tr>
               <td colspan="2">
-                <div id="editor" class="editor"></div>
+                <div id="editor" class="editor">
+                  ${view['CONTENTS']}
+                </div>
               </td>
             </tr>
             <tr>
@@ -92,25 +99,15 @@
 
 <script>
   const editerId = '#editor';
-  let toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-    ['blockquote', 'code-block'],
-
-    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-    [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-    [{ 'direction': 'rtl' }],                         // text direction
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-    [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-    [{ 'font': [] }],
-    [{ 'align': [] }],
-
-    ['clean']                                         // remove formatting button
-  ];
+  const toolbarOptions = {
+    selector: editerId,
+    skin: 'material-outline',
+    content_css: 'material-outline',
+    icons: 'material',
+    plugins: 'code image link lists',
+    toolbar: 'undo redo | styles | bold italic underline forecolor backcolor | link image code | align | bullist numlist',
+    menubar: false
+  };
 
 
   const CATEGORY_LIST = comm.category.get();
@@ -121,7 +118,6 @@
   const memberCategoryId = '${view['MEMBER_CATEGORY_ID']}';
   const secretYn = '${view['SECRET_YN']}' || 'N';
   const title = '${view['TITLE']}';
-  const contents = '${view['CONTENTS']}';
   const tags = '${view['TAGS']}';
   const realFileName = '${view['REAL_FILE_NAME']}';
 
@@ -138,7 +134,7 @@
 
     $("#categoryId").val($("#story_category").val());
     $("#memberCategoryId").val($("#story_category_member").val());
-    $("#contents").val($(".ql-editor","#editor").html());
+    $("#contents").val($(editerId).html());
 
     comm.dom.appendInput('#story_write_form', 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
 
@@ -197,20 +193,12 @@
   }
 
   const initEdit = function(id, option){
-    $(id).css({"height":"400px","font-size":"15px"});
-    new window['Quill'](id, {
-
-      modules: {
-        //toolbar: '#toolbar-container',
-        toolbar: option
-      },
-
-      theme: 'snow'
-    });
+    tinymce.init(option);
   }
 
   const addEvents = function(){
     $(".write_confirm").on("click",function(){
+      tinymce.triggerSave();
       insertStory();
     });
 
@@ -227,6 +215,8 @@
     })
   }
 
+  initEdit(editerId, toolbarOptions);
+
   $(document).on("ready", function(){
 
     setCategoryOptions();
@@ -238,11 +228,10 @@
     $("#story_category_member").val(memberCategoryId);
     $("#secretYn").val(secretYn);
     $("#title").val(title);
-    $("#editor").html(contents);
+    // $("#editor").html(contents);
     $("#tags").val(tags);
     $("#thumbnailImgPathParam_text").val(realFileName);
 
-    initEdit(editerId, toolbarOptions);
 
   })
 </script>

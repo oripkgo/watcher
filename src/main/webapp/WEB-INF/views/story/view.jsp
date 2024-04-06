@@ -28,7 +28,7 @@
     <div class="section uline2">
         <div class="ani-in sub_layout rline">
             <div class="conts_wrap ani_y delay2">
-                <div id="storyContents"></div>
+                <div id="storyContents">${view['CONTENTS']}</div>
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm like" id="likeTarget" data-likecnt="0">공감 0</a>
                 </div>
@@ -52,7 +52,6 @@
     const title = '${view['TITLE']}';
     const nickName = '${view['NICKNAME']}';
     const regDate = '${view['REG_DATE']}';
-    const contents = '${view['CONTENTS']}';
     const likeCnt = '${view['LIKE_CNT']}' * 1;
 
     const updateStory = function () {
@@ -82,7 +81,6 @@
 
         $("#title").text(title);
         $("#nickName").text("by " + nickName);
-        $("#storyContents").replaceWith(contents);
         $("#last_time").html(comm.date.getPastDate(regDate));
         $("#likeTarget").data('likecnt', likeCnt);
         $("#likeTarget").text('공감 ' + likeCnt);
