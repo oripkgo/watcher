@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface FileService {
+    public String upload(String base64Image,String savePath) throws Exception;
+
     public List<Integer> uploadAfterSavePath(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception;
 
     public int uploadAfterSavePath(MultipartFile uploadfile,String savePath, FileParam fileParam) throws Exception;

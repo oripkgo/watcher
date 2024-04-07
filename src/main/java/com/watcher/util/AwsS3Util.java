@@ -29,6 +29,9 @@ public class AwsS3Util {
     private static String bucketName;
 
 
+    private static String imageType = MediaType.IMAGE_PNG_VALUE;
+
+
     @Value("${aws.bucket.url}")
     private void setBucketUrl(String url) {
         bucketUrl = url;
@@ -49,7 +52,7 @@ public class AwsS3Util {
     static public void putImage(String path, InputStream is)throws Exception{
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(MediaType.IMAGE_PNG_VALUE);
+        metadata.setContentType(imageType);
         try {
             metadata.setContentLength(is.available());
         } catch (IOException e) {

@@ -120,6 +120,8 @@
   const title = '${view['TITLE']}';
   const tags = '${view['TAGS']}';
   const realFileName = '${view['REAL_FILE_NAME']}';
+  const insertUrl = "/story/insert";
+  const imgSaveUrl = "/file/upload/image";
 
   const insertStory = function(){
     if($("#story_category").val() == ''){
@@ -134,15 +136,18 @@
 
     $("#categoryId").val($("#story_category").val());
     $("#memberCategoryId").val($("#story_category_member").val());
-    $("#contents").val($(editerId).html());
 
     comm.dom.appendInput('#story_write_form', 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
+
+    changeImagePathToS3Path($(editerId).find("img"));
+    $("#contents").val($(editerId).html());
+
 
     var form = $('#story_write_form')[0]
     var formData = new FormData(form);
 
     comm.request({
-      url: "/story/insert",
+      url: insertUrl,
       data : formData,
       processData : false,
       contentType : false,
@@ -153,6 +158,31 @@
           location.href = window.getStoryViewUrl(res['storyId'], window.memberId);
         });
       }
+    })
+  }
+
+  const changeImagePathToS3Path = function (imgs) {
+    $(imgs).each(function () {
+      const img = this;
+      const src = $(img).attr("src");
+      if(
+          // src.indexOf('watcher-bucket.s3.ap-northeast-2.amazonaws.com') > -1 ||
+          !src.startsWith('data:image')
+      ){
+        return;
+      }
+
+      const param = {
+        id: src,
+        base64Img: src,
+      }
+
+      comm.request({url: imgSaveUrl, method: "POST", data: JSON.stringify(param), async: false}, function (resp) {
+        // 수정 성공
+        if (resp.code == '0000') {
+          $(img).attr("src", resp.path);
+        }
+      })
     })
   }
 

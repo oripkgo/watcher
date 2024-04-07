@@ -47,6 +47,26 @@ public class FileServiceImpl implements FileService {
     String awsSeparator;
 
 
+    @Override
+    public String upload(String base64Image, String savePath) throws Exception {
+        // base64 데이터에서 이미지 바이트 배열로 디코딩
+
+        // base64 데이터를 디코딩하여 이미지 바이트 배열로 변환
+        byte[] imageBytes = Base64.getDecoder().decode(base64Image.split(",")[1]);
+
+        // 바이트 배열을 ByteArrayInputStream으로 변환하여 InputStream을 반환합니다.
+        ByteArrayInputStream imgInputStream = new ByteArrayInputStream(imageBytes);
+
+        try {
+            AwsS3Util.putImage(savePath, imgInputStream);
+        } catch (AmazonServiceException e) {
+            throw new Exception("4001");
+        }
+
+        return AwsS3Util.getBucketUrl() + savePath;
+    }
+
+
     @Transactional
     @Override
     public List<Integer> uploadAfterSavePath(MultipartFile[] uploadFiles, String savePath, FileParam fileParam) throws Exception {
