@@ -1,20 +1,15 @@
 package com.watcher.business.comm.service.implementation;
 
 import com.amazonaws.AmazonServiceException;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.watcher.business.comm.mapper.FileMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.comm.service.FileService;
 import com.watcher.config.WatcherConfig;
+import com.watcher.util.AwsS3Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,12 +43,6 @@ public class FileServiceImpl implements FileService {
     @Value("${upload.path}")
     String fileUploadPath;
 
-    @Value("${aws.bucket.name}")
-    String bucketName;
-
-    @Value("${aws.bucket.url}")
-    String bucketUrl;
-
     @Value("${aws.separator}")
     String awsSeparator;
 
@@ -65,15 +54,15 @@ public class FileServiceImpl implements FileService {
 
         long millis = System.currentTimeMillis();
 
-        for(MultipartFile file : uploadFiles){
-            if( file.isEmpty() ){
+        for (MultipartFile file : uploadFiles) {
+            if (file.isEmpty()) {
                 continue;
             }
 
             String original_filename = file.getOriginalFilename();
             String server_filename = File.separator + String.valueOf(millis) + original_filename.substring(original_filename.lastIndexOf("."));
             String upload_full_path = fileUploadPath + savePath + File.separator + fileParam.getContentsId();
-            String extension = server_filename.substring(server_filename.lastIndexOf(".")+1);
+            String extension = server_filename.substring(server_filename.lastIndexOf(".") + 1);
 
             original_filename = changeFileSeparator(original_filename);
             server_filename = changeFileSeparator(server_filename);
@@ -98,25 +87,13 @@ public class FileServiceImpl implements FileService {
             ByteArrayInputStream imgInputStream = new ByteArrayInputStream(bytes);
 
             try {
-                ObjectMetadata metadata = new ObjectMetadata();
-                metadata.setContentType(MediaType.IMAGE_PNG_VALUE);
-                metadata.setContentLength(imgInputStream.available());
-
-                final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
-                s3.putObject(
-                        new PutObjectRequest(
-                                bucketName
-                                , upload_full_path+server_filename
-                                , imgInputStream
-                                , metadata
-                        )
-                );
+                AwsS3Util.putImage(upload_full_path + server_filename, imgInputStream);
             } catch (AmazonServiceException e) {
-                logger.error(e.getErrorMessage(), e);
+                throw new Exception("4001");
             }
 
             fileParam.setRealFileName(original_filename);
-            fileParam.setSavePath(bucketUrl + changeFileSeparatorAws(upload_full_path));
+            fileParam.setSavePath(AwsS3Util.getBucketUrl() + changeFileSeparatorAws(upload_full_path));
             fileParam.setServerFileName(changeFileSeparatorAws(server_filename));
             fileParam.setPathSeparator(File.separator);
 
@@ -130,7 +107,7 @@ public class FileServiceImpl implements FileService {
 
     @Transactional
     @Override
-    public int uploadAfterSavePath(MultipartFile uploadfile,String savePath, FileParam fileParam) throws Exception {
+    public int uploadAfterSavePath(MultipartFile uploadfile, String savePath, FileParam fileParam) throws Exception {
         return uploadAfterSavePath(new MultipartFile[]{uploadfile}, savePath, fileParam).get(0);
     }
 
@@ -147,21 +124,21 @@ public class FileServiceImpl implements FileService {
     }
 
 
-    private String changeFileSeparator(String path){
-        if( "\\".equals(WatcherConfig.file_separator) ){
-            return path.replaceAll("/",WatcherConfig.file_separator+WatcherConfig.file_separator);
+    private String changeFileSeparator(String path) {
+        if ("\\".equals(WatcherConfig.file_separator)) {
+            return path.replaceAll("/", WatcherConfig.file_separator + WatcherConfig.file_separator);
         }
 
         return path.replaceAll("/", WatcherConfig.file_separator);
     }
 
 
-    private String changeFileSeparatorAws(String path){
+    private String changeFileSeparatorAws(String path) {
         String tempPath = path;
 
-        tempPath = tempPath.replaceAll(WatcherConfig.file_separator+WatcherConfig.file_separator, awsSeparator);
+        tempPath = tempPath.replaceAll(WatcherConfig.file_separator + WatcherConfig.file_separator, awsSeparator);
 
-        if( tempPath.indexOf(awsSeparator) == -1 ){
+        if (tempPath.indexOf(awsSeparator) == -1) {
             tempPath = tempPath.replaceAll(WatcherConfig.file_separator, awsSeparator);
         }
 
