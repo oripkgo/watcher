@@ -1,6 +1,7 @@
 package com.watcher.util;
 
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -56,7 +57,10 @@ public class AwsS3Util {
         }
 
         try {
-            final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_NORTHEAST_2).build();
+            final AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+                    .withCredentials(new ProfileCredentialsProvider())
+                    .withRegion(Regions.AP_NORTHEAST_2)
+                    .build();
             s3.putObject(
                     new PutObjectRequest(
                             bucketName
