@@ -27,6 +27,9 @@ public class SignServiceImpl implements SignService {
     @Value("${naver.client.secret}")
     String naverClientSecret;
 
+    @Value("${kakao.logout.token}")
+    String kakaoLogoutToken;
+
     String naverSignOutApiUrl = "https://nid.naver.com/oauth2.0/token";
     String kakaoSignOutApiUrl = "https://kapi.kakao.com/v1/user/unlink";
 
@@ -35,28 +38,28 @@ public class SignServiceImpl implements SignService {
     public String validation(String token) throws Exception {
         String sessionId;
 
-        try{
-            if( token == null || token.isEmpty() ){
+        try {
+            if (token == null || token.isEmpty()) {
                 throw new Exception();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("2004");
         }
 
-        try{
+        try {
             sessionId = this.getSessionId(token);
-            if( sessionId == null || sessionId.isEmpty() ){
+            if (sessionId == null || sessionId.isEmpty()) {
                 throw new Exception();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("2002");
         }
 
-        try{
-            if( this.getSessionUser(sessionId) == null || this.getSessionUser(sessionId).isEmpty() ){
+        try {
+            if (this.getSessionUser(sessionId) == null || this.getSessionUser(sessionId).isEmpty()) {
                 throw new Exception();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception("2003");
         }
 
@@ -73,20 +76,20 @@ public class SignServiceImpl implements SignService {
         MemberParam memberParam = new MemberParam();
 
         memberParam.setLoginId(signParam.getId());
-        memberParam.setMemType(( "naver".equals(signParam.getType())?"00":"01" ));
+        memberParam.setMemType(("naver".equals(signParam.getType()) ? "00" : "01"));
         memberParam.setNickname(signParam.getNickname());
         memberParam.setName(signParam.getName());
         memberParam.setEmail(signParam.getEmail());
         memberParam.setGender(signParam.getGender());
         memberParam.setMemProfileImg(signParam.getProfile());
 
-        Map<String,Object> userData = memberService.select(memberParam);
+        Map<String, Object> userData = memberService.select(memberParam);
 
-        if( userData == null || userData.size() == 0 ){
+        if (userData == null || userData.size() == 0) {
             memberService.insertUpdate(memberParam);
         }
 
-        if ( !(signParam.getId() == null || signParam.getId().isEmpty())){
+        if (!(signParam.getId() == null || signParam.getId().isEmpty())) {
             String jwt = JwtTokenUtil.createJWT(sessionId);
 
             userData = memberService.select(memberParam);
@@ -99,24 +102,24 @@ public class SignServiceImpl implements SignService {
     @Override
     public void handleOut(SignParam signParam, String sessionId) throws Exception {
         String logOutUrl = "";
-        Map<String, String> logOutHeaders = new LinkedHashMap<String,String>();
-        Map<String, String> logOutParam = new LinkedHashMap<String,String>();
+        Map<String, String> logOutHeaders = new LinkedHashMap<String, String>();
+        Map<String, String> logOutParam = new LinkedHashMap<String, String>();
 
-        if( "naver".equals(signParam.getType()) ){
+        if ("naver".equals(signParam.getType())) {
             logOutUrl = naverSignOutApiUrl;
 
-            logOutParam.put("grant_type"		,"delete");
-            logOutParam.put("client_id"			,naverClientId);
-            logOutParam.put("client_secret"		,naverClientSecret);
-            logOutParam.put("access_token"		,signParam.getAccess_token());
-            logOutParam.put("service_provider"	,"NAVER");
-        }else{
+            logOutParam.put("grant_type", "delete");
+            logOutParam.put("client_id", naverClientId);
+            logOutParam.put("client_secret", naverClientSecret);
+            logOutParam.put("access_token", signParam.getAccess_token());
+            logOutParam.put("service_provider", "NAVER");
+        } else {
             logOutUrl = kakaoSignOutApiUrl;
 
-            logOutParam.put("target_id_type"	, "user_id");
-            logOutParam.put("target_id"			, String.valueOf(this.getSessionUser(sessionId).get("LOGIN_ID")));
+            logOutParam.put("target_id_type", "user_id");
+            logOutParam.put("target_id", String.valueOf(this.getSessionUser(sessionId).get("LOGIN_ID")));
 
-            logOutHeaders.put("Authorization","KakaoAK 8266a4360fae60a41a106674a81dddeb");
+            logOutHeaders.put("Authorization", "KakaoAK " + kakaoLogoutToken);
         }
 
         HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);

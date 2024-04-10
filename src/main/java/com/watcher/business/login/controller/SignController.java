@@ -92,7 +92,7 @@ public class SignController {
 	}
 
 
-	@RequestMapping(value = {"out"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/out"}, method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> signOut(
 			HttpServletRequest request,
