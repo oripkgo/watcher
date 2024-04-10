@@ -52,18 +52,6 @@ aws:
 
 server_domain: localhost
 
-naver:
-  login:
-    token: ThouS3nsCEwGnhkMwI1I
-    callback: http://localhost:8081/sign/naver/success
-  client:
-    id: ThouS3nsCEwGnhkMwI1I
-    secret: nWJxzTmxwr
-
-kakao:
-  login:
-    token: 16039b88287b9f46f214f7449158dfde
-
 cors:
   origin: http://localhost:8080
   method: GET,POST,PUT,DELETE
