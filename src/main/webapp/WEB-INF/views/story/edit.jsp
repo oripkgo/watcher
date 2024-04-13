@@ -106,7 +106,8 @@
     icons: 'material',
     plugins: 'code image link lists',
     toolbar: 'undo redo | styles | bold italic underline forecolor backcolor | link image code | align | bullist numlist',
-    menubar: false
+    menubar: false,
+    forced_root_block:'div'
   };
 
 
