@@ -30,7 +30,9 @@
     <div class="section uline2">
         <div class="ani-in sub_layout rline">
             <div class="conts_wrap ani_y delay2">
-                <div id="noticeContents"></div>
+                <div id="noticeContents">
+                    ${view['CONTENTS']}
+                </div>
 
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm" id="likeTarget" data-likecnt="0">공감 0</a>
@@ -53,7 +55,6 @@
 
     const title = '${view['TITLE']}';
     const nickName = '${view['NICKNAME']}';
-    const contents = '${view['CONTENTS']}';
     const likeCnt = '${view['LIKE_CNT']}';
     const regDate = '${view['REG_DATE']}';
 
@@ -81,7 +82,6 @@
         $("#title").text(title);
         $("#nickname").text(nickName);
         $("#last_time").text(comm.date.getPastDate(regDate));
-        $("#noticeContents").replaceWith(contents.replace(/\/resources/g, window.getServerImg("/resources")))
         $("#likeTarget").data('likecnt', likeCnt);
         $("#likeTarget").text('공감 ' + likeCnt);
 

@@ -1,8 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- Include stylesheet -->
+
+<%--<!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <!-- Main Quill library -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>--%>
+
+
+<!-- Place the first <script> tag in your HTML's <head> -->
+<script src="https://cdn.tiny.cloud/1/x4lfthehuygci0gyh27r2085hd2z6pljljatiadlrrdcjpae/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <form id="notice_write_form">
     <input type="hidden" name="id" id="id">
@@ -30,7 +35,9 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <div id="editor" class="editor" style="height:400px;font-size:14px;"></div>
+                                <div id="editor" class="editor" style="height:400px;font-size:14px;">
+                                    ${view['CONTENTS']}
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -62,42 +69,53 @@
     const type = 'NOTICE';
     const id = '${view['ID']}';
     const title = '${view['TITLE']}';
-    const contents = '${view['CONTENTS']}';
     const thumbnail = '${view['THUMBNAIL_IMG_PATH']}';
     const secretYn = '${view['SECRET_YN']}';
-
     const insertUrl = "/notice/insert";
+    const imgSaveUrl = "/file/upload/image";
     const editerId = '#editor';
-    const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-
-        [{'header': 1}, {'header': 2}],               // custom button values
-        [{'list': 'ordered'}, {'list': 'bullet'}],
-        [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
-        [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-        [{'direction': 'rtl'}],                         // text direction
-
-        [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
-        [{'header': [1, 2, 3, 4, 5, 6, false]}],
-
-        [{'color': []}, {'background': []}],          // dropdown with defaults from theme
-        [{'font': []}],
-        [{'align': []}],
-
-        ['clean']                                         // remove formatting button
-    ];
+    const toolbarOptions = {
+        selector: editerId,
+        skin: 'material-outline',
+        content_css: 'material-outline',
+        icons: 'material',
+        plugins: 'code image link lists',
+        toolbar: 'undo redo | styles | bold italic underline forecolor backcolor | link image code | align | bullist numlist',
+        menubar: false,
+        forced_root_block:'div'
+    };
 
 
     const initEditer = function (id, option) {
-        new window['Quill'](id, {
-            modules: {
-                //toolbar: '#toolbar-container',
-                toolbar: option
-            },
-            theme: 'snow'
-        });
+        tinymce.init(option);
     }
+
+
+    const changeImagePathToS3Path = function (imgs) {
+        $(imgs).each(function () {
+            const img = this;
+            const src = $(img).attr("src");
+            if(
+                // src.indexOf('watcher-bucket.s3.ap-northeast-2.amazonaws.com') > -1 ||
+                !src.startsWith('data:image')
+            ){
+                return;
+            }
+
+            const param = {
+                id: src,
+                base64Img: src,
+            }
+
+            comm.request({url: imgSaveUrl, method: "POST", data: JSON.stringify(param), async: false}, function (resp) {
+                // 수정 성공
+                if (resp.code == '0000') {
+                    $(img).attr("src", resp.path);
+                }
+            })
+        })
+    }
+
 
     const insert = function () {
         if ($("#title").val() == '') {
@@ -105,8 +123,11 @@
             return;
         }
 
+        tinymce.triggerSave();
+
         $("#id").val(id);
-        $("#contents").val($(".ql-editor", "#editor").html());
+        changeImagePathToS3Path($(editerId).find("img"));
+        $("#contents").val($(editerId).html());
 
         comm.dom.appendInput('#notice_write_form', 'summary', String($(".ql-editor", "#editor").text()).substring(0, 200));
         comm.dom.appendInput('#notice_write_form', 'regId', window.loginId);
@@ -140,7 +161,6 @@
     $(document).on("ready", function () {
         if( id ){
             $("#title").val(title);
-            $("#editor").html(contents);
             $("#attachFiles_text").val(thumbnail)
             $("#secretYn").val(secretYn);
         }
