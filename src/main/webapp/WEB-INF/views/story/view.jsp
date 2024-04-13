@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="/resources/task/js/common/utils/share.js"></script>
 
@@ -31,8 +32,6 @@
         <div class="ani-in sub_layout rline">
             <div class="conts_wrap ani_y delay2">
                 <div id="storyContents">${view['CONTENTS']}</div>
-
-
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm like" id="likeTarget" data-likecnt="0">공감 0</a>
                     <a href="javascript:;" class="sns_btn"></a>
@@ -47,9 +46,14 @@
                             <a href="javascript:;" onclick="SHARE.onFacebook(window.location.href)">
                                 <img src="/resources/img/sns_facebook.png">
                             </a>
-                            <a href="javascript:;"
-                               onclick="SHARE.onKakaoStory('#kakaoShare','${view['TITLE']}', '${view['SUMMARY']}', window.location.href)"
-                               id="kakaoShare"
+                            <a href="javascript:;" id="kakaoShare"
+                               onclick="SHARE.onKakaoStory(
+                                           '#kakaoShare',
+                                           '${view['TITLE']}',
+                                           '${view['SUMMARY']}',
+                                           window.location.href,
+                                           window.getServerImg('${view['THUMBNAIL_IMG_PATH']}'.replace(/[\\]/g, '/'))
+                                       )"
                             >
                                 <img src="/resources/img/sns_kakao_story.png">
                             </a>

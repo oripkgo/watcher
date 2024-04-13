@@ -1,6 +1,8 @@
-const shareUrlFacebook = "https://www.facebook.com/share_channel/?link=";
-const shareUrlTwiter = "https://twitter.com/intent/tweet?text=";
 
+// document.write('<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>')
+
+const shareUrlFacebook = "https://www.facebook.com/sharer.php?u=";
+const shareUrlTwiter = "https://twitter.com/intent/tweet?text=";
 
 const SHARE = {
     onTwiter: function (sendText, sendUrl) {
@@ -11,7 +13,7 @@ const SHARE = {
         window.open(shareUrlFacebook + sendUrl);
     },
 
-    onKakaoStory: function (buttonId, title, description, sendUrl) {
+    onKakaoStory: function (buttonId, title, description, sendUrl, imageUrl) {
         if(!Kakao){
             comm.message.alert('No Kakao object found.');
             return;
@@ -26,7 +28,7 @@ const SHARE = {
             content: {
                 title: title, // 보여질 제목
                 description: description, // 보여질 설명
-                imageUrl: sendUrl, // 콘텐츠 URL
+                imageUrl: imageUrl, // 콘텐츠 URL
                 link: {
                     mobileWebUrl: sendUrl,
                     webUrl: sendUrl
