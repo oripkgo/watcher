@@ -56,7 +56,19 @@ cors:
   origin: http://localhost:8080
   method: GET,POST,PUT,DELETE
 
+naver:
+  login:
+    token: ThouS3nsCEwGnhkMwI1I
+    callback: https://www.watcher.kr/sign/naver/success
+  client:
+    id: ThouS3nsCEwGnhkMwI1I
+    secret: nWJxzTmxwr
 
+kakao:
+  login:
+    token: 187ce89af93017592fdc1f3e9e10cf7c
+  logout:
+    token: 2c4cb457c99ca790e084a154e453a6f6
 
 
 

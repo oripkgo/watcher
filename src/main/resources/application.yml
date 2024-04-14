@@ -1,17 +1,3 @@
-naver:
-  login:
-    token: r_P2RApQNgYR3fttFpHz
-    callback: https://www.watcher.kr/sign/naver/success
-  client:
-    id: r_P2RApQNgYR3fttFpHz
-    secret: kc57YTY7h0
-
-kakao:
-  login:
-    token: 187ce89af93017592fdc1f3e9e10cf7c
-  logout:
-    token: 2c4cb457c99ca790e084a154e453a6f6
-
 spring:
   mvc:
     view:
