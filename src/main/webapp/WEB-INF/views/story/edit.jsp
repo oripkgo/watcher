@@ -111,9 +111,6 @@
   };
 
 
-  const CATEGORY_LIST = comm.category.get();
-  const CATEGORY_LIST_MEMBER = comm.category.getMemberPublic();
-
   const id = '${view['ID']}';
   const categoryId = '${view['CATEGORY_ID']}';
   const memberCategoryId = '${view['MEMBER_CATEGORY_ID']}';
@@ -188,7 +185,8 @@
   }
 
   const setCategoryOptions = function(){
-    CATEGORY_LIST.forEach(function(obj){
+    const categoryList = comm.category.get();
+    categoryList.forEach(function(obj){
       let option = $("<option></option>");
 
       option.attr("value",obj['ID']);
@@ -203,7 +201,9 @@
   const setCategoryMemberOptions = function(defaultCategoryId){
     $("#story_category_member").empty();
     $("#story_category_member").html("<option value=''>선택</option>")
-    CATEGORY_LIST_MEMBER.forEach(function(obj){
+
+    const categoryListMember = comm.category.getMemberPublic();
+    categoryListMember.forEach(function(obj){
       if( obj['DEFALUT_CATEG_ID'] != defaultCategoryId ){
         return;
       }
@@ -247,12 +247,11 @@
   }
 
   initEdit(editerId, toolbarOptions);
+  setCategoryOptions();
+  setValue();
+  addEvents();
 
   $(document).on("ready", function(){
-
-    setCategoryOptions();
-    setValue();
-    addEvents();
 
     $("#story_category").val(categoryId);
     $("#story_category").change();
