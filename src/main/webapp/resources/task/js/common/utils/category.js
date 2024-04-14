@@ -44,7 +44,6 @@ const CATEGORY = {
 
     getMemberPublic: function (memId) {
         let category_list = "[]";
-        let apiUrl = categoryMemberPublicApiUrl;
 
         REQUEST.send(categoryMemberPublicApiUrl, "GET", {memId: memId}, function (resp) {
             // 수정 성공
