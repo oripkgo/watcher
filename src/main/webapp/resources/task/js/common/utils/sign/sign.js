@@ -73,7 +73,7 @@ const logout = function (loginType, callback) {
 
             if (loginType == 'naver') {
                 logoutParam.type = 'naver';
-                logoutParam.access_token = localStorage.getItem("access_token");
+                logoutParam.access_token = JSON.parse(localStorage.sessionData)['accessToken'];
             } else {
                 logoutParam.type = 'kakao';
             }

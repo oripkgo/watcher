@@ -1,10 +1,12 @@
 const SIGN_SESSION = {
     add: function (memData) {
+        const accessToken = localStorage.getItem('access_token');
         localStorage.clear();
+
         localStorage.setItem("sessionData", JSON.stringify({
             loginId: memData.loginId,
             loginYn: (memData["loginId"] ? true : false),
-            loginType: (memData["loginType"] == '00' ? "naver" : "kakao"),
+            loginType: memData["loginType"],
             memberId: memData.memberId,
             memProfileImg: memData.memProfileImg,
             sessionId: memData.sessionId,
@@ -12,8 +14,10 @@ const SIGN_SESSION = {
             storyRegPermStatus: memData.storyRegPermStatus,
             storyCommentPublicStatus: memData.storyCommentPublicStatus,
             storyTitle: memData.storyTitle,
-            expiry : new Date().getTime() + (30 * 60 * 1000),   // 로그인 세션시간 30분
+            expiry: new Date().getTime() + (30 * 60 * 1000),   // 로그인 세션시간 30분
+            accessToken: accessToken,
         }));
+
         localStorage.setItem("apiToken", memData['apiToken']);
     },
 
