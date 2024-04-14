@@ -122,7 +122,7 @@ public class SignServiceImpl implements SignService {
             logOutHeaders.put("Authorization", "KakaoAK " + kakaoLogoutToken);
         }
 
-        HttpUtil.httpRequest(logOutUrl, logOutParam, logOutHeaders);
+        HttpUtil.requestHttp(logOutUrl, logOutParam, logOutHeaders);
 
         RedisUtil.remove(sessionId);
     }

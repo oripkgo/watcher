@@ -15,7 +15,7 @@ public class HttpUtil {
     private final static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
 
-    static public String httpRequest(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
+    static public String requestHttp(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
         //http 요청 시 url 주소와 파라미터 데이터를 결합하기 위한 변수 선언
         String totalUrl = UrlData.trim().toString();
 
@@ -126,12 +126,12 @@ public class HttpUtil {
     }
 
 
-    static public String httpRequest(String UrlData, Map<String,String> ParamData, Map<String,String> headersData){
-        return httpRequest(UrlData,"",ParamData, headersData);
+    static public String requestHttp(String UrlData, Map<String,String> ParamData, Map<String,String> headersData){
+        return requestHttp(UrlData,"",ParamData, headersData);
     }
 
 
-    static public String httpRequest(String UrlData, Map<String,String> ParamData){
-        return httpRequest(UrlData,"",ParamData,null);
+    static public String requestHttp(String UrlData, Map<String,String> ParamData){
+        return requestHttp(UrlData,"",ParamData,null);
     }
 }
