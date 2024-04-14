@@ -7,10 +7,7 @@ import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
@@ -60,13 +57,12 @@ public class CategoryController {
 
     @ResponseBody
     @RequestMapping(value = {"/list/member/public"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getCategoryListMemberPublic(HttpServletRequest request) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+    public LinkedHashMap<String, Object> getCategoryListMemberPublic(@RequestParam("memId") String memId) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
+        param.put("memId", memId);
         param.put("showYn", "Y");
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 

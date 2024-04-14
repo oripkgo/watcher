@@ -63,7 +63,7 @@
 
 <script>
 
-    const memberCategoryList = comm.category.getMemberPublic();
+    const memberCategoryList = comm.category.getMemberPublic('${memId}');
     const myStorylistDataUrl = '/myStory/list';
     const noticeListDataUrl = '/notice/list/data?searchMemId=${memId}';
     const noticeMoreUrl = '/${memId}/notice/list?myStoryTitle=${storyInfo['STORY_TITLE']}';
