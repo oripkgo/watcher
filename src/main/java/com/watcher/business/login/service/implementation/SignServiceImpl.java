@@ -19,6 +19,9 @@ import java.util.Map;
 @Service
 public class SignServiceImpl implements SignService {
     @Autowired
+    RedisUtil redisUtil;
+
+    @Autowired
     MemberService memberService;
 
     @Value("${naver.client.id}")
@@ -95,7 +98,7 @@ public class SignServiceImpl implements SignService {
             userData = memberService.select(memberParam);
 
             userData.put("API_TOKEN", jwt);
-            RedisUtil.setSession(sessionId, userData);
+            redisUtil.setSession(sessionId, userData);
         }
     }
 
@@ -124,18 +127,18 @@ public class SignServiceImpl implements SignService {
 
         HttpUtil.requestHttp(logOutUrl, logOutParam, logOutHeaders);
 
-        RedisUtil.remove(sessionId);
+        redisUtil.remove(sessionId);
     }
 
     @Override
     public Map getSessionUser(String sessionId) throws Exception {
-        Map result = RedisUtil.getSession(sessionId);
+        Map result = redisUtil.getSession(sessionId);
         return result == null || result.isEmpty() ? new HashMap() : result;
     }
 
     @Override
     public String getSessionToken(String sessionId) throws Exception {
-        return RedisUtil.getSession(sessionId).get("API_TOKEN");
+        return redisUtil.getSession(sessionId).get("API_TOKEN");
     }
 
     @Override
