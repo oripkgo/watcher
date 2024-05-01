@@ -21,6 +21,9 @@ public class CategoryController {
     @Autowired
     SignService signService;
 
+    @Autowired
+    RedisUtil redisUtil;
+
 
     @ResponseBody
     @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
@@ -45,7 +48,7 @@ public class CategoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("memId", RedisUtil.getSession(sessionId).get("ID"));
+        param.put("memId", redisUtil.getSession(sessionId).get("ID"));
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());

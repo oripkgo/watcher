@@ -21,6 +21,9 @@ public class VisitorController {
     @Autowired
     SignService signService;
 
+    @Autowired
+    RedisUtil redisUtil;
+
     @RequestMapping(value = {"/count/inflow/source"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getVisitorInflowSourceCount(
@@ -31,7 +34,7 @@ public class VisitorController {
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = (redisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorInflowSourceCount(visitorParam));
 
@@ -48,7 +51,7 @@ public class VisitorController {
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = (redisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getVisitorCount(visitorParam));
 
@@ -65,7 +68,7 @@ public class VisitorController {
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = (redisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getDailyChartVisitorCnt(visitorParam));
 
@@ -82,7 +85,7 @@ public class VisitorController {
         String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (RedisUtil.getSession(sessionId).get("ID"));
+        Object memId = (redisUtil.getSession(sessionId).get("ID"));
         visitorParam.setMemId(String.valueOf(memId));
         result.putAll(visitorService.getChartMonthVisitorCnt(visitorParam));
 

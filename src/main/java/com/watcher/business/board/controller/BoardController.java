@@ -33,6 +33,10 @@ public class BoardController {
 	@Autowired
 	SignService signService;
 
+	@Autowired
+	RedisUtil redisUtil;
+
+
 	@RequestMapping(value = {"/{memId}/notice/list"})
 	public ModelAndView showMemberNoticeListPage(
 			@PathVariable("memId") String memId,
@@ -112,7 +116,7 @@ public class BoardController {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = (RedisUtil.getSession(sessionId).get("LOGIN_ID"));
+		Object loginId = (redisUtil.getSession(sessionId).get("LOGIN_ID"));
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
@@ -139,8 +143,8 @@ public class BoardController {
 		noticeService.insertViewsCount(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		if (RedisUtil.getSession(sessionId) == null
-				|| !(((Map) noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))) {
+		if (redisUtil.getSession(sessionId) == null
+				|| !(((Map) noticeInfo.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))) {
 			noticeInfo.put("modifyAuthorityYn", "N");
 		} else {
 			noticeInfo.put("modifyAuthorityYn", "Y");
@@ -173,9 +177,9 @@ public class BoardController {
 
 		// 게시물 수정권한 여부 s
 		if(
-			RedisUtil.getSession(sessionId) == null ||
+			redisUtil.getSession(sessionId) == null ||
 			!noticeInfo.containsKey("view")	||
-			!(((Map)noticeInfo.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))
+			!(((Map)noticeInfo.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))
 		){
 			noticeInfo.put("modifyAuthorityYn","N");
 		}else{
@@ -200,7 +204,7 @@ public class BoardController {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+		Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
@@ -224,8 +228,8 @@ public class BoardController {
 
 		try{
 			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-			if( RedisUtil.getSession(sessionId) != null ){
-				loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+			if( redisUtil.getSession(sessionId) != null ){
+				loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 			}
 		}catch (Exception e){}
 
@@ -264,8 +268,8 @@ public class BoardController {
 
 		try{
 			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-			if( RedisUtil.getSession(sessionId) != null ){
-				loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+			if( redisUtil.getSession(sessionId) != null ){
+				loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 			}
 		}catch (Exception e){}
 
@@ -309,8 +313,8 @@ public class BoardController {
 
 		String loginId = "";
 
-		if( RedisUtil.getSession(sessionId) != null ){
-			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+		if( redisUtil.getSession(sessionId) != null ){
+			loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 		}
 
 		String contentsType = String.valueOf(param.get("contentsType"));
@@ -378,8 +382,8 @@ public class BoardController {
 		String nickName = "";
 		String profile = "";
 
-		if( RedisUtil.getSession(sessionId) != null ){
-			Map<String, String> userData = RedisUtil.getSession(sessionId);
+		if( redisUtil.getSession(sessionId) != null ){
+			Map<String, String> userData = redisUtil.getSession(sessionId);
 
 			loginId = userData.get("LOGIN_ID");
 			nickName = userData.get("NICKNAME");
@@ -421,8 +425,8 @@ public class BoardController {
 		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 		String loginId = "";
 
-		if( RedisUtil.getSession(sessionId) != null ){
-			loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+		if( redisUtil.getSession(sessionId) != null ){
+			loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 		}
 
 		LinkedHashMap commentParam = new LinkedHashMap();

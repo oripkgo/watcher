@@ -29,6 +29,9 @@ public class StoryController {
     @Autowired
     SignService signService;
 
+    @Autowired
+    RedisUtil redisUtil;
+
 
     @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
     public ModelAndView getStoryView(
@@ -46,8 +49,8 @@ public class StoryController {
         result.putAll(storyService.getData(storyParam));
 
         // 게시물 수정권한 여부 s
-        if( RedisUtil.getSession(sessionId) == null
-                || !(((Map)result.get("view")).get("REG_ID").equals(RedisUtil.getSession(sessionId).get("LOGIN_ID")))){
+        if( redisUtil.getSession(sessionId) == null
+                || !(((Map)result.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))){
             mv.addObject("modifyAuthorityYn","N");
         }else{
             mv.addObject("modifyAuthorityYn","Y");
@@ -73,7 +76,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+        String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
         storyParam.setRegId(loginId);
         storyParam.setUptId(loginId);
 
@@ -96,7 +99,7 @@ public class StoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
-        Object loginId = RedisUtil.getSession(sessionId).get("LOGIN_ID");
+        Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));

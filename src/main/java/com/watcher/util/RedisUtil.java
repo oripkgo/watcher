@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
     private final static Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
-    static private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
     // 세션시간 30분
     static final int SECONDS = (60*30);
@@ -24,38 +24,38 @@ public class RedisUtil {
         this.redisTemplate = redisTemplate;
     }
 
-    static public void set(String id, Object obj) {
+    public void set(String id, Object obj) {
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(id, obj);
     }
 
-    static public void setSession(String id, Object obj) {
+    public void setSession(String id, Object obj) {
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         valueOperations.set(id, obj, SECONDS, TimeUnit.SECONDS);
     }
 
-    static public void remove(String id) {
+    public void remove(String id) {
         redisTemplate.delete(id);
     }
 
-    static public Object getRedisObj() {
+     public Object getRedisObj() {
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         return valueOperations;
     }
 
-    static public Object get(String id) {
+    public Object get(String id) {
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         final Object result = valueOperations.get(id);
         return result;
     }
 
-    static public String getString(String id) {
+    public String getString(String id) {
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         final Object result = valueOperations.get(id);
         return (String)result;
     }
 
-    static public Map<String, String> getSession(String id) {
+    public Map<String, String> getSession(String id) {
         redisTemplate.expire(id, SECONDS, TimeUnit.SECONDS);
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         final Object result = valueOperations.get(id);
