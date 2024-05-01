@@ -33,13 +33,16 @@
     globalVar.put("loginNaverToken", environment.getProperty("naver.login.token"));
     globalVar.put("loginNaverCallback", environment.getProperty("naver.login.callback"));
     globalVar.put("loginKakaoToken", environment.getProperty("kakao.login.token"));
-
+    globalVar.put("activate", environment.getProperty("spring.config.activate.on-profile"));
 
     request.setAttribute("globalVar", globalVar);
 %>
 
 <script type="text/javascript">
     const globalObj = {
+
+        serverActivate: '${globalVar.activate}',
+
         apiHost: window.location.origin,
 
         loginNaverToken: '${globalVar.loginNaverToken}',

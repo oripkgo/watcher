@@ -40,6 +40,11 @@ const DATE = {
         let write_date = new Date(last_date) ;
         let now_date = new Date();
 
+        if( serverActivate == 'prod' ){
+            // 운영환경일 경우
+            write_date = new Date(write_date.getTime() + (9 * 60 * 60 * 1000));
+        }
+
         if( this.getDate(now_date) != this.getDate(write_date)){
             write_date = new Date(this.getDate(write_date,'-')) ;
         }
