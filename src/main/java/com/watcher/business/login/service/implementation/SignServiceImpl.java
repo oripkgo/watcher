@@ -120,14 +120,16 @@ public class SignServiceImpl implements SignService {
             logOutUrl = kakaoSignOutApiUrl;
 
             logOutParam.put("target_id_type", "user_id");
-            logOutParam.put("target_id", String.valueOf(this.getSessionUser(sessionId).get("LOGIN_ID")));
+            logOutParam.put("target_id", signParam.getId());
 
             logOutHeaders.put("Authorization", "KakaoAK " + kakaoLogoutToken);
         }
 
         HttpUtil.requestHttp(logOutUrl, logOutParam, logOutHeaders);
 
-        redisUtil.remove(sessionId);
+        if( sessionId != null ){
+            redisUtil.remove(sessionId);
+        }
     }
 
     @Override

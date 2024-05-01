@@ -42,15 +42,16 @@ const emptyTarget = function (target) {
 }
 
 const NAVIGATION = {
-    init: function (targetArea, menuList) {
+    init: function (targetArea, menuList, signObj) {
+        this.signObj = signObj;
         const naviThis = this;
 
         emptyTarget(targetArea);
 
-        SIGN.init();
+        this.signObj.init();
 
-        if (SIGN.isLogin()) {
-            naviThis.setProfileUrl(SIGN.getSession().memProfileImg);
+        if (this.signObj.isLogin()) {
+            naviThis.setProfileUrl(this.signObj.getSession().memProfileImg);
             targetArea.appendChild(getLoginProfile())
             targetArea.appendChild(getLoginNavi(menuList))
         } else {
@@ -59,11 +60,17 @@ const NAVIGATION = {
     },
 
     addStartEvent: function () {
-        SIGN.in();
+        this.signObj.in();
     },
 
     addLogoutEvent: function () {
-        SIGN.out();
+        const $this = this;
+        MESSAGE.confirm("로그아웃 하시겠습니까?", function (result) {
+            if (result) {
+                $this.signObj.out();
+            }
+        });
+
     },
 
     addProfileEvent: function () {

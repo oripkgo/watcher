@@ -1,7 +1,9 @@
 package com.watcher.config;
 
 import com.watcher.util.JwtTokenUtil;
+import com.watcher.util.RedisUtil;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,33 +13,56 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class CommonIntercepter implements HandlerInterceptor {
-    private static List compareValues = Arrays.asList(new String[]{"application/json", "application/x-www-form-urlencoded"});
-//    private static List<String> excludeUrls = Arrays.asList(new String[]{"/story/html/page/view"});
+
+    @Autowired
+    RedisUtil redisUtil;
+
+    private static List compareValuesContentType = Arrays.asList(new String[]{
+            "application/json",
+            "application/x-www-form-urlencoded"
+    });
+
+    private static List compareValuesURL = Arrays.asList(new String[]{
+            "/myStory",
+            "/story/write",
+            "/management"
+    });
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        boolean checkValue = false;
-
-        if(
-            StringUtils.hasText(request.getHeader("Content-type")) &&
-            compareValues.indexOf(request.getHeader("Content-type")) > -1
-        ){
-            checkValue = true;
-        }
-
-//        for( int i=0;i<excludeUrls.size();i++){
-//            String url = excludeUrls.get(i);
-//            if( request.getRequestURI().indexOf(url) > -1 ){
-//                checkValue = false;
-//                break;
+        // URL 체크
+//        for(Object url : compareValuesURL){
+//            if( url != null ){
+//                if( request.getRequestURI().indexOf(String.valueOf(url)) == 0){
+//                    String sessionId = request.getSession().getId();
+//
+//                    Map result = redisUtil.getSession(sessionId);
+//                    if( result == null || result.isEmpty() ){
+//                        request.setAttribute("sessionExceededYn","Y");
+//                    }
+//                }
 //            }
 //        }
 
-        if( checkValue ){
+        // 세션유지 유무 체크
+        String sessionId = request.getSession().getId();
+
+        Map result = redisUtil.getSession(sessionId);
+        if( result == null || result.isEmpty() ){
+            request.setAttribute("sessionExceededYn","Y");
+        }
+
+
+        // Content-type 체크
+        if(
+            StringUtils.hasText(request.getHeader("Content-type")) &&
+            compareValuesContentType.indexOf(request.getHeader("Content-type")) > -1
+        ){
             String authorization = request.getHeader("Authorization").replace("Bearer ", "");
 
             if( !JwtTokenUtil.verifyToken(authorization) ){

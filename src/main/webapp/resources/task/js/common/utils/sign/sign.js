@@ -67,20 +67,16 @@ const logout = function (loginType, callback) {
         }
     };
 
-    MESSAGE.confirm("로그아웃 하시겠습니까?", function (result) {
-        if (result) {
-            let logoutParam = {};
+    let logoutParam = {id:SIGN.getSession()['loginId']};
 
-            if (loginType == 'naver') {
-                logoutParam.type = 'naver';
-                logoutParam.access_token = JSON.parse(localStorage.sessionData)['accessToken'];
-            } else {
-                logoutParam.type = 'kakao';
-            }
+    if (loginType == 'naver') {
+        logoutParam.type = 'naver';
+        logoutParam.access_token = JSON.parse(localStorage.sessionData)['accessToken'];
+    } else {
+        logoutParam.type = 'kakao';
+    }
 
-            REQUEST.send(signoutUrl, "POST", logoutParam, logoutCallback, logoutCallback, {'Content-type': "application/json"})
-        }
-    });
+    REQUEST.send(signoutUrl, "POST", logoutParam, logoutCallback, logoutCallback, {'Content-type': "application/json"})
 }
 
 const SIGN = {

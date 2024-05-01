@@ -5,7 +5,6 @@ import com.watcher.business.member.service.MemberService;
 import com.watcher.business.login.param.SignParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -99,12 +98,11 @@ public class SignController {
 			HttpServletResponse response,
 			@RequestBody SignParam loginVo
 	) throws Exception {
-		signService.validation(loginVo);
-
 		Map<String,Object> result = new HashMap<>();
 
-		String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
 
+		signService.validation(loginVo);
 		signService.handleOut(loginVo, sessionId);
 
 		result.put("code","0000");

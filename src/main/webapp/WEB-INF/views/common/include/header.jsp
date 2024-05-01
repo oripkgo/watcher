@@ -35,10 +35,17 @@
 </div>
 
 <script>
+    const sessionExceededYn = '${sessionExceededYn}';
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
     //window.signNaverSuccess = SIGN_NAVER_SUCCESS;
     comm.token.init(function(){
+        comm.visitor.save(window.nowStoryMemId, window.refererUrl);
+        // 세션시간 초과 && 클라이언트에서 로그인상태인 경우
+        if( comm.sign.isLogin() && sessionExceededYn == 'Y' ){
+            comm.sign.out();
+        }
+
         comm.navigation.init(
             document.querySelector(".top_navi"),
             [
@@ -46,9 +53,9 @@
                 {url: "/management/index", name: "관리"},
                 {url: window.storyUrlWrite, name: "글쓰기"},
             ],
+            comm.sign
         );
-
-        comm.visitor.save(window.nowStoryMemId, window.refererUrl);
     });
+
 
 </script>
