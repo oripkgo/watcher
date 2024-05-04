@@ -37,7 +37,7 @@ const DATE = {
     },
 
     getPastDate : function(last_date){
-        let write_date = new Date(last_date) ;
+        let write_date = new Date(last_date.replace(/[.]/g,'-')) ;
         let now_date = new Date();
 
         if( serverActivate == 'prod' ){
