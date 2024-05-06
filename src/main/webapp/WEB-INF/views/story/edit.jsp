@@ -65,7 +65,7 @@
             </tr>
             <tr>
               <td colspan="2">
-                <div id="editor" class="editor">
+                <div id="editor" class="editor" style="height: 400px;">
                   ${view['CONTENTS']}
                 </div>
               </td>
@@ -101,6 +101,7 @@
   const editerId = '#editor';
   const toolbarOptions = {
     selector: editerId,
+    height: 400,
     skin: 'material-outline',
     content_css: 'material-outline',
     icons: 'material',
