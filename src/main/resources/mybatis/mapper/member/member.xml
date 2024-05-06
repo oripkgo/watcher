@@ -32,36 +32,36 @@
 
 	<insert id="insert" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
 		INSERT INTO MEMBER(
-			 LOGIN_ID
-			,PASSWORD
-			,EMAIL
-			,PHONE_NUM
-			,GENDER
-			,BIRTH
-			,NAME
-			,NICKNAME
-			,MEM_TYPE
-			,MEM_PROFILE_IMG
-			,REG_ID
-			,REG_DATE
-			,UPT_ID
-			,UPT_DATE
+			  LOGIN_ID
+			, PASSWORD
+			, EMAIL
+			, PHONE_NUM
+			, GENDER
+			, BIRTH
+			, NAME
+			, NICKNAME
+			, MEM_TYPE
+			, MEM_PROFILE_IMG
+			, REG_ID
+			, REG_DATE
+			, UPT_ID
+			, UPT_DATE
 		)
 		VALUES (
-			 #{loginId}
-			,#{password}
-			,#{email}
-			,#{phoneNum}
-			,#{gender}
-			,#{birth}
-			,#{name}
-			,#{nickname}
-			,#{memType}
-			,#{memProfileImg}
-			,#{loginId}
-			,NOW()
-			,#{loginId}
-			,NOW()
+			  #{loginId}
+			, #{password}
+			, #{email}
+			, #{phoneNum}
+			, #{gender}
+			, #{birth}
+			, #{name}
+			, #{nickname}
+			, #{memType}
+			, #{memProfileImg}
+			, #{loginId}
+			, NOW()
+			, #{loginId}
+			, NOW()
 		)
 		ON DUPLICATE KEY UPDATE
 			<if test="password != null and password != ''">
@@ -94,25 +94,25 @@
 
 	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
 		INSERT INTO MEM_DETAIL(
-		 LOGIN_ID
-		,REG_ID
-		,REG_DATE
-		,UPT_ID
-		,UPT_DATE
+			  LOGIN_ID
+			, REG_ID
+			, REG_DATE
+			, UPT_ID
+			, UPT_DATE
 		)
 		VALUES (
-		 #{loginId}
-		,#{loginId}
-		,NOW()
-		,#{loginId}
-		,NOW()
+			  #{loginId}
+			, #{loginId}
+			, NOW()
+			, #{loginId}
+			, NOW()
 		)
 		ON DUPLICATE KEY UPDATE
 		<if test="level != null and level != ''">
-			LEVEL 	= #{level} ,
+			LEVEL = #{level} ,
 		</if>
 
-		UPT_ID 	= #{loginId} ,
-		UPT_DATE 	= NOW()
+		UPT_ID = #{loginId} ,
+		UPT_DATE = NOW()
 	</insert>
 </mapper>

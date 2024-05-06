@@ -16,23 +16,36 @@
 			(
 				SELECT
 					A.ID
-				FROM BOARD_LIKE A
+				FROM (
+					SELECT ID, LIKE_TYPE, CANCEL_YN, REG_DATE FROM BOARD_LIKE WHERE 1=1
+					AND CONTENTS_TYPE = #{contentsType}
+					AND CONTENTS_ID = #{contentsId}
+					AND LOGIN_ID = #{loginId}
+				) A
 				WHERE 1=1
-				  AND A.CONTENTS_TYPE = #{contentsType}
-				  AND A.CONTENTS_ID = #{contentsId}
-				  AND A.LOGIN_ID = #{loginId}
 				  AND A.LIKE_TYPE = '01'
 				  AND A.CANCEL_YN = 'N'
 				ORDER BY A.REG_DATE DESC
 				LIMIT 1
 			) AS LIKE_ID,
 			(
-				SELECT IF(COUNT(B.ID)>0,'Y','N')  FROM BOARD_LIKE B WHERE 1=1
-				AND B.CONTENTS_TYPE = #{contentsType}
-				AND B.CONTENTS_ID = #{contentsId}
-				AND B.LOGIN_ID = #{loginId}
-				AND B.LIKE_TYPE = '01'
-				AND B.CANCEL_YN = 'N'
+				IF(
+					(
+						SELECT
+							B.ID
+						FROM (
+							SELECT ID, LIKE_TYPE, CANCEL_YN, REG_DATE FROM BOARD_LIKE WHERE 1=1
+							AND CONTENTS_TYPE = #{contentsType}
+							AND CONTENTS_ID = #{contentsId}
+							AND LOGIN_ID = #{loginId}
+						) B
+						WHERE 1=1
+						AND B.LIKE_TYPE = '01'
+						AND B.CANCEL_YN IN ('N','Y')
+						LIMIT 1
+					)
+					,'Y','N'
+				)
 			)  AS LIKE_YN
 		FROM DUAL
 	</select>
@@ -69,8 +82,6 @@
 		SELECT
 			COUNT(A.ID)
 		FROM COMMENT A
-				 LEFT JOIN MEM_DETAIL B ON 1=1
-			AND B.LOGIN_ID=A.CONFIRM_ID
 		WHERE 1=1
 		  AND A.CONTENTS_TYPE = #{contentsType}
 		  AND A.CONTENTS_ID = #{contentsId}
@@ -79,29 +90,27 @@
 
 
 	<select id="selectComment" resultType="hashmap" parameterType="hashmap">
-		SELECT
-			 A.ID
-			,A.CONTENTS_TYPE
-			,A.CONTENTS_ID
-			,A.REF_CONTENTS_ID
-			,A.COMMENT
-			,A.CONFIRM_ID
-		    ,A.DELETE_YN
-			,A.REG_ID
-			,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
-			,A.UPT_ID
-			,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-			,B.NICKNAME
-			,B.MEM_PROFILE_IMG
+		SELECT A.ID
+			 , A.CONTENTS_TYPE
+			 , A.CONTENTS_ID
+			 , A.REF_CONTENTS_ID
+			 , A.COMMENT
+			 , A.CONFIRM_ID
+			 , A.DELETE_YN
+			 , A.REG_ID
+			 , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			 , A.UPT_ID
+			 , DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			 , B.NICKNAME
+			 , B.MEM_PROFILE_IMG
 		FROM COMMENT A
-			LEFT JOIN MEMBER B ON 1=1
-			AND B.LOGIN_ID=A.CONFIRM_ID
-		WHERE 1=1
-			AND A.CONTENTS_TYPE = #{contentsType}
-			AND A.CONTENTS_ID = #{contentsId}
-		  	AND A.DELETE_YN = 'N'
+			LEFT JOIN MEMBER B ON B.LOGIN_ID = A.CONFIRM_ID
+		WHERE 1 = 1
+		  AND A.CONTENTS_TYPE = #{contentsType}
+		  AND A.CONTENTS_ID = #{contentsId}
+		  AND A.DELETE_YN = 'N'
 		ORDER BY REG_DATE DESC
-		LIMIT ${(pageNo-1)*listNo},${listNo}
+			LIMIT ${(pageNo-1)*listNo}, ${listNo}
 	</select>
 
 

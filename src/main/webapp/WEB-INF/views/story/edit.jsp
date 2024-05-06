@@ -263,6 +263,5 @@
     $("#tags").val(tags);
     $("#thumbnailImgPathParam_text").val(realFileName);
 
-
   })
 </script>

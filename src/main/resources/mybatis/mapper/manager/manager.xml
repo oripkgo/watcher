@@ -22,7 +22,7 @@
 				AND MM.LOGIN_ID = #{loginId}
 			</if>
 			<if test="id != null and id != ''">
-				AND MM.LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id})
+				AND EXISTS (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id} AND LOGIN_ID = MM.LOGIN_ID)
 			</if>
 		</where>
 	</select>

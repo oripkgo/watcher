@@ -30,13 +30,13 @@
 			</otherwise>
 		</choose>
 
-		AND A.REG_ID IN (
+		AND EXISTS (
 			<choose>
 				<when test="searchMemId != null and searchMemId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId}
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel}
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
 				</otherwise>
 			</choose>
 		)
@@ -74,13 +74,13 @@
 			</otherwise>
 		</choose>
 
-		AND A.REG_ID IN (
+		AND EXISTS (
 			<choose>
 				<when test="searchMemId != null and searchMemId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId}
+					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel}
+					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
 				</otherwise>
 			</choose>
 		)

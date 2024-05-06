@@ -5,7 +5,7 @@
 
 
 	<select id="selectListCategory" resultType="map" parameterType="categoryParam">
-		/*category > getListCategory*/
+		/* category > selectListCategory */
 		SELECT
 			 ID
 			,REG_ID
@@ -27,34 +27,40 @@
 
 
 	<select id="selectListCategoryMember" resultType="map" parameterType="categoryParam">
-		/*category > getListCategoryMember*/
+		/* category > selectListCategoryMember */
 		SELECT
-			  ID
-			 ,REG_ID
-			 ,DATE_FORMAT(REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
-			 ,UPT_ID
-			 ,DATE_FORMAT(UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-			 ,DEFALUT_CATEG_ID
-			 ,LOGIN_ID
-			 ,CATEGORY_NM
-			 ,CATEGORY_COMENTS
-			 ,CATEGORY_IMG_PATH
-			 ,SHOW_YN
-			 ,DELETE_YN
-			 ,'member' AS CATEGORY_TYPE
-		FROM USER_DEFINE_CATEGORY
+			 A.ID
+			,A.REG_ID
+			,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+			,A.UPT_ID
+			,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+			,A.DEFALUT_CATEG_ID
+			,A.LOGIN_ID
+			,A.CATEGORY_NM
+			,A.CATEGORY_COMENTS
+			,A.CATEGORY_IMG_PATH
+			,A.SHOW_YN
+			,A.DELETE_YN
+			,'member' AS CATEGORY_TYPE
+		FROM USER_DEFINE_CATEGORY A
 		WHERE 1=1
-		AND DELETE_YN = 'N'
+		AND A.DELETE_YN = 'N'
 		<if test="!(memId==null or memId=='')">
-			AND LOGIN_ID IN (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{memId})
+			AND EXISTS (
+				SELECT
+				LOGIN_ID
+				FROM MEMBER
+				WHERE ID = #{memId}
+				AND LOGIN_ID = A.LOGIN_ID
+			)
 		</if>
 		<if test="!(showYn==null or showYn=='')">
-			AND SHOW_YN = #{showYn}
+			AND A.SHOW_YN = #{showYn}
 		</if>
 	</select>
 
 	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-		/*category > insert*/
+		/* category > insert */
 		INSERT INTO USER_DEFINE_CATEGORY(
 			 REG_ID
 			,REG_DATE
@@ -82,7 +88,7 @@
 	</insert>
 
 	<update id="update" parameterType="MemberCategoryParam">
-			/*category > update*/
+			/* category > update */
 			UPDATE USER_DEFINE_CATEGORY SET
 			<if test="defalutCategId != null and defalutCategId != ''">
 				DEFALUT_CATEG_ID = #{defalutCategId} ,
