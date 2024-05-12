@@ -20,7 +20,6 @@
 <form id="story_write_form">
 
   <input type="hidden"      name="id"                  id="id"                 value="${view['ID']}"      >
-  <input type="hidden"      name="tagsId"              id="tagsId"             value="${view['TAGS_ID']}" >
   <input type="hidden"      name="categoryId"          id="categoryId"                                    >
   <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                              >
   <input type="hidden"      name="contents"            id="contents"                                      >

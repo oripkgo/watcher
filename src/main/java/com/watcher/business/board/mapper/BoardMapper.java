@@ -30,6 +30,6 @@ public interface BoardMapper {
 	public Map<String, String> selectTagDatas(Map<String,Object> param);
 	public void insertTag(Map<String,Object> param);
 	public void updateTag(Map<String,Object> param);
-
+	public void deleteTag(Map<String,Object> param);
 
 }

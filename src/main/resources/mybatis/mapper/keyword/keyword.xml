@@ -5,7 +5,7 @@
 	<select id="select" resultType="map" parameterType="popularKeywordParam">
 		/*keyword > getPopularKeywordList*/
 		SELECT
-			A.REG_DATE,
+			B.REG_DATE,
 			A.TAGS,
 			A.CONTENTS_ID,
 			(SELECT COUNT(ID) FROM BOARD_TAGS WHERE FIND_IN_SET(A.TAGS, REPLACE(TAGS, ' ', ''))) AS CNT,
@@ -15,8 +15,7 @@
 		FROM (
 			SELECT
 				SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(B.TAGS, ' ', ''), ',', A.IDX), ',', -1) AS TAGS,
-				B.CONTENTS_ID,
-				B.REG_DATE
+				B.CONTENTS_ID
 			FROM (
 				SELECT IDX FROM (
 					SELECT 1 AS IDX FROM DUAL
@@ -40,14 +39,23 @@
 					SELECT 10 AS IDX FROM DUAL
 				) A
 			) A
-			<choose>
-				<when test="keyword != null and keyword != ''">
-					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY' AND B.TAGS LIKE concat('%',#{keyword},'%')
-				</when>
-			    <otherwise>
-					LEFT JOIN BOARD_TAGS B ON B.CONTENTS_TYPE = 'STORY'
-				</otherwise>
-			</choose>
+			LEFT JOIN (
+				SELECT
+					TAB1.*
+				FROM (
+					SELECT
+					GROUP_CONCAT(TAGS) AS TAGS, CONTENTS_ID
+					FROM BOARD_TAGS
+					WHERE 1=1
+					AND CONTENTS_TYPE = 'STORY'
+					AND DELETE_YN = 'N'
+					GROUP BY CONTENTS_ID
+				) TAB1
+				WHERE 1=1
+				<if test="keyword != null and keyword != ''">
+					AND B.TAGS LIKE CONCAT('%',#{keyword},'%')
+				</if>
+			) B ON 1=1
 		) A
 		INNER JOIN STORY B ON B.ID = A.CONTENTS_ID
 		INNER JOIN CATEGORY C ON C.ID = B.CATEGORY_ID

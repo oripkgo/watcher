@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StoryServiceImpl implements StoryService {
@@ -50,9 +47,12 @@ public class StoryServiceImpl implements StoryService {
 
             if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
                 Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
+
+                List<String> tagList = Arrays.asList(storyParam.getTags().split(","));
+
                 tag_insert_param.put("contentsType" , "STORY"                   );
                 tag_insert_param.put("contentsId"   , storyParam.getId()        );
-                tag_insert_param.put("tags"         , storyParam.getTags()      );
+                tag_insert_param.put("tags"         , tagList                   );
                 tag_insert_param.put("regId"        , storyParam.getRegId()     );
                 tag_insert_param.put("uptId"        , storyParam.getUptId()     );
 
@@ -87,17 +87,21 @@ public class StoryServiceImpl implements StoryService {
             if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
 
                 Map<String,Object> tag_update_param = new LinkedHashMap<String,Object>();
+                List<String> tagList = Arrays.asList(storyParam.getTags().split(","));
+
                 tag_update_param.put("contentsType" , "STORY"                   );
                 tag_update_param.put("contentsId"   , storyParam.getId()        );
-                tag_update_param.put("tags"         , storyParam.getTags()      );
+                tag_update_param.put("tags"         , tagList                   );
                 tag_update_param.put("regId"        , storyParam.getRegId()     );
                 tag_update_param.put("uptId"        , storyParam.getUptId()     );
 
-                if( storyParam.getTagsId().isEmpty() ){
-                    boardMapper.insertTag(tag_update_param);
-                }else{
+                boardMapper.deleteTag(tag_update_param);
+
+                for(String tag : tagList ){
+                    tag_update_param.put("tag", tag);
                     boardMapper.updateTag(tag_update_param);
                 }
+
             }
 
             if( !storyParam.getThumbnailImgPathParam().isEmpty() ){

@@ -4,11 +4,12 @@
 <mapper namespace="com.watcher.business.board.mapper.BoardMapper">
 	<select id="selectTagDatas" resultType="hashmap" parameterType="hashmap">
 		SELECT
-			IFNULL(TAGS ,'') AS TAGS
+			GROUP_CONCAT(TAGS) AS TAGS
 		FROM BOARD_TAGS
 		WHERE 1=1
-		  AND CONTENTS_TYPE = #{contentsType}
-		  AND CONTENTS_ID = #{contentsId}
+		AND CONTENTS_TYPE = #{contentsType}
+		AND CONTENTS_ID = #{contentsId}
+		AND DELETE_YN = 'N'
 	</select>
 
 	<select id="selectLikeYn" resultType="hashmap" parameterType="hashmap">
@@ -169,19 +170,51 @@
 	<insert id="insertTag" parameterType="hashmap">
 		INSERT INTO BOARD_TAGS
 			(CONTENTS_TYPE, CONTENTS_ID, TAGS, REG_ID, REG_DATE, UPT_ID, UPT_DATE)
-		VALUES (#{contentsType}, #{contentsId}, #{tags}, #{regId}, NOW(), #{uptId},
-				NOW());
+		VALUES
+		    <foreach collection="tags" item="tag" separator=",">
+				(#{contentsType}, #{contentsId}, TRIM(#{tag}), #{regId}, NOW(), #{uptId}, NOW())
+			</foreach>
 	</insert>
 
 	<update id="updateTag" parameterType="hashmap">
+		INSERT INTO BOARD_TAGS(
+		      CONTENTS_TYPE
+		    , CONTENTS_ID
+		    , TAGS
+		    , REG_ID
+		    , REG_DATE
+		    , UPT_ID
+		    , UPT_DATE
+		)
+		VALUES (
+			  #{contentsType}
+			, #{contentsId}
+			, TRIM(#{tag})
+			, #{regId}
+			, NOW()
+			, #{uptId}
+			, NOW()
+		)
+		ON DUPLICATE KEY UPDATE
+		      DELETE_YN = 'N'
+		    , REG_ID = REG_ID
+		    , REG_DATE = REG_DATE
+		    , UPT_ID = UPT_ID
+		    , UPT_DATE = UPT_DATE
+	</update>
+
+	<update id="deleteTag" parameterType="hashmap">
 		UPDATE BOARD_TAGS SET
-			<if test="tags != null and tags != ''">
-				TAGS=#{tags},
-			</if>
+			DELETE_YN = 'Y',
 			UPT_ID=#{uptId},
 			UPT_DATE=NOW()
 		WHERE 1=1
-		AND CONTENTS_ID=#{contentsId}
-		AND CONTENTS_TYPE=#{contentsType}
+		AND CONTENTS_TYPE = #{contentsType}
+		AND CONTENTS_ID = #{contentsId}
+		AND TAGS NOT IN
+		<foreach item="item" index="index" collection="tags" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
 	</update>
+
 </mapper>
