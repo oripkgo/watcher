@@ -3,6 +3,7 @@ package com.watcher.business.category.service.implementation;
 import com.watcher.business.category.mapper.CategoryMapper;
 import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.management.param.MemberCategoryParam;
+import com.watcher.enums.ResponseCode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +84,8 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         result.put("insertIds", insertIds.toString());
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

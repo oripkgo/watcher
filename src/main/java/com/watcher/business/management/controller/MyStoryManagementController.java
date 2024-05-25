@@ -10,6 +10,7 @@ import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
+import com.watcher.enums.ResponseCode;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,8 +63,8 @@ public class MyStoryManagementController {
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
         result.put("list", storyService.getListManagemenPopular(storyParam));
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -84,8 +85,8 @@ public class MyStoryManagementController {
         result.putAll(storyService.getListManagement(storyParam));
         result.put("dto", storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -126,8 +127,8 @@ public class MyStoryManagementController {
         storyParam.setUptId(String.valueOf(loginId));
         storyService.updateStorysPrivate(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -148,8 +149,8 @@ public class MyStoryManagementController {
         storyParam.setUptId(String.valueOf(loginId));
         storyService.updateStorysPublic(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -174,8 +175,8 @@ public class MyStoryManagementController {
         result.putAll(noticeService.getListNotice(noticeParam));
         result.put("dto", noticeParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -197,8 +198,8 @@ public class MyStoryManagementController {
 
         noticeService.deletes(noticeParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -219,8 +220,8 @@ public class MyStoryManagementController {
         noticeParam.setUptId(String.valueOf(loginId));
         noticeService.updateNoticesPublic(noticeParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -241,8 +242,8 @@ public class MyStoryManagementController {
         noticeParam.setUptId(String.valueOf(loginId));
         noticeService.updateNoticesPrivate(noticeParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -266,8 +267,8 @@ public class MyStoryManagementController {
 
         result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -287,8 +288,8 @@ public class MyStoryManagementController {
         JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
         result.put("info", managementDatas.toString());
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -311,8 +312,8 @@ public class MyStoryManagementController {
 
         result.putAll(managementService.updateStorySettingInfo(managementParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

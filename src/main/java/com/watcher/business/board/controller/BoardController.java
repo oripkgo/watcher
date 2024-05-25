@@ -7,6 +7,7 @@ import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.board.param.NoticeParam;
 
 import com.watcher.business.login.service.SignService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,8 +50,8 @@ public class BoardController {
 
 		mav.addObject("dto", noticeParam);
 		mav.addObject("noticeListUrl", "/"+memId+"/notice/list/data");
-		mav.addObject("code", "0000");
-		mav.addObject("message", "OK");
+		mav.addObject("code"	, ResponseCode.SUCCESS_0000.getCode());
+		mav.addObject("message" , ResponseCode.SUCCESS_0000.getMessage());
 
 		return mav;
 	}
@@ -122,8 +123,8 @@ public class BoardController {
 
 		noticeService.delete(noticeParam);
 
-		result.put("code", "0000");
-		result.put("message", "OK");
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -243,8 +244,8 @@ public class BoardController {
 			result.put("loginYn","N");
 		}
 
-		result.put("code", "0000");
-		result.put("message", "OK");
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -290,8 +291,8 @@ public class BoardController {
 			result.putAll(likeParam);
 		}
 
-		result.put("code", "0000");
-		result.put("message", "OK");
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -327,8 +328,8 @@ public class BoardController {
 			result.put("loginYn","N");
 		}
 
-		result.put("code", "0000");
-		result.put("message", "OK");
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -360,8 +361,8 @@ public class BoardController {
 		commDto.setTotalCnt((int)commentObj.get("cnt"));
 		result.put("dto", commDto);
 
-		result.put("code", "0000");
-		result.put("message", "OK");
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -407,7 +408,9 @@ public class BoardController {
 		commentParam.put("profile"  		, profile					);
 
 		result.put("comment", boardService.insertComment(commentParam));
-		result.put("code","0000");
+
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -438,8 +441,8 @@ public class BoardController {
 		boardService.updateComment(commentParam);
 
 		result.put("comment"	, param.get("comment"));
-		result.put("code"		,"0000"	);
-		result.put("message"	,"OK"	);
+		result.put("code", ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -461,7 +464,8 @@ public class BoardController {
 		commentParam.put("uptId"  			, param.get("regId"));
 
 		result.put("comment", boardService.deleteComment(commentParam));
-		result.put("code"	,"0000"	);
+		result.put("code", ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}

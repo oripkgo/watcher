@@ -7,6 +7,7 @@ import com.watcher.business.management.mapper.ManagementMapper;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.member.param.MemberParam;
 import com.watcher.business.member.service.MemberService;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +43,8 @@ public class MemberServiceImpl implements MemberService {
 
         managementMapper.insertManagement(managementParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

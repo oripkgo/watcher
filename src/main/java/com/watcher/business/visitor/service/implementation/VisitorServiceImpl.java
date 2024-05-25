@@ -3,9 +3,7 @@ package com.watcher.business.visitor.service.implementation;
 import com.watcher.business.visitor.mapper.VisitorMapper;
 import com.watcher.business.visitor.param.VisitorParam;
 import com.watcher.business.visitor.service.VisitorService;
-import com.watcher.util.CookieUtil;
-import com.watcher.util.DateUtil;
-import com.watcher.util.RequestUtil;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,8 +35,8 @@ public class VisitorServiceImpl implements VisitorService {
         Map<String, Object> visitInfo = visitorMapper.selectVisitorInflowSourceCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -51,8 +49,8 @@ public class VisitorServiceImpl implements VisitorService {
         Map<String, Object> visitInfo = visitorMapper.selectVisitorCount(visitorParam);
         result.put("visitInfo", visitInfo);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -65,8 +63,8 @@ public class VisitorServiceImpl implements VisitorService {
         List<Map<String, Object>> visitInfoList = visitorMapper.selectChartDailyVisitorCntList(visitorParam);
         result.put("visitInfoList", visitInfoList);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -79,8 +77,8 @@ public class VisitorServiceImpl implements VisitorService {
         List<Map<String, Object>> visitInfoList = visitorMapper.selectChartMonthVisitorCntList(visitorParam);
         result.put("visitInfoList", visitInfoList);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -106,8 +104,8 @@ public class VisitorServiceImpl implements VisitorService {
 
         visitorMapper.insert(visitorParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

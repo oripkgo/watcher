@@ -1,6 +1,7 @@
 package com.watcher.business.comm.controller;
 
 import com.watcher.business.comm.service.FileService;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,8 @@ public class FileController {
         String S3savePath = fileService.upload(String.valueOf(param.get("base64Img")), fileUploadPath + "/" + fileName);
 
         result.put("path", S3savePath);
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

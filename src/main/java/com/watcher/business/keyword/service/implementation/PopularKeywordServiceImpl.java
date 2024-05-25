@@ -3,6 +3,7 @@ package com.watcher.business.keyword.service.implementation;
 import com.watcher.business.keyword.mapper.PopularKeywordMapper;
 import com.watcher.business.keyword.param.PopularKeywordParam;
 import com.watcher.business.keyword.service.PopularKeywordService;
+import com.watcher.enums.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,9 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
         }
 
         result.put("list", popularKeywordMapper.select(popularKeywordParam));
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
-        result.put("code","0000");
-        result.put("message","OK");
         return result;
     }
 
@@ -63,9 +64,8 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
         }
 
         result.putAll(this.getList(popularKeywordParam));
-
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
         return result;
     }
 }

@@ -1,6 +1,11 @@
 package com.watcher.enums;
 
-public enum ErrorCode {
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public enum ResponseCode {
+    SUCCESS_0000(200,"0000","OK"),
+
     /** 1xxx~5xxx : 클라이언트 오류, 6xxx~9xxx : 서버오류 */
 
 
@@ -25,14 +30,14 @@ public enum ErrorCode {
     ERROR_9999(500,"9999","정의되지 않은 서버 오류"),
     ;
 
-    ErrorCode(int status, String code, String msg) {
+    ResponseCode(int status, String code, String msg) {
         this.status = status;
-        this.errorCode = code;
+        this.code = code;
         this.message = msg;
     }
 
     private int status;
-    private String errorCode;
+    private String code;
     private String message;
 
     public int getStatus() {
@@ -43,12 +48,12 @@ public enum ErrorCode {
         this.status = status;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getMessage() {
@@ -58,4 +63,12 @@ public enum ErrorCode {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public Map<String, String> getMap() {
+        Map<String, String> result = new LinkedHashMap<>();
+        result.put("code"   , this.getCode());
+        result.put("message", this.getMessage());
+        return result;
+    }
+
 }

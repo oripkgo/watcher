@@ -3,6 +3,7 @@ package com.watcher.business.login.controller;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.business.login.param.SignParam;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +49,8 @@ public class SignController {
 		}
 
 		result.put("sessionId", sessionId);
-		result.put("code","0000");
-		result.put("message", "OK");
+		result.put("code", ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -84,9 +85,8 @@ public class SignController {
 		}
 
 		result.put("sessionId", sessionId);
-		result.put("code","0000");
-		result.put("message", "OK");
-
+		result.put("code", ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 		return result;
 	}
 
@@ -105,8 +105,8 @@ public class SignController {
 		signService.validation(loginVo);
 		signService.handleOut(loginVo, sessionId);
 
-		result.put("code","0000");
-		result.put("message", "OK");
+		result.put("code", ResponseCode.SUCCESS_0000.getCode());
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}

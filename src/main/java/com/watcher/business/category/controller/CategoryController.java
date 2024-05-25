@@ -3,6 +3,7 @@ package com.watcher.business.category.controller;
 import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.login.service.SignService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.RedisUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class CategoryController {
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategory());
 
         result.put("categoryList", jsonArray.toString());
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -52,8 +53,8 @@ public class CategoryController {
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -70,8 +71,8 @@ public class CategoryController {
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

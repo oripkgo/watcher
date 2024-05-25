@@ -6,6 +6,7 @@ import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
+import com.watcher.enums.ResponseCode;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,8 +96,8 @@ public class MyStoryController {
 
 
         result.put("dto", storyParam);
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

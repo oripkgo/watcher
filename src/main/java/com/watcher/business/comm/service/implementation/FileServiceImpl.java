@@ -5,6 +5,7 @@ import com.watcher.business.comm.mapper.FileMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.comm.service.FileService;
 import com.watcher.config.WatcherConfig;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.AwsS3Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -137,8 +138,8 @@ public class FileServiceImpl implements FileService {
     public Map<String, String> download(FileParam fileParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

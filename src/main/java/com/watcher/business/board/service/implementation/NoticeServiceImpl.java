@@ -5,6 +5,7 @@ import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.board.param.NoticeParam;
 import com.watcher.business.comm.service.FileService;
+import com.watcher.enums.ResponseCode;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,9 +50,8 @@ public class NoticeServiceImpl implements NoticeService {
         noticeParam.setTotalCnt( noticeMapper.selectNoticeCnt(noticeParam) );
         result.put("list", noticeMapper.selectNotice(noticeParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
-
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -62,8 +62,9 @@ public class NoticeServiceImpl implements NoticeService {
         Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("view", noticeMapper.view(noticeParam));
-        result.put("code", "0000");
-        result.put("message", "OK");
+
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -106,8 +107,8 @@ public class NoticeServiceImpl implements NoticeService {
         noticeParam.setIdList(noticeIds.toList());
         noticeMapper.update(noticeParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -169,8 +170,8 @@ public class NoticeServiceImpl implements NoticeService {
             }
         }
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

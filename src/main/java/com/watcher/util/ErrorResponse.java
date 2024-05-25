@@ -1,8 +1,9 @@
 package com.watcher.util;
 
-import com.watcher.enums.ErrorCode;
+import com.watcher.enums.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class ErrorResponse {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -11,10 +12,10 @@ public class ErrorResponse {
     private String message;
     private String code;
 
-    public ErrorResponse(ErrorCode errorCode){
-        this.status = errorCode.getStatus();
-        this.message = errorCode.getMessage();
-        this.code = errorCode.getErrorCode();
+    public ErrorResponse(ResponseCode responseCode){
+        this.status = responseCode.getStatus();
+        this.message = responseCode.getMessage();
+        this.code = responseCode.getCode();
 
         logger.debug(this.toString());
     }

@@ -1,6 +1,6 @@
 package com.watcher.config;
 
-import com.watcher.enums.ErrorCode;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.ErrorResponse;
 import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleSignatureException(Exception ex){
         logger.error("SignatureException",ex);
 
-        ErrorResponse response = new ErrorResponse(ErrorCode.ERROR_2001);
+        ErrorResponse response = new ErrorResponse(ResponseCode.ERROR_2001);
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
     }
 
@@ -29,9 +29,9 @@ public class GlobalExceptionHandler {
         ErrorResponse response;
 
         try{
-            response = new ErrorResponse(ErrorCode.valueOf("ERROR_"+ex.getMessage()));
+            response = new ErrorResponse(ResponseCode.valueOf("ERROR_"+ex.getMessage()));
         }catch (IllegalArgumentException ex2){
-            response = new ErrorResponse(ErrorCode.valueOf("ERROR_9999"));
+            response = new ErrorResponse(ResponseCode.valueOf("ERROR_9999"));
         }
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));

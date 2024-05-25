@@ -4,6 +4,7 @@ import com.watcher.business.management.mapper.ManagementMapper;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.member.mapper.MemberMapper;
 import com.watcher.business.management.param.ManagementParam;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +33,8 @@ public class ManagementServiceImpl implements ManagementService {
 
         managementMapper.updateStorySettingInfo(managementParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

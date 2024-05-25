@@ -2,6 +2,7 @@ package com.watcher.business.comm.controller;
 
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.service.StoryService;
+import com.watcher.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,8 +34,8 @@ public class CommController {
         String token = resultMap.get("token");
         String apiToken = "";
         String loginYn = "N";
-        String code = "0000";
-        String msg = "OK";
+        String code = ResponseCode.SUCCESS_0000.getCode();
+        String msg = ResponseCode.SUCCESS_0000.getMessage();
         String id = UUID.randomUUID().toString();
 
         if(StringUtils.hasText(token)){

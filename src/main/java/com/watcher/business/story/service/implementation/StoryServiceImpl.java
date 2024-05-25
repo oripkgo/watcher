@@ -6,6 +6,7 @@ import com.watcher.business.story.mapper.StoryMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.RequestUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,8 +126,8 @@ public class StoryServiceImpl implements StoryService {
         }
 
         result.put("storyId", storyParam.getId());
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -137,8 +138,8 @@ public class StoryServiceImpl implements StoryService {
         LinkedHashMap result = new LinkedHashMap();
         storyMapper.update(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -175,8 +176,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -188,8 +189,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setDeleteYn("Y");
         storyMapper.update(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -205,8 +206,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setDeleteYn("Y");
         storyMapper.update(storyParam);
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -229,8 +230,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
         result.put("list", storyMapper.selectStory(storyParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -243,8 +244,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
         result.put("list", storyMapper.selectStory(storyParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -266,8 +267,8 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
         result.put("list", storyMapper.selectStory(storyParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -278,8 +279,8 @@ public class StoryServiceImpl implements StoryService {
 
         result.put("view", storyMapper.view(storyParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
 
         return result;
@@ -291,8 +292,8 @@ public class StoryServiceImpl implements StoryService {
 
         result.put("popularStorys", storyMapper.getPopularStoryMain(storyParam));
 
-        result.put("code", "0000");
-        result.put("message", "OK");
+        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
