@@ -7,9 +7,6 @@
 		SELECT
 			COUNT(*)
 		FROM NOTICE A
-		LEFT JOIN VIEWS B ON 1=1
-		AND B.CONTENTS_TYPE='NOTICE'
-		AND B.CONTENTS_ID = A.ID
 		LEFT JOIN MEMBER D ON 1=1
 		AND D.LOGIN_ID = A.REG_ID
 		WHERE 1=1
@@ -122,7 +119,7 @@
 			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
 			 ,A.UPT_ID
 			 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-			 ,IFNULL(B.VIEW_CNT ,0) AS VIEW_CNT
+			 ,A.VIEW_CNT
 			 ,(
 				SELECT
 					GROUP_CONCAT(C.TAGS)
@@ -132,21 +129,9 @@
 				AND C.CONTENTS_ID = A.ID
 				AND C.DELETE_YN = 'N'
 			) AS TAGS
-			 ,IFNULL((
-				SELECT
-				    COUNT(1)
-				FROM BOARD_LIKE
-				WHERE 1=1
-				AND CONTENTS_TYPE='NOTICE'
-				AND CONTENTS_ID = A.ID
-				AND LIKE_TYPE = '01'
-				AND CANCEL_YN = 'N'
-			  ),0) AS LIKE_CNT
+			 ,A.LIKE_CNT
 		     ,D.NICKNAME
 		FROM NOTICE A
-		LEFT JOIN VIEWS B ON 1=1
-			AND B.CONTENTS_TYPE='NOTICE'
-			AND B.CONTENTS_ID = A.ID
 		LEFT JOIN MEMBER D ON 1=1
 			AND D.LOGIN_ID = A.REG_ID
 	</sql>
@@ -214,5 +199,25 @@
 
 		AND REG_ID=#{regId}
 	</update>
+
+
+	<update id="updateViewCountUp" parameterType="int">
+		UPDATE NOTICE SET
+			VIEW_CNT = (VIEW_CNT+1)
+		WHERE ID=#{id}
+	</update>
+
+	<update id="updateLikeCountUp" parameterType="int">
+		UPDATE NOTICE SET
+			LIKE_CNT = (LIKE_CNT+1)
+		WHERE ID=#{id}
+	</update>
+
+	<update id="updateLikeCountDown" parameterType="int">
+		UPDATE NOTICE SET
+			LIKE_CNT = (LIKE_CNT-1)
+		WHERE ID=#{id}
+	</update>
+
 
 </mapper>

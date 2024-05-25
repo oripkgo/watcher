@@ -17,15 +17,6 @@ public class BoardServiceImpl implements BoardService {
     @Autowired
     BoardMapper boardMapper;
 
-    @Override
-    public void insertViewsCount(String contentsType, String contentsId) throws Exception {
-        LinkedHashMap param = new LinkedHashMap();
-
-        param.put("contentsType", contentsType  );
-        param.put("contentsId"  , contentsId    );
-
-        boardMapper.insertViewsCount(param);
-    }
 
     @Override
     public int getCommentListCnt(LinkedHashMap param) throws Exception {

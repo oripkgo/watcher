@@ -50,6 +50,7 @@ const LIKE = {
         this.type = type;
         this.likeId = result['LIKE_ID'];
         this.likeYn = result['LIKE_YN'];
+        this.likeCnt = result['LIKE_CNT'];
         this.loginYn = loginYn;
         this.notLoginStatusProcessingFunc = notLoginStatusProcessingFunc;
     },
@@ -67,26 +68,30 @@ const LIKE = {
         if (data['likeYn']) {
             targetObj.dataset['likeYn'] = data['likeYn'];
         }
+
+        if (data['likeYn']) {
+            targetObj.dataset['likeCnt'] = data['likeCnt'];
+        }
     },
 
     changeLikeElementDataSet: function (targetObj, likeYn, likeId) {
         if (likeYn == 'Y') {
-            let likecnt = (targetObj.dataset['likecnt'] * 1) + 1;
-            targetObj.innerText = ('공감 ' + likecnt);
-            targetObj.dataset['likecnt'] = likecnt;
+            let likeCnt = (targetObj.dataset['likeCnt'] * 1) + 1;
+            targetObj.innerText = ('공감 ' + likeCnt);
+            targetObj.dataset['likeCnt'] = likeCnt;
 
             targetObj.dataset['likeId'] = likeId;
             targetObj.dataset['likeYn'] = 'Y';
 
         } else {
-            let likecnt = (targetObj.dataset['likecnt'] * 1) - 1
+            let likeCnt = (targetObj.dataset['likeCnt'] * 1) - 1
 
-            if (likecnt < 0) {
-                likecnt = 0;
+            if (likeCnt < 0) {
+                likeCnt = 0;
             }
 
-            targetObj.innerText = ('공감 ' + likecnt);
-            targetObj.dataset['likecnt'] = likecnt;
+            targetObj.innerText = ('공감 ' + likeCnt);
+            targetObj.dataset['likeCnt'] = likeCnt;
             delete targetObj.dataset['likeId'];
         }
 
@@ -110,12 +115,15 @@ const LIKE = {
 
         targetElement.addEventListener("click", function () {
             // const $this = this;
-            const data = targetElement.dataset;
-
             if (likeThis['loginYn'] == 'Y') {
-                const resp = updateBoardLike(data.contentsId, data.contentsType, data.likeId, data.likeYn);
-
                 targetElement.dataset['likeYn'] = (targetElement.dataset['likeYn'] == 'Y' ? 'N' : 'Y');
+
+                const resp = updateBoardLike(
+                    targetElement.dataset.contentsId,
+                    targetElement.dataset.contentsType,
+                    targetElement.dataset.likeId,
+                    targetElement.dataset.likeYn
+                );
 
                 likeThis.changeLikeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['like_id']);
                 likeThis.changeTheLikeImageWithLikeYnValue(targetElement, targetElement.dataset['likeYn']);

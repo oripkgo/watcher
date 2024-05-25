@@ -1,8 +1,6 @@
 package com.watcher.business.story.service;
 
 import com.watcher.business.story.param.StoryParam;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +34,11 @@ public interface StoryService {
     public Map<String, Object> getData(StoryParam storyParam) throws Exception;
 
     public Map<String, Object> getPopularStoryMain(StoryParam storyParam) throws Exception;
+
+    public void insertViewsCount(StoryParam storyParam) throws Exception;
+
+    public void updateLikeCountUp(int id) throws Exception;
+
+    public void updateLikeCountDown(int id) throws Exception;
+
 }

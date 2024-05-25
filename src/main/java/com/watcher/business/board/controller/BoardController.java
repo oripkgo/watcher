@@ -1,11 +1,10 @@
 package com.watcher.business.board.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watcher.business.board.service.BoardService;
 import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.board.param.NoticeParam;
-
+import com.watcher.business.story.service.StoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.RedisUtil;
@@ -30,6 +29,9 @@ public class BoardController {
 
 	@Autowired
 	BoardService boardService;
+
+	@Autowired
+	StoryService storyService;
 
 	@Autowired
 	SignService signService;
@@ -290,6 +292,15 @@ public class BoardController {
 			boardService.insertLike(likeParam);
 			result.putAll(likeParam);
 		}
+
+		if( "STORY".equals(contentsType) ){
+			if( "Y".equals(param.get("likeYn")) ){
+				storyService.updateLikeCountUp(Integer.valueOf(contentsId));
+			}else{
+				storyService.updateLikeCountDown(Integer.valueOf(contentsId));
+			}
+		}
+
 
 		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
 		result.put("message", ResponseCode.SUCCESS_0000.getMessage());

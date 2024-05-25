@@ -14,6 +14,8 @@ public class StoryDto extends CommDto {
     private String summary;
     private String deleteYn;
     private String secretYn;
+    private String viewCnt;
+    private String likeCnt;
 
     public String getId() {
         return id;
@@ -85,5 +87,21 @@ public class StoryDto extends CommDto {
 
     public void setSecretYn(String secretYn) {
         this.secretYn = secretYn;
+    }
+
+    public String getViewCnt() {
+        return viewCnt;
+    }
+
+    public void setViewCnt(String viewCnt) {
+        this.viewCnt = viewCnt;
+    }
+
+    public String getLikeCnt() {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(String likeCnt) {
+        this.likeCnt = likeCnt;
     }
 }

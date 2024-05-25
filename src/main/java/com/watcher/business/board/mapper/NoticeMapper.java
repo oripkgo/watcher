@@ -14,5 +14,8 @@ public interface NoticeMapper {
 	public int selectNoticeCnt(NoticeParam noticeParam);
 	public int insert(NoticeParam noticeParam);
 	public int update(NoticeParam noticeParam);
+	public int updateViewCountUp(int id);
+	public int updateLikeCountUp(int id);
+	public int updateLikeCountDown(int id);
 
 }

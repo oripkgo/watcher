@@ -21,4 +21,10 @@ public interface StoryMapper {
 
     public void update(StoryParam storyParam);
 
+    public void updateViewCountUp(int id);
+
+    public void updateLikeCountUp(int id);
+
+    public void updateLikeCountDown(int id);
+
 }

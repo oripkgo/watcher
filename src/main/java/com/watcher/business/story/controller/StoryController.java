@@ -45,7 +45,7 @@ public class StoryController {
 
         ModelAndView mv = new ModelAndView("story/view");
 
-
+        storyService.insertViewsCount(storyParam);
         result.putAll(storyService.getData(storyParam));
 
         // 게시물 수정권한 여부 s

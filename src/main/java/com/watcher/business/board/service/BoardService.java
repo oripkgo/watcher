@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public interface BoardService {
-    public void insertViewsCount(String contentsType, String contentsId) throws Exception;
-
     public int getCommentListCnt(LinkedHashMap param) throws Exception;
 
     public Map<String, Object> getCommentList(LinkedHashMap param) throws Exception;

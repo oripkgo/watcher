@@ -56,7 +56,6 @@
 		AND D.ID = A.THUMBNAIL_IMG_ID
 		LEFT JOIN CATEGORY E ON 1=1
 		AND E.ID = A.CATEGORY_ID
-		LEFT JOIN (SELECT CONTENTS_ID, COUNT(*) AS LIKE_CNT FROM BOARD_LIKE WHERE LIKE_TYPE='01' AND CANCEL_YN='N' GROUP BY CONTENTS_ID) F ON F.CONTENTS_ID = A.ID
 		LEFT JOIN USER_DEFINE_CATEGORY G ON G.ID = A.MEMBER_CATEGORY_ID
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
@@ -192,12 +191,15 @@
 			CONCAT(D.SAVE_PATH, '', D.SERVER_FILE_NAME)  AS THUMBNAIL_IMG_PATH,
 			A.SUMMARY,
 			A.SECRET_YN,
+			A.LIKE_CNT,
+			A.VIEW_CNT,
 			A.REG_ID,
 			DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
 			A.UPT_ID,
 			DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE,
 			B.ID                                         AS MEMBER_ID,
 			B.NICKNAME,
+			E.CATEGORY_NM,
 			(
 				SELECT
 					GROUP_CONCAT(TAGS)
@@ -207,14 +209,6 @@
 				AND CONTENTS_ID = A.ID
 				AND DELETE_YN = 'N'
 			) AS TAGS,
-			E.CATEGORY_NM,
-			IFNULL((
-				SELECT COUNT(1)
-				FROM BOARD_LIKE
-				WHERE CONTENTS_ID = A.ID
-				AND LIKE_TYPE = '01'
-				AND CANCEL_YN = 'N'
-			), 0) AS LIKE_CNT,
 			IFNULL((
 				SELECT COUNT(1)
 				FROM COMMENT
@@ -316,5 +310,23 @@
 			,#{secretYn}
 		)
 	</insert>
+
+	<update id="updateViewCountUp" parameterType="int">
+		UPDATE STORY SET
+			VIEW_CNT = (VIEW_CNT+1)
+		WHERE ID=#{id}
+	</update>
+
+	<update id="updateLikeCountUp" parameterType="int">
+		UPDATE STORY SET
+			LIKE_CNT = (LIKE_CNT+1)
+		WHERE ID=#{id}
+	</update>
+
+	<update id="updateLikeCountDown" parameterType="int">
+		UPDATE STORY SET
+			LIKE_CNT = (LIKE_CNT-1)
+		WHERE ID=#{id}
+	</update>
 
 </mapper>

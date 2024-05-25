@@ -297,4 +297,20 @@ public class StoryServiceImpl implements StoryService {
 
         return result;
     }
+
+    @Override
+    public void insertViewsCount(StoryParam storyParam) throws Exception {
+        storyMapper.updateViewCountUp(Integer.valueOf(storyParam.getId()));
+    }
+
+    @Override
+    public void updateLikeCountUp(int id) throws Exception {
+        storyMapper.updateLikeCountUp(id);
+    }
+
+    @Override
+    public void updateLikeCountDown(int id) throws Exception {
+        storyMapper.updateLikeCountDown(id);
+    }
+
 }

@@ -22,9 +22,6 @@ public class NoticeServiceImpl implements NoticeService {
     NoticeMapper noticeMapper;
 
     @Autowired
-    BoardServiceImpl boardServiceImpl;
-
-    @Autowired
     FileService fileService;
 
     private String fileUploadPath = "/notice";
@@ -73,7 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     @Override
     public void insertViewsCount(NoticeParam noticeParam) throws Exception {
-        boardServiceImpl.insertViewsCount("NOTICE", noticeParam.getId());
+        noticeMapper.updateViewCountUp(Integer.valueOf(noticeParam.getId()));
     }
 
 

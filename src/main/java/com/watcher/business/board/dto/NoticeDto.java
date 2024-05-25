@@ -10,6 +10,8 @@ public class NoticeDto extends CommDto {
     private String thumbnailImgPath;
     private String deleteYn;
     private String secretYn;
+    private String viewsCnt;
+    private String likeCnt;
 
     public String getId() {
         return id;
@@ -57,5 +59,21 @@ public class NoticeDto extends CommDto {
 
     public void setSecretYn(String secretYn) {
         this.secretYn = secretYn;
+    }
+
+    public String getViewsCnt() {
+        return viewsCnt;
+    }
+
+    public void setViewsCnt(String viewsCnt) {
+        this.viewsCnt = viewsCnt;
+    }
+
+    public String getLikeCnt() {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(String likeCnt) {
+        this.likeCnt = likeCnt;
     }
 }

@@ -42,12 +42,17 @@
 						) B
 						WHERE 1=1
 						AND B.LIKE_TYPE = '01'
-						AND B.CANCEL_YN IN ('N','Y')
+						AND B.CANCEL_YN IN ('N')
 						LIMIT 1
 					)
 					,'Y','N'
 				)
-			)  AS LIKE_YN
+			)  AS LIKE_YN,
+		    (
+		    	<if test="contentsType == 'STORY'">
+					SELECT LIKE_CNT FROM STORY WHERE ID = #{contentsId}
+				</if>
+			) AS LIKE_CNT
 		FROM DUAL
 	</select>
 
@@ -152,20 +157,6 @@
 			UPT_DATE = NOW()
 		WHERE ID=#{commentId}
 	</update>
-
-	<insert id="insertViewsCount" parameterType="hashmap">
-		INSERT INTO VIEWS SET
-			  CONTENTS_TYPE = #{contentsType}
-			, CONTENTS_ID = #{contentsId}
-			, VIEW_CNT = 1
-			, REG_DATE = NOW()
-		ON DUPLICATE KEY UPDATE
-			  CONTENTS_TYPE = #{contentsType}
-			, CONTENTS_ID = #{contentsId}
-			, VIEW_CNT = VIEW_CNT+1
-			, UPT_DATE = NOW()
-	</insert>
-
 
 	<insert id="insertTag" parameterType="hashmap">
 		INSERT INTO BOARD_TAGS

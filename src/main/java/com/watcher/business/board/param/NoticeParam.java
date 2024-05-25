@@ -13,6 +13,8 @@ public class NoticeParam extends NoticeDto {
     private String searchMemId;
     private String searchSecretYn;
     private String paramJson;
+
+
     private List idList;
     private MultipartFile[] attachFiles;
 
