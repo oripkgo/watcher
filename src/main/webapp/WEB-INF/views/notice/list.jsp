@@ -126,7 +126,7 @@
 
             $(listHtml).data(obj);
 
-            comm.paging.drawList("#dataList", listHtml)
+            comm.paging.renderList("#dataList", listHtml)
         }
     }
 

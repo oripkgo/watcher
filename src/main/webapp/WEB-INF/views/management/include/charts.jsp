@@ -17,7 +17,7 @@
     const dailyVisitorUrl = "/visitor/chart/count/daily?searchDate=";
     const monthVisitorUrl = "/visitor/chart/count/month?searchDate=";
 
-    const drawChart = function (chartTarget, datas, customDate, customTitle) {
+    const renderChart = function (chartTarget, datas, customDate, customTitle) {
         let toDay = new Date();
 
         if (customDate) {
@@ -162,25 +162,25 @@
             this.dataStr = year + month + day; // 원하는 형식으로 날짜를 조합합니다.
         },
 
-        drawDailyVisitor: function () {
+        renderDailyVisitor: function () {
             let chartThis = this;
             REQUEST.send(dailyVisitorUrl + chartThis.dataStr,"GET",null, function(resp){
                 if (resp.code == '0000') {
-                    drawChart(chartThis.drawTarget, getChartData(resp['visitInfoList'], chartThis.dateObj), chartThis.dateObj)
+                    renderChart(chartThis.drawTarget, getChartData(resp['visitInfoList'], chartThis.dateObj), chartThis.dateObj)
                 }
             })
         },
 
-        drawMonthVisitor: function () {
+        renderMonthVisitor: function () {
             let chartThis = this;
             REQUEST.send(monthVisitorUrl + chartThis.dataStr,"GET",null, function(resp){
                 if (resp.code == '0000') {
-                    drawChart(chartThis.drawTarget, getMonthChartData(resp['visitInfoList'], chartThis.dateObj), chartThis.dateObj)
+                    renderChart(chartThis.drawTarget, getMonthChartData(resp['visitInfoList'], chartThis.dateObj), chartThis.dateObj)
                 }
             })
         },
     }
 
     chartVisitor.init("graph_canvas", chartDate);
-    chartVisitor.drawDailyVisitor();
+    chartVisitor.renderDailyVisitor();
 </script>

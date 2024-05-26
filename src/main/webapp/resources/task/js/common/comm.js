@@ -1,7 +1,9 @@
-let comm = function () {
+
+const comm = function () {
     // const privateObj = {};
 
     const publicObj = {
+
         category: CATEGORY,
 
         date: DATE,
@@ -112,4 +114,5 @@ let comm = function () {
     };
 
     return publicObj
+
 }()

@@ -246,7 +246,7 @@
 
                 listHtml = $(thisObj.getTr()).html(listHtml);
                 $(listHtml).data(obj);
-                comm.paging.drawList("#storyList", listHtml)
+                comm.paging.renderList("#storyList", listHtml)
             }
 
             thisObj.initCheckBox();

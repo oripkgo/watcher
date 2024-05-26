@@ -1,22 +1,32 @@
-const MESSAGE = {
-    html: {
-        alert: "",
-        confirm: "",
-    },
-    alert: function (msg,callback) {
-        alert(msg);
+const MESSAGE = function () {
 
-        if( callback ){
-            callback();
-        }
+    return {
 
-    },
-    confirm : function(msg,callback){
-        if( confirm(msg) ){
-            callback(true);
-        }else{
-            callback(false);
-        }
+        html: {
+            alert: "",
+            confirm: "",
+        },
 
-    },
-}
+        alert: function (msg, callback) {
+            alert(msg);
+
+            if (callback) {
+                callback();
+            }
+
+        },
+
+        confirm: function (msg, callback) {
+            if (confirm(msg)) {
+                callback(true);
+            } else {
+                callback(false);
+            }
+
+        },
+
+    }
+
+}()
+
+

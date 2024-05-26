@@ -19,8 +19,8 @@
         <div class="title_box">
           <p class="manager_statistics_today"></p>
           <div class="btn_sort">
-            <a href="javascript:;" class="on" onclick="chartVisitor.drawDailyVisitor();">일간</a>
-            <a href="javascript:;" onclick="chartVisitor.drawMonthVisitor();">월간</a>
+            <a href="javascript:;" class="on" onclick="chartVisitor.renderDailyVisitor();">일간</a>
+            <a href="javascript:;" onclick="chartVisitor.renderMonthVisitor();">월간</a>
           </div>
         </div>
         <div class="graph_wrap02">

@@ -146,7 +146,7 @@
 
                 $(listHtml).data(obj);
 
-                comm.paging.drawList("#myStoryList", listHtml);
+                comm.paging.renderList("#myStoryList", listHtml);
             }
 
         });

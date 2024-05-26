@@ -267,7 +267,7 @@
 
                 trHtml = $(noticeObj.getTr()).html(trHtml);
                 $(trHtml).data(obj);
-                comm.paging.drawList(".noticeList", trHtml);
+                comm.paging.renderList(".noticeList", trHtml);
             }
 
             noticeObj.initCheckBox();

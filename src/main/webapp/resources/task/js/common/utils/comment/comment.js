@@ -145,7 +145,7 @@ const COMMENT = {
         }, null, {'Content-type': "application/json"})
     },
 
-    drawList: function (list) {
+    renderList: function (list) {
         if (list && list.length > 0) {
             for (let listObj of list) {
                 let commentElement = COMMENT_ELEMENT.getComment(
@@ -237,7 +237,7 @@ const COMMENT = {
             COMMENT_DOM.setCount(countEle, resp.comment['cnt'])
             COMMENT_DOM.drawCount(countEle)
 
-            commentThis.drawList(resp.comment['list']);
+            commentThis.renderList(resp.comment['list']);
 
             for(let obj of listArea.children){
                 commentThis.addEventToElement(obj);

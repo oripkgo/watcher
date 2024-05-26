@@ -1,49 +1,10 @@
-const likeYImgUrl = "/resources/img/icon_heart_on.png";
-const likeNImgUrl = "/resources/img/zim_ico.png";
+const LIKE = function(){
 
-const boardLikeApiUrl = '/board/like';
+    const boardLikeApiUrl   = '/board/like';
+    const likeYImgUrl       = "/resources/img/icon_heart_on.png";
+    const likeNImgUrl       = "/resources/img/zim_ico.png";
 
-const getBoardLike = function (id, type) {
-    let result = {};
-    REQUEST.send(boardLikeApiUrl, "GET", {
-        "contentsId": id,
-        "contentsType": type,
-    }, function (resp) {
-        result = resp;
-    }, null, null, false)
-
-    return result
-}
-
-const updateBoardLike = function (contentsId, contentsType, likeId, likeYn) {
-    let result = {};
-    let param = {};
-
-    if (contentsId) {
-        param.contentsId = contentsId;
-    }
-
-    if (contentsType) {
-        param.contentsType = contentsType;
-    }
-
-    if (likeId) {
-        param.likeId = likeId;
-    }
-
-    if (likeYn) {
-        param.likeYn = likeYn;
-    }
-
-    REQUEST.send(boardLikeApiUrl, "POST", param, function (resp) {
-        result = resp;
-    }, null, {'Content-type': "application/json"}, false);
-
-    return result;
-}
-
-const LIKE = {
-    init: function (id, type, loginYn, notLoginStatusProcessingFunc) {
+    const init = function (id, type, loginYn, notLoginStatusProcessingFunc) {
         const result = getBoardLike(id, type);
 
         this.id = id;
@@ -53,9 +14,48 @@ const LIKE = {
         this.likeCnt = result['LIKE_CNT'];
         this.loginYn = loginYn;
         this.notLoginStatusProcessingFunc = notLoginStatusProcessingFunc;
-    },
+    }
 
-    setLikeElementDataSet: function (targetObj, data) {
+    const getBoardLike = function (id, type) {
+        let result = {};
+        REQUEST.send(boardLikeApiUrl, "GET", {
+            "contentsId": id,
+            "contentsType": type,
+        }, function (resp) {
+            result = resp;
+        }, null, null, false)
+
+        return result
+    }
+
+    const updateBoardLike = function (contentsId, contentsType, likeId, likeYn) {
+        let result = {};
+        let param = {};
+
+        if (contentsId) {
+            param.contentsId = contentsId;
+        }
+
+        if (contentsType) {
+            param.contentsType = contentsType;
+        }
+
+        if (likeId) {
+            param.likeId = likeId;
+        }
+
+        if (likeYn) {
+            param.likeYn = likeYn;
+        }
+
+        REQUEST.send(boardLikeApiUrl, "POST", param, function (resp) {
+            result = resp;
+        }, null, {'Content-type': "application/json"}, false);
+
+        return result;
+    }
+
+    const setElementDataSet = function (targetObj, data) {
         if (data.id) {
             targetObj.dataset['contentsId'] = data.id;
         }
@@ -72,9 +72,9 @@ const LIKE = {
         if (data['likeYn']) {
             targetObj.dataset['likeCnt'] = data['likeCnt'];
         }
-    },
+    }
 
-    changeLikeElementDataSet: function (targetObj, likeYn, likeId) {
+    const changeElementDataSet = function (targetObj, likeYn, likeId) {
         if (likeYn == 'Y') {
             let likeCnt = (targetObj.dataset['likeCnt'] * 1) + 1;
             targetObj.innerText = ('공감 ' + likeCnt);
@@ -95,23 +95,23 @@ const LIKE = {
             delete targetObj.dataset['likeId'];
         }
 
-    },
+    }
 
-    changeTheLikeImageWithLikeYnValue: function (targetObj, likeYn) {
+    const setImage = function (targetObj, likeYn) {
         if (likeYn == 'N') {
             targetObj.style.background = "url('" + likeNImgUrl + "') no-repeat left center";
         } else {
             targetObj.style.background = "url('" + likeYImgUrl + "') no-repeat left center";
         }
-    },
+    }
 
-    render: function (tagId) {
+    const render = function (tagId) {
         const likeThis = this;
         const targetElement = document.getElementById(tagId);
 
-        likeThis.setLikeElementDataSet(targetElement, likeThis);
+        setElementDataSet(targetElement, likeThis);
 
-        likeThis.changeTheLikeImageWithLikeYnValue(targetElement, likeThis['likeYn']);
+        setImage(targetElement, likeThis['likeYn']);
 
         targetElement.addEventListener("click", function () {
             // const $this = this;
@@ -125,8 +125,8 @@ const LIKE = {
                     targetElement.dataset.likeYn
                 );
 
-                likeThis.changeLikeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['like_id']);
-                likeThis.changeTheLikeImageWithLikeYnValue(targetElement, targetElement.dataset['likeYn']);
+                changeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['like_id']);
+                setImage(targetElement, targetElement.dataset['likeYn']);
             } else {
                 console.log('비로그인 상태에서 좋아요 클릭');
                 if (likeThis.notLoginStatusProcessingFunc) {
@@ -134,5 +134,14 @@ const LIKE = {
                 }
             }
         });
-    },
-}
+    }
+
+    return {
+
+        init : init,
+
+        render : render
+
+    }
+
+}()

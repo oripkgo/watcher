@@ -1,6 +1,9 @@
-const tokenApiUrl = "/comm/token";
-const TOKEN = {
-    init: function (callback) {
+
+const TOKEN = function(){
+
+    const tokenApiUrl = "/comm/token";
+
+    const init = function (callback) {
 
         REQUEST.send(tokenApiUrl, "GET", {
             token: (localStorage.getItem("apiToken") || "")
@@ -14,5 +17,12 @@ const TOKEN = {
                 }
             }
         }, null, null, false)
-    },
-}
+    }
+
+    return {
+
+        init : init
+
+    }
+
+}()

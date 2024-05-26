@@ -35,36 +35,19 @@
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm like" id="likeTarget" data-likecnt="0">공감 0</a>
                     <a href="javascript:;" class="sns_btn"></a>
-<%--                    <a href="javascript:;" class="read_btn">구독하기</a>--%>
+                    <%--                    <a href="javascript:;" class="read_btn">구독하기</a>--%>
                     <div class="sns_view" style="display: none;">
                         <div class="uptip"></div>
                         <span>해당 글 SNS에 공유하기</span>
                         <p>
-                            <a href="javascript:;" onclick="SHARE.onTwiter('${view['SUMMARY']}', window.location.href)">
-                                <img src="/resources/img/sns_twiter.png">
-                            </a>
-                            <a href="javascript:;" onclick="SHARE.onFacebook(window.location.href)">
-                                <img src="/resources/img/sns_facebook.png">
-                            </a>
-                            <a href="javascript:;" id="kakaoShare"
-                               onclick="SHARE.onKakaoStory(
-                                           '#kakaoShare',
-                                           '${view['TITLE']}',
-                                           '${view['SUMMARY']}',
-                                           window.location.href,
-                                           window.getServerImg('${view['THUMBNAIL_IMG_PATH']}'.replace(/[\\]/g, '/'))
-                                       )"
-                            >
-                                <img src="/resources/img/sns_kakao_story.png">
-                            </a>
-<%--                            <a href="javascript:;"><img src="/resources/img/sns_kakao_talk.png"></a>--%>
-<%--                            <a href="javascript:;"><img src="/resources/img/sns_insta.png"></a>--%>
-<%--                            <a href="javascript:;"><img src="/resources/img/sns_youtube.png"></a>--%>
+                            <a href="javascript:;" id="twiterShare"><img src="/resources/img/sns_twiter.png"></a>
+                            <a href="javascript:;" id="faceBookShare"><img src="/resources/img/sns_facebook.png"></a>
+                            <a href="javascript:;" id="kakaoShare"><img src="/resources/img/sns_kakao_story.png"></a>
+                            <%--                            <a href="javascript:;"><img src="/resources/img/sns_kakao_talk.png"></a>--%>
+                            <%--                            <a href="javascript:;"><img src="/resources/img/sns_insta.png"></a>--%>
+                            <%--                            <a href="javascript:;"><img src="/resources/img/sns_youtube.png"></a>--%>
                         </p>
-                        <a href="javascript:;"
-                           onclick="SHARE.onCopyUrl(window.location.href); comm.message.alert('URL이 복사되었습니다.')"
-                           class="btn_url"
-                        >url 복사</a>
+                        <a href="javascript:;" id="urlCopy" class="btn_url">url 복사</a>
                     </div>
                 </div>
 
@@ -78,17 +61,20 @@
 </form>
 
 <script>
-    const id = '${view['ID']}';
-    const type = 'STORY';
-    const memId = '${memId}';
-    const listUrl = '/story/list';
-    const deleteUrl = "/story/delete";
-    const updateUrl = "/story/update?id=";
+    const url           = window.location.href;
+    const listUrl       = '/story/list';
+    const deleteUrl     = "/story/delete";
+    const updateUrl     = "/story/update?id=";
 
-    const title = '${view['TITLE']}';
-    const nickName = '${view['NICKNAME']}';
-    const regDate = '${view['REG_DATE']}';
-    const likeCnt = '${view['LIKE_CNT']}' * 1;
+    const type          = 'STORY';
+    const memId         = '${memId}';
+    const id            = '${view['ID']}';
+    const title         = '${view['TITLE']}';
+    const nickName      = '${view['NICKNAME']}';
+    const regDate       = '${view['REG_DATE']}';
+    const likeCnt       = '${view['LIKE_CNT']}' * 1;
+    const summary       = '${view['SUMMARY']}';
+    const thumbnail     = window.getServerImg('${view['THUMBNAIL_IMG_PATH']}'.replace(/[\\]/g, '/'));
 
     const updateStory = function () {
         location.href = updateUrl + id;
@@ -113,22 +99,54 @@
         })
     }
 
-    $(document).on("ready", function () {
+    const initSNS = function(){
 
+        $(".sns_btn").click(function () {
+            $(".sns_view").slideToggle("fast");
+        });
+
+        $("#twiterShare").on("click",function(){
+            SHARE.onTwiter(summary, url);
+        })
+
+        $("#faceBookShare").on("click",function(){
+            SHARE.onFacebook(url);
+        })
+
+        $("#urlCopy").on("click",function(){
+            SHARE.onCopyUrl(window.location.href); comm.message.alert('URL이 복사되었습니다.')
+        })
+
+        SHARE.onKakaoStory(
+            Kakao,
+            '#kakaoShare',
+            title,
+            summary,
+            url,
+            thumbnail
+        )
+
+    }
+
+    const initView = function(){
         $("#title").text(title);
         $("#nickName").text("by " + nickName);
         $("#last_time").html(comm.date.getPastDate(regDate));
         $("#likeTarget").data('likecnt', likeCnt);
         $("#likeTarget").text('공감 ' + likeCnt);
+    }
+
+    $(document).on("ready", function () {
+
+        initView();
 
         comm.boardView.init(id, type);
         comm.boardView.renderTag('tagsTarget');
         comm.boardView.renderLike('likeTarget');
         comm.boardView.renderComment('commentTarget');
 
-        $(".sns_btn").click(function () {
-            $(".sns_view").slideToggle("fast");
-        });
+        initSNS();
+
     })
 
 </script>
