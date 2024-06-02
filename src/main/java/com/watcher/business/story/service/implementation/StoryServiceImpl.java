@@ -43,90 +43,58 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setSummary(RequestUtil.cleanXSS(storyParam.getSummary()));
         storyParam.setContents(RequestUtil.cleanXSS(storyParam.getContents()));
 
+        // 스토리 등록
         if( storyParam.getId() == null || storyParam.getId().isEmpty() ){
             storyMapper.insert(storyParam);
-
-            if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
-                Map<String,Object> tag_insert_param = new LinkedHashMap<String,Object>();
-
-                List<String> tagList = Arrays.asList(storyParam.getTags().split(","));
-
-                tag_insert_param.put("contentsType" , "STORY"                   );
-                tag_insert_param.put("contentsId"   , storyParam.getId()        );
-                tag_insert_param.put("tags"         , tagList                   );
-                tag_insert_param.put("regId"        , storyParam.getRegId()     );
-                tag_insert_param.put("uptId"        , storyParam.getUptId()     );
-
-                boardMapper.insertTag(tag_insert_param);
-
-            }
-
-            if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
-                FileParam fileParam = new FileParam();
-                fileParam.setContentsId(storyParam.getId());
-                fileParam.setContentsType("STORY");
-                fileParam.setRegId(storyParam.getRegId());
-                fileParam.setUptId(storyParam.getRegId());
-
-                int file_id = fileService.uploadAfterSavePath(
-                        storyParam.getThumbnailImgPathParam(),
-                        fileUploadPath,
-                        fileParam
-                );
-
-                storyParam.setThumbnailImgId(String.valueOf(file_id));
-                storyMapper.update(storyParam);
-
-            }
-
-
         }else{
-
             storyParam.setUptId(storyParam.getRegId());
             storyMapper.update(storyParam);
+        }
 
-            if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
+        // 태그등록
+        if( !(storyParam.getTags() == null || storyParam.getTags().isEmpty()) ){
+            Map<String,Object> tagParam = new LinkedHashMap<String,Object>();
+            List<String> tagList = Arrays.asList(storyParam.getTags().split(","));
 
-                Map<String,Object> tag_update_param = new LinkedHashMap<String,Object>();
-                List<String> tagList = Arrays.asList(storyParam.getTags().split(","));
+            tagParam.put("contentsType" , "STORY"                   );
+            tagParam.put("contentsId"   , storyParam.getId()        );
+            tagParam.put("tags"         , tagList                   );
+            tagParam.put("regId"        , storyParam.getRegId()     );
+            tagParam.put("uptId"        , storyParam.getUptId()     );
 
-                tag_update_param.put("contentsType" , "STORY"                   );
-                tag_update_param.put("contentsId"   , storyParam.getId()        );
-                tag_update_param.put("tags"         , tagList                   );
-                tag_update_param.put("regId"        , storyParam.getRegId()     );
-                tag_update_param.put("uptId"        , storyParam.getUptId()     );
-
-                boardMapper.deleteTag(tag_update_param);
+            if( storyParam.getId() == null || storyParam.getId().isEmpty() ){
+                boardMapper.insertTag(tagParam);
+            }else{
+                boardMapper.deleteTag(tagParam);
 
                 for(String tag : tagList ){
-                    tag_update_param.put("tag", tag);
-                    boardMapper.updateTag(tag_update_param);
+                    tagParam.put("tag", tag);
+                    boardMapper.updateTag(tagParam);
                 }
-
             }
+        }
 
-            if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
-                FileParam fileParam = new FileParam();
-                fileParam.setContentsId(storyParam.getId());
-                fileParam.setContentsType("STORY");
-                fileParam.setRegId(storyParam.getRegId());
-                fileParam.setUptId(storyParam.getRegId());
+        // 업로드 파일등록
+        if( !storyParam.getThumbnailImgPathParam().isEmpty() ){
+            FileParam fileParam = new FileParam();
+            fileParam.setContentsId(storyParam.getId());
+            fileParam.setContentsType("STORY");
+            fileParam.setRegId(storyParam.getRegId());
+            fileParam.setUptId(storyParam.getRegId());
 
-                int file_id = fileService.uploadAfterSavePath(
-                        storyParam.getThumbnailImgPathParam(),
-                        fileUploadPath,
-                        fileParam
-                );
+            int fileId = fileService.uploadAfterSavePath(
+                    storyParam.getThumbnailImgPathParam(),
+                    fileUploadPath,
+                    fileParam
+            );
 
-                storyParam.setThumbnailImgId(String.valueOf(file_id));
-                storyMapper.update(storyParam);
-
-            }
+            storyParam.setThumbnailImgId(String.valueOf(fileId));
+            storyMapper.update(storyParam);
 
         }
 
         result.put("storyId", storyParam.getId());
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode());
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;

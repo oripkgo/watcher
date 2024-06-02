@@ -49,9 +49,17 @@
 				)
 			)  AS LIKE_YN,
 		    (
-		    	<if test="contentsType == 'STORY'">
-					SELECT LIKE_CNT FROM STORY WHERE ID = #{contentsId}
-				</if>
+		    	<choose>
+					<when test="contentsType == 'STORY'">
+						SELECT LIKE_CNT FROM STORY WHERE ID = #{contentsId}
+					</when>
+					<when test="contentsType == 'NOTICE'">
+						SELECT LIKE_CNT FROM NOTICE WHERE ID = #{contentsId}
+					</when>
+					<otherwise>
+						SELECT 0 FROM DUAL
+					</otherwise>
+				</choose>
 			) AS LIKE_CNT
 		FROM DUAL
 	</select>

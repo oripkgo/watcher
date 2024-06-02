@@ -132,39 +132,27 @@ public class NoticeServiceImpl implements NoticeService {
     public Map<String, String> insert(NoticeParam noticeParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
 
+        // 공지사항 등록
         if( noticeParam.getId() == null || noticeParam.getId().isEmpty() ){
             noticeMapper.insert(noticeParam);
-
-            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
-                FileParam fileParam = new FileParam();
-                fileParam.setContentsId(noticeParam.getId());
-                fileParam.setContentsType("NOTICE");
-                fileParam.setRegId(noticeParam.getRegId());
-                fileParam.setUptId(noticeParam.getRegId());
-
-                fileService.uploadAfterSavePath(
-                    noticeParam.getAttachFiles(),
-                    fileUploadPath,
-                    fileParam
-                );
-            }
         }else{
             noticeParam.setUptId(noticeParam.getRegId());
             noticeMapper.update(noticeParam);
+        }
 
-            if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
-                FileParam fileParam = new FileParam();
-                fileParam.setContentsId(noticeParam.getId());
-                fileParam.setContentsType("NOTICE");
-                fileParam.setRegId(noticeParam.getRegId());
-                fileParam.setUptId(noticeParam.getRegId());
+        // 파일 업로드
+        if (noticeParam.getAttachFiles() != null && noticeParam.getAttachFiles().length > 0) {
+            FileParam fileParam = new FileParam();
+            fileParam.setContentsId(noticeParam.getId());
+            fileParam.setContentsType("NOTICE");
+            fileParam.setRegId(noticeParam.getRegId());
+            fileParam.setUptId(noticeParam.getRegId());
 
-                fileService.uploadAfterSavePath(
+            fileService.uploadAfterSavePath(
                     noticeParam.getAttachFiles(),
                     fileUploadPath,
                     fileParam
-                );
-            }
+            );
         }
 
         result.put("code", ResponseCode.SUCCESS_0000.getCode());
@@ -172,4 +160,15 @@ public class NoticeServiceImpl implements NoticeService {
 
         return result;
     }
+
+    @Override
+    public void updateLikeCountUp(int id) throws Exception {
+        noticeMapper.updateLikeCountUp(id);
+    }
+
+    @Override
+    public void updateLikeCountDown(int id) throws Exception {
+        noticeMapper.updateLikeCountDown(id);
+    }
+
 }

@@ -25,4 +25,9 @@ public interface NoticeService {
     public void deletes(NoticeParam noticeParam) throws Exception;
 
     public Map<String, String> insert(NoticeParam noticeParam) throws Exception;
+
+    public void updateLikeCountUp(int id) throws Exception;
+
+    public void updateLikeCountDown(int id) throws Exception;
+
 }

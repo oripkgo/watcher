@@ -299,8 +299,13 @@ public class BoardController {
 			}else{
 				storyService.updateLikeCountDown(Integer.valueOf(contentsId));
 			}
+		}else if( "NOTICE".equals(contentsType) ){
+			if( "Y".equals(param.get("likeYn")) ){
+				noticeService.updateLikeCountUp(Integer.valueOf(contentsId));
+			}else{
+				noticeService.updateLikeCountDown(Integer.valueOf(contentsId));
+			}
 		}
-
 
 		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
 		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
