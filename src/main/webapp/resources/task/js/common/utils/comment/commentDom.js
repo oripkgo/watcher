@@ -1,7 +1,7 @@
 
 
 const COMMENT_DOM = {
-    replaceWithCommentRoot : function(target, root){
+    replaceCommentRoot : function(target, root){
         const rootId = root.id;
         target.parentNode.replaceChild(root, target);
         return document.getElementById(rootId);
@@ -27,7 +27,7 @@ const COMMENT_DOM = {
         return ( (target.dataset['cnt'] || 0) * 1 );
     },
 
-    drawCount : function(target){
+    renderCount : function(target){
         const nowCount =  target.dataset['cnt'];
         target.innerHTML = '댓글<em>'+nowCount+'</em>';
     },

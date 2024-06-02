@@ -1,32 +1,47 @@
-const commentInsertApiUrl = "/board/comment/insert";
-const commentDeleteApiUrl = "/board/comment/delete";
-const commentUpdateApiUrl = "/board/comment/update";
 
-const COMMENT = {
-    init: function (id, type, loginYn, notLoginStatusProcessingFunc, deleteConfirmMsgFunc) {
-        this.deleteMsg = "해당 댓글을 삭제하시겠습니까?";
-        this.id = id;
-        this.type = type;
-        this.loginYn = loginYn;
-        this.notLoginStatusProcessingFunc = notLoginStatusProcessingFunc;
-        this.deleteConfirmMsgFunc = deleteConfirmMsgFunc;
-    },
+const COMMENT = function(){
+    const commentInsertApiUrl = "/board/comment/insert";
+    const commentDeleteApiUrl = "/board/comment/delete";
+    const commentUpdateApiUrl = "/board/comment/update";
 
+    const renderCount = function(commentCount){
+        const countEle = COMMENT_ELEMENT.area.getCount();
+        COMMENT_DOM.setCount(countEle, commentCount)
+        COMMENT_DOM.renderCount(countEle)
+    }
 
-    leadLogin: function () {
-        const commentThis = this;
+    const renderList = function (list) {
+        const listArea = COMMENT_ELEMENT.area.getList();
 
-        if (commentThis.notLoginStatusProcessingFunc) {
-            commentThis.notLoginStatusProcessingFunc();
+        COMMENT_LIST.empty(listArea);
+
+        if (list && list.length > 0) {
+            for (let listObj of list) {
+                let commentElement = COMMENT_ELEMENT.getComment(
+                    listObj['ID'],
+                    listObj['MEM_PROFILE_IMG'],
+                    listObj['NICKNAME'],
+                    (listObj['COMMENT'] ? listObj['COMMENT'] : ""),
+                    listObj['REG_ID'],
+                    listObj['REG_DATE']
+                );
+
+                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdate(commentElement), listObj);
+                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDelete(commentElement), listObj);
+                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDeclaration(commentElement), listObj);
+                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdateConfirm(commentElement), listObj);
+
+                COMMENT_DOM.appendChild(listArea, commentElement)
+            }
         }
-    },
+    }
 
-    declaration: function (/*commentElement*/) {
+    const declaration = function (/*commentElement*/) {
         // const commentThis = this;
         alert('댓글 신고');
-    },
+    }
 
-    update: function (id, regId) {
+    const updateComment = function (id, regId) {
         const commentElement = COMMENT_ELEMENT.getCommentById(id);
 
         const target = COMMENT_ELEMENT.button.getUpdate(commentElement);
@@ -75,10 +90,9 @@ const COMMENT = {
                 }, null, {'Content-type': "application/json"})
             });
         }
-    },
+    }
 
-
-    delete: function (id, regId) {
+    const deleteComment = function (id, regId) {
         const param = {
             commentId: id,
             regId: regId,
@@ -87,7 +101,7 @@ const COMMENT = {
         REQUEST.send(commentDeleteApiUrl, "DELETE", param, function (resp) {
             // 삭제 성공
             if (resp.code == '0000') {
-                const countEle = COMMENT_ELEMENT.getCount();
+                const countEle = COMMENT_ELEMENT.area.getCount();
                 COMMENT_ELEMENT.getCommentById(id).remove();
 
                 let cmtCnt = COMMENT_DOM.getCount(countEle);
@@ -97,17 +111,15 @@ const COMMENT = {
                 }
 
                 COMMENT_DOM.setCount(countEle, cmtCnt);
-                COMMENT_DOM.drawCount(countEle)
+                COMMENT_DOM.renderCount(countEle)
             }
         })
-    },
+    }
 
-    insertAndApplyEvents: function () {
-        const commentThis = this;
-
+    const insertComment = function (id, type, callback) {
         let commentInsertParam = {
-            contentsId: commentThis.id,
-            contentsType: commentThis.type,
+            contentsId: id,
+            contentsType: type,
             refContentsId: "0",
             comment: COMMENT_DOM.replaceLineBreakWithBrReturnValue(COMMENT_ELEMENT.textArea.getInsert()),
         };
@@ -132,51 +144,30 @@ const COMMENT = {
 
                 COMMENT_DOM.appendFirst(COMMENT_ELEMENT.area.getList(), listElement)
                 COMMENT_DOM.resetInput(COMMENT_ELEMENT.textArea.getInsert());
-                COMMENT_DOM.setCount(COMMENT_ELEMENT.getCount(), COMMENT_DOM.getCount(COMMENT_ELEMENT.getCount()) + 1);
-                COMMENT_DOM.drawCount(COMMENT_ELEMENT.getCount())
+                COMMENT_DOM.setCount(COMMENT_ELEMENT.area.getCount(), COMMENT_DOM.getCount(COMMENT_ELEMENT.area.getCount()) + 1);
+                COMMENT_DOM.renderCount(COMMENT_ELEMENT.area.getCount())
 
                 COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdate(listElement), resp.comment);
                 COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDelete(listElement), resp.comment);
                 COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDeclaration(listElement), resp.comment);
                 COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdateConfirm(listElement), resp.comment);
 
-                commentThis.addEventToElement(COMMENT_ELEMENT.getListFirstElement())
+                if( callback ){
+                    callback(COMMENT_ELEMENT.getListFirstElement());
+                }
+
             }
         }, null, {'Content-type': "application/json"})
-    },
+    }
 
-    renderList: function (list) {
-        if (list && list.length > 0) {
-            for (let listObj of list) {
-                let commentElement = COMMENT_ELEMENT.getComment(
-                    listObj['ID'],
-                    listObj['MEM_PROFILE_IMG'],
-                    listObj['NICKNAME'],
-                    (listObj['COMMENT'] ? listObj['COMMENT'] : ""),
-                    listObj['REG_ID'],
-                    listObj['REG_DATE']
-                );
-
-                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdate(commentElement), listObj);
-                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDelete(commentElement), listObj);
-                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getDeclaration(commentElement), listObj);
-                COMMENT_DOM.setDataSet(COMMENT_ELEMENT.button.getUpdateConfirm(commentElement), listObj);
-
-                COMMENT_DOM.appendChild(COMMENT_ELEMENT.area.getList(), commentElement)
-            }
-        }
-    },
-
-    addEventToElement: function (element) {
-        const commentThis = this;
-
+    const addEventDelete = function(element, callback){
         // 삭제 이벤트 적용
         COMMENT_ELEMENT.button.getDelete(element).addEventListener("click", function () {
             const obj = this;
-            if (commentThis.deleteConfirmMsgFunc) {
-                commentThis.deleteConfirmMsgFunc(function (result) {
+            if (callback) {
+                callback(function (result) {
                     if (result) {
-                        commentThis.delete(
+                        deleteComment(
                             COMMENT_DOM.getDataSet(obj, "id"),
                             COMMENT_DOM.getDataSet(obj, "regId")
                         );
@@ -184,64 +175,89 @@ const COMMENT = {
                 })
             }
         })
+    }
 
+    const addEventUpdate = function(element){
         // 수정 이벤트 적용
         COMMENT_ELEMENT.button.getUpdate(element).addEventListener("click", function () {
             const obj = this;
-            commentThis.update(
+            updateComment(
                 COMMENT_DOM.getDataSet(obj, "id"),
                 COMMENT_DOM.getDataSet(obj, "regId")
             );
         })
+    }
 
+    const addEventDeclaration = function(element){
         // 신고하기 이벤트 적용
         COMMENT_ELEMENT.button.getDeclaration(element).addEventListener("click", function () {
             const obj = this;
-            commentThis.declaration(
+            declaration(
                 COMMENT_DOM.getDataSet(obj, "id"),
                 COMMENT_DOM.getDataSet(obj, "regId")
             );
         })
-    },
+    }
 
-    render: function (tagId) {
-        const commentThis = this;
-        const loginYn = commentThis.loginYn;
-        const targetElement = document.getElementById(tagId);
 
-        COMMENT_DOM.replaceWithCommentRoot(
-            targetElement,
-            COMMENT_ELEMENT.getRootShell(commentThis.loginYn)
-        );
+    return {
 
-        COMMENT_DOM.appendChild(
-            COMMENT_ELEMENT.getRoot(),
-            COMMENT_ELEMENT.getListFormShell(commentThis.id, commentThis.type)
-        );
+        init: function (id, type, loginYn, handleNotLogin, deleteConfirmMsgFunc) {
+            this.deleteMsg = "해당 댓글을 삭제하시겠습니까?";
+            this.id = id;
+            this.type = type;
+            this.loginYn = loginYn;
+            this.handleNotLogin = handleNotLogin;
+            this.deleteConfirmMsgFunc = deleteConfirmMsgFunc;
+        },
 
-        if (loginYn === 'Y') {
-            COMMENT_ELEMENT.button.getInsert().addEventListener("click", function () {
-                commentThis.insertAndApplyEvents();
-            })
-        } else {
-            COMMENT_ELEMENT.area.getInsert().addEventListener("click", function () {
-                commentThis.leadLogin();
-            });
-        }
+        render: function (tagId) {
+            const commentThis = this;
+            const targetElement = document.getElementById(tagId);
 
-        COMMENT_LIST.get(COMMENT_ELEMENT.getListForm(), function (resp) {
-            const listArea = COMMENT_ELEMENT.area.getList();
-            const countEle = COMMENT_ELEMENT.getCount();
-            COMMENT_LIST.empty(listArea);
+            COMMENT_DOM.replaceCommentRoot(
+                targetElement,
+                COMMENT_ELEMENT.getRootArea(commentThis.loginYn)
+            );
 
-            COMMENT_DOM.setCount(countEle, resp.comment['cnt'])
-            COMMENT_DOM.drawCount(countEle)
+            COMMENT_DOM.appendChild(
+                COMMENT_ELEMENT.getRoot(),
+                COMMENT_ELEMENT.getListFormArea(commentThis.id, commentThis.type)
+            );
 
-            commentThis.renderList(resp.comment['list']);
-
-            for(let obj of listArea.children){
-                commentThis.addEventToElement(obj);
+            if (commentThis.loginYn === 'Y') {
+                COMMENT_ELEMENT.button.getInsert().addEventListener("click", function () {
+                    insertComment(commentThis.id, commentThis.type, function(element){
+                        addEventDelete(element, commentThis.deleteConfirmMsgFunc);
+                        addEventUpdate(element);
+                        addEventDeclaration(element);
+                    });
+                })
+            } else {
+                COMMENT_ELEMENT.area.getInsert().addEventListener("click", function () {
+                    if (commentThis.handleNotLogin) {
+                        commentThis.handleNotLogin();
+                    }
+                });
             }
-        })
-    },
-}
+
+            COMMENT_LIST.get(COMMENT_ELEMENT.getListForm(), function (resp) {
+
+                renderCount(resp.comment['cnt']);
+                renderList(resp.comment['list']);
+
+                const listArea = COMMENT_ELEMENT.area.getList();
+
+                for(let element of listArea.children){
+                    addEventDelete(element, commentThis.deleteConfirmMsgFunc);
+                    addEventUpdate(element);
+                    addEventDeclaration(element);
+                }
+
+            })
+        },
+
+    }
+}()
+
+

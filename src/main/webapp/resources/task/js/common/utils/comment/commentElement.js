@@ -18,7 +18,7 @@ const elementClassUpdateTextArea = 'commentInputUpdate';
 const elementClassUpdateConfirmButton = 'commentInputUpdateConfirm';
 
 const COMMENT_ELEMENT = {
-    getRootShell: function (loginYn) {
+    getRootArea: function (loginYn) {
         let frameHtmlModelStr = '<div class="conts_review" id="' + elementIdRoot + '">';
         frameHtmlModelStr += '<strong class="conts_tit" id="' + elementIdCount + '" data-cnt="0">댓글<em>0</em></strong>';
         frameHtmlModelStr += '<div class="write_wrap" id="' + elementIdInsertWriteArea + '">';
@@ -39,7 +39,7 @@ const COMMENT_ELEMENT = {
         return (new DOMParser().parseFromString(frameHtmlModelStr, 'text/html').getElementById(elementIdRoot));
     },
 
-    getListFormShell: function (id, type) {
+    getListFormArea: function (id, type) {
         let formStr = '';
         formStr += '<form id="' + elementIdForm + '">';
         formStr += '<input type="hidden" name="contentsId" value="' + id + '">';
@@ -124,10 +124,6 @@ const COMMENT_ELEMENT = {
         return document.getElementById(elementIdForm);
     },
 
-    getCount: function () {
-        return document.getElementById(elementIdCount);
-    },
-
     getListFirstElement: function () {
         return document.getElementById(elementIdListArea).children[0]
     },
@@ -148,6 +144,9 @@ const COMMENT_ELEMENT = {
             return target.querySelector('.' + elementClassUpdateContents);
         },
 
+        getCount: function () {
+            return document.getElementById(elementIdCount);
+        },
     },
 
     button: {
