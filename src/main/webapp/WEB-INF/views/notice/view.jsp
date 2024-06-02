@@ -87,8 +87,9 @@
 
 
         comm.boardView.init(id, type);
-        comm.boardView.renderLike('likeTarget');
-        comm.boardView.renderComment('commentTarget');
+        comm.boardView.like.render('likeTarget');
+        comm.boardView.comment.render('commentTarget');
+
     })
 
 </script>

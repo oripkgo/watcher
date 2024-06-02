@@ -141,9 +141,9 @@
         initView();
 
         comm.boardView.init(id, type);
-        comm.boardView.renderTag('tagsTarget');
-        comm.boardView.renderLike('likeTarget');
-        comm.boardView.renderComment('commentTarget');
+        comm.boardView.tags.render('tagsTarget');
+        comm.boardView.like.render('likeTarget');
+        comm.boardView.comment.render('commentTarget');
 
         initSNS();
 

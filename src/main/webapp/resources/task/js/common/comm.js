@@ -78,7 +78,7 @@ const comm = function () {
 
         boardView: {
             init: function (id, type) {
-                const notLoginCallback = function () {
+                const handleNotLogin = function () {
                     comm.message.confirm("해당 콘텐츠가 마음에 드시나요? 로그인 후 의견을 알려주세요.\n\n로그인 하시겠습니까?", function (Yn) {
                         if (Yn) {
                             comm.sign.in();
@@ -96,17 +96,8 @@ const comm = function () {
                 this.comment = COMMENT;
 
                 this.tags.init(id, type);
-                this.like.init(id, type, this.loginYn, notLoginCallback);
-                this.comment.init(id, type, this.loginYn, notLoginCallback, confirmDeleteMsg);
-            },
-            renderTag: function (tagId) {
-                this.tags.render(tagId);
-            },
-            renderLike: function (tagId) {
-                this.like.render(tagId);
-            },
-            renderComment: function (tagId) {
-                this.comment.render(tagId);
+                this.like.init(id, type, this.loginYn, handleNotLogin);
+                this.comment.init(id, type, this.loginYn, handleNotLogin, confirmDeleteMsg);
             },
         },
 
