@@ -293,17 +293,18 @@ public class BoardController {
 			result.putAll(likeParam);
 		}
 
+		int id = Integer.valueOf(contentsId);
 		if( "STORY".equals(contentsType) ){
 			if( "Y".equals(param.get("likeYn")) ){
-				storyService.updateLikeCountUp(Integer.valueOf(contentsId));
+				storyService.updateLikeCountUp(id);
 			}else{
-				storyService.updateLikeCountDown(Integer.valueOf(contentsId));
+				storyService.updateLikeCountDown(id);
 			}
 		}else if( "NOTICE".equals(contentsType) ){
 			if( "Y".equals(param.get("likeYn")) ){
-				noticeService.updateLikeCountUp(Integer.valueOf(contentsId));
+				noticeService.updateLikeCountUp(id);
 			}else{
-				noticeService.updateLikeCountDown(Integer.valueOf(contentsId));
+				noticeService.updateLikeCountDown(id);
 			}
 		}
 
