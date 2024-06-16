@@ -27,9 +27,9 @@ public interface StoryService {
 
     public Map<String, Object> getListStoryPublic(StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception;
+    public List<Map<String, Object>> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception;
 
-    public Map<String, Object> getList(StoryParam storyParam) throws Exception;
+    public List<Map<String, Object>> getList(StoryParam storyParam) throws Exception;
 
     public Map<String, Object> getData(StoryParam storyParam) throws Exception;
 
@@ -40,5 +40,7 @@ public interface StoryService {
     public void updateLikeCountUp(int id) throws Exception;
 
     public void updateLikeCountDown(int id) throws Exception;
+
+    public List<Map<String, Object>> getFeaturedRelatedPostList(String memId, String targetContent, List<Map<String, Object>> storyList) throws Exception;
 
 }

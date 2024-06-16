@@ -7,9 +7,11 @@ import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.RecommendUtil;
 import com.watcher.util.RequestUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,18 +23,31 @@ public class StoryServiceImpl implements StoryService {
     @Autowired
     StoryMapper storyMapper;
 
+
     @Autowired
     BoardMapper boardMapper;
+
 
     @Autowired
     FileService fileService;
 
+
     private String fileUploadPath = "/story";
+
+
+    @Value("${upload.temp-storage.index01}")
+    private String tempStoragePath;
+
+
+    // 관련게시물 조회 최대 갯수
+    private int FeaturedPostListMax = 4;
+
 
     @Override
     public void validation(StoryParam storyParam) throws Exception {
 
     }
+
 
     @Transactional
     @Override
@@ -100,6 +115,7 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Transactional
     @Override
     public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
@@ -112,6 +128,7 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Transactional
     @Override
     public void updateStorysPublic(StoryParam storyParam) throws Exception {
@@ -123,6 +140,7 @@ public class StoryServiceImpl implements StoryService {
         storyMapper.update(storyParam);
     }
 
+
     @Transactional
     @Override
     public void updateStorysPrivate(StoryParam storyParam) throws Exception {
@@ -133,6 +151,7 @@ public class StoryServiceImpl implements StoryService {
         storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
     }
+
 
     @Transactional
     @Override
@@ -150,6 +169,7 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Transactional
     @Override
     public Map<String, String> deleteStory(StoryParam storyParam) throws Exception {
@@ -162,6 +182,7 @@ public class StoryServiceImpl implements StoryService {
 
         return result;
     }
+
 
     @Transactional
     @Override
@@ -204,6 +225,7 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Override
     public Map<String, Object> getListStoryPublic(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -220,7 +242,7 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public Map<String, Object> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception {
+    public List<Map<String, Object>> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception {
         if( sessionMemId != null && sessionMemId.equals(storyParam.getSearch_memId()) ){
             storyParam.setSearch_secret_yn("ALL");
         }
@@ -228,18 +250,13 @@ public class StoryServiceImpl implements StoryService {
         return this.getList(storyParam);
     }
 
+
     @Override
-    public Map<String, Object> getList(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
+    public List<Map<String, Object>> getList(StoryParam storyParam) throws Exception {
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
-        result.put("list", storyMapper.selectStory(storyParam));
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return storyMapper.selectStory(storyParam);
     }
+
 
     @Override
     public Map<String, Object> getData(StoryParam storyParam) throws Exception {
@@ -254,6 +271,7 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Override
     public Map<String, Object> getPopularStoryMain(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
@@ -266,19 +284,56 @@ public class StoryServiceImpl implements StoryService {
         return result;
     }
 
+
     @Override
     public void insertViewsCount(StoryParam storyParam) throws Exception {
         storyMapper.updateViewCountUp(Integer.valueOf(storyParam.getId()));
     }
+
 
     @Override
     public void updateLikeCountUp(int id) throws Exception {
         storyMapper.updateLikeCountUp(id);
     }
 
+
     @Override
     public void updateLikeCountDown(int id) throws Exception {
         storyMapper.updateLikeCountDown(id);
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getFeaturedRelatedPostList(
+            String memId,
+            String targetContent,
+            List<Map<String, Object>> storyList
+    ) throws Exception {
+
+        RecommendUtil recommendUtil = new RecommendUtil(tempStoragePath + "/" + memId);
+        Map<String, Object> storyRepository = new HashMap<>();
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        // 검색대상 문서들 저장
+        for(Map<String, Object> obj : storyList){
+            String storyKey     = obj.get("ID").toString();
+            String storyContent = obj.get("CONTENTS").toString();
+
+            storyRepository.put(storyKey, obj);
+            recommendUtil.addDocument(storyKey, storyContent);
+        }
+
+        // 유사문서 검색
+        String newHtmlDocument = targetContent;
+        List<String> recommendations = recommendUtil.searchSimilarDocuments(newHtmlDocument, FeaturedPostListMax);
+
+        // 반환할 유사 스토리 세팅
+        for (String docId : recommendations) {
+            result.add((Map<String, Object>) storyRepository.get(docId));
+        }
+
+        return result;
+
     }
 
 }

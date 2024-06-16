@@ -32,3 +32,5 @@ target/
 *META-INF*
 
 src/main/maven/repository/
+
+relatedPostRecommendationRepository*

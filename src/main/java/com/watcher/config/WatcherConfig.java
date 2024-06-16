@@ -2,6 +2,7 @@ package com.watcher.config;
 
 import javax.sql.DataSource;
 
+import com.watcher.common.CommonIntercepter;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -34,6 +36,9 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Autowired
 	ApplicationContext applicationContext;
 
+	@Autowired
+	CommonIntercepter commonIntercepter;
+
 	@Value("${db.url}")
 	String url;
 	@Value("${db.username}")
@@ -52,12 +57,6 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Value("${cors.origin}")
 	private String corsOrigin;
-
-	/*
-	 * 로그인 인증 Interceptor 설정
-	 * */
-	@Autowired
-	CommonIntercepter commonIntercepter;
 
 
 	@Override
@@ -82,6 +81,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 		return configurer;
 	}
 
+
 	@Bean
 	public TilesViewResolver tilesViewResolber() {
 
@@ -94,7 +94,6 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 
 	// DB 설정 (s)
-
 	@Bean
 	@Qualifier("mariaDBDataSource")
 	@ConfigurationProperties(prefix = "spring.datasource")
@@ -122,7 +121,9 @@ public class WatcherConfig implements WebMvcConfigurer {
 		sessionFactory.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);		// ex : user_id를 userId로
 
 		return sessionFactory.getObject();
+
 	}
+
 
 //	@Bean
 //	public DataSourceTransactionManager transactionManager(@Qualifier("mariaDBDataSource") DataSource dataSource) {
@@ -134,11 +135,11 @@ public class WatcherConfig implements WebMvcConfigurer {
 
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
-
 		final SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 		return sqlSessionTemplate;
 	}
 	// DB 설정 (e)
+
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -146,6 +147,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 				.excludePathPatterns("/comm/token")
 				.addPathPatterns("/**");
 	}
+
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
@@ -159,5 +161,12 @@ public class WatcherConfig implements WebMvcConfigurer {
 						HttpMethod.DELETE.name());
 	}
 
+
+	@Bean
+	public ThreadPoolTaskScheduler taskScheduler() {
+		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
+		scheduler.setPoolSize(1); // 원하는 스레드 개수로 설정
+		return scheduler;
+	}
 
 }

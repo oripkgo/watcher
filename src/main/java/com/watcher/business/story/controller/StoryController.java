@@ -4,8 +4,8 @@ import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.RedisUtil;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -171,6 +172,35 @@ public class StoryController {
 
         result.putAll(storyService.getPopularStoryMain(storyParam));
         result.put("dto", storyParam);
+
+        return result;
+    }
+
+
+    @RequestMapping(value = {"/related/posts"}, method = RequestMethod.POST)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getRelatedPostList(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        if( !StringUtils.hasText(storyParam.getContents()) ){
+            throw new Exception("2006");
+        }
+
+        String targetContents = storyParam.getContents();
+
+        storyParam.setListNo(9999999);
+        List<Map<String,Object>> storyList = storyService.getList(storyParam);
+
+        List<Map<String,Object>> relatedPostList = storyService.getFeaturedRelatedPostList(storyParam.getSearch_memId(), targetContents, storyList);
+
+        result.put("relatedPostList"    , relatedPostList                           );
+        result.put("code"	            , ResponseCode.SUCCESS_0000.getCode()       );
+        result.put("message"            , ResponseCode.SUCCESS_0000.getMessage()    );
 
         return result;
     }

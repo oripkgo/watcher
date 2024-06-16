@@ -7,7 +7,6 @@ import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -92,8 +91,7 @@ public class MyStoryController {
         String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
         storyParam.setListNo(10);
-        result.putAll(storyService.getListMyStory(memId, storyParam));
-
+        result.put("list", storyService.getListMyStory(memId, storyParam));
 
         result.put("dto", storyParam);
         result.put("code", ResponseCode.SUCCESS_0000.getCode());

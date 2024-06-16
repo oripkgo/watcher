@@ -24,6 +24,8 @@ spring:
 upload:
   root: D://
   path: /watcher/upload
+  temp-storage:
+    index01: relatedPostRecommendationRepository
 
 db:
   url: jdbc:log4jdbc:mariadb://localhost:3300/watcher

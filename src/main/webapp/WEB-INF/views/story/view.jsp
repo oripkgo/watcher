@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="/resources/task/js/common/utils/share.js"></script>
@@ -54,6 +55,12 @@
                 <div class="conts_tag" id="tagsTarget">
                     <strong class="conts_tit">태그</strong>
                 </div>
+
+                <div class="conts_rel" id="relatedPostArea" style="display: none;">
+                    <strong class="conts_tit">관련글</strong>
+                    <ul id="relatedPostList"></ul>
+                </div>
+
                 <div class="conts_review" id="commentTarget"></div>
             </div>
         </div>
@@ -61,20 +68,22 @@
 </form>
 
 <script>
-    const url           = window.location.href;
-    const listUrl       = '/story/list';
-    const deleteUrl     = "/story/delete";
-    const updateUrl     = "/story/update?id=";
+    const url               = window.location.href;
+    const listUrl           = '/story/list';
+    const deleteUrl         = "/story/delete";
+    const updateUrl         = "/story/update?id=";
+    const relatedPostsUrl   = "/story/related/posts";
 
-    const type          = 'STORY';
-    const memId         = '${memId}';
-    const id            = '${view['ID']}';
-    const title         = '${view['TITLE']}';
-    const nickName      = '${view['NICKNAME']}';
-    const regDate       = '${view['REG_DATE']}';
-    const likeCnt       = '${view['LIKE_CNT']}' * 1;
-    const summary       = '${view['SUMMARY']}';
-    const thumbnail     = window.getServerImg('${view['THUMBNAIL_IMG_PATH']}'.replace(/[\\]/g, '/'));
+    const type              = 'STORY';
+    const memId             = '${memId}';
+    const id                = '${view['ID']}';
+    const title             = '${view['TITLE']}';
+    const nickName          = '${view['NICKNAME']}';
+    const regDate           = '${view['REG_DATE']}';
+    const likeCnt           = '${view['LIKE_CNT']}' * 1;
+    const summary           = '${view['SUMMARY']}';
+    const contents          = $("#storyContents").html();
+    const thumbnail         = window.getServerImg('${fn:replace(view['THUMBNAIL_IMG_PATH'], '\\', '/')}'.replace(/[\\]/g, '/'));
 
     const updateStory = function () {
         location.href = updateUrl + id;
@@ -128,6 +137,63 @@
 
     }
 
+    const initRelatedPost = function(){
+
+        if( !contents ){
+            return;
+        }
+
+        const params = {
+            contents      : contents,
+            search_memId  : memId,
+        }
+
+        comm.request({
+            url: relatedPostsUrl,
+            method: "POST",
+            data: JSON.stringify(params)
+        }, function (resp) {
+            if (resp.code == '0000') {
+
+                if (resp.relatedPostList && resp.relatedPostList.length > 0) {
+
+                    resp.relatedPostList.forEach(function (obj) {
+
+                        if (String(obj['ID']) == String(id)) {
+                            return;
+                        }
+
+                        let relatedPostHtml = '';
+                        let summary = obj.SUMMARY || '';
+
+                        if (summary.length < 100) {
+                            summary = summary;
+                        } else {
+                            summary = summary.substring(0, 100) + ' ...';
+                        }
+
+                        relatedPostHtml += '<li>';
+                        relatedPostHtml += '<a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+                        relatedPostHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH']);
+                        relatedPostHtml += '<strong>' + obj['TITLE'] + '</strong>';
+                        relatedPostHtml += '<span>' + obj['REG_DATE'].split(" ")[0] + '</span>';
+                        relatedPostHtml += '</a>';
+                        relatedPostHtml += '</li>';
+
+                        $("#relatedPostList", "#relatedPostArea").append(relatedPostHtml);
+
+                    })
+
+                    if ($("#relatedPostList > li", "#relatedPostArea").length > 0) {
+                        $("#relatedPostArea").show();
+                    }
+
+                }
+
+            }
+        });
+    }
+
     const initView = function(){
         $("#title").text(title);
         $("#nickName").text("by " + nickName);
@@ -146,6 +212,8 @@
         comm.boardView.comment.render('commentTarget');
 
         initSNS();
+
+        initRelatedPost();
 
     })
 

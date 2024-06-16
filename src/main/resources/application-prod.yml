@@ -19,6 +19,8 @@ spring:
 upload:
   root: /home/ec2-user
   path: /watcher/upload
+  temp-storage:
+    index01: relatedPostRecommendationRepository
 
 db:
   url: jdbc:log4jdbc:mariadb://watcher-db.caopszgvg30l.ap-northeast-2.rds.amazonaws.com:3306/watcher
