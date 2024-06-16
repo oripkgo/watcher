@@ -1,4 +1,4 @@
-package com.watcher.config;
+package com.watcher.common;
 
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.ErrorResponse;

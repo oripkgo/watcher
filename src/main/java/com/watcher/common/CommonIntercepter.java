@@ -1,4 +1,4 @@
-package com.watcher.config;
+package com.watcher.common;
 
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
