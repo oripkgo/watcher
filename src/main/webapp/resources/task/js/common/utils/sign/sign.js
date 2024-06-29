@@ -118,7 +118,7 @@ const SIGN = function () {
         },
 
         getSession: function () {
-            return JSON.parse(localStorage.getItem("sessionData") || '{}');
+            return SIGN_SESSION.get();
         },
 
     }

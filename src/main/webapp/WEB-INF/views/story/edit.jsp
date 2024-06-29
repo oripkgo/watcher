@@ -111,6 +111,7 @@
   };
 
 
+  const memId = comm.sign.getSession()['memberId'];
   const id = '${view['ID']}';
   const categoryId = '${view['CATEGORY_ID']}';
   const memberCategoryId = '${view['MEMBER_CATEGORY_ID']}';
@@ -202,7 +203,7 @@
     $("#story_category_member").empty();
     $("#story_category_member").html("<option value=''>선택</option>")
 
-    const categoryListMember = comm.category.getMemberPublic();
+    const categoryListMember = comm.category.getMemberPublic(memId);
     categoryListMember.forEach(function(obj){
       if( obj['DEFALUT_CATEG_ID'] != defaultCategoryId ){
         return;

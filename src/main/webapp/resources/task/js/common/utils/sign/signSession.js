@@ -2,6 +2,9 @@ const SIGN_SESSION = function(){
 
     return {
 
+        get: function(){
+            return JSON.parse(localStorage.getItem("sessionData") || '{}');
+        },
         add: function (memData) {
             const accessToken = localStorage.getItem('access_token');
             localStorage.clear();
