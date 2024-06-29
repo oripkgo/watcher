@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.stream.Stream;
 
 @Component
 public class ScheduledTasks {
@@ -38,19 +39,18 @@ public class ScheduledTasks {
     public void taskRecommendedRelatedPostsRemovalDebris() {
         Path directory = Paths.get(env.getProperty("upload.temp-storage.index01")); // 인덱스 디렉토리 경로
         LocalDateTime today = LocalDate.now().atStartOfDay();
-//        LocalDateTime yesterday = today.minusDays(1);
-        LocalDateTime yesterday = today.plusDays(1);
+        LocalDateTime yesterday = today.minusDays(1);
 
-        try {
-            Files.walk(directory)
-                    .filter(Files::isRegularFile)
+        // try-with-resources 문법을 사용하여 스트림을 자동으로 닫습니다.
+        try (Stream<Path> walk = Files.walk(directory)) {
+            walk.filter(Files::isRegularFile)
                     .filter(file -> {
                         try {
                             BasicFileAttributes attrs = Files.readAttributes(file, BasicFileAttributes.class);
                             LocalDateTime fileTime = LocalDateTime.ofInstant(attrs.lastModifiedTime().toInstant(), ZoneId.systemDefault());
                             return fileTime.isBefore(yesterday);
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            logger.error("Failed to read file attributes for: " + file, e); // 로그로 예외 처리
                             return false;
                         }
                     })
@@ -59,11 +59,11 @@ public class ScheduledTasks {
                             Files.delete(file); // 파일 삭제
                             logger.info("Deleted file: " + file);
                         } catch (IOException e) {
-                            e.printStackTrace(); // 오류 처리
+                            logger.error("Failed to delete file: " + file, e); // 로그로 예외 처리
                         }
                     });
         } catch (IOException e) {
-            e.printStackTrace(); // 오류 처리
+            logger.error("Failed to walk directory: " + directory, e); // 로그로 예외 처리
         }
     }
 
