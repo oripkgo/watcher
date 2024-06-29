@@ -31,7 +31,8 @@
 <div class="head_tip"></div>
 
 <div class="quick_wrap">
-    <a href="javascript:;" id="to_top"><img src="/resources/img/btn_top.png"></a>
+    <a id="to_top" href="#none;" style="display: none;">TOP</a>
+<%--    <a href="javascript:;" id="to_top"><img src="/resources/img/btn_top.png"></a>--%>
 </div>
 
 <script>

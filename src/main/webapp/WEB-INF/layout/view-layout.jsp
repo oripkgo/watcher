@@ -40,6 +40,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-1200.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-840.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-750.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-top-btn.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/swiper.css"/>
     <script type="text/javascript" src="/resources/js/swiper.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
@@ -123,18 +124,48 @@
         }
     }
 
+    function handleTopBtn(btnId, bottomId) {
+        const topButton = document.getElementById(btnId);
+        const bottomElement = document.getElementById(bottomId);
+        const scrollToTop = function () {
+            $("html, body").animate({scrollTop: 0}, '500');
+        }
+
+        const isScrollTop = function(){
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                return false;
+            }
+            return true;
+        }
+
+        if( isScrollTop() ){
+            topButton.style.display = "none";
+        }else{
+            topButton.style.display = "block";
+        }
+
+        window.onscroll = function() {
+            // Display the top button when scrolled down
+            if( isScrollTop() ){
+                topButton.style.display = "none";
+            }else{
+                topButton.style.display = "block";
+            }
+        }
+
+        topButton.addEventListener('click', function (event) {
+            scrollToTop();
+        });
+
+    }
+
 
     //스크롤 페이드인
     $(document).ready(function () {
-
         triggerJqueryFadeIn()
         $(window).scroll(triggerJqueryFadeIn);
 
-        $("#to_top").on("click", function () {
-            $("html, body").animate({scrollTop: 0}, '500');
-            return false;
-        });
-
+        handleTopBtn('to_top', 'bottomArea');
     });
 
 </script>
