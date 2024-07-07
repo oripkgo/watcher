@@ -32,14 +32,14 @@
             </div>
           </div>
 
-          <div class="review_write">
+         <%-- <div class="review_write">
             <span>스토리의 모든 댓글은</span>
             <select id="storyCommentPublicStatus" name="storyCommentPublicStatus">
               <option value="01">공개</option>
               <option value="02">비공개</option>
             </select>
             <span>합니다.</span>
-          </div>
+          </div>--%>
 
           <div class="review_write">
             <span>댓글 작성은</span>
@@ -64,13 +64,12 @@
 </form>
 
 <script>
-  const settingUpdateUrl = "/management/setting/story";
-  const managementInitUrl = '/management/setting/story';
+  const storySettingUpdateUrl = "/management/setting/story";
 
   const settingObj = {
     getManagementSetInfo : function(){
       let result = {};
-      comm.request({url: managementInitUrl, method: "GET", async: false}, function (resp) {
+      comm.request({url: storySettingUpdateUrl, method: "GET", async: false}, function (resp) {
         // 수정 성공
         if (resp.code == '0000') {
           result = JSON.parse(resp['info']);
@@ -82,7 +81,7 @@
 
     saveSettingInfo: function (formId) {
       comm.request({
-        url: settingUpdateUrl,
+        url: storySettingUpdateUrl,
         method: "PUT",
         form: formId,
         // headers: {"Content-type": "application/x-www-form-urlencoded"},
@@ -97,7 +96,7 @@
 
   $(document).on("ready", function(){
     const managementInfo = settingObj.getManagementSetInfo();
-    $("#storyCommentPublicStatus").val(managementInfo['STORY_COMMENT_PUBLIC_STATUS']);
+    // $("#storyCommentPublicStatus").val(managementInfo['STORY_COMMENT_PUBLIC_STATUS']);
     $("#commentPermStatus").val(managementInfo['COMMENT_PERM_STATUS']);
     $("#storyRegPermStatus").val(managementInfo['STORY_REG_PERM_STATUS']);
   })
