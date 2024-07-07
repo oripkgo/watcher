@@ -286,10 +286,10 @@ public class MyStoryManagementController {
 
         managementParam.setLoginId(String.valueOf(signService.getSessionUser(sessionId).get("LOGIN_ID")));
         JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
-        result.put("info", managementDatas.toString());
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+        result.put("info"   , managementDatas.toString()                );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()       );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()    );
 
         return result;
     }
@@ -312,7 +312,7 @@ public class MyStoryManagementController {
 
         result.putAll(managementService.updateStorySettingInfo(managementParam));
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;

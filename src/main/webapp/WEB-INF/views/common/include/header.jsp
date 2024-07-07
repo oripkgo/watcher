@@ -36,6 +36,7 @@
 </div>
 
 <script>
+
     const sessionExceededYn = '${sessionExceededYn}';
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
