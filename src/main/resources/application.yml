@@ -1,4 +1,19 @@
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        # JSP수정시 WAS에 반영되도록 설정
+        development: true
+
 spring:
+
+  devtools:
+    restart:
+      # server.servlet.jsp.init-parameters.development=true 설정시 자바수정시에도 WAS에 반영되기 때문에
+      # 자동으로 WAS 재시작되지 않도록 설정
+      # JSP수정시에만 WAS에 반영되도록 하기 위한 추가 설정
+      enabled: false
+
   mvc:
     view:
       prefix: /WEB-INF/views/
@@ -6,6 +21,8 @@ spring:
 
   profiles:
     active: ${SERVER_ENVIRONMENT}
+
+
 
 
 
