@@ -18,6 +18,7 @@
     const monthVisitorUrl = "/visitor/chart/count/month?searchDate=";
 
     const renderChart = function (chartTarget, datas, customDate, customTitle) {
+
         let toDay = new Date();
 
         if (customDate) {
@@ -46,34 +47,27 @@
             visitorDatas.push(datas[key]);
         }
 
-        const chartData = {
-            labels: labels,
-            datasets: [{
-                label: title,
-                backgroundColor: '#333',
-                borderColor: '#333',
-                data: visitorDatas,
-            }]
-        };
-
         const config = {
             type: 'line',
-            data: chartData,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: title,
+                    backgroundColor: '#333',
+                    borderColor: '#333',
+                    data: visitorDatas,
+                }]
+            },
             options: {
                 scales: {
                     y: {
                         beginAtZero: true,
                         // min: 0,
-                        // max: 25
+                        max: (maxData + 5)
                     },
                 }
             }
         };
-
-        // if( maxData <= 0 ){
-        config.options.scales.y.min = 0;
-        config.options.scales.y.max = maxData + 5;
-        // }
 
         if (window.myChart) {
             window.myChart.data = config.data;
