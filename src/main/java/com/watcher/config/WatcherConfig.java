@@ -165,7 +165,12 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Bean
 	public ThreadPoolTaskScheduler taskScheduler() {
 		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-		scheduler.setPoolSize(1); // 원하는 스레드 개수로 설정
+
+		scheduler.setPoolSize(2);	// 원하는 스레드 개수로 설정
+		scheduler.setThreadNamePrefix("my-scheduler-");
+		scheduler.setWaitForTasksToCompleteOnShutdown(true);
+		scheduler.setAwaitTerminationSeconds(30);
+
 		return scheduler;
 	}
 
