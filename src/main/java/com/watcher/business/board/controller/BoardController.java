@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping(value="/")
@@ -80,10 +81,14 @@ public class BoardController {
 			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
-		result.putAll(noticeService.getListNotice(memId, noticeParam));
-		result.put("dto", noticeParam);
+		String token 		= request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId 	= signService.getSessionId(token);
+		String memId 		= String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+
+		result.put("list"	, noticeService.getListNotice(memId, noticeParam)	);
+		result.put("dto"	, noticeParam										);
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode()				);
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage()			);
 
 		return result;
 	}
@@ -98,12 +103,16 @@ public class BoardController {
 			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 		String sessionMemId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+
 		noticeParam.setSearchMemId(memId);
 
-		result.putAll(noticeService.getListNotice(sessionMemId, noticeParam));
-		result.put("dto", noticeParam);
+		result.put("list"	, noticeService.getListNotice(sessionMemId, noticeParam));
+		result.put("dto"	, noticeParam											);
+		result.put("code"	, ResponseCode.SUCCESS_0000.getCode()					);
+		result.put("message", ResponseCode.SUCCESS_0000.getMessage()				);
 
 		return result;
 	}
@@ -140,22 +149,23 @@ public class BoardController {
 	) throws Exception {
 		ModelAndView mav = new ModelAndView("notice/view");
 
-		String sessionId = request.getSession().getId();
+		String sessionId 	= request.getSession().getId();
+		String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
 
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
 		noticeService.insertViewsCount(noticeParam);
 
 		// 게시물 수정권한 여부 s
-		if (redisUtil.getSession(sessionId) == null
-				|| !(((Map) noticeInfo.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))) {
-			noticeInfo.put("modifyAuthorityYn", "N");
-		} else {
-			noticeInfo.put("modifyAuthorityYn", "Y");
+		mav.addObject("modifyAuthorityYn", "Y");
+		if (!Objects.equals(noticeInfo.get("REG_ID"), loginId)) {
+			mav.addObject("modifyAuthorityYn", "N");
 		}
 		// 게시물 수정권한 여부 e
 
-		mav.addAllObjects(noticeInfo);
 
+		mav.addObject("view"	, noticeInfo								);
+		mav.addObject("code"	, ResponseCode.SUCCESS_0000.getCode()		);
+		mav.addObject("message"	, ResponseCode.SUCCESS_0000.getMessage()	);
 
 		return mav;
 	}
@@ -171,26 +181,23 @@ public class BoardController {
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
 		String sessionId = request.getSession().getId();
-
-		Map<String, Object> noticeInfo = new HashMap<>();
+		String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+		Map<String, Object> noticeInfo = null;
 
 		if(StringUtils.hasText(noticeParam.getId())){
 			noticeInfo = noticeService.getData(noticeParam);
 		}
 
 		// 게시물 수정권한 여부 s
-		if(
-			redisUtil.getSession(sessionId) == null ||
-			!noticeInfo.containsKey("view")	||
-			!(((Map)noticeInfo.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))
-		){
-			noticeInfo.put("modifyAuthorityYn","N");
-		}else{
-			noticeInfo.put("modifyAuthorityYn","Y");
+		mav.addObject("modifyAuthorityYn", "Y");
+		if (noticeInfo == null || (!(Objects.equals(noticeInfo.get("REG_ID"), loginId)))) {
+			mav.addObject("modifyAuthorityYn", "N");
 		}
 		// 게시물 수정권한 여부 e
 
-		mav.addAllObjects(noticeInfo);
+		mav.addObject("view"	, noticeInfo							);
+		mav.addObject("code"	, ResponseCode.SUCCESS_0000.getCode()	);
+		mav.addObject("message"	, ResponseCode.SUCCESS_0000.getMessage());
 
 		return mav;
 	}
@@ -212,7 +219,10 @@ public class BoardController {
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
-		result.putAll(noticeService.insert(noticeParam));
+		noticeService.insert(noticeParam);
+
+		result.put("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		result.put("message"	, ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -373,13 +383,13 @@ public class BoardController {
 		commentParam.put("listNo"  		, commDto.getListNo()	);
 
 		Map<String, Object> commentObj = boardService.getCommentInfo(commentParam);
-		result.put("comment", commentObj);
 
 		commDto.setTotalCnt((int)commentObj.get("cnt"));
-		result.put("dto", commDto);
 
-		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
-		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+		result.put("dto"		, commDto								);
+		result.put("comment"	, commentObj							);
+		result.put("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		result.put("message"	, ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}

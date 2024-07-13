@@ -27,66 +27,32 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Transactional
     @Override
-    public Map<String, String> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public Map<String, Object> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception {
         visitorParam.setSearchTargetList(Arrays.asList(visitorInflowSourceSiteDomain));
-        Map<String, Object> visitInfo = visitorMapper.selectVisitorInflowSourceCount(visitorParam);
-        result.put("visitInfo", visitInfo);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return visitorMapper.selectVisitorInflowSourceCount(visitorParam);
     }
 
     @Transactional
     @Override
-    public Map<String, String> getVisitorCount(VisitorParam visitorParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        Map<String, Object> visitInfo = visitorMapper.selectVisitorCount(visitorParam);
-        result.put("visitInfo", visitInfo);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+    public Map<String, Object> getVisitorCount(VisitorParam visitorParam) throws Exception {
+        return visitorMapper.selectVisitorCount(visitorParam);
     }
 
     @Transactional
     @Override
-    public Map<String, String> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        List<Map<String, Object>> visitInfoList = visitorMapper.selectChartDailyVisitorCntList(visitorParam);
-        result.put("visitInfoList", visitInfoList);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+    public List<Map<String, Object>> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception {
+        return visitorMapper.selectChartDailyVisitorCntList(visitorParam);
     }
 
     @Transactional
     @Override
-    public Map<String, String> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
-        List<Map<String, Object>> visitInfoList = visitorMapper.selectChartMonthVisitorCntList(visitorParam);
-        result.put("visitInfoList", visitInfoList);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+    public List<Map<String, Object>> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception {
+        return visitorMapper.selectChartMonthVisitorCntList(visitorParam);
     }
 
     @Transactional
     @Override
-    public Map<String, String> insertVisitor(VisitorParam visitorParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public void insertVisitor(VisitorParam visitorParam) throws Exception {
         String local = serverDomain;
 
         for(String target:visitorInflowSourceSiteDomain){
@@ -102,10 +68,5 @@ public class VisitorServiceImpl implements VisitorService {
         }
 
         visitorMapper.insert(visitorParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 }

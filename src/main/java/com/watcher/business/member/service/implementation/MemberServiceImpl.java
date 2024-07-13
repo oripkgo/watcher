@@ -30,9 +30,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public Map<String, String> insertUpdate(MemberParam memberParam) throws Exception {
-        Map<String, String> result = new HashMap<String, String>();
-
+    public void insertUpdate(MemberParam memberParam) throws Exception {
         memberMapper.insert(memberParam);
         memberMapper.insertDetail(memberParam);
 
@@ -42,10 +40,5 @@ public class MemberServiceImpl implements MemberService {
         managementParam.setStoryTitle(memberParam.getNickname() + "스토리");
 
         managementMapper.insertManagement(managementParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 }

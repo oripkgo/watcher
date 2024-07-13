@@ -84,9 +84,9 @@ public class SignController {
 			result.put("apiToken", userData.get("API_TOKEN"));
 		}
 
-		result.put("sessionId", sessionId);
-		result.put("code", ResponseCode.SUCCESS_0000.getCode());
-		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+		result.put("sessionId"	, sessionId								);
+		result.put("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		result.put("message"	, ResponseCode.SUCCESS_0000.getMessage());
 		return result;
 	}
 

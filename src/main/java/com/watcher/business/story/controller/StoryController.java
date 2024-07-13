@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping(value = "/story")
@@ -43,23 +44,24 @@ public class StoryController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         String sessionId = request.getSession().getId();
-
+        String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
         ModelAndView mv = new ModelAndView("story/view");
 
         storyService.insertViewsCount(storyParam);
-        result.putAll(storyService.getData(storyParam));
+
+        Map<String, Object> storyInfo = storyService.getData(storyParam);
 
         // 게시물 수정권한 여부 s
-        if( redisUtil.getSession(sessionId) == null
-                || !(((Map)result.get("view")).get("REG_ID").equals(redisUtil.getSession(sessionId).get("LOGIN_ID")))){
+        mv.addObject("modifyAuthorityYn","Y");
+        if( !Objects.equals(storyInfo.get("REG_ID"), loginId)){
             mv.addObject("modifyAuthorityYn","N");
-        }else{
-            mv.addObject("modifyAuthorityYn","Y");
         }
         // 게시물 수정권한 여부 e
 
-        mv.addObject("memId",memId);
-        mv.addAllObjects(result);
+        mv.addObject("memId"    , memId                                 );
+        mv.addObject("view"     , storyInfo                             );
+        mv.addObject("code"     , ResponseCode.SUCCESS_0000.getCode()   );
+        mv.addObject("message"  , ResponseCode.SUCCESS_0000.getMessage());
 
         return mv;
     }
@@ -81,8 +83,11 @@ public class StoryController {
         storyParam.setRegId(loginId);
         storyParam.setUptId(loginId);
 
-        result.putAll(storyService.deleteStory(storyParam));
-        result.put("dto",storyParam);
+        storyService.deleteStory(storyParam);
+
+        result.put("dto"    , storyParam                            );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -105,7 +110,9 @@ public class StoryController {
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
 
-        result.putAll(storyService.insertStory(storyParam));
+        result.put("storyId", storyService.insertStory(storyParam)  );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -153,8 +160,10 @@ public class StoryController {
 
         storyParam.setListNo(10);
 
-        result.putAll(storyService.getListStoryPublic(storyParam));
-        result.put("dto", storyParam);
+        result.put("list"   , storyService.getListStoryPublic(storyParam)   );
+        result.put("dto"    , storyParam                                    );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()           );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()        );
 
         return result;
     }
@@ -170,8 +179,10 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(storyService.getPopularStoryMain(storyParam));
-        result.put("dto", storyParam);
+        result.put("popularStorys"  , storyService.getPopularStoryMain(storyParam)  );
+        result.put("dto"            , storyParam                                    );
+        result.put("code"           , ResponseCode.SUCCESS_0000.getCode()           );
+        result.put("message"        , ResponseCode.SUCCESS_0000.getMessage()        );
 
         return result;
     }

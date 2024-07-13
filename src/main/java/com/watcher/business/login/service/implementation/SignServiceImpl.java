@@ -100,6 +100,7 @@ public class SignServiceImpl implements SignService {
             userData.put("API_TOKEN", jwt);
             redisUtil.setSession(sessionId, userData);
         }
+
     }
 
     @Override

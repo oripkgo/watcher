@@ -55,8 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     @Override
-    public Map<String, String> insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
+    public String insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {
         JSONObject insertIds = new JSONObject();
         JSONArray jsonArr = new JSONArray(memberCategoryParam.getParamJson());
 
@@ -83,10 +82,6 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
 
-        result.put("insertIds", insertIds.toString());
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return insertIds.toString();
     }
 }

@@ -2,6 +2,7 @@ package com.watcher.business.keyword.controller;
 
 import com.watcher.business.keyword.param.PopularKeywordParam;
 import com.watcher.business.keyword.service.PopularKeywordService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class PopularKeywordController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        result.putAll(popularKeywordService.getList(popularKeywordParam));
+        result.put("list"   , popularKeywordService.getList(popularKeywordParam));
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()               );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()            );
 
         return result;
     }
@@ -46,7 +49,11 @@ public class PopularKeywordController {
         popularKeywordParam.setClientIp(RequestUtil.getClientIp(request));
         popularKeywordParam.setClientId(new CookieUtil(request).getValue("JSESSIONID"));
 
-        result.putAll(popularKeywordService.insert(popularKeywordParam));
+        popularKeywordService.insert(popularKeywordParam);
+
+        result.put("list"   , popularKeywordService.getList(popularKeywordParam));
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()               );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()            );
 
         return result;
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -30,31 +31,23 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
     }
 
     @Override
-    public Map<String, Object> getList(){
+    public List getList(){
         return this.getList(null);
     }
 
     @Override
-    public Map<String, Object> getList(PopularKeywordParam popularKeywordParam){
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
+    public List getList(PopularKeywordParam popularKeywordParam){
         popularKeywordParam.setListNo(POPULAR_KEYWORD_LIMIT);
 
         if (popularKeywordParam != null && StringUtils.hasText(popularKeywordParam.getKeyword())) {
             popularKeywordParam.setListNo(POPULAR_KEYWORD_SEARCH_LIMIT);
         }
 
-        result.put("list", popularKeywordMapper.select(popularKeywordParam));
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return popularKeywordMapper.select(popularKeywordParam);
     }
 
     @Override
-    public Map<String, Object> insert(PopularKeywordParam popularKeywordParam) {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
+    public void insert(PopularKeywordParam popularKeywordParam) {
         if (StringUtils.hasText(popularKeywordParam.getKeyword())) {
             try {
                 popularKeywordMapper.insert(popularKeywordParam);
@@ -62,10 +55,5 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
                 LOGGER.debug("검색 키워드 중복");
             }
         }
-
-        result.putAll(this.getList(popularKeywordParam));
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-        return result;
     }
 }

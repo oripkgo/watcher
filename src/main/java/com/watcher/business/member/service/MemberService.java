@@ -9,5 +9,5 @@ public interface MemberService {
     public Map<String,Object> select(MemberParam memberParam) throws Exception;
 
     @Transactional
-    public Map<String, String> insertUpdate(MemberParam memberParam) throws Exception;
+    public void insertUpdate(MemberParam memberParam) throws Exception;
 }

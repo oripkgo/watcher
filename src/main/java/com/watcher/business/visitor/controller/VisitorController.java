@@ -3,6 +3,7 @@ package com.watcher.business.visitor.controller;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.visitor.param.VisitorParam;
 import com.watcher.business.visitor.service.VisitorService;
+import com.watcher.enums.ResponseCode;
 import com.watcher.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/visitor")
@@ -31,12 +34,17 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (redisUtil.getSession(sessionId).get("ID"));
+
+        String token        = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId    = signService.getSessionId(signService.validation(token));
+        Object memId        = (redisUtil.getSession(sessionId).get("ID"));
+
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getVisitorInflowSourceCount(visitorParam));
+
+        result.put("visitInfo"  , visitorService.getVisitorInflowSourceCount(visitorParam)  );
+        result.put("code"       , ResponseCode.SUCCESS_0000.getCode()                       );
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()                    );
 
         return result;
     }
@@ -48,12 +56,17 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (redisUtil.getSession(sessionId).get("ID"));
+
+        String token        = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId    = signService.getSessionId(signService.validation(token));
+        Object memId        = (redisUtil.getSession(sessionId).get("ID"));
+
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getVisitorCount(visitorParam));
+
+        result.put("visitInfo"  , visitorService.getVisitorCount(visitorParam)  );
+        result.put("code"       , ResponseCode.SUCCESS_0000.getCode()           );
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()        );
 
         return result;
     }
@@ -65,12 +78,17 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (redisUtil.getSession(sessionId).get("ID"));
+
+        String token        = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId    = signService.getSessionId(signService.validation(token));
+        Object memId        = (redisUtil.getSession(sessionId).get("ID"));
+
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getDailyChartVisitorCnt(visitorParam));
+
+        result.put("visitInfoList"  , visitorService.getDailyChartVisitorCnt(visitorParam)  );
+        result.put("code"           , ResponseCode.SUCCESS_0000.getCode()                   );
+        result.put("message"        , ResponseCode.SUCCESS_0000.getMessage()                );
 
         return result;
     }
@@ -82,12 +100,17 @@ public class VisitorController {
             HttpServletResponse response,
             VisitorParam visitorParam
     ) throws Exception {
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
-
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        Object memId = (redisUtil.getSession(sessionId).get("ID"));
+
+        String token        = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId    = signService.getSessionId(signService.validation(token));
+        Object memId        = (redisUtil.getSession(sessionId).get("ID"));
+
         visitorParam.setMemId(String.valueOf(memId));
-        result.putAll(visitorService.getChartMonthVisitorCnt(visitorParam));
+
+        result.put("visitInfoList"  , visitorService.getChartMonthVisitorCnt(visitorParam));
+        result.put("code"           , ResponseCode.SUCCESS_0000.getCode());
+        result.put("message"        , ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -106,7 +129,10 @@ public class VisitorController {
         visitorParam.setRegMonthInquiry(DateUtil.getCurrentDay("yyyyMM"));
         visitorParam.setRegDateInquiry(DateUtil.getCurrentDay("yyyyMMdd"));
 
-        result.putAll(visitorService.insertVisitor(visitorParam));
+        visitorService.insertVisitor(visitorParam);
+
+        result.put("code"       , ResponseCode.SUCCESS_0000.getCode());
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,7 +28,7 @@ public class NoticeServiceImpl implements NoticeService {
     private String fileUploadPath = "/notice";
 
     @Override
-    public Map<String, Object> getListNotice(String sessionMemId, NoticeParam noticeParam) throws Exception {
+    public List<Map<String,Object>> getListNotice(String sessionMemId, NoticeParam noticeParam) throws Exception {
         if( sessionMemId != null && sessionMemId.equals(noticeParam.getSearchMemId()) ){
             noticeParam.setSearchSecretYn("ALL");
         }
@@ -35,9 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
         return this.getListNotice(noticeParam);
     }
 
-    public Map<String, Object> getListNotice(NoticeParam noticeParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
+    public List<Map<String,Object>> getListNotice(NoticeParam noticeParam) throws Exception {
         if (
             (noticeParam.getSearchMemId() == null || noticeParam.getSearchMemId().isEmpty()) &&
                 (noticeParam.getSearchLevel() == null || noticeParam.getSearchLevel().isEmpty())) {
@@ -45,25 +44,14 @@ public class NoticeServiceImpl implements NoticeService {
         }
 
         noticeParam.setTotalCnt( noticeMapper.selectNoticeCnt(noticeParam) );
-        result.put("list", noticeMapper.selectNotice(noticeParam));
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return noticeMapper.selectNotice(noticeParam);
     }
 
     @Transactional
     @Override
     public Map<String, Object> getData(NoticeParam noticeParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        result.put("view", noticeMapper.view(noticeParam));
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return noticeMapper.view(noticeParam);
     }
 
 
@@ -96,18 +84,11 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public Map<String, Object> updates(NoticeParam noticeParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
+    public void updates(NoticeParam noticeParam) throws Exception {
         JSONArray noticeIds = new JSONArray(noticeParam.getParamJson());
 
         noticeParam.setIdList(noticeIds.toList());
         noticeMapper.update(noticeParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 
     @Transactional
@@ -129,9 +110,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Transactional
     @Override
-    public Map<String, String> insert(NoticeParam noticeParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public String insert(NoticeParam noticeParam) throws Exception {
         // 공지사항 등록
         if( noticeParam.getId() == null || noticeParam.getId().isEmpty() ){
             noticeMapper.insert(noticeParam);
@@ -155,10 +134,7 @@ public class NoticeServiceImpl implements NoticeService {
             );
         }
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return noticeParam.getId();
     }
 
     @Override

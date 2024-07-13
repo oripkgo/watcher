@@ -21,10 +21,20 @@ public class ManagementServiceImpl implements ManagementService {
     @Autowired
     MemberMapper memberMapper;
 
+
+    @Override
+    public Map<String, Object> getStorySettingInfo(String loginId) throws Exception {
+        ManagementParam managementParam = new ManagementParam();
+        managementParam.setLoginId(loginId);
+        return managementMapper.getStorySettingInfo(managementParam);
+    }
+
+
     @Override
     public Map<String, Object> getStorySettingInfo(ManagementParam managementParam) throws Exception {
         return managementMapper.getStorySettingInfo(managementParam);
     }
+
 
     @Transactional
     @Override
@@ -38,4 +48,5 @@ public class ManagementServiceImpl implements ManagementService {
 
         return result;
     }
+
 }

@@ -82,11 +82,10 @@ public class MyStoryManagementController {
 
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
-        result.putAll(storyService.getListManagement(storyParam));
-        result.put("dto", storyParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+        result.put("list"   , storyService.getListManagement(storyParam));
+        result.put("dto"    , storyParam                                );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()       );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()    );
 
         return result;
     }
@@ -106,7 +105,10 @@ public class MyStoryManagementController {
         storyParam.setRegId(String.valueOf(loginId));
         storyParam.setUptId(String.valueOf(loginId));
 
-        result.putAll(storyService.deleteStorys(storyParam));
+        storyService.deleteStorys(storyParam);
+
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
     }
@@ -172,11 +174,10 @@ public class MyStoryManagementController {
             noticeParam.setSearchSecretYn("ALL");
         }
 
-        result.putAll(noticeService.getListNotice(noticeParam));
-        result.put("dto", noticeParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+        result.put("list"       , noticeService.getListNotice(noticeParam)  );
+        result.put("dto"        , noticeParam                               );
+        result.put("code"       , ResponseCode.SUCCESS_0000.getCode()       );
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()    );
 
         return result;
     }
@@ -265,10 +266,11 @@ public class MyStoryManagementController {
         memberCategoryParam.setUptId(String.valueOf(loginId));
         memberCategoryParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(categoryService.insertOrUpdate(memberCategoryParam));
+        String id = categoryService.insertOrUpdate(memberCategoryParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+        result.put("insertIds"  , id                                        );
+        result.put("code"       , ResponseCode.SUCCESS_0000.getCode()       );
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()    );
 
         return result;
     }

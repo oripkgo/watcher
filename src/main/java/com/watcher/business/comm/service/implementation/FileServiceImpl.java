@@ -137,10 +137,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public Map<String, String> download(FileParam fileParam) throws Exception {
         LinkedHashMap result = new LinkedHashMap();
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
         return result;
     }
 

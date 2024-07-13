@@ -4,21 +4,22 @@ import com.watcher.business.visitor.param.VisitorParam;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 public interface VisitorService {
     @Transactional
-    public Map<String, String> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception;
+    public Map<String, Object> getVisitorInflowSourceCount(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> getVisitorCount(VisitorParam visitorParam) throws Exception;
+    public Map<String, Object> getVisitorCount(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception;
+    public List<Map<String, Object>> getDailyChartVisitorCnt(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception;
+    public List<Map<String, Object>> getChartMonthVisitorCnt(VisitorParam visitorParam) throws Exception;
 
     @Transactional
-    public Map<String, String> insertVisitor(VisitorParam visitorParam) throws Exception;
+    public void insertVisitor(VisitorParam visitorParam) throws Exception;
 }

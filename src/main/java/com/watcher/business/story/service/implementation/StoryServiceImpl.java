@@ -51,9 +51,7 @@ public class StoryServiceImpl implements StoryService {
 
     @Transactional
     @Override
-    public Map<String, String> insertStory(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public String insertStory(StoryParam storyParam) throws Exception {
         // 스토리 내용에 script 제거
         storyParam.setSummary(RequestUtil.cleanXSS(storyParam.getSummary()));
         storyParam.setContents(RequestUtil.cleanXSS(storyParam.getContents()));
@@ -108,24 +106,14 @@ public class StoryServiceImpl implements StoryService {
 
         }
 
-        result.put("storyId", storyParam.getId());
-        result.put("code"   , ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return storyParam.getId();
     }
 
 
     @Transactional
     @Override
-    public Map<String, String> updateStory(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
+    public void updateStory(StoryParam storyParam) throws Exception {
         storyMapper.update(storyParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 
 
@@ -155,50 +143,30 @@ public class StoryServiceImpl implements StoryService {
 
     @Transactional
     @Override
-    public Map<String, String> updateStorys(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public void updateStorys(StoryParam storyParam) throws Exception {
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
         storyParam.setIdList(storyIds.toList());
         storyMapper.update(storyParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 
 
     @Transactional
     @Override
-    public Map<String, String> deleteStory(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
+    public void deleteStory(StoryParam storyParam) throws Exception {
         storyParam.setDeleteYn("Y");
         storyMapper.update(storyParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 
 
     @Transactional
     @Override
-    public Map<String, String> deleteStorys(StoryParam storyParam) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-
+    public void deleteStorys(StoryParam storyParam) throws Exception {
         JSONArray storyIds = new JSONArray(storyParam.getParamJson());
 
         storyParam.setIdList(storyIds.toList());
         storyParam.setDeleteYn("Y");
         storyMapper.update(storyParam);
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
     }
 
 
@@ -212,32 +180,24 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public Map<String, Object> getListManagement(StoryParam storyParam) throws Exception {
+    public List<Map<String, Object>> getListManagement(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("ALL");
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
-        result.put("list", storyMapper.selectStory(storyParam));
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return storyMapper.selectStory(storyParam);
     }
 
 
     @Override
-    public Map<String, Object> getListStoryPublic(StoryParam storyParam) throws Exception {
+    public List<Map<String, Object>> getListStoryPublic(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
         storyParam.setSearch_secret_yn("NN");
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
-        result.put("list", storyMapper.selectStory(storyParam));
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+        return storyMapper.selectStory(storyParam);
     }
 
 
@@ -261,27 +221,13 @@ public class StoryServiceImpl implements StoryService {
     @Override
     public Map<String, Object> getData(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
-
-        result.put("view", storyMapper.view(storyParam));
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-
-        return result;
+        return storyMapper.view(storyParam);
     }
 
 
     @Override
-    public Map<String, Object> getPopularStoryMain(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        result.put("popularStorys", storyMapper.getPopularStoryMain(storyParam));
-
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
+    public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam) throws Exception {
+        return storyMapper.getPopularStoryMain(storyParam);
     }
 
 
