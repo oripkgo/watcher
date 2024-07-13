@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -236,15 +235,9 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = "";
-		String loginId = "";
-
-		try{
-			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-			if( redisUtil.getSession(sessionId) != null ){
-				loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-			}
-		}catch (Exception e){}
+		String token 		= request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId 	= signService.getSessionId(token);
+		String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -252,7 +245,7 @@ public class BoardController {
 		result.putAll(boardService.getLikeYn(contentsType, contentsId, loginId));
 
 		result.put("loginYn","Y");
-		if( loginId.isEmpty() ){
+		if( !StringUtils.hasText(loginId) ){
 			result.put("loginYn","N");
 		}
 
@@ -333,17 +326,9 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = "";
-
-		try{
-			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		}catch (Exception e){}
-
-		String loginId = "";
-
-		if( redisUtil.getSession(sessionId) != null ){
-			loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-		}
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
+		String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -351,7 +336,7 @@ public class BoardController {
 		result.putAll(boardService.getTagDatas(contentsType, contentsId));
 
 		result.put("loginYn","Y");
-		if( loginId.isEmpty() ){
+		if( !StringUtils.hasText(loginId) ){
 			result.put("loginYn","N");
 		}
 

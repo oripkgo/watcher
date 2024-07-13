@@ -91,11 +91,11 @@ public class MyStoryController {
         String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
         storyParam.setListNo(10);
-        result.put("list", storyService.getListMyStory(memId, storyParam));
 
-        result.put("dto", storyParam);
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+        result.put("list"   , storyService.getListMyStory(memId, storyParam));
+        result.put("dto"    , storyParam                                    );
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()           );
+        result.put("message", ResponseCode.SUCCESS_0000.getMessage()        );
 
         return result;
     }

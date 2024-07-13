@@ -23,7 +23,7 @@
 			,B.STORY_COMMENT_PUBLIC_STATUS
 			,B.STORY_TITLE
 		FROM MEMBER A
-		INNER JOIN MEM_MANAGEMENT B ON B.LOGIN_ID = A.LOGIN_ID
+		INNER JOIN MEMBER_MANAGEMENT B ON B.LOGIN_ID = A.LOGIN_ID
 		WHERE 1=1
 		  AND A.LOGIN_ID = #{loginId}
 		  AND A.MEM_TYPE = #{memType}
@@ -93,7 +93,7 @@
 	</insert>
 
 	<insert id="insertDetail" parameterType="memberParam" useGeneratedKeys="true" keyColumn="loginId">
-		INSERT INTO MEM_DETAIL(
+		INSERT INTO MEMBER_DETAIL(
 			  LOGIN_ID
 			, REG_ID
 			, REG_DATE

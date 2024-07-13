@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -58,8 +59,8 @@ public class RedisUtil {
     public Map<String, String> getSession(String id) {
         redisTemplate.expire(id, SECONDS, TimeUnit.SECONDS);
         final ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-        final Object result = valueOperations.get(id);
-        return (Map<String, String>)result;
+        final Map<String, String> result = (Map<String, String>) valueOperations.get(id);
+        return result == null ? new LinkedHashMap<>() : result;
     }
 
 //    final ValueOperations<String, RedisUserDto> valueOperations = redisTemplate.opsForValue();

@@ -15,7 +15,7 @@
 			, MM.STORY_COMMENT_PUBLIC_STATUS
 			, MM.STORY_TITLE
 			, M.MEM_PROFILE_IMG
-		FROM MEM_MANAGEMENT MM
+		FROM MEMBER_MANAGEMENT MM
 		INNER JOIN MEMBER M ON M.LOGIN_ID = MM.LOGIN_ID
 		<where>
 			<if test="loginId != null and loginId != ''">
@@ -28,7 +28,7 @@
 	</select>
 
 	<update id="updateStorySettingInfo" parameterType="managementParam">
-		UPDATE MEM_MANAGEMENT SET
+		UPDATE MEMBER_MANAGEMENT SET
 		<if test="storyCommentPublicStatus != null and storyCommentPublicStatus != ''">
 			STORY_COMMENT_PUBLIC_STATUS 	= #{storyCommentPublicStatus} ,
 		</if>
@@ -44,7 +44,7 @@
 	</update>
 
 	<insert id="insertManagement" parameterType="managementParam" useGeneratedKeys="true" keyColumn="loginId">
-		INSERT INTO MEM_MANAGEMENT(
+		INSERT INTO MEMBER_MANAGEMENT(
 			LOGIN_ID
 			,REG_ID
 			,REG_DATE

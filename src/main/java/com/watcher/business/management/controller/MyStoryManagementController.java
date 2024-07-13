@@ -312,7 +312,7 @@ public class MyStoryManagementController {
         managementParam.setUptId(String.valueOf(loginId));
         managementParam.setLoginId(String.valueOf(loginId));
 
-        result.putAll(managementService.updateStorySettingInfo(managementParam));
+        managementService.updateStorySettingInfo(managementParam);
 
         result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());

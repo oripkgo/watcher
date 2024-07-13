@@ -42,10 +42,10 @@ public class StoryController {
             @PathVariable("memId") String memId,
             StoryParam storyParam
     ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        ModelAndView mv = new ModelAndView("story/view");
+
         String sessionId = request.getSession().getId();
         String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-        ModelAndView mv = new ModelAndView("story/view");
 
         storyService.insertViewsCount(storyParam);
 

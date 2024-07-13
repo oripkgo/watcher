@@ -30,7 +30,7 @@
 					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
+					SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
 				</otherwise>
 			</choose>
 		)
@@ -74,7 +74,7 @@
 					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
 				</when>
 				<otherwise>
-					SELECT LOGIN_ID FROM MEM_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
+					SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
 				</otherwise>
 			</choose>
 		)

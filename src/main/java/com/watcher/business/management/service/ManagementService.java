@@ -9,6 +9,6 @@ public interface ManagementService {
 
     public Map<String, Object> getStorySettingInfo(ManagementParam managementParam) throws Exception;
 
-    public Map<String, String> updateStorySettingInfo(ManagementParam managementParam) throws Exception;
+    public void updateStorySettingInfo(ManagementParam managementParam) throws Exception;
 
 }
