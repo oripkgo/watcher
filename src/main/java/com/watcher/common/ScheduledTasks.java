@@ -31,41 +31,39 @@ public class ScheduledTasks {
 
 
 
-    // 관련 게시물 추천 조회로 생성된 파일 찌거기 제거
-    // 매일 오전 2시에 실행
-    @Scheduled(cron = "0 0 3 * * ?")
-//    // 매 10초마다 실행
-//    @Scheduled(fixedRate = 10000)
-    public void taskRecommendedRelatedPostsRemovalDebris() {
-        Path directory = Paths.get(env.getProperty("upload.temp-storage.index01")); // 인덱스 디렉토리 경로
-        LocalDateTime today = LocalDate.now().atStartOfDay();
-        LocalDateTime yesterday = today.minusDays(1);
-
-        // try-with-resources 문법을 사용하여 스트림을 자동으로 닫습니다.
-        try (Stream<Path> walk = Files.walk(directory)) {
-            walk.filter(Files::isRegularFile)
-                    .filter(file -> {
-                        try {
-                            BasicFileAttributes attrs = Files.readAttributes(file, BasicFileAttributes.class);
-                            LocalDateTime fileTime = LocalDateTime.ofInstant(attrs.lastModifiedTime().toInstant(), ZoneId.systemDefault());
-                            return fileTime.isBefore(yesterday);
-                        } catch (IOException e) {
-                            logger.error("Failed to read file attributes for: " + file, e); // 로그로 예외 처리
-                            return false;
-                        }
-                    })
-                    .forEach(file -> {
-                        try {
-                            Files.delete(file); // 파일 삭제
-                            logger.info("Deleted file: " + file);
-                        } catch (IOException e) {
-                            logger.error("Failed to delete file: " + file, e); // 로그로 예외 처리
-                        }
-                    });
-        } catch (IOException e) {
-            logger.error("Failed to walk directory: " + directory, e); // 로그로 예외 처리
-        }
-    }
+//    // 관련 게시물 추천 조회로 생성된 파일 찌거기 제거
+//    // 매일 오전 2시에 실행
+//    @Scheduled(cron = "0 0 3 * * ?")
+//    public void taskRecommendedRelatedPostsRemovalDebris() {
+//        Path directory = Paths.get(env.getProperty("upload.temp-storage.index01")); // 인덱스 디렉토리 경로
+//        LocalDateTime today = LocalDate.now().atStartOfDay();
+//        LocalDateTime yesterday = today.minusDays(1);
+//
+//        // try-with-resources 문법을 사용하여 스트림을 자동으로 닫습니다.
+//        try (Stream<Path> walk = Files.walk(directory)) {
+//            walk.filter(Files::isRegularFile)
+//                    .filter(file -> {
+//                        try {
+//                            BasicFileAttributes attrs = Files.readAttributes(file, BasicFileAttributes.class);
+//                            LocalDateTime fileTime = LocalDateTime.ofInstant(attrs.lastModifiedTime().toInstant(), ZoneId.systemDefault());
+//                            return fileTime.isBefore(yesterday);
+//                        } catch (IOException e) {
+//                            logger.error("Failed to read file attributes for: " + file, e); // 로그로 예외 처리
+//                            return false;
+//                        }
+//                    })
+//                    .forEach(file -> {
+//                        try {
+//                            Files.delete(file); // 파일 삭제
+//                            logger.info("Deleted file: " + file);
+//                        } catch (IOException e) {
+//                            logger.error("Failed to delete file: " + file, e); // 로그로 예외 처리
+//                        }
+//                    });
+//        } catch (IOException e) {
+//            logger.error("Failed to walk directory: " + directory, e); // 로그로 예외 처리
+//        }
+//    }
 
 
 //    // 매 10초마다 실행
