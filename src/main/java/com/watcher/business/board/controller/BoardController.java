@@ -4,6 +4,7 @@ import com.watcher.business.board.service.BoardService;
 import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.board.param.NoticeParam;
+import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
@@ -38,6 +39,9 @@ public class BoardController {
 
 	@Autowired
 	RedisUtil redisUtil;
+
+	@Autowired
+	ManagementService managementService;
 
 
 	@RequestMapping(value = {"/{memId}/notice/list"})
@@ -390,22 +394,33 @@ public class BoardController {
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
-		String loginId = "";
-		String nickName = "";
-		String profile = "";
+		String token	 = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
+		String loginId 	 = "";
+		String nickName  = "";
+		String profile   = "";
 
 		if( redisUtil.getSession(sessionId) != null ){
 			Map<String, String> userData = redisUtil.getSession(sessionId);
 
-			loginId = userData.get("LOGIN_ID");
-			nickName = userData.get("NICKNAME");
-			profile = userData.get("MEM_PROFILE_IMG");
+			loginId 	= userData.get("LOGIN_ID");
+			nickName 	= userData.get("NICKNAME");
+			profile 	= userData.get("MEM_PROFILE_IMG");
 		}
 
-
+		// 댓글 공백인지 입력여부 체크
 		if( !param.containsKey("comment") || param.get("comment") == null || param.get("comment").equals("") ){
-			throw new Exception("2005");
+			throw new Exception("2201");
+		}
+
+		// 댓글 입력 권한 체크
+		String type = param.get("contentsType").toString();
+		String id 	= param.get("contentsId").toString();
+		Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(type, id);
+		if( "02".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
+			if( !Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId)){
+				throw new Exception("2202");
+			}
 		}
 
 		LinkedHashMap commentParam = new LinkedHashMap();

@@ -5,6 +5,7 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="/resources/task/js/common/utils/share.js"></script>
 
+
 <div class="section">
     <div class="ani-in sub_layout">
         <div class="detail_top ani_y delay1">
@@ -82,6 +83,8 @@
     const regDate           = '${view['REG_DATE']}';
     const likeCnt           = '${view['LIKE_CNT']}' * 1;
     const summary           = '${view['SUMMARY']}';
+    const commentRegYn      = '${commentRegYn}';
+
     const contents          = $("#storyContents").html();
     const thumbnail         = window.getServerImg('${fn:replace(view['THUMBNAIL_IMG_PATH'], '\\', '/')}'.replace(/[\\]/g, '/'));
 
@@ -210,6 +213,11 @@
         comm.boardView.tags.render('tagsTarget');
         comm.boardView.like.render('likeTarget');
         comm.boardView.comment.render('commentTarget');
+
+        if( commentRegYn == 'N' ){
+            comm.boardView.comment.disabled();
+        }
+
 
         initSNS();
 

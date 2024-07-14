@@ -19,6 +19,13 @@ public class ManagementServiceImpl implements ManagementService {
     @Autowired
     MemberMapper memberMapper;
 
+    @Override
+    public Map<String, Object> getStorySettingInfo(String contentType, String contentId) throws Exception {
+        ManagementParam managementParam = new ManagementParam();
+        managementParam.setSearchContentType(contentType);
+        managementParam.setSearchContentId(contentId);
+        return managementMapper.getStorySettingInfo(managementParam);
+    }
 
     @Override
     public Map<String, Object> getStorySettingInfo(String loginId) throws Exception {

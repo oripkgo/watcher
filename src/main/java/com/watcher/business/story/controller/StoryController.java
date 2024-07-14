@@ -2,6 +2,7 @@ package com.watcher.business.story.controller;
 
 import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
+import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
@@ -34,6 +35,9 @@ public class StoryController {
     @Autowired
     RedisUtil redisUtil;
 
+    @Autowired
+    ManagementService managementService;
+
 
     @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
     public ModelAndView getStoryView(
@@ -51,12 +55,24 @@ public class StoryController {
 
         Map<String, Object> storyInfo = storyService.getData(storyParam);
 
-        // 게시물 수정권한 여부 s
+        // 게시물 수정권한 여부
         mv.addObject("modifyAuthorityYn","Y");
         if( !Objects.equals(storyInfo.get("REG_ID"), loginId)){
             mv.addObject("modifyAuthorityYn","N");
         }
-        // 게시물 수정권한 여부 e
+
+
+        // 댓글 작성 권한 체크
+        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storyInfo.get("REG_ID").toString());
+        mv.addObject("commentRegYn","N");
+
+        if( "01".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
+            mv.addObject("commentRegYn","Y");
+        }else if( "02".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
+            if( Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId)){
+                mv.addObject("commentRegYn","Y");
+            }
+        }
 
         mv.addObject("memId"    , memId                                 );
         mv.addObject("view"     , storyInfo                             );
@@ -199,7 +215,7 @@ public class StoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         if( !StringUtils.hasText(storyParam.getContents()) ){
-            throw new Exception("2006");
+            throw new Exception("2001");
         }
 
         String targetContents = storyParam.getContents();

@@ -46,7 +46,7 @@ public class SignServiceImpl implements SignService {
                 throw new Exception();
             }
         } catch (Exception e) {
-            throw new Exception("2004");
+            throw new Exception("2104");
         }
 
         try {
@@ -55,7 +55,7 @@ public class SignServiceImpl implements SignService {
                 throw new Exception();
             }
         } catch (Exception e) {
-            throw new Exception("2002");
+            throw new Exception("2102");
         }
 
         try {
@@ -63,7 +63,7 @@ public class SignServiceImpl implements SignService {
                 throw new Exception();
             }
         } catch (Exception e) {
-            throw new Exception("2003");
+            throw new Exception("2103");
         }
 
         return token;

@@ -24,6 +24,9 @@
 			<if test="id != null and id != ''">
 				AND EXISTS (SELECT LOGIN_ID FROM MEMBER WHERE ID= #{id} AND LOGIN_ID = MM.LOGIN_ID)
 			</if>
+			<if test="searchContentType != null and searchContentType != '' and searchContentType == 'STORY'">
+				AND MM.LOGIN_ID = (SELECT REG_ID FROM STORY WHERE ID = #{searchContentId})
+			</if>
 		</where>
 	</select>
 

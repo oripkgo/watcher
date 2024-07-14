@@ -211,6 +211,15 @@ const COMMENT = function(){
             this.deleteConfirmMsgFunc = deleteConfirmMsgFunc;
         },
 
+        disabled : function(){
+            $("textarea", COMMENT_ELEMENT.area.getInsert()).attr("placeholder", "관리자가 댓글작성을 제한했습니다.");
+            $("textarea", COMMENT_ELEMENT.area.getInsert()).prop("disalbed", true);
+
+            $(COMMENT_ELEMENT.area.getInsert()).off();
+            $("textarea", COMMENT_ELEMENT.area.getInsert()).off();
+            $("a",COMMENT_ELEMENT.area.getInsert()).off();
+        },
+
         render: function (tagId) {
             const commentThis = this;
             const targetElement = document.getElementById(tagId);
@@ -226,7 +235,7 @@ const COMMENT = function(){
             );
 
             if (commentThis.loginYn === 'Y') {
-                COMMENT_ELEMENT.button.getInsert().addEventListener("click", function () {
+                $(COMMENT_ELEMENT.button.getInsert()).on("click", function () {
                     insertComment(commentThis.id, commentThis.type, function(element){
                         addEventDelete(element, commentThis.deleteConfirmMsgFunc);
                         addEventUpdate(element);
@@ -234,7 +243,7 @@ const COMMENT = function(){
                     });
                 })
             } else {
-                COMMENT_ELEMENT.area.getInsert().addEventListener("click", function () {
+                $(COMMENT_ELEMENT.area.getInsert()).on("click", function () {
                     if (commentThis.handleNotLogin) {
                         commentThis.handleNotLogin();
                     }
