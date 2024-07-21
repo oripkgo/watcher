@@ -91,7 +91,8 @@ public class StoryController {
         StoryParam storyParam
     ) throws Exception {
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(token);
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
@@ -119,7 +120,8 @@ public class StoryController {
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(token);
 
         Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 

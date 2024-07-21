@@ -87,7 +87,9 @@ public class MyStoryController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(token);
+
         String memId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
         storyParam.setListNo(10);

@@ -32,7 +32,8 @@ public class SignController {
 			HttpServletResponse response
 	) throws Exception {
 		Map<String,Object> result = new HashMap<>();
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 
 		Map<String, String> userData = signService.getSessionUser(sessionId);
 
@@ -100,7 +101,8 @@ public class SignController {
 	) throws Exception {
 		Map<String,Object> result = new HashMap<>();
 
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 
 		signService.validation(loginVo);
 		signService.handleOut(loginVo, sessionId);

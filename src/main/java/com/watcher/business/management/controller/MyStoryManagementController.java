@@ -58,7 +58,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
@@ -78,7 +79,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
@@ -99,7 +101,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -122,7 +125,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -144,7 +148,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         storyParam.setRegId(String.valueOf(loginId));
@@ -166,7 +171,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         noticeParam.setSearchMemId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
@@ -191,7 +197,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
@@ -214,7 +221,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
@@ -236,7 +244,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         noticeParam.setRegId(String.valueOf(loginId));
@@ -259,7 +268,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         memberCategoryParam.setRegId(String.valueOf(loginId));
@@ -284,7 +294,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         managementParam.setLoginId(String.valueOf(signService.getSessionUser(sessionId).get("LOGIN_ID")));
         JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
@@ -305,7 +316,8 @@ public class MyStoryManagementController {
     ) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String sessionId = signService.getSessionId(signService.validation(request.getHeader("Authorization").replace("Bearer ", "")));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(signService.validation(token));
 
         Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
         managementParam.setRegId(String.valueOf(loginId));

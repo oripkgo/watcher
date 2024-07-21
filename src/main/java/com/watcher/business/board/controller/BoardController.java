@@ -128,7 +128,8 @@ public class BoardController {
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 		Object loginId = (redisUtil.getSession(sessionId).get("LOGIN_ID"));
@@ -214,7 +215,8 @@ public class BoardController {
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
 		Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
@@ -275,9 +277,9 @@ public class BoardController {
 
 		String loginId = "";
 		String sessionId = "";
-
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
 		try{
-			sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+			sessionId = signService.getSessionId(token);
 			if( redisUtil.getSession(sessionId) != null ){
 				loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 			}
@@ -451,8 +453,8 @@ public class BoardController {
 			@RequestBody Map<String,Object> param
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
-		String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+		String token = request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId = signService.getSessionId(token);
 		String loginId = "";
 
 		if( redisUtil.getSession(sessionId) != null ){

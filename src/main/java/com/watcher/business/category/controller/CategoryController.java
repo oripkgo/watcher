@@ -44,7 +44,8 @@ public class CategoryController {
     @ResponseBody
     @RequestMapping(value = {"/list/member"}, method = RequestMethod.GET)
     public LinkedHashMap<String, Object> getListCategoryMember(HttpServletRequest request) throws Exception {
-        String sessionId = signService.getSessionId(request.getHeader("Authorization").replace("Bearer ", ""));
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String sessionId = signService.getSessionId(token);
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
