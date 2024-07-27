@@ -266,8 +266,9 @@ public class StoryServiceImpl implements StoryService {
             String storyContent = obj.get("CONTENTS").toString();
 
             storyRepository.put(storyKey, obj);
-            recommendUtil.addDocument(storyKey, storyContent);
         }
+
+        recommendUtil.addDocumentList(storyList);
 
         // 유사문서 검색
         String newHtmlDocument = targetContent;
