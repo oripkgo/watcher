@@ -82,7 +82,7 @@
     const nickName          = '${view['NICKNAME']}';
     const regDate           = '${view['REG_DATE']}';
     const likeCnt           = '${view['LIKE_CNT']}' * 1;
-    const summary           = '${view['SUMMARY']}';
+    const summary           = '<c:out escapeXml="true" value="${view['SUMMARY']}"/>';
     const commentRegYn      = '${commentRegYn}';
 
     const contents          = $("#storyContents").html();
