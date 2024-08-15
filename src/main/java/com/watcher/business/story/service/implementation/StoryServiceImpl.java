@@ -35,10 +35,6 @@ public class StoryServiceImpl implements StoryService {
     private String fileUploadPath = "/story";
 
 
-    @Value("${upload.temp-storage.index01}")
-    private String tempStoragePath;
-
-
     // 관련게시물 조회 최대 갯수
     private int FeaturedPostListMax = 4;
 
@@ -256,28 +252,30 @@ public class StoryServiceImpl implements StoryService {
             List<Map<String, Object>> storyList
     ) throws Exception {
 
-        RecommendUtil recommendUtil = new RecommendUtil(tempStoragePath + "/" + memId);
-        Map<String, Object> storyRepository = new HashMap<>();
         List<Map<String, Object>> result = new ArrayList<>();
+        try(RecommendUtil recommendUtil = new RecommendUtil();){
+            Map<String, Object> storyRepository = new HashMap<>();
 
-        // 검색대상 문서들 저장
-        for(Map<String, Object> obj : storyList){
-            String storyKey     = obj.get("ID").toString();
-            String storyContent = obj.get("CONTENTS").toString();
+            // 검색대상 문서들 저장
+            for(Map<String, Object> obj : storyList){
+                String storyKey     = obj.get("ID").toString();
+                String storyContent = obj.get("CONTENTS").toString();
 
-            storyRepository.put(storyKey, obj);
+                storyRepository.put(storyKey, obj);
+            }
+
+            recommendUtil.addDocumentList(storyList);
+
+            // 유사문서 검색
+            String newHtmlDocument = targetContent;
+            List<String> recommendations = recommendUtil.searchSimilarDocuments(newHtmlDocument, FeaturedPostListMax);
+
+            // 반환할 유사 스토리 세팅
+            for (String docId : recommendations) {
+                result.add((Map<String, Object>) storyRepository.get(docId));
+            }
         }
 
-        recommendUtil.addDocumentList(storyList);
-
-        // 유사문서 검색
-        String newHtmlDocument = targetContent;
-        List<String> recommendations = recommendUtil.searchSimilarDocuments(newHtmlDocument, FeaturedPostListMax);
-
-        // 반환할 유사 스토리 세팅
-        for (String docId : recommendations) {
-            result.add((Map<String, Object>) storyRepository.get(docId));
-        }
 
         return result;
 
