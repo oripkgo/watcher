@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 
 @Controller
-@RequestMapping(value = "/myStory")
+@RequestMapping(value = "/my-story")
 public class MyStoryController {
     @Autowired
     CategoryService categoryService;

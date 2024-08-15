@@ -12,7 +12,7 @@
             <div class="detail_kind">스토리</div>
             <strong id="title"></strong>
             <div class="detail_memo">
-                <em><a href="/myStory/${memId}" class="hover_line" id="nickName"></a></em>
+                <em><a href="/my-story/${memId}" class="hover_line" id="nickName"></a></em>
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 

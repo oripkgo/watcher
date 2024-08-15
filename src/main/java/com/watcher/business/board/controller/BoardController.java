@@ -44,7 +44,7 @@ public class BoardController {
 	ManagementService managementService;
 
 
-	@RequestMapping(value = {"/{memId}/notice/list"})
+	@RequestMapping(value = {"/my-story/{memId}/notice/list"})
 	public ModelAndView showMemberNoticeListPage(
 			@PathVariable("memId") String memId,
 			HttpServletRequest request,
@@ -97,7 +97,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value={"/{memId}/notice/list/data"}, method = RequestMethod.GET)
+	@RequestMapping(value={"/my-story/{memId}/notice/list/data"}, method = RequestMethod.GET)
 	@ResponseBody
 	public LinkedHashMap<String, Object> getNoticeListAsync(
 			@PathVariable("memId") String memId,
@@ -145,7 +145,7 @@ public class BoardController {
 	}
 
 
-	@RequestMapping(value = {"/notice/view", "/{memId}/notice/view"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/notice/view", "/my-story/{memId}/notice/view"}, method = RequestMethod.GET)
 	public ModelAndView noticeView(
 			HttpServletRequest request,
 			HttpServletResponse response,

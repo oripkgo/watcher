@@ -12,7 +12,7 @@
 <div class="section">
     <div class="ani-in new_mystory_layout">
         <div class="new_mystory_title_box ani_y">
-            <a class="new_mystory_title" href="/myStory/${memId}">${storyInfo['STORY_TITLE']}</a>
+            <a class="new_mystory_title" href="/my-story/${memId}">${storyInfo['STORY_TITLE']}</a>
             <a href="javascript:;" class="new_mystory_mobile_menu_btn"></a>
         </div>
     </div>
@@ -64,9 +64,9 @@
 <script>
 
     const memberCategoryList = comm.category.getMemberPublic('${memId}');
-    const myStorylistDataUrl = '/myStory/list';
+    const myStorylistDataUrl = '/my-story/list';
     const noticeListDataUrl = '/notice/list/data?searchMemId=${memId}';
-    const noticeMoreUrl = '/${memId}/notice/list?myStoryTitle=${storyInfo['STORY_TITLE']}';
+    const noticeMoreUrl = '/my-story/${memId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
     const paramCategoryName = '${dto['category_nm']}';
     const paramCategoryId = '${dto['categoryId']}';
     const myStoryMemberId = '${memId}';
@@ -78,7 +78,7 @@
                 const li = $('<li></li>');
                 const a = $('<a></a>');
                 $(a).text(obj['CATEGORY_NM']);
-                $(a).attr('href', "/myStory/" + myStoryMemberId + "/" + obj.ID + "?category_nm=" + encodeURIComponent(obj['CATEGORY_NM']));
+                $(a).attr('href', "/my-story/" + myStoryMemberId + "/" + obj.ID + "?categorynm=" + encodeURIComponent(obj['CATEGORY_NM']));
 
                 if( paramCategoryName == obj['CATEGORY_NM'] ){
                     $(a).addClass("on");

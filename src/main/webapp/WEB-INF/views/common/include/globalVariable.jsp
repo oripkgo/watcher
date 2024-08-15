@@ -144,7 +144,7 @@
         },
 
         getNoticeViewUrl: function (id, memId) {
-            return (memId ? "/" + memId : "") + this.noticeUrlView + '?id=' + id;
+            return (memId ? "/my-story/" + memId : "") + this.noticeUrlView + '?id=' + id;
         },
 
         getNoticeWriteUrl: function () {

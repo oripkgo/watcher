@@ -27,7 +27,7 @@ public class CommonIntercepter implements HandlerInterceptor {
     });
 
     private static List compareValuesURL = Arrays.asList(new String[]{
-            "/myStory",
+            "/my-story",
             "/story/write",
             "/management"
     });
