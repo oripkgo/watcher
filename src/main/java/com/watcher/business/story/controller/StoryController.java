@@ -159,8 +159,8 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mv = new ModelAndView("story/list");
 
-        mv.addObject("searchKeyword", storyParam.getSearch_keyword());
-        mv.addObject("searchCategoryId", storyParam.getSearch_category_id());
+        mv.addObject("searchKeyword", storyParam.getSearchKeyword());
+        mv.addObject("searchCategoryId", storyParam.getSearchCategoryId());
 
         return mv;
     }
@@ -225,7 +225,7 @@ public class StoryController {
         storyParam.setListNo(9999999);
         List<Map<String,Object>> storyList = storyService.getList(storyParam);
 
-        List<Map<String,Object>> relatedPostList = storyService.getFeaturedRelatedPostList(storyParam.getSearch_memId(), targetContents, storyList);
+        List<Map<String,Object>> relatedPostList = storyService.getFeaturedRelatedPostList(storyParam.getSearchMemId(), targetContents, storyList);
 
         result.put("relatedPostList"    , relatedPostList                           );
         result.put("code"	            , ResponseCode.SUCCESS_0000.getCode()       );

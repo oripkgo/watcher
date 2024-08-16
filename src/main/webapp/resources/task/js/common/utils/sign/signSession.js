@@ -6,7 +6,7 @@ const SIGN_SESSION = function(){
             return JSON.parse(localStorage.getItem("sessionData") || '{}');
         },
         add: function (memData) {
-            const accessToken = localStorage.getItem('access_token');
+            const accessToken = localStorage.getItem('accessToken');
             localStorage.clear();
 
             localStorage.setItem("sessionData", JSON.stringify({

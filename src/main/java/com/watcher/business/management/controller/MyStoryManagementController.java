@@ -61,7 +61,7 @@ public class MyStoryManagementController {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId = signService.getSessionId(signService.validation(token));
 
-        storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
+        storyParam.setSearchMemId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
         result.put("list", storyService.getListManagemenPopular(storyParam));
         result.put("code", ResponseCode.SUCCESS_0000.getCode());
@@ -82,7 +82,7 @@ public class MyStoryManagementController {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId = signService.getSessionId(signService.validation(token));
 
-        storyParam.setSearch_memId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
+        storyParam.setSearchMemId(String.valueOf(signService.getSessionUser(sessionId).get("ID")));
 
         result.put("list"   , storyService.getListManagement(storyParam));
         result.put("dto"    , storyParam                                );

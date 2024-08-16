@@ -43,7 +43,7 @@ public class MyStoryController {
         storyParam.setListNo(10);
         storyParam.setCategoryId(categoryId);
         mv.addObject("dto", storyParam);
-        mv.addObject("boardTitle", storyParam.getCategory_nm());
+        mv.addObject("boardTitle", storyParam.getCategoryNm());
 
         ManagementParam managementParam = new ManagementParam();
         managementParam.setId(memId);

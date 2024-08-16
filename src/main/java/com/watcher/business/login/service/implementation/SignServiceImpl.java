@@ -115,7 +115,7 @@ public class SignServiceImpl implements SignService {
             logOutParam.put("grant_type", "delete");
             logOutParam.put("client_id", naverClientId);
             logOutParam.put("client_secret", naverClientSecret);
-            logOutParam.put("access_token", signParam.getAccess_token());
+            logOutParam.put("access_token", signParam.getAccessToken());
             logOutParam.put("service_provider", "NAVER");
         } else {
             logOutUrl = kakaoSignOutApiUrl;

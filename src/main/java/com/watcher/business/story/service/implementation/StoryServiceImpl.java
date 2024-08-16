@@ -168,7 +168,7 @@ public class StoryServiceImpl implements StoryService {
 
     @Override
     public List<Map<String, Object>> getListManagemenPopular(StoryParam storyParam) throws Exception {
-        storyParam.setSearch_secret_yn("ALL");
+        storyParam.setSearchSecretYn("ALL");
         storyParam.setSortByRecommendationYn("YY");
         storyParam.setLimitNum("4");
         return storyMapper.selectStory(storyParam);
@@ -179,7 +179,7 @@ public class StoryServiceImpl implements StoryService {
     public List<Map<String, Object>> getListManagement(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        storyParam.setSearch_secret_yn("ALL");
+        storyParam.setSearchSecretYn("ALL");
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
 
         return storyMapper.selectStory(storyParam);
@@ -190,7 +190,7 @@ public class StoryServiceImpl implements StoryService {
     public List<Map<String, Object>> getListStoryPublic(StoryParam storyParam) throws Exception {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        storyParam.setSearch_secret_yn("NN");
+        storyParam.setSearchSecretYn("NN");
         storyParam.setTotalCnt( storyMapper.selectStoryCnt(storyParam) );
 
         return storyMapper.selectStory(storyParam);
@@ -199,8 +199,8 @@ public class StoryServiceImpl implements StoryService {
 
     @Override
     public List<Map<String, Object>> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception {
-        if( sessionMemId != null && sessionMemId.equals(storyParam.getSearch_memId()) ){
-            storyParam.setSearch_secret_yn("ALL");
+        if( sessionMemId != null && sessionMemId.equals(storyParam.getSearchMemId()) ){
+            storyParam.setSearchSecretYn("ALL");
         }
 
         return this.getList(storyParam);

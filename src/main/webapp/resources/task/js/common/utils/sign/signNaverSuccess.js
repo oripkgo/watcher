@@ -5,7 +5,7 @@ const SIGN_NAVER_SUCCESS = {
         naver_id_login['get_naver_userprofile']("SIGN_NAVER_SUCCESS.callback()");
 
         // 접근 토큰 값 출력
-        localStorage.setItem("access_token",naver_id_login['oauthParams'].access_token);
+        localStorage.setItem("accessToken",naver_id_login['oauthParams'].accessToken);
     },
 
     callback : function(){
