@@ -10,8 +10,10 @@
 <script src="https://cdn.tiny.cloud/1/x4lfthehuygci0gyh27r2085hd2z6pljljatiadlrrdcjpae/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
 <form id="notice_write_form">
-    <input type="hidden" name="id" id="id">
-    <input type="hidden" name="contents" id="contents">
+    <input type="hidden"        name="id"                   id="id"                                                  >
+    <input type="hidden"        name="contents"             id="contents"                                            >
+    <input type="hidden"        name="editPermId"           id="editPermId"       value="${noticeParam.editPermId}"  >
+
 
     <div class="section uline2">
         <div class="ani-in manage_layout">

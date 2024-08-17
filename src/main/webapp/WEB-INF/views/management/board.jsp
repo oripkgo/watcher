@@ -9,10 +9,10 @@
 
 
 <script>
-    const storyPublicUrl = '/management/board/storys/public';
-    const storyPrivateUrl = '/management/board/storys/private';
-    const storyDeleteUrl = '/management/board/storys';
-    const storyListUrl = '/management/board/storys';
+    const storyPublicUrl    = '/management/board/storys/public';
+    const storyPrivateUrl   = '/management/board/storys/private';
+    const storyDeleteUrl    = '/management/board/storys';
+    const storyListUrl      = '/management/board/storys';
 
     let CATEGORY_LIST = comm.category.get();
     let thisObj;
@@ -267,7 +267,7 @@
             boardObj.search();
         });
 
-        $("#search_keyword").on("keypress", function (e) {
+        $("#searchKeyword").on("keypress", function (e) {
             if (e.keyCode == 13) {
                 boardObj.search();
                 return false;
@@ -294,8 +294,8 @@
                             <div class="new_manage_btn_and_search_box">
                                 <div class="new_search_right_box">
                                     <div class="search_right_box">
-                                        <select id="seachCategory" name="search_category_id"></select>
-                                        <input type="text" placeholder="" name="search_keyword" id="search_keyword">
+                                        <select id="seachCategory" name="searchCategoryId"></select>
+                                        <input type="text" placeholder="" name="searchKeyword" id="searchKeyword">
                                         <a href="javascript:;" id="search"></a>
                                     </div>
                                 </div>

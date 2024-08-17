@@ -8,6 +8,7 @@
 			A.ID,
 			A.TITLE,
 			A.SUMMARY,
+		    A.ADMIN_ID,
 			B.NICKNAME,
 			B.ID AS MEMBER_ID,
 			C.REAL_FILE_NAME,
@@ -47,6 +48,7 @@
 
 
 	<select id="selectStoryCnt" resultType="int" parameterType="storyParam">
+
 		SELECT
 			COUNT(*)
 		FROM STORY A
@@ -60,101 +62,20 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
-		<if test="isOneYearData == 'YY'">
-			AND (A.REG_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY) OR A.UPT_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY))
-		</if>
+		<include refid="conditions"/>
 
-		<choose>
-			<when test="search_secret_yn == 'ALL'">
-				AND A.SECRET_YN IN ('Y','N')
-			</when>
-			<when test="search_secret_yn == 'YY'">
-				AND A.SECRET_YN IN ('Y')
-			</when>
-			<otherwise>
-				AND A.SECRET_YN IN ('N')
-			</otherwise>
-		</choose>
-
-		<if test="search_memId != null and search_memId != ''">
-			AND EXISTS (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId} AND LOGIN_ID = A.REG_ID)
-		</if>
-
-		<if test="search_category_id != null and search_category_id != ''">
-			AND A.CATEGORY_ID = #{search_category_id}
-		</if>
-
-		<if test="search_member_category_id != null and search_member_category_id != ''">
-			AND A.MEMBER_CATEGORY_ID = #{search_member_category_id}
-		</if>
-
-		<if test="search_keyword != null and search_keyword != ''">
-			AND (
-				A.TITLE LIKE CONCAT('%',#{search_keyword},'%')
-				OR A.SUMMARY LIKE CONCAT('%',#{search_keyword},'%')
-				OR A.ID IN (
-				    SELECT
-						CONTENTS_ID
-				    FROM BOARD_TAGS
-				    WHERE 1=1
-					AND CONTENTS_TYPE = 'STORY'
-					AND DELETE_YN = 'N'
-				    AND TAGS = #{search_keyword}
-				)
-			)
-		</if>
 	</select>
 
 
 	<select id="selectStory" resultType="map" parameterType="storyParam">
 		/* story > selectStory */
+
 		<include refid="storySelect"/>
+
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
-		<if test="isOneYearData == 'YY'">
-			AND (A.REG_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY) OR A.UPT_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY))
-		</if>
-
-		<choose>
-			<when test="search_secret_yn == 'ALL'">
-				AND A.SECRET_YN IN ('Y','N')
-			</when>
-			<when test="search_secret_yn == 'YY'">
-				AND A.SECRET_YN IN ('Y')
-			</when>
-			<otherwise>
-				AND A.SECRET_YN IN ('N')
-			</otherwise>
-		</choose>
-
-		<if test="search_memId != null and search_memId != ''">
-			AND EXISTS (SELECT LOGIN_ID FROM MEMBER WHERE ID = #{search_memId} AND LOGIN_ID = A.REG_ID)
-		</if>
-
-		<if test="search_category_id != null and search_category_id != ''">
-			AND A.CATEGORY_ID = #{search_category_id}
-		</if>
-
-		<if test="search_member_category_id != null and search_member_category_id != ''">
-			AND A.MEMBER_CATEGORY_ID = #{search_member_category_id}
-		</if>
-
- 		<if test="search_keyword != null and search_keyword != ''">
-			AND (
-				A.TITLE LIKE CONCAT('%',#{search_keyword},'%')
-				OR A.SUMMARY LIKE CONCAT('%',#{search_keyword},'%')
-				OR A.ID IN (
-					SELECT
-						CONTENTS_ID
-					FROM BOARD_TAGS
-					WHERE 1=1
-					AND CONTENTS_TYPE = 'STORY'
-					AND DELETE_YN = 'N'
-					AND TAGS = #{search_keyword}
-				)
-			)
-		</if>
+		<include refid="conditions"/>
 
 		<choose>
 			<when test="!(SortByRecommendationYn==null or SortByRecommendationYn=='') and SortByRecommendationYn == 'YY'">
@@ -182,6 +103,7 @@
 	<sql id="storySelect">
 		SELECT
 			A.ID,
+			A.ADMIN_ID,
 			A.CATEGORY_ID,
 			A.MEMBER_CATEGORY_ID,
 			G.CATEGORY_NM                                AS MEMBER_CATEGORY_NM,
@@ -225,6 +147,56 @@
 		LEFT JOIN USER_DEFINE_CATEGORY G ON G.ID = A.MEMBER_CATEGORY_ID
 	</sql>
 
+	<sql id="conditions">
+		<if test="isOneYearData == 'YY'">
+			AND (A.REG_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY) OR A.UPT_DATE >= DATE_ADD(NOW(), INTERVAL -365 DAY))
+		</if>
+
+		<choose>
+			<when test="searchSecretYn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="searchSecretYn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('N')
+			</otherwise>
+		</choose>
+
+		<if test="searchMemId != null and searchMemId != ''">
+			AND A.ADMIN_ID = #{searchMemId}
+		</if>
+
+		<if test="searchAdminId != null and searchAdminId != ''">
+			AND A.ADMIN_ID = #{searchAdminId}
+		</if>
+
+		<if test="searchCategoryId != null and searchCategoryId != ''">
+			AND A.CATEGORY_ID = #{searchCategoryId}
+		</if>
+
+		<if test="searchMemberCategoryId != null and searchMemberCategoryId != ''">
+			AND A.MEMBER_CATEGORY_ID = #{searchMemberCategoryId}
+		</if>
+
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (
+			A.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+			OR A.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
+			OR A.ID IN (
+			SELECT
+			CONTENTS_ID
+			FROM BOARD_TAGS
+			WHERE 1=1
+			AND CONTENTS_TYPE = 'STORY'
+			AND DELETE_YN = 'N'
+			AND TAGS = #{searchKeyword}
+			)
+			)
+		</if>
+	</sql>
+
 
 	<update id="update" parameterType="storyParam">
 
@@ -264,7 +236,6 @@
 		UPT_ID = #{uptId},
 		UPT_DATE = NOW()
 		WHERE 1=1
-
 		<choose>
 			<when test="idList != null">
 				AND ID IN
@@ -276,17 +247,11 @@
 				AND ID=#{id}
 			</otherwise>
 		</choose>
-
-		AND REG_ID=#{regId}
 	</update>
 
 	<insert id="insert" parameterType="storyParam" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO STORY(
-			 REG_ID
-			,REG_DATE
-			,UPT_ID
-			,UPT_DATE
-			,CATEGORY_ID
+			 CATEGORY_ID
 			,MEMBER_CATEGORY_ID
 			,TITLE
 			,CONTENTS
@@ -294,13 +259,14 @@
 			,SUMMARY
 			,DELETE_YN
 			,SECRET_YN
+		    ,ADMIN_ID
+			,REG_ID
+			,REG_DATE
+			,UPT_ID
+			,UPT_DATE
 		)
 		VALUES (
-			 #{regId}
-			,NOW()
-			,#{uptId}
-			,NOW()
-			,#{categoryId}
+			 #{categoryId}
 			,#{memberCategoryId}
 			,#{title}
 			,#{contents}
@@ -308,6 +274,11 @@
 			,#{summary}
 			,'N'
 			,#{secretYn}
+			,IFNULL(#{adminId}, (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{regId}))
+			,#{regId}
+			,NOW()
+			,#{uptId}
+			,NOW()
 		)
 	</insert>
 

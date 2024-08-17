@@ -19,6 +19,7 @@ public class NoticeParam extends NoticeDto {
     private String searchMemId;
     private String searchSecretYn;
     private String paramJson;
+    private String editPermId;
 
 
     private List idList;

@@ -70,6 +70,8 @@ kakao:
   logout:
     token: 2c4cb457c99ca790e084a154e453a6f6
 
-
+enc:
+  aes:
+    key: Ak8PsEOGROfCvyrAdRYFD0oTbhS8eV
 
 

@@ -12,7 +12,7 @@
             <div class="detail_kind">스토리</div>
             <strong id="title"></strong>
             <div class="detail_memo">
-                <em><a href="/my-story/${memId}" class="hover_line" id="nickName"></a></em>
+                <em><a href="/my-story/${storyMemId}" class="hover_line" id="nickName"></a></em>
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
@@ -76,7 +76,7 @@
     const relatedPostsUrl   = "/story/related/posts";
 
     const type              = 'STORY';
-    const memId             = '${memId}';
+    const storyMemId        = '${storyMemId}';
     const id                = '${view['ID']}';
     const title             = '${view['TITLE']}';
     const nickName          = '${view['NICKNAME']}';
@@ -148,7 +148,7 @@
 
         const params = {
             contents      : contents,
-            search_memId  : memId,
+            searchMemId  : storyMemId,
         }
 
         comm.request({
@@ -206,7 +206,6 @@
     }
 
     $(document).on("ready", function () {
-
         initView();
 
         comm.boardView.init(id, type);
@@ -218,11 +217,8 @@
             comm.boardView.comment.disabled();
         }
 
-
         initSNS();
-
         initRelatedPost();
-
     })
 
 </script>

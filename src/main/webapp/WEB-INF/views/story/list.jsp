@@ -94,7 +94,7 @@
                 // }
             }
 
-            comm.dom.appendInput($('#defaultListForm' + id), 'search_keyword', $("#searchForm").find("#keyword").val());
+            comm.dom.appendInput($('#defaultListForm' + id), 'searchKeyword', $("#searchForm").find("#keyword").val());
 
             $("#defaultList"+id).empty();
 
@@ -266,12 +266,12 @@
         let defaultListForm = comm.dom.appendForm('defaultListForm'+id);
 
         comm.dom.appendInput(recommendedListForm, "SortByRecommendationYn", "YY", true);
-        comm.dom.appendInput(recommendedListForm, "search_category_id", id, true);
+        comm.dom.appendInput(recommendedListForm, "searchCategoryId", id, true);
         comm.dom.appendInput(recommendedListForm, "limitNum", "3", true);
         $(recommendedListForm).append('<ul class="story_wrap" id="RecommendedDataList'+id+'"></ul>')
 
         comm.dom.appendInput(defaultListForm, "SortByRecommendationYn", "NN", true);
-        comm.dom.appendInput(defaultListForm, "search_category_id", id, true);
+        comm.dom.appendInput(defaultListForm, "searchCategoryId", id, true);
         $(defaultListForm).append('<div class="story_wrap01"><ul id="defaultList'+id+'"></ul></div>');
         $(defaultListForm).append('<div class="pagging_wrap"></div>');
 

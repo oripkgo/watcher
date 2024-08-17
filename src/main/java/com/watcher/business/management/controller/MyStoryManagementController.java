@@ -133,7 +133,7 @@ public class MyStoryManagementController {
         storyParam.setUptId(String.valueOf(loginId));
         storyService.updateStorysPrivate(storyParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
@@ -156,7 +156,7 @@ public class MyStoryManagementController {
         storyParam.setUptId(String.valueOf(loginId));
         storyService.updateStorysPublic(storyParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
@@ -206,7 +206,7 @@ public class MyStoryManagementController {
 
         noticeService.deletes(noticeParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
@@ -229,7 +229,7 @@ public class MyStoryManagementController {
         noticeParam.setUptId(String.valueOf(loginId));
         noticeService.updateNoticesPublic(noticeParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
@@ -252,7 +252,7 @@ public class MyStoryManagementController {
         noticeParam.setUptId(String.valueOf(loginId));
         noticeService.updateNoticesPrivate(noticeParam);
 
-        result.put("code", ResponseCode.SUCCESS_0000.getCode());
+        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
         result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
         return result;
@@ -297,7 +297,7 @@ public class MyStoryManagementController {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId = signService.getSessionId(signService.validation(token));
 
-        managementParam.setLoginId(String.valueOf(signService.getSessionUser(sessionId).get("LOGIN_ID")));
+        managementParam.setLoginId(signService.getSessionUser(sessionId).get("LOGIN_ID"));
         JSONObject managementDatas = new JSONObject(managementService.getStorySettingInfo(managementParam));
 
         result.put("info"   , managementDatas.toString()                );

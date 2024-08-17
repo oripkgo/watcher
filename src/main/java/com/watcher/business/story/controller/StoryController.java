@@ -6,6 +6,7 @@ import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.AESUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,11 +40,11 @@ public class StoryController {
     ManagementService managementService;
 
 
-    @RequestMapping(value = {"/view/{memId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/view/{storyMemId}"}, method = RequestMethod.GET)
     public ModelAndView getStoryView(
             HttpServletRequest request,
             HttpServletResponse response,
-            @PathVariable("memId") String memId,
+            @PathVariable("storyMemId") String storyMemId,
             StoryParam storyParam
     ) throws Exception {
         ModelAndView mv = new ModelAndView("story/view");
@@ -56,16 +57,15 @@ public class StoryController {
         Map<String, Object> storyInfo = storyService.getData(storyParam);
 
         // 게시물 수정권한 여부
-        mv.addObject("modifyAuthorityYn","Y");
-        if( !Objects.equals(storyInfo.get("REG_ID"), loginId)){
-            mv.addObject("modifyAuthorityYn","N");
+        mv.addObject("modifyAuthorityYn","N");
+        if( Objects.equals(storyInfo.get("REG_ID"), loginId)){
+            mv.addObject("modifyAuthorityYn","Y");
         }
 
+        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storyInfo.get("REG_ID").toString());
 
         // 댓글 작성 권한 체크
-        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storyInfo.get("REG_ID").toString());
         mv.addObject("commentRegYn","N");
-
         if( "01".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
             mv.addObject("commentRegYn","Y");
         }else if( "02".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
@@ -74,10 +74,10 @@ public class StoryController {
             }
         }
 
-        mv.addObject("memId"    , memId                                 );
-        mv.addObject("view"     , storyInfo                             );
-        mv.addObject("code"     , ResponseCode.SUCCESS_0000.getCode()   );
-        mv.addObject("message"  , ResponseCode.SUCCESS_0000.getMessage());
+        mv.addObject("storyMemId"   , storyMemId                            );
+        mv.addObject("view"         , storyInfo                             );
+        mv.addObject("code"         , ResponseCode.SUCCESS_0000.getCode()   );
+        mv.addObject("message"      , ResponseCode.SUCCESS_0000.getMessage());
 
         return mv;
     }
@@ -120,13 +120,15 @@ public class StoryController {
     ) throws Exception {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        String sessionId = signService.getSessionId(token);
 
-        Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-
-        storyParam.setRegId(String.valueOf(loginId));
-        storyParam.setUptId(String.valueOf(loginId));
+        try{
+            String editPermId = AESUtil.decrypt(storyParam.getEditPermId());
+            storyParam.setAdminId   (String.valueOf(editPermId.split("/")[0]));
+            storyParam.setRegId     (String.valueOf(editPermId.split("/")[1]));
+            storyParam.setUptId     (String.valueOf(editPermId.split("/")[1]));
+        }catch (Exception e){
+            throw new Exception("2301");
+        }
 
         result.put("storyId", storyService.insertStory(storyParam)  );
         result.put("code"   , ResponseCode.SUCCESS_0000.getCode()   );
@@ -143,9 +145,24 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mav = new ModelAndView("story/edit");
 
+        String sessionId 	= request.getSession().getId();
+        String memId 		= String.valueOf(redisUtil.getSession(sessionId).get("ID"));
+        String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
+
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
-            mav.addAllObjects(storyService.getData(storyParam));
+            mav.addObject("view", storyService.getData(storyParam));
         }
+
+
+
+        if( !StringUtils.hasText(storyParam.getEditPermId()) ){
+            storyParam.setEditPermId(AESUtil.encrypt(memId + "/" + loginId));
+        }
+        String editPermId = AESUtil.decrypt(storyParam.getEditPermId());
+
+
+        mav.addObject("storyAdminMemId" , editPermId.split("/")[0]  );
+        mav.addObject("storyParam"      , storyParam                      );
 
         return mav;
     }
@@ -159,8 +176,8 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mv = new ModelAndView("story/list");
 
-        mv.addObject("searchKeyword", storyParam.getSearchKeyword());
-        mv.addObject("searchCategoryId", storyParam.getSearchCategoryId());
+        mv.addObject("searchKeyword"        , storyParam.getSearchKeyword()     );
+        mv.addObject("searchCategoryId"     , storyParam.getSearchCategoryId()  );
 
         return mv;
     }
@@ -223,9 +240,8 @@ public class StoryController {
         String targetContents = storyParam.getContents();
 
         storyParam.setListNo(9999999);
-        List<Map<String,Object>> storyList = storyService.getList(storyParam);
-
-        List<Map<String,Object>> relatedPostList = storyService.getFeaturedRelatedPostList(storyParam.getSearchMemId(), targetContents, storyList);
+        List<Map<String,Object>> storyList          = storyService.getList(storyParam);
+        List<Map<String,Object>> relatedPostList    = storyService.getFeaturedRelatedPostList(storyParam.getSearchMemId(), targetContents, storyList);
 
         result.put("relatedPostList"    , relatedPostList                           );
         result.put("code"	            , ResponseCode.SUCCESS_0000.getCode()       );

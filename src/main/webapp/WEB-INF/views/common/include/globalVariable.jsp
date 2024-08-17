@@ -121,11 +121,11 @@
             let listUrl = this.storyUrlList;
 
             if (categoryId) {
-                listUrl += '?search_category_id=' + categoryId;
+                listUrl += '?searchCategoryId=' + categoryId;
             }
 
             if (keyword) {
-                listUrl += '&search_keyword=' + keyword;
+                listUrl += '&searchKeyword=' + keyword;
             }
 
             return listUrl;
@@ -140,7 +140,7 @@
         },
 
         getNoticeListUrl: function (memId) {
-            return (memId ? "/" + memId : "") + this.noticeUrlList;
+            return (memId ? "/my-story/" + memId : "") + this.noticeUrlList;
         },
 
         getNoticeViewUrl: function (id, memId) {

@@ -198,11 +198,7 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public List<Map<String, Object>> getListMyStory(String sessionMemId, StoryParam storyParam) throws Exception {
-        if( sessionMemId != null && sessionMemId.equals(storyParam.getSearchMemId()) ){
-            storyParam.setSearchSecretYn("ALL");
-        }
-
+    public List<Map<String, Object>> getListMyStory(StoryParam storyParam) throws Exception {
         return this.getList(storyParam);
     }
 

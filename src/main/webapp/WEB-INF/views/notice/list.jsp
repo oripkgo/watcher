@@ -9,7 +9,7 @@
                     <p class="title_description">다양한 소식을 만나보세요.</p>
                     <div class="search_box_02">
                         <div class="search_group">
-                            <select id="search_id" name="search_id">
+                            <select id="searchId" name="searchId">
                                 <option value="">선택</option>
                                 <option value="01">제목</option>
                                 <option value="02">내용</option>
@@ -30,7 +30,7 @@
                     <table class="board_list_table">
                         <colgroup>
                             <col width="5%"/>
-                            <col width="70%"/>
+                            <col width="60%"/>
                             <col width="10%"/>
                             <col width="20%"/>
                             <col width="10%"/>

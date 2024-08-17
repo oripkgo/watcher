@@ -26,6 +26,10 @@
 
 .new_manage_btn_and_search_box{
     flex:1;
+
+}
+
+.new_btn_right_box{
     display: flex;
     justify-content: flex-end;
 }

@@ -19,10 +19,11 @@
 
 <form id="story_write_form">
 
-  <input type="hidden"      name="id"                  id="id"                 value="${view['ID']}"      >
-  <input type="hidden"      name="categoryId"          id="categoryId"                                    >
-  <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                              >
-  <input type="hidden"      name="contents"            id="contents"                                      >
+  <input type="hidden"      name="id"                  id="id"                  value="${view['ID']}"             >
+  <input type="hidden"      name="categoryId"          id="categoryId"                                            >
+  <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                                      >
+  <input type="hidden"      name="contents"            id="contents"                                              >
+  <input type="hidden"      name="editPermId"          id="editPermId"          value="${storyParam.editPermId}"  >
 
   <div class="section uline2">
     <div class="ani-in manage_layout">
@@ -111,7 +112,7 @@
   };
 
 
-  const memId = comm.sign.getSession()['memberId'];
+  const memId = '${storyAdminMemId}';
   const id = '${view['ID']}';
   const categoryId = '${view['CATEGORY_ID']}';
   const memberCategoryId = '${view['MEMBER_CATEGORY_ID']}';

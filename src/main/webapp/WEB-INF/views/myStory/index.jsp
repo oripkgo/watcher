@@ -12,7 +12,7 @@
 <div class="section">
     <div class="ani-in new_mystory_layout">
         <div class="new_mystory_title_box ani_y">
-            <a class="new_mystory_title" href="/my-story/${memId}">${storyInfo['STORY_TITLE']}</a>
+            <a class="new_mystory_title" href="/my-story/${storyAdminId}">${storyInfo['STORY_TITLE']}</a>
             <a href="javascript:;" class="new_mystory_mobile_menu_btn"></a>
         </div>
     </div>
@@ -42,14 +42,25 @@
                     </c:if>
 
                 </div>
+
+<%--                STORY_REG_PERM_STATUS--%>
+
+                <c:if test="${editPermYn eq 'Y'}">
+                    <div class="new_btn_right_box">
+                        <div class="btn_tb">
+                            <a href="javascript:;" onclick="moveEditPage('${editPermId}');">글쓰기</a>
+                        </div>
+                    </div>
+                </c:if>
+
                 <div class="new_mystory_list">
                     <div class="board_title">
 <%--                        {{ boardTitle }}--%>
                     </div>
 
                     <form id="myStoryForm">
-                        <input type="hidden" name="search_memId" id="search_memId">
-                        <input type="hidden" name="search_category_id" id="search_category_id">
+                        <input type="hidden" name="searchAdminId" id="searchAdminId">
+                        <input type="hidden" name="searchCategoryId" id="searchCategoryId">
 
                         <ul class="board_list" id="myStoryList"></ul>
                         <div class="pagging_wrap"></div>
@@ -63,13 +74,13 @@
 
 <script>
 
-    const memberCategoryList = comm.category.getMemberPublic('${memId}');
-    const myStorylistDataUrl = '/my-story/list';
-    const noticeListDataUrl = '/notice/list/data?searchMemId=${memId}';
-    const noticeMoreUrl = '/my-story/${memId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
-    const paramCategoryName = '${dto['category_nm']}';
+    const memberCategoryList = comm.category.getMemberPublic('${storyAdminId}');
+    const myStorylistDataUrl = '/my-story/${storyAdminId}/list';
+    const noticeListDataUrl = '/notice/list/data?searchMemId=${storyAdminId}';
+    const noticeMoreUrl = '/my-story/${storyAdminId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
+    const paramCategoryName = '${dto['categoryNm']}';
     const paramCategoryId = '${dto['categoryId']}';
-    const myStoryMemberId = '${memId}';
+    const myStoryMemberId = '${storyAdminId}';
     let noticeShowCnt = 5;
 
     const initCategory = function (list) {
@@ -91,8 +102,7 @@
     }
 
     const initMyStory = function (uid, categId) {
-        comm.dom.appendInput('#myStoryForm', "search_memId", uid);
-        comm.dom.appendInput('#myStoryForm', "search_member_category_id", categId);
+        comm.dom.appendInput('#myStoryForm', "searchMemberCategoryId", categId);
 
         comm.paging.getList('#myStoryForm', myStorylistDataUrl, function (data) {
             comm.paging.emptyList("#myStoryList")
@@ -150,6 +160,14 @@
             }
 
         });
+    }
+
+    const moveEditPage = function(editPermId){
+        $("body").append(comm.dom.appendForm("storyEditForm"));
+        const form = $("#storyEditForm");
+        $(form).attr("action", "/story/write")
+        comm.dom.appendInput(form, "editPermId", editPermId);
+        $(form).submit();
     }
 
     const initNotice = function (id) {

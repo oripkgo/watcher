@@ -8,6 +8,7 @@ import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.AESUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -55,7 +59,7 @@ public class BoardController {
 		noticeParam.setSearchMemId(memId);
 
 		mav.addObject("dto", noticeParam);
-		mav.addObject("noticeListUrl", "/"+memId+"/notice/list/data");
+		mav.addObject("noticeListUrl", "/my-story/"+memId+"/notice/list/data");
 		mav.addObject("code"	, ResponseCode.SUCCESS_0000.getCode());
 		mav.addObject("message" , ResponseCode.SUCCESS_0000.getMessage());
 
@@ -106,8 +110,8 @@ public class BoardController {
 			NoticeParam noticeParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		String token = request.getHeader("Authorization").replace("Bearer ", "");
-		String sessionId = signService.getSessionId(token);
+		String token 		= request.getHeader("Authorization").replace("Bearer ", "");
+		String sessionId 	= signService.getSessionId(token);
 		String sessionMemId = String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 
 		noticeParam.setSearchMemId(memId);
@@ -132,7 +136,7 @@ public class BoardController {
 		String sessionId = signService.getSessionId(token);
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = (redisUtil.getSession(sessionId).get("LOGIN_ID"));
+		Object loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 		noticeParam.setRegId(String.valueOf(loginId));
 		noticeParam.setUptId(String.valueOf(loginId));
 
@@ -154,7 +158,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView("notice/view");
 
 		String sessionId 	= request.getSession().getId();
-		String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
+		String loginId 		= signService.getSessionUser(sessionId).get("LOGIN_ID");
 
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
 		noticeService.insertViewsCount(noticeParam);
@@ -184,24 +188,30 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView("notice/edit");
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
-		String sessionId = request.getSession().getId();
-		String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-		Map<String, Object> noticeInfo = null;
+		String sessionId 	= request.getSession().getId();
+		String loginId 		= signService.getSessionUser(sessionId).get("LOGIN_ID");
+		String memId 		= String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+
+		if( !StringUtils.hasText(noticeParam.getEditPermId()) ){
+			noticeParam.setEditPermId(AESUtil.encrypt(memId + "/" + loginId));
+		}
+
+		Map<String, Object> noticeInfo = new HashMap<>();
 
 		if(StringUtils.hasText(noticeParam.getId())){
 			noticeInfo = noticeService.getData(noticeParam);
 		}
 
-		// 게시물 수정권한 여부 s
-		mav.addObject("modifyAuthorityYn", "Y");
-		if (noticeInfo == null || (!(Objects.equals(noticeInfo.get("REG_ID"), loginId)))) {
-			mav.addObject("modifyAuthorityYn", "N");
+		// 게시물 수정권한 여부 체크
+		mav.addObject("modifyAuthorityYn", "N");
+		if (Objects.equals(noticeInfo.get("REG_ID"), loginId)) {
+			mav.addObject("modifyAuthorityYn", "Y");
 		}
-		// 게시물 수정권한 여부 e
 
-		mav.addObject("view"	, noticeInfo							);
-		mav.addObject("code"	, ResponseCode.SUCCESS_0000.getCode()	);
-		mav.addObject("message"	, ResponseCode.SUCCESS_0000.getMessage());
+		mav.addObject("noticeParam"	, noticeParam							);
+		mav.addObject("view"		, noticeInfo							);
+		mav.addObject("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		mav.addObject("message"		, ResponseCode.SUCCESS_0000.getMessage());
 
 		return mav;
 	}
@@ -215,14 +225,16 @@ public class BoardController {
 			HttpServletResponse response,
 			NoticeParam noticeParam
 	) throws Exception {
-		String token = request.getHeader("Authorization").replace("Bearer ", "");
-		String sessionId = signService.getSessionId(token);
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-		Object loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
-
-		noticeParam.setRegId(String.valueOf(loginId));
-		noticeParam.setUptId(String.valueOf(loginId));
+		try{
+			String editPermId = AESUtil.decrypt(noticeParam.getEditPermId());
+			noticeParam.setAdminId(String.valueOf(editPermId.split("/")[0]));
+			noticeParam.setRegId(String.valueOf(editPermId.split("/")[1]));
+			noticeParam.setUptId(String.valueOf(editPermId.split("/")[1]));
+		}catch (Exception e){
+			throw new Exception("2302");
+		}
 
 		noticeService.insert(noticeParam);
 
@@ -469,9 +481,9 @@ public class BoardController {
 
 		boardService.updateComment(commentParam);
 
-		result.put("comment"	, param.get("comment"));
-		result.put("code", ResponseCode.SUCCESS_0000.getCode());
-		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+		result.put("comment"	, param.get("comment")					);
+		result.put("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		result.put("message"	, ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}

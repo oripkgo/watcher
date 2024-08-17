@@ -94,7 +94,7 @@ const mainCategory = {
             let recommendedListForm = comm.dom.appendForm('RecommendedListForm' + id);
 
             comm.dom.appendInput(recommendedListForm, "SortByRecommendationYn", "YY");
-            comm.dom.appendInput(recommendedListForm, "search_category_id", id);
+            comm.dom.appendInput(recommendedListForm, "searchCategoryId", id);
             comm.dom.appendInput(recommendedListForm, "limitNum", "3");
             $(recommendedListForm).append('<ul class="story_wrap" id="RecommendedDataList' + id + '"></ul>');
 

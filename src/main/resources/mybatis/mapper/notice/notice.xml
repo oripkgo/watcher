@@ -115,6 +115,7 @@
 			 ,A.CONTENTS
 			 ,A.THUMBNAIL_IMG_PATH
 		     ,A.SECRET_YN
+		     ,A.ADMIN_ID
 			 ,A.REG_ID
 			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
 			 ,A.UPT_ID
@@ -142,23 +143,25 @@
 			 TITLE
 			,CONTENTS
 			,THUMBNAIL_IMG_PATH
+			,DELETE_YN
+			,SECRET_YN
+			,ADMIN_ID
 			,REG_ID
 			,REG_DATE
 			,UPT_ID
 			,UPT_DATE
-			,DELETE_YN
-			,SECRET_YN
 		)
 		VALUES (
 			 #{title}
 			,#{contents}
 			,#{thumbnailImgPath}
+			,'N'
+			,'N'
+			,IFNULL(#{adminId}, (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{regId}))
 			,#{regId}
 			,NOW()
 			,#{uptId}
 			,NOW()
-			,'N'
-			,'N'
 		)
 	</insert>
 

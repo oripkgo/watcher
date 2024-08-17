@@ -120,8 +120,8 @@ public class SignServiceImpl implements SignService {
         } else {
             logOutUrl = kakaoSignOutApiUrl;
 
-            logOutParam.put("target_id_type", "user_id");
-            logOutParam.put("target_id", signParam.getId());
+            logOutParam.put("target_id_type"    , "user_id"         );
+            logOutParam.put("target_id"         , signParam.getId() );
 
             logOutHeaders.put("Authorization", "KakaoAK " + kakaoLogoutToken);
         }
@@ -134,9 +134,15 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public Map getSessionUser(String sessionId) throws Exception {
+    public boolean isSessionUser(String sessionId) throws Exception {
         Map result = redisUtil.getSession(sessionId);
-        return result == null || result.isEmpty() ? new HashMap() : result;
+        return result == null || result.isEmpty();
+    }
+
+    @Override
+    public Map<String, String> getSessionUser(String sessionId) throws Exception {
+        Map<String, String> result = redisUtil.getSession(sessionId);
+        return result == null || result.isEmpty() ? new HashMap<String, String>() : result;
     }
 
     @Override
