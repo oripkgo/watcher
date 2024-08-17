@@ -4,6 +4,7 @@
 <mapper namespace="com.watcher.business.board.mapper.NoticeMapper">
 
 	<select id="selectNoticeCnt" resultType="int" parameterType="noticeParam">
+
 		SELECT
 			COUNT(*)
 		FROM NOTICE A
@@ -12,41 +13,8 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
-		<choose>
-			<when test="searchSecretYn == 'ALL'">
-				AND A.SECRET_YN IN ('Y','N')
-			</when>
-			<when test="searchSecretYn == 'YY'">
-				AND A.SECRET_YN IN ('Y')
-			</when>
-			<otherwise>
-				AND A.SECRET_YN IN ('N')
-			</otherwise>
-		</choose>
+		<include refid="conditions"/>
 
-		AND EXISTS (
-			<choose>
-				<when test="searchMemId != null and searchMemId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
-				</when>
-				<otherwise>
-					SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
-				</otherwise>
-			</choose>
-		)
-		<if test="searchKeyword != null and searchKeyword != ''">
-			<choose>
-				<when test="searchId == '01'">
-					AND A.TITLE LIKE '%${searchKeyword}%'
-				</when>
-				<when test="searchId == '02'">
-					AND A.CONTENTS LIKE '%${searchKeyword}%'
-				</when>
-				<otherwise>
-					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
-				</otherwise>
-			</choose>
-		</if>
 	</select>
 
 
@@ -56,41 +24,8 @@
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 
-		<choose>
-			<when test="searchSecretYn == 'ALL'">
-				AND A.SECRET_YN IN ('Y','N')
-			</when>
-			<when test="searchSecretYn == 'YY'">
-				AND A.SECRET_YN IN ('Y')
-			</when>
-			<otherwise>
-				AND A.SECRET_YN IN ('N')
-			</otherwise>
-		</choose>
+		<include refid="conditions"/>
 
-		AND EXISTS (
-			<choose>
-				<when test="searchMemId != null and searchMemId != ''">
-					SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
-				</when>
-				<otherwise>
-					SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
-				</otherwise>
-			</choose>
-		)
--- 		<if test="searchKeyword != null and searchKeyword != ''">
-			<choose>
-				<when test="searchId == '01'">
-					AND A.TITLE LIKE '%${searchKeyword}%'
-				</when>
-				<when test="searchId == '02'">
-					AND A.CONTENTS LIKE '%${searchKeyword}%'
-				</when>
-				<otherwise>
-					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
-				</otherwise>
-			</choose>
-		</if>
 		ORDER BY A.REG_DATE DESC
 		LIMIT ${(pageNo-1)*listNo},${listNo}
 
@@ -135,6 +70,44 @@
 		FROM NOTICE A
 		LEFT JOIN MEMBER D ON 1=1
 			AND D.LOGIN_ID = A.REG_ID
+	</sql>
+
+	<sql id="conditions">
+		<choose>
+			<when test="searchSecretYn == 'ALL'">
+				AND A.SECRET_YN IN ('Y','N')
+			</when>
+			<when test="searchSecretYn == 'YY'">
+				AND A.SECRET_YN IN ('Y')
+			</when>
+			<otherwise>
+				AND A.SECRET_YN IN ('N')
+			</otherwise>
+		</choose>
+
+		AND EXISTS (
+		<choose>
+			<when test="searchMemId != null and searchMemId != ''">
+				SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
+			</when>
+			<otherwise>
+				SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
+			</otherwise>
+		</choose>
+		)
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<choose>
+				<when test="searchId == '01'">
+					AND A.TITLE LIKE '%${searchKeyword}%'
+				</when>
+				<when test="searchId == '02'">
+					AND A.CONTENTS LIKE '%${searchKeyword}%'
+				</when>
+				<otherwise>
+					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
+				</otherwise>
+			</choose>
+		</if>
 	</sql>
 
 	<insert id="insert" parameterType="noticeParam" useGeneratedKeys="true" keyProperty="id">
