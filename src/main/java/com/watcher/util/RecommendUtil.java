@@ -15,11 +15,15 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
 
 public class RecommendUtil implements AutoCloseable{
+
+    private final Logger logger = LoggerFactory.getLogger(RecommendUtil.class);
 
     private Directory directory;
     private Analyzer analyzer;
@@ -31,16 +35,16 @@ public class RecommendUtil implements AutoCloseable{
 
     public void addDocumentList(List<Map<String, Object>> dataList) throws IOException {
         try (IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer))) {
-            for (Map<String, Object> data : dataList) {
-                String docId = data.get("ID").toString();
-                String htmlContent = data.get("CONTENTS").toString();
-                String textContent = Jsoup.parse(htmlContent).text(); // HTML에서 텍스트 추출
+            try (IndexReader reader = DirectoryReader.open(writer)) {
+                IndexSearcher searcher = new IndexSearcher(reader);
 
-                // 문서 키 중복 확인
-                Query query = new TermQuery(new Term("docId", docId));
+                for (Map<String, Object> data : dataList) {
+                    String docId = data.get("ID").toString();
+                    String htmlContent = data.get("CONTENTS").toString();
+                    String textContent = Jsoup.parse(htmlContent).text(); // HTML에서 텍스트 추출
 
-                try (IndexReader reader = DirectoryReader.open(writer)) {
-                    IndexSearcher searcher = new IndexSearcher(reader);
+                    // 문서 키 중복 확인
+                    Query query = new TermQuery(new Term("docId", docId));
                     TopDocs results = searcher.search(query, 1);
 
                     if (results.totalHits.value == 0) { // 키가 존재하지 않을 때만 추가
@@ -66,21 +70,19 @@ public class RecommendUtil implements AutoCloseable{
             Query query = parser.parse(QueryParserBase.escape(queryStr));
 
             ScoreDoc[] hits = searcher.search(query, topN).scoreDocs;
-            Set<String> uniqueDocIds = new HashSet<>();
-            List<String> result = new ArrayList<>();
+            Set<String> uniqueDocIds = new LinkedHashSet<>(); // 중복을 제거하면서 순서 유지
             for (ScoreDoc hit : hits) {
                 Document doc = searcher.doc(hit.doc);
                 String docId = doc.get("docId");
-                if (uniqueDocIds.add(docId)) { // 중복 키 필터링
-                    result.add(docId); // 문서 키 반환
-                }
+                uniqueDocIds.add(docId); // 중복 키 필터링
             }
-            return result;
+            return new ArrayList<>(uniqueDocIds); // 중복 제거된 결과 반환
         } catch (ParseException e) {
-            // 예외 처리
-            e.printStackTrace();
-            return Collections.emptyList();
+            logger.error("Failed to parse the query: {}", queryStr, e);
+        } catch (IOException e) {
+            logger.error("IOException occurred while searching documents", e);
         }
+        return Collections.emptyList();
     }
 
     @Override
