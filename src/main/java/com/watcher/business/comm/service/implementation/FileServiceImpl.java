@@ -5,7 +5,6 @@ import com.watcher.business.comm.mapper.FileMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.comm.service.FileService;
 import com.watcher.config.WatcherConfig;
-import com.watcher.enums.ResponseCode;
 import com.watcher.util.AwsS3Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

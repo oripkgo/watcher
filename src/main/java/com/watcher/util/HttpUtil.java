@@ -6,132 +6,77 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class HttpUtil {
     private final static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
-
-    static public String requestHttp(String UrlData, String method, Map<String,String> ParamData, Map<String,String> headersData ){
-        //http 요청 시 url 주소와 파라미터 데이터를 결합하기 위한 변수 선언
-        String totalUrl = UrlData.trim().toString();
-
-        //http 통신을 하기위한 객체 선언 실시
-        URL url = null;
-        HttpURLConnection conn = null;
-
-        //http 통신 요청 후 응답 받은 데이터를 담기 위한 변수
-        String responseData = "";
-        BufferedReader br = null;
-        StringBuffer sb = null;
-
-        //메소드 호출 결과값을 반환하기 위한 변수
+    public static String requestHttp(String urlData, String method, Map<String, String> paramData, Map<String, String> headersData) {
+        String totalUrl = urlData.trim();
         String returnData = "";
 
+        HttpURLConnection conn = null;
+
         try {
-            //파라미터로 들어온 url을 사용해 connection 실시
-            url = new URL(totalUrl);
+            URL url = new URL(totalUrl);
             conn = (HttpURLConnection) url.openConnection();
 
+            // 헤더 설정
             if (headersData != null) {
-
-                Set key = headersData.keySet();
-
-                for (Iterator iterator = key.iterator(); iterator.hasNext();) {
-                    String keyName = (String) iterator.next();
-                    String valueName = headersData.get(keyName);
-
-                    //http 요청에 필요한 타입 정의 실시
-                    conn.setRequestProperty(keyName, valueName);
-                }
-            }else{
+                headersData.forEach(conn::setRequestProperty);
+            } else {
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             }
 
-            if( !method.isEmpty() ){
-                conn.setRequestMethod(method);
-            }else{
-                conn.setRequestMethod("POST");
-            }
-
+            // HTTP 메서드 설정
+            conn.setRequestMethod(method.isEmpty() ? "POST" : method);
             conn.setDoOutput(true);
 
-            //http 요청 실시
-            conn.connect();
+            // 요청 데이터 전송
+            if (paramData != null && !paramData.isEmpty()) {
+                String params = paramData.entrySet()
+                        .stream()
+                        .map(entry -> entry.getKey() + "=" + entry.getValue())
+                        .collect(Collectors.joining("&"));
 
-            logger.debug("http 요청 방식 : "+"GET");
-            logger.debug("http 요청 주소 : "+UrlData);
-            logger.debug("http 요청 데이터 : "+ParamData);
-
-
-            //--------------------------
-            //   서버로 값 전송
-            //--------------------------
-            StringBuffer buffer = new StringBuffer();
-
-            //HashMap으로 전달받은 파라미터가 null이 아닌경우 버퍼에 넣어준다
-            if (ParamData != null) {
-
-                Set key = ParamData.keySet();
-
-                for (Iterator iterator = key.iterator(); iterator.hasNext();) {
-                    String keyName = (String) iterator.next();
-                    String valueName = ParamData.get(keyName);
-
-                    if( !buffer.toString().isEmpty() ){
-                        buffer.append("&");
-                    }
-
-                    buffer.append(keyName).append("=").append(valueName);
+                try (OutputStream os = conn.getOutputStream();
+                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8))) {
+                    writer.write(params);
+                    writer.flush();
                 }
             }
 
-            OutputStreamWriter outStream = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-            PrintWriter writer = new PrintWriter(outStream);
-            writer.write(buffer.toString());
-            writer.flush();
-
-            //http 요청 후 응답 받은 데이터를 버퍼에 쌓는다
-
-            br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            sb = new StringBuffer();
-            while ((responseData = br.readLine()) != null) {
-                sb.append(responseData); //StringBuffer에 응답받은 데이터 순차적으로 저장 실시
+            // 응답 데이터 수신
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                returnData = br.lines().collect(Collectors.joining());
             }
 
-            //메소드 호출 완료 시 반환하는 변수에 버퍼 데이터 삽입 실시
-            returnData = sb.toString();
+            // 로그 출력
+            logger.debug("HTTP 요청 방식: {}", method);
+            logger.debug("HTTP 요청 주소: {}", urlData);
+            logger.debug("HTTP 요청 데이터: {}", paramData);
+            logger.debug("HTTP 응답 코드: {}", conn.getResponseCode());
+            logger.debug("HTTP 응답 데이터: {}", returnData);
 
-            //http 요청 응답 코드 확인 실시
-            String responseCode = String.valueOf(conn.getResponseCode());
-            logger.debug("http 응답 코드 : "+responseCode);
-            logger.debug("http 응답 데이터 : "+returnData);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("HTTP 요청 중 오류 발생: {}", e.getMessage(), e);
         } finally {
-            //http 요청 및 응답 완료 후 BufferedReader를 닫아줍니다
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (conn != null) {
+                conn.disconnect();
             }
         }
 
         return returnData;
     }
 
-
-    static public String requestHttp(String UrlData, Map<String,String> ParamData, Map<String,String> headersData){
-        return requestHttp(UrlData,"",ParamData, headersData);
+    public static String requestHttp(String urlData, Map<String, String> paramData, Map<String, String> headersData) {
+        return requestHttp(urlData, "", paramData, headersData);
     }
 
-
-    static public String requestHttp(String UrlData, Map<String,String> ParamData){
-        return requestHttp(UrlData,"",ParamData,null);
+    public static String requestHttp(String urlData, Map<String, String> paramData) {
+        return requestHttp(urlData, "", paramData, null);
     }
 }

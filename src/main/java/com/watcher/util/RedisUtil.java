@@ -15,10 +15,11 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
     private final static Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
+    // 세션시간 30분
+    private static final int SECONDS = (60*30);
+
     private RedisTemplate<String, Object> redisTemplate;
 
-    // 세션시간 30분
-    static final int SECONDS = (60*30);
 
     @Autowired
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
