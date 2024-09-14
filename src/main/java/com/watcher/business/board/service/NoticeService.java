@@ -1,7 +1,6 @@
 package com.watcher.business.board.service;
 
 import com.watcher.business.board.param.NoticeParam;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
