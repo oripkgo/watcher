@@ -11,7 +11,6 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.queryparser.classic.QueryParserBase;
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.jsoup.Jsoup;
@@ -28,64 +27,70 @@ public class RecommendUtil implements AutoCloseable {
     private final Directory directory;
     private final Analyzer analyzer;
     private final IndexWriter writer;
+    private final SearcherManager searcherManager;
 
     public RecommendUtil() throws IOException {
         this.directory = new ByteBuffersDirectory();
         this.analyzer = new StandardAnalyzer();
         this.writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
+        this.searcherManager = new SearcherManager(writer, true, true, null);
     }
 
     public void addDocumentList(List<Map<String, Object>> dataList) throws IOException {
-        try (IndexReader reader = DirectoryReader.open(writer)) {
-            IndexSearcher searcher = new IndexSearcher(reader);
-            for (Map<String, Object> data : dataList) {
-                String docId = data.get("ID").toString();
-                String htmlContent = data.get("CONTENTS").toString();
-                String textContent = Jsoup.parse(htmlContent).text(); // HTML에서 텍스트 추출
+        for (Map<String, Object> data : dataList) {
+            String docId = data.get("ID").toString();
+            String htmlContent = data.get("CONTENTS").toString();
+            String textContent = Jsoup.parse(htmlContent).text(); // HTML에서 텍스트 추출
 
-                // 문서 키 중복 확인
+            IndexSearcher searcher = searcherManager.acquire();
+            try {
                 Query query = new TermQuery(new Term("docId", docId));
                 TopDocs results = searcher.search(query, 1);
 
-                if (results.totalHits.value == 0) { // 키가 존재하지 않을 때만 추가
+                if (results.totalHits.value == 0) {
                     Document doc = new Document();
                     doc.add(new StringField("docId", docId, Field.Store.YES)); // 문서 키 추가
                     doc.add(new TextField("content", textContent, Field.Store.YES));
                     writer.addDocument(doc);
                 }
+            } finally {
+                searcherManager.release(searcher);
             }
         }
-        writer.commit(); // 명시적으로 커밋
+        writer.commit();
+        searcherManager.maybeRefresh(); // 인덱스 변경 시에만 갱신
     }
 
     public List<String> searchSimilarDocuments(String newHtmlDocument, int topN) throws IOException, ParseException {
-        String queryStr = Jsoup.parse(newHtmlDocument).text(); // HTML에서 텍스트 추출
+        String queryStr = Jsoup.parse(newHtmlDocument).text();
 
-        try (IndexReader reader = DirectoryReader.open(directory)) { // 수정된 부분
-            IndexSearcher searcher = new IndexSearcher(reader);
-            searcher.setSimilarity(new BM25Similarity());
+        if (queryStr.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        IndexSearcher searcher = searcherManager.acquire();
+        try {
             QueryParser parser = new QueryParser("content", analyzer);
-
             Query query = parser.parse(QueryParserBase.escape(queryStr));
-            ScoreDoc[] hits = searcher.search(query, topN).scoreDocs;
 
-            Set<String> uniqueDocIds = new LinkedHashSet<>(); // 중복을 제거하면서 순서 유지
+            ScoreDoc[] hits = searcher.search(query, topN).scoreDocs;
+            Set<String> uniqueDocIds = new LinkedHashSet<>();
             for (ScoreDoc hit : hits) {
                 Document doc = searcher.doc(hit.doc);
                 String docId = doc.get("docId");
-                uniqueDocIds.add(docId); // 중복 키 필터링
+                uniqueDocIds.add(docId);
             }
-            return new ArrayList<>(uniqueDocIds); // 중복 제거된 결과 반환
-        } catch (ParseException e) {
-            logger.error("Failed to parse the query: {}", queryStr, e);
-        } catch (IOException e) {
-            logger.error("IOException occurred while searching documents", e);
+            return new ArrayList<>(uniqueDocIds);
+        } finally {
+            searcherManager.release(searcher);
         }
-        return Collections.emptyList();
     }
 
     @Override
     public void close() throws IOException {
+        if (searcherManager != null) {
+            searcherManager.close();
+        }
         if (writer != null) {
             writer.close();
         }
@@ -96,4 +101,5 @@ public class RecommendUtil implements AutoCloseable {
             analyzer.close();
         }
     }
+
 }
