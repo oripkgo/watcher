@@ -38,9 +38,9 @@ server:
 
 logging:
   config: classpath:watcher-dev-logback.xml
-  file:
-    name: catalina
-    path: /watcher/logs
+#  file:
+#    name: catalina
+#    path: /watcher/logs
 
 
 aws:

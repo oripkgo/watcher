@@ -33,9 +33,9 @@ server:
 
 logging:
   config: classpath:watcher-prod-logback.xml
-  file:
-    name: catalina
-    path: ${WATCHER_WAS_LOG}
+#  file:
+#    name: catalina
+#    path: ${WATCHER_WAS_LOG}
 
 aws:
   bucket:
