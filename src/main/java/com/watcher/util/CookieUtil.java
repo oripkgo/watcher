@@ -1,7 +1,6 @@
 package com.watcher.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,8 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 
+@Log4j2
 public class CookieUtil {
-    private final static Logger logger = LoggerFactory.getLogger(CookieUtil.class);
 
     private Map<String, Cookie> cookieMap = new java.util.HashMap<String, Cookie>();
 

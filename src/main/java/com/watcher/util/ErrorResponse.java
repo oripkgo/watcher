@@ -1,12 +1,10 @@
 package com.watcher.util;
 
 import com.watcher.enums.ResponseCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 
-
+@Log4j2
 public class ErrorResponse {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private int status;
     private String message;
@@ -17,7 +15,7 @@ public class ErrorResponse {
         this.message = responseCode.getMessage();
         this.code = responseCode.getCode();
 
-        logger.debug(this.toString());
+        log.debug(this.toString());
     }
 
     public int getStatus() {

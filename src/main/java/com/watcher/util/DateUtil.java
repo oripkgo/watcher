@@ -1,15 +1,12 @@
 package com.watcher.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.extern.log4j.Log4j2;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
+@Log4j2
 public class DateUtil {
-    private final static Logger logger = LoggerFactory.getLogger(DateUtil.class);
 
     /** Default data format variable */
     private static String defaultDatePattern = null;

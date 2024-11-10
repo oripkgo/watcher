@@ -1,12 +1,11 @@
 package com.watcher.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Log4j2
 public class RequestUtil {
-    private final static Logger logger = LoggerFactory.getLogger(RequestUtil.class);
 
     public static String getClientIp(HttpServletRequest req) {
         String ip = req.getHeader("X-Forwarded-For");

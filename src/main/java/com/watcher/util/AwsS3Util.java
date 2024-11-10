@@ -7,8 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,10 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Component
+@Log4j2
 public class AwsS3Util {
-
-
-    private final static Logger logger = LoggerFactory.getLogger(AwsS3Util.class);
 
 
     private static String bucketUrl;
@@ -73,7 +70,7 @@ public class AwsS3Util {
                     )
             );
         } catch (AmazonServiceException e) {
-            logger.error(e.getErrorMessage(), e);
+            log.error(e.getErrorMessage(), e);
             throw e;
         }
     }

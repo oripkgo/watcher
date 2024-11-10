@@ -3,20 +3,19 @@ package com.watcher.common;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.ErrorResponse;
 import io.jsonwebtoken.security.SignatureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ErrorResponse> handleSignatureException(Exception ex){
-        logger.error("SignatureException",ex);
+        log.error("SignatureException",ex);
 
         ErrorResponse response = new ErrorResponse(ResponseCode.ERROR_2001);
         return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
@@ -24,7 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception ex){
-        logger.error("Exception",ex);
+        log.error("Exception",ex);
 
         ErrorResponse response;
 

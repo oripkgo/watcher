@@ -6,8 +6,7 @@ import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.comm.service.FileService;
 import com.watcher.config.WatcherConfig;
 import com.watcher.util.AwsS3Util;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,10 +23,8 @@ import java.util.*;
 import java.util.List;
 
 @Service
+@Log4j2
 public class FileServiceImpl implements FileService {
-
-
-    private final static Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     // 이미지 크기 결정
     private int scaledWidth = 1200;

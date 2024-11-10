@@ -1,7 +1,6 @@
 package com.watcher.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,9 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@Log4j2
 public class HttpUtil {
-    private final static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String requestHttp(String urlData, String method, Map<String, String> paramData, Map<String, String> headersData) {
         String totalUrl = urlData.trim();
@@ -55,14 +53,14 @@ public class HttpUtil {
             }
 
             // 로그 출력
-            logger.debug("HTTP 요청 방식: {}", method);
-            logger.debug("HTTP 요청 주소: {}", urlData);
-            logger.debug("HTTP 요청 데이터: {}", paramData);
-            logger.debug("HTTP 응답 코드: {}", conn.getResponseCode());
-            logger.debug("HTTP 응답 데이터: {}", returnData);
+            log.debug("HTTP 요청 방식: {}", method);
+            log.debug("HTTP 요청 주소: {}", urlData);
+            log.debug("HTTP 요청 데이터: {}", paramData);
+            log.debug("HTTP 응답 코드: {}", conn.getResponseCode());
+            log.debug("HTTP 응답 데이터: {}", returnData);
 
         } catch (IOException e) {
-            logger.error("HTTP 요청 중 오류 발생: {}", e.getMessage(), e);
+            log.error("HTTP 요청 중 오류 발생: {}", e.getMessage(), e);
         } finally {
             if (conn != null) {
                 conn.disconnect();

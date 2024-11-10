@@ -1,5 +1,6 @@
 package com.watcher.util;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -14,15 +15,12 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
 import org.jsoup.Jsoup;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
 
+@Log4j2
 public class RecommendUtil implements AutoCloseable {
-
-    private final Logger logger = LoggerFactory.getLogger(RecommendUtil.class);
 
     private final Directory directory;
     private final Analyzer analyzer;

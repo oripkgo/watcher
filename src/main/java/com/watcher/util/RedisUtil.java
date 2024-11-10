@@ -1,7 +1,6 @@
 package com.watcher.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,8 +11,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
+@Log4j2
 public class RedisUtil {
-    private final static Logger logger = LoggerFactory.getLogger(RedisUtil.class);
 
     // 세션시간 30분
     private static final int SECONDS = (60*30);

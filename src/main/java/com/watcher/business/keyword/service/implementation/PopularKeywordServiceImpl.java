@@ -3,21 +3,17 @@ package com.watcher.business.keyword.service.implementation;
 import com.watcher.business.keyword.mapper.PopularKeywordMapper;
 import com.watcher.business.keyword.param.PopularKeywordParam;
 import com.watcher.business.keyword.service.PopularKeywordService;
-import com.watcher.enums.ResponseCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
+@Log4j2
 public class PopularKeywordServiceImpl implements PopularKeywordService {
-    private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private static int POPULAR_KEYWORD_LIMIT = 10;
     private static int POPULAR_KEYWORD_SEARCH_LIMIT = 10;
@@ -52,7 +48,7 @@ public class PopularKeywordServiceImpl implements PopularKeywordService {
             try {
                 popularKeywordMapper.insert(popularKeywordParam);
             } catch (DuplicateKeyException e) {
-                LOGGER.debug("검색 키워드 중복");
+                log.debug("검색 키워드 중복");
             }
         }
     }
