@@ -19,7 +19,7 @@ import java.util.Map;
 public class CommonIntercepter implements HandlerInterceptor {
 
     @Autowired
-    RedisUtil redisUtil;
+    private RedisUtil redisUtil;
 
     private static List compareValuesContentType = Arrays.asList(new String[]{
             "application/json",

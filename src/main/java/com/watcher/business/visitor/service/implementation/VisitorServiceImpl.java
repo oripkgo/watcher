@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 public class VisitorServiceImpl implements VisitorService {
-    String visitorInflowSourceSiteDomain[] = new String[]{"NAVER","DAUM","YAHOO","GOOGLE","ZOOM"};
+    final private String visitorInflowSourceSiteDomain[] = new String[]{"NAVER","DAUM","YAHOO","GOOGLE","ZOOM"};
 
     @Autowired
     VisitorMapper visitorMapper;
