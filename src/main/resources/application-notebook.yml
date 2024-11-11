@@ -20,6 +20,11 @@ spring:
     atomikos:
       properties:
         default-max-wait-time-on-shutdown:
+#  프로파일러 적용
+#  jmx:
+#    enabled: true
+#    default-domain: com-watcher
+
 
 #사용자 정의
 upload:
