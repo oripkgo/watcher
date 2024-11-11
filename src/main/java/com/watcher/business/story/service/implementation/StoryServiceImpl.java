@@ -258,11 +258,11 @@ public class StoryServiceImpl implements StoryService {
                 storyRepository.put(storyKey, obj);
             }
 
-            recommendUtil.addDocumentList(storyList);
+            // 게시물 저장
+            recommendUtil.addBlogPosts(storyList);
 
-            // 유사문서 검색
-            String newHtmlDocument = targetContent;
-            List<String> recommendations = recommendUtil.searchSimilarDocuments(newHtmlDocument, FeaturedPostListMax);
+            // 관련 게시물 검색
+            List<String> recommendations = recommendUtil.findRelatedPosts(targetContent, FeaturedPostListMax);
 
             // 반환할 유사 스토리 세팅
             for (String docId : recommendations) {

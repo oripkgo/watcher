@@ -2,6 +2,8 @@ package com.watcher.util;
 
 import lombok.extern.log4j.Log4j2;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -29,60 +31,53 @@ public class RecommendUtil implements AutoCloseable {
 
     public RecommendUtil() throws IOException {
         this.directory = new ByteBuffersDirectory();
-        this.analyzer = new StandardAnalyzer();
+        this.analyzer = new SimpleAnalyzer();
         this.writer = new IndexWriter(directory, new IndexWriterConfig(analyzer));
         this.searcherManager = new SearcherManager(writer, true, true, null);
     }
 
-    public void addDocumentList(List<Map<String, Object>> dataList) throws IOException {
-        for (Map<String, Object> data : dataList) {
-            String docId = data.get("ID").toString();
-            String htmlContent = data.get("CONTENTS").toString();
-            String textContent = Jsoup.parse(htmlContent).text(); // HTML에서 텍스트 추출
 
-            IndexSearcher searcher = searcherManager.acquire();
-            try {
-                Query query = new TermQuery(new Term("docId", docId));
-                TopDocs results = searcher.search(query, 1);
+    // 여러 게시물 인덱싱
+    public void addBlogPosts(List<Map<String, Object>> blogPosts) throws IOException {
+        for (Map<String, Object> post : blogPosts) {
+            String id = post.get("ID").toString();
+            String content = post.get("CONTENTS").toString();
 
-                if (results.totalHits.value == 0) {
-                    Document doc = new Document();
-                    doc.add(new StringField("docId", docId, Field.Store.YES)); // 문서 키 추가
-                    doc.add(new TextField("content", textContent, Field.Store.YES));
-                    writer.addDocument(doc);
-                }
-            } finally {
-                searcherManager.release(searcher);
-            }
+            Document doc = new Document();
+            doc.add(new StringField("id", id, Field.Store.YES));
+            doc.add(new TextField("content", Jsoup.parse(content).text(), Field.Store.YES)); // HTML 콘텐츠 텍스트 추출
+
+            writer.addDocument(doc);
         }
-        writer.commit();
-        searcherManager.maybeRefresh(); // 인덱스 변경 시에만 갱신
+        writer.commit();           // 전체 문서를 추가한 후 커밋
+        searcherManager.maybeRefresh();
     }
 
-    public List<String> searchSimilarDocuments(String newHtmlDocument, int topN) throws IOException, ParseException {
-        String queryStr = Jsoup.parse(newHtmlDocument).text();
 
-        if (queryStr.isEmpty()) {
-            return new ArrayList<>();
-        }
+    // 유사한 게시물 검색
+    public List<String> findRelatedPosts(String content, int topN) throws IOException, ParseException {
+        List<String> relatedPostIds = new ArrayList<>();
 
+        // 텍스트 추출 및 검색 준비
+        String searchText = Jsoup.parse(content).text();
+        QueryParser parser = new QueryParser("content", analyzer);
+        Query query = parser.parse(QueryParserBase.escape(searchText));
+
+        // 유사 게시물 검색
         IndexSearcher searcher = searcherManager.acquire();
         try {
-            QueryParser parser = new QueryParser("content", analyzer);
-            Query query = parser.parse(QueryParserBase.escape(queryStr));
-
-            ScoreDoc[] hits = searcher.search(query, topN).scoreDocs;
-            Set<String> uniqueDocIds = new LinkedHashSet<>();
-            for (ScoreDoc hit : hits) {
-                Document doc = searcher.doc(hit.doc);
-                String docId = doc.get("docId");
-                uniqueDocIds.add(docId);
+            TopDocs topDocs = searcher.search(query, topN);
+            for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+                Document doc = searcher.doc(scoreDoc.doc);
+                relatedPostIds.add(doc.get("id"));  // 관련 게시물 ID 추가
             }
-            return new ArrayList<>(uniqueDocIds);
         } finally {
             searcherManager.release(searcher);
         }
+
+        return relatedPostIds;
     }
+
 
     @Override
     public void close() throws IOException {
@@ -95,6 +90,7 @@ public class RecommendUtil implements AutoCloseable {
         if (directory != null) {
             directory.close();
         }
+
         if (analyzer != null) {
             analyzer.close();
         }
