@@ -29,12 +29,11 @@ public class StoryServiceImpl implements StoryService {
     @Autowired
     FileService fileService;
 
+    @Autowired
+    RecommendUtil recommendUtil;
+
 
     private String fileUploadPath = "/story";
-
-
-    // 관련게시물 조회 최대 갯수
-    private int FeaturedPostListMax = 4;
 
 
     @Override
@@ -247,27 +246,20 @@ public class StoryServiceImpl implements StoryService {
     ) throws Exception {
 
         List<Map<String, Object>> result = new ArrayList<>();
-        try(RecommendUtil recommendUtil = new RecommendUtil();){
-            Map<String, Object> storyRepository = new HashMap<>();
+        Map<String, Object> storyRepository = new HashMap<>();
 
-            // 검색대상 문서들 저장
-            for(Map<String, Object> obj : storyList){
-                String storyKey     = obj.get("ID").toString();
-                String storyContent = obj.get("CONTENTS").toString();
+        // 검색대상 문서들 저장
+        for (Map<String, Object> obj : storyList) {
+            String storyKey = obj.get("ID").toString();
+            storyRepository.put(storyKey, obj);
+        }
 
-                storyRepository.put(storyKey, obj);
-            }
+        // 관련 게시물 검색
+        List<Map<String, Object>> relatedPosts = recommendUtil.findRelatedPosts(storyList, targetContent);
 
-            // 게시물 저장
-            recommendUtil.addBlogPosts(storyList);
-
-            // 관련 게시물 검색
-            List<String> recommendations = recommendUtil.findRelatedPosts(targetContent, FeaturedPostListMax);
-
-            // 반환할 유사 스토리 세팅
-            for (String docId : recommendations) {
-                result.add((Map<String, Object>) storyRepository.get(docId));
-            }
+        // 반환할 유사 스토리 세팅
+        for (Map<String, Object> post : relatedPosts) {
+            result.add((Map<String, Object>) storyRepository.get(post.get("ID").toString()));
         }
 
 

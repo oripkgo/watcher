@@ -1,64 +1,73 @@
-package com.watcher.util;
+package com.watcher;
 
-import lombok.extern.log4j.Log4j2;
+
 import org.jsoup.Jsoup;
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Log4j2
-@Component
-public class RecommendUtil {
+@SpringBootTest
+@ActiveProfiles("dev")
+public class RecommendUtilTest {
 
     // 유사도 임계값
     private static final double SIMILARITY_THRESHOLD = 0.1;
 
 
+    @Test
+    @DisplayName("관련 게시물 테스트")
+    void runTest() {
+
+        // 게시물 목록 (예시)
+        List<Map<String, Object>> posts = new ArrayList<>();
+        Map<String, Object> post1 = new HashMap<>();
+        post1.put("ID", "1");
+        post1.put("CONTENTS", "오늘 날씨가 좋다");
+        posts.add(post1);
+
+        Map<String, Object> post2 = new HashMap<>();
+        post2.put("ID", "2");
+        post2.put("CONTENTS", "비가 오는 날씨");
+        posts.add(post2);
+
+        Map<String, Object> post3 = new HashMap<>();
+        post3.put("ID", "3");
+        post3.put("CONTENTS", "오늘은 맑은 날씨입니다");
+        posts.add(post3);
+
+        String targetContent = "오늘 날씨가 맑다";
+
+        // 관련 게시물 추출
+        List<Map<String, Object>> relatedPosts = findRelatedPosts(posts, targetContent);
+
+        // 관련 게시물 출력
+        for (Map<String, Object> post : relatedPosts) {
+            System.out.println("ID: " + post.get("ID") + ", 유사도: " + post.get("SIMILARITY"));
+        }
+    }
+
+
     // 관련 게시물 찾기
     public List<Map<String, Object>> findRelatedPosts(List<Map<String, Object>> posts, String targetContent) {
         // 타겟 게시물 벡터화
-        Map<String, Integer> targetVector = tokenizeAndVectorize(Jsoup.parse(targetContent).text());
+        Map<String, Integer> targetVector = tokenizeAndVectorize(targetContent);
 
         // 게시물들 중 유사도가 임계값 이상인 것들 추출
         return posts.stream()
                 .map(post -> {
-                    String content = Jsoup.parse(post.get("CONTENTS").toString()).text();
+                    String content = post.get("CONTENTS").toString();
                     Map<String, Integer> postVector = tokenizeAndVectorize(content);
-
                     double similarity = calculateCosineSimilarity(targetVector, postVector);
-//                    similarity += calculateAdditionalSimilarity(targetVector, postVector);
-
                     post.put("SIMILARITY", similarity); // 유사도 추가
                     return post;
                 })
                 .filter(post -> (double) post.get("SIMILARITY") >= SIMILARITY_THRESHOLD) // 유사도가 임계값 이상인 것만
                 .sorted((p1, p2) -> Double.compare((double) p2.get("SIMILARITY"), (double) p1.get("SIMILARITY"))) // 유사도 내림차순 정렬
                 .collect(Collectors.toList());
-    }
-
-    // 유사한 단어를 포함했을 때 점수 추가
-    private double calculateAdditionalSimilarity(Map<String, Integer> targetVector, Map<String, Integer> postVector) {
-        double additionalSimilarity = 0.0;
-
-        // 벡터화된 데이터를 기반으로 유사한 단어가 있는지 확인
-        for (String targetWord : targetVector.keySet()) {
-            // postVector에서 targetWord와 유사한 단어가 있는지 확인 (부분 일치 or 유사 단어 처리)
-            for (String postWord : postVector.keySet()) {
-                if (isSimilar(targetWord, postWord)) {
-                    // 두 벡터에서 유사한 단어가 있으면 점수 추가
-                    additionalSimilarity += 0.1;  // 점수는 원하는 만큼 조정 가능
-                }
-            }
-        }
-
-        return additionalSimilarity;
-    }
-
-    // "유사한 단어"를 확인하는 함수 (부분 일치 처리)
-    private boolean isSimilar(String targetWord, String postWord) {
-        // 예시: targetWord와 postWord가 부분적으로 일치하는지 확인
-        return postWord.contains(targetWord) || targetWord.contains(postWord);
     }
 
     // 코사인 유사도 계산
