@@ -4,6 +4,7 @@ import com.watcher.business.login.param.SignParam;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.member.param.MemberParam;
 import com.watcher.business.member.service.MemberService;
+import com.watcher.enums.MemberType;
 import com.watcher.util.HttpUtil;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
@@ -75,11 +76,11 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public void handleIn(SignParam signParam, String sessionId) throws Exception {
+    public Map<String, Object> handleIn(SignParam signParam, String sessionId) throws Exception {
         MemberParam memberParam = new MemberParam();
 
         memberParam.setLoginId(signParam.getId());
-        memberParam.setMemType(("naver".equals(signParam.getType()) ? "00" : "01"));
+        memberParam.setMemType(MemberType.fromName(signParam.getType()).getCode());
         memberParam.setNickname(signParam.getNickname());
         memberParam.setName(signParam.getName());
         memberParam.setEmail(signParam.getEmail());
@@ -88,19 +89,12 @@ public class SignServiceImpl implements SignService {
 
         Map<String, Object> userData = memberService.select(memberParam);
 
-        if (userData == null || userData.size() == 0) {
+        if (userData == null || userData.isEmpty()) {
             memberService.insertUpdate(memberParam);
-        }
-
-        if (!(signParam.getId() == null || signParam.getId().isEmpty())) {
-            String jwt = JwtTokenUtil.createJWT(sessionId);
-
             userData = memberService.select(memberParam);
-
-            userData.put("API_TOKEN", jwt);
-            redisUtil.setSession(sessionId, userData);
         }
 
+        return userData;
     }
 
     @Override
@@ -109,14 +103,14 @@ public class SignServiceImpl implements SignService {
         Map<String, String> logOutHeaders = new LinkedHashMap<String, String>();
         Map<String, String> logOutParam = new LinkedHashMap<String, String>();
 
-        if ("naver".equals(signParam.getType())) {
+        if ( MemberType.NAVER.getName().equals(signParam.getType())) {
             logOutUrl = naverSignOutApiUrl;
 
-            logOutParam.put("grant_type", "delete");
-            logOutParam.put("client_id", naverClientId);
-            logOutParam.put("client_secret", naverClientSecret);
-            logOutParam.put("access_token", signParam.getAccessToken());
-            logOutParam.put("service_provider", "NAVER");
+            logOutParam.put("grant_type"        , "delete"                   );
+            logOutParam.put("client_id"         , naverClientId              );
+            logOutParam.put("client_secret"     , naverClientSecret          );
+            logOutParam.put("access_token"      , signParam.getAccessToken() );
+            logOutParam.put("service_provider"  , MemberType.NAVER.toString());
         } else {
             logOutUrl = kakaoSignOutApiUrl;
 
@@ -145,10 +139,6 @@ public class SignServiceImpl implements SignService {
         return result == null || result.isEmpty() ? new HashMap<String, String>() : result;
     }
 
-    @Override
-    public String getSessionToken(String sessionId) throws Exception {
-        return redisUtil.getSession(sessionId).get("API_TOKEN");
-    }
 
     @Override
     public String getSessionId(String token) throws Exception {

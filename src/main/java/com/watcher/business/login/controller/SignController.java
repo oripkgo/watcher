@@ -3,7 +3,11 @@ package com.watcher.business.login.controller;
 import com.watcher.business.login.service.SignService;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.business.login.param.SignParam;
+import com.watcher.enums.MemberType;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.JwtTokenUtil;
+import com.watcher.util.RedisUtil;
+import org.apache.catalina.manager.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +28,8 @@ public class SignController {
 	@Autowired
 	MemberService memberService;
 
+	@Autowired
+	RedisUtil redisUtil;
 
 	@RequestMapping(value = {"/session/data"}, method = RequestMethod.GET)
 	@ResponseBody
@@ -38,20 +44,20 @@ public class SignController {
 		Map<String, String> userData = signService.getSessionUser(sessionId);
 
 		if ( userData != null ){
-			result.put("loginId", userData.get("LOGIN_ID"));
-			result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
-			result.put("memberId", userData.get("ID"));
-			result.put("memProfileImg", userData.get("MEM_PROFILE_IMG"));
-			result.put("commentPermStatus", userData.get("COMMENT_PERM_STATUS"));
-			result.put("storyRegPermStatus", userData.get("STORY_REG_PERM_STATUS"));
-			result.put("storyCommentPublicStatus", userData.get("STORY_COMMENT_PUBLIC_STATUS"));
-			result.put("storyTitle", userData.get("STORY_TITLE"));
-			result.put("apiToken", userData.get("API_TOKEN"));
+			result.put("loginId"					, userData.get("LOGIN_ID"));
+			result.put("loginType"					, MemberType.fromCode(userData.get("MEM_TYPE")).getName());
+			result.put("memberId"					, userData.get("ID"));
+			result.put("memProfileImg"				, userData.get("MEM_PROFILE_IMG"));
+			result.put("commentPermStatus"			, userData.get("COMMENT_PERM_STATUS"));
+			result.put("storyRegPermStatus"			, userData.get("STORY_REG_PERM_STATUS"));
+			result.put("storyCommentPublicStatus"	, userData.get("STORY_COMMENT_PUBLIC_STATUS"));
+			result.put("storyTitle"					, userData.get("STORY_TITLE"));
+			result.put("apiToken"					, userData.get("API_TOKEN"));
 		}
 
-		result.put("sessionId", sessionId);
-		result.put("code", ResponseCode.SUCCESS_0000.getCode());
-		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+		result.put("sessionId"	, sessionId								);
+		result.put("code"		, ResponseCode.SUCCESS_0000.getCode()	);
+		result.put("message"	, ResponseCode.SUCCESS_0000.getMessage());
 
 		return result;
 	}
@@ -67,22 +73,25 @@ public class SignController {
 	) throws Exception {
 		signService.validation(loginVo);
 
-		Map<String,Object> result = new HashMap<>();
+		Map<String, Object> result = new HashMap<>();
 		String sessionId = request.getSession().getId();
+		String apiToken = JwtTokenUtil.createJWT(sessionId);
 
-		signService.handleIn(loginVo, sessionId);
-		Map<String, String> userData = signService.getSessionUser(sessionId);
+		Map<String, Object> userData = signService.handleIn(loginVo, sessionId);
+		redisUtil.setSession(sessionId, userData);
 
 		if ( userData != null ){
-			result.put("loginId", userData.get("LOGIN_ID"));
-			result.put("loginType", ("00".equals(userData.get("MEM_TYPE")) ? "naver" : "kakao"));
-			result.put("memberId", userData.get("ID"));
-			result.put("memProfileImg", userData.get("MEM_PROFILE_IMG"));
-			result.put("commentPermStatus", userData.get("COMMENT_PERM_STATUS"));
-			result.put("storyRegPermStatus", userData.get("STORY_REG_PERM_STATUS"));
-			result.put("storyCommentPublicStatus", userData.get("STORY_COMMENT_PUBLIC_STATUS"));
-			result.put("storyTitle", userData.get("STORY_TITLE"));
-			result.put("apiToken", userData.get("API_TOKEN"));
+			String memberType = MemberType.fromCode(userData.get("MEM_TYPE").toString()).getName();
+
+			result.put("loginId"					, userData.get("LOGIN_ID"));
+			result.put("loginType"					, memberType);
+			result.put("memberId"					, userData.get("ID"));
+			result.put("memProfileImg"				, userData.get("MEM_PROFILE_IMG"));
+			result.put("commentPermStatus"			, userData.get("COMMENT_PERM_STATUS"));
+			result.put("storyRegPermStatus"			, userData.get("STORY_REG_PERM_STATUS"));
+			result.put("storyCommentPublicStatus"	, userData.get("STORY_COMMENT_PUBLIC_STATUS"));
+			result.put("storyTitle"					, userData.get("STORY_TITLE"));
+			result.put("apiToken"					, apiToken);
 		}
 
 		result.put("sessionId"	, sessionId								);
