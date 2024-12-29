@@ -1,5 +1,6 @@
 package com.watcher.common;
 
+import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import io.jsonwebtoken.security.SignatureException;
@@ -39,7 +40,7 @@ public class CommonIntercepter implements HandlerInterceptor {
 //        for(Object url : compareValuesURL){
 //            if( url != null ){
 //                if( request.getRequestURI().indexOf(String.valueOf(url)) == 0){
-//                    String sessionId = request.getSession().getId();
+//                    String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
 //
 //                    Map result = redisUtil.getSession(sessionId);
 //                    if( result == null || result.isEmpty() ){
@@ -50,7 +51,7 @@ public class CommonIntercepter implements HandlerInterceptor {
 //        }
 
         // 세션유지 유무 체크
-        String sessionId = request.getSession().getId();
+        String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
 
         Map result = redisUtil.getSession(sessionId);
         if( result == null || result.isEmpty() ){

@@ -5,10 +5,12 @@ import com.watcher.business.member.service.MemberService;
 import com.watcher.business.login.param.SignParam;
 import com.watcher.enums.MemberType;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.apache.catalina.manager.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,13 +25,16 @@ import java.util.Map;
 @RequestMapping(value="/sign")
 public class SignController {
 	@Autowired
-	SignService signService;
+	private SignService signService;
 
 	@Autowired
-	MemberService memberService;
+	private MemberService memberService;
 
 	@Autowired
-	RedisUtil redisUtil;
+	private RedisUtil redisUtil;
+
+	@Value("${spring.session.timeout}")
+	private int SESSION_TIME;
 
 	@RequestMapping(value = {"/session/data"}, method = RequestMethod.GET)
 	@ResponseBody
@@ -79,6 +84,7 @@ public class SignController {
 
 		Map<String, Object> userData = signService.handleIn(loginVo, sessionId);
 		redisUtil.setSession(sessionId, userData);
+		CookieUtil.addCookie("SESSION_TOKEN", apiToken, SESSION_TIME);
 
 		if ( userData != null ){
 			String memberType = MemberType.fromCode(userData.get("MEM_TYPE").toString()).getName();

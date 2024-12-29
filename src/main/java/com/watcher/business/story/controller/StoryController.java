@@ -7,6 +7,8 @@ import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
+import com.watcher.util.CookieUtil;
+import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +48,7 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mv = new ModelAndView("story/view");
 
-        String sessionId = request.getSession().getId();
+        String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
         String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 
         storyService.insertViewsCount(storyParam);
@@ -142,7 +144,7 @@ public class StoryController {
     ) throws Exception {
         ModelAndView mav = new ModelAndView("story/edit");
 
-        String sessionId 	= request.getSession().getId();
+        String sessionId 	= JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
         String memId 		= String.valueOf(redisUtil.getSession(sessionId).get("ID"));
         String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
 

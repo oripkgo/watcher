@@ -9,6 +9,8 @@ import com.watcher.business.story.service.StoryService;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
+import com.watcher.util.CookieUtil;
+import com.watcher.util.JwtTokenUtil;
 import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -155,7 +157,7 @@ public class BoardController {
 	) throws Exception {
 		ModelAndView mav = new ModelAndView("notice/view");
 
-		String sessionId 	= request.getSession().getId();
+		String sessionId 	= JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
 		String loginId 		= signService.getSessionUser(sessionId).get("LOGIN_ID");
 
 		Map<String, Object> noticeInfo = noticeService.getData(noticeParam);
@@ -186,7 +188,7 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView("notice/edit");
 
 		LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>();
-		String sessionId 	= request.getSession().getId();
+		String sessionId 	= JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
 		String loginId 		= signService.getSessionUser(sessionId).get("LOGIN_ID");
 		String memId 		= String.valueOf(signService.getSessionUser(sessionId).get("ID"));
 

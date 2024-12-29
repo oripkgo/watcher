@@ -12,7 +12,7 @@ spring:
 
   session:
     store-type: redis
-    timeout: 30m
+    timeout: 1800
   redis:
     host: 43.200.238.37
     port: 6379

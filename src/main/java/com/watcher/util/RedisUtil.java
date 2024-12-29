@@ -2,6 +2,7 @@ package com.watcher.util;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -15,7 +16,8 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
     // 세션시간 30분
-    private static final int SECONDS = (60*30);
+    @Value("${spring.session.timeout}")
+    private int SECONDS;
 
     private RedisTemplate<String, Object> redisTemplate;
 

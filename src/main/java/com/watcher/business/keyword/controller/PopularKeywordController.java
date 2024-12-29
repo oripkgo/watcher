@@ -46,8 +46,8 @@ public class PopularKeywordController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        popularKeywordParam.setClientIp(RequestUtil.getClientIp(request));
-        popularKeywordParam.setClientId(new CookieUtil(request).getValue("JSESSIONID"));
+        popularKeywordParam.setClientIp(RequestUtil.getClientIp());
+        popularKeywordParam.setClientId(CookieUtil.getValue("JSESSIONID"));
 
         popularKeywordService.insert(popularKeywordParam);
 

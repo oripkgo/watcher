@@ -8,6 +8,9 @@ import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
+import com.watcher.util.CookieUtil;
+import com.watcher.util.JwtTokenUtil;
+import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -44,7 +47,7 @@ public class MyStoryController {
     ) throws Exception {
         ModelAndView mv = new ModelAndView("myStory/index");
 
-        String sessionId = request.getSession().getId();
+        String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
         String loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
         // story의 세팅된 사용권한 및 정책 조회
@@ -81,8 +84,9 @@ public class MyStoryController {
     ) throws Exception {
         ModelAndView mv = new ModelAndView("myStory/index");
 
-        String sessionId    = request.getSession().getId();
+        String sessionId    = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
         String loginId      = signService.getSessionUser(sessionId).get("LOGIN_ID");
+
 
         // story의 세팅된 사용권한 및 정책 조회
         ManagementParam managementParam = new ManagementParam();
