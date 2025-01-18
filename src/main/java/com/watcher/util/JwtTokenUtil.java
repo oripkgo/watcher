@@ -96,6 +96,9 @@ public class JwtTokenUtil {
     }
 
     static public String getId(String token){
+        if( token == null || token.isEmpty() ){
+            return "";
+        }
         Jws<Claims> claimsJws = parseJwt(token);
         Claims claims = claimsJws.getBody();
         return  claims.getId();
