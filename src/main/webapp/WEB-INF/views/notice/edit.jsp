@@ -1,13 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%--<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<!-- Main Quill library -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>--%>
-
-
-<!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/x4lfthehuygci0gyh27r2085hd2z6pljljatiadlrrdcjpae/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<jsp:include page="../common/include/tinymceEditor.jsp"/>
 
 <form id="notice_write_form">
     <input type="hidden"        name="id"                   id="id"                                                  >
@@ -75,21 +68,9 @@
     const secretYn = '${view['SECRET_YN']}';
     const insertUrl = "/notice/insert";
     const imgSaveUrl = "/file/upload/image";
-    const editerId = '#editor';
-    const toolbarOptions = {
-        selector: editerId,
-        skin: 'material-outline',
-        content_css: 'material-outline',
-        icons: 'material',
-        plugins: 'code image link lists',
-        toolbar: 'undo redo | styles | bold italic underline forecolor backcolor | link image code | align | bullist numlist',
-        menubar: false,
-        forced_root_block:'div'
-    };
 
-
-    const initEditer = function (id, option) {
-        tinymce.init(option);
+    const initEditer = function () {
+        webEdit.init();
     }
 
 
@@ -125,7 +106,7 @@
             return;
         }
 
-        tinymce.triggerSave();
+        webEdit.save();
 
         $("#id").val(id);
         changeImagePathToS3Path($(editerId).find("img"));
@@ -167,7 +148,7 @@
             $("#secretYn").val(secretYn);
         }
 
-        initEditer(editerId, toolbarOptions);
+        initEditer();
 
         $("#attachFiles").on("change", function () {
             $("#attachFiles_text").val(this.value);

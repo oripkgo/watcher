@@ -1,21 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: HAN
-  Date: 2024-02-04
-  Time: 오후 8:15
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%--<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-<!-- Main Quill library -->
-<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>--%>
-
-
-<!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/x4lfthehuygci0gyh27r2085hd2z6pljljatiadlrrdcjpae/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
+<jsp:include page="../common/include/tinymceEditor.jsp"/>
 
 <form id="story_write_form">
 
@@ -98,19 +83,6 @@
 </form>
 
 <script>
-  const editerId = '#editor';
-  const toolbarOptions = {
-    selector: editerId,
-    height: 400,
-    skin: 'material-outline',
-    content_css: 'material-outline',
-    icons: 'material',
-    plugins: 'code image link lists',
-    toolbar: 'undo redo | styles | bold italic underline forecolor backcolor | link image code | align | bullist numlist',
-    menubar: false,
-    forced_root_block:'div'
-  };
-
 
   const memId = '${storyAdminMemId}';
   const id = '${view['ID']}';
@@ -225,13 +197,14 @@
     $("#story_category").val(categoryId);
   }
 
-  const initEdit = function(id, option){
-    tinymce.init(option);
+  const initEdit = function(){
+    webEdit.setCodeFrame();
+    webEdit.init();
   }
 
   const addEvents = function(){
     $(".write_confirm").on("click",function(){
-      tinymce.triggerSave();
+      webEdit.save();
       insertStory();
     });
 
@@ -248,7 +221,7 @@
     })
   }
 
-  initEdit(editerId, toolbarOptions);
+  initEdit();
   setCategoryOptions();
   setValue();
   addEvents();
