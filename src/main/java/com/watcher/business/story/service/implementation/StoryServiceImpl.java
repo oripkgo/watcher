@@ -5,6 +5,7 @@ import com.watcher.business.comm.service.FileService;
 import com.watcher.business.story.mapper.StoryMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.story.param.StoryParam;
+import com.watcher.business.story.resp.StoryResp;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.util.RecommendUtil;
 import com.watcher.util.RequestUtil;
@@ -208,8 +209,7 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public Map<String, Object> getData(StoryParam storyParam) throws Exception {
-        Map<String, Object> result = new HashMap<String, Object>();
+    public StoryResp getData(StoryParam storyParam) throws Exception {
         return storyMapper.view(storyParam);
     }
 

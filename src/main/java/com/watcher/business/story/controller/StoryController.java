@@ -5,6 +5,7 @@ import com.watcher.business.login.service.SignService;
 import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
+import com.watcher.business.story.resp.StoryResp;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
@@ -53,18 +54,23 @@ public class StoryController {
         String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
 
         storyService.insertViewsCount(storyParam);
+        StoryResp storyInfo = storyService.getData(storyParam);
 
-        Map<String, Object> storyInfo = storyService.getData(storyParam);
+
+        ManagementParam storySettingInfoReq = new ManagementParam();
+        storySettingInfoReq.setId(storyInfo.getAdminId());
+        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storySettingInfoReq);
+
 
         // 게시물 수정권한 여부
         mv.addObject("modifyAuthorityYn","N");
-        if( Objects.equals(storyInfo.get("REG_ID"), loginId)){
+        if(
+                Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId) ||
+                Objects.equals(storyInfo.getRegId(), loginId)
+        ){
             mv.addObject("modifyAuthorityYn","Y");
         }
 
-        ManagementParam storySettingInfoReq = new ManagementParam();
-        storySettingInfoReq.setId(storyInfo.get("ADMIN_ID").toString());
-        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storySettingInfoReq);
 
         // 댓글 작성 권한 체크
         mv.addObject("commentRegYn","N");
@@ -76,7 +82,7 @@ public class StoryController {
             }
         }
 
-        mv.addObject("storyAdminId"     , storyInfo.get("ADMIN_ID").toString()  );
+        mv.addObject("storyAdminId"     , storyInfo.getAdminId()                );
         mv.addObject("storyMemId"       , storyMemId                            );
         mv.addObject("view"             , storyInfo                             );
         mv.addObject("code"             , ResponseCode.SUCCESS_0000.getCode()   );

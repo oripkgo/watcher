@@ -4,6 +4,8 @@
 
 	<!-- 별칭 -->
 	<typeAliases>
+
+		<!--요청-->
 		<typeAlias type="com.watcher.business.member.param.MemberParam" alias="memberParam"			/>
 		<typeAlias type="com.watcher.business.board.param.NoticeParam" alias="noticeParam"			/>
 		<typeAlias type="com.watcher.business.category.param.CategoryParam" alias="categoryParam"		/>
@@ -13,6 +15,10 @@
 		<typeAlias type="com.watcher.business.management.param.ManagementParam" alias="managementParam"		/>
 		<typeAlias type="com.watcher.business.visitor.param.VisitorParam" alias="visitorParam"		/>
 		<typeAlias type="com.watcher.business.keyword.param.PopularKeywordParam" alias="popularKeywordParam"		/>
+
+		<!--응답-->
+		<typeAlias type="com.watcher.business.story.resp.StoryResp" alias="storyResp"/>
+
 	</typeAliases>
 
 </configuration>

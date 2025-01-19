@@ -11,9 +11,9 @@ import lombok.ToString;
 @ToString
 public class MemberDto extends CommDto {
 
-    private String id;              // key
+    private String id;              // 회원 아이디
     private String password;        // 패스워드
-    private String loginId;         // 회원 아이디
+    private String loginId;         // 로그인 아이디
     private String email;           // 이메일
     private String phoneNum;        // 회원 휴대푠 번호
     private String gender;          // 회원 성별

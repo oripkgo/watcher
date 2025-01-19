@@ -25,8 +25,17 @@
 		FROM MEMBER A
 		INNER JOIN MEMBER_MANAGEMENT B ON B.LOGIN_ID = A.LOGIN_ID
 		WHERE 1=1
-		  AND A.LOGIN_ID = #{loginId}
-		  AND A.MEM_TYPE = #{memType}
+		<if test="loginId != null and loginId != ''">
+			AND A.LOGIN_ID = #{loginId}
+		</if>
+		<if test="memType != null and memType != ''">
+			AND A.MEM_TYPE = #{memType}
+		</if>
+		<if test="id != null and id != ''">
+			AND A.ID = #{id}
+		</if>
+
+
 	</select>
 
 

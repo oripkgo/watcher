@@ -13,24 +13,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 
-    <meta name="title" content="${view['TITLE']}">
-    <meta name="description" content="${view['SUMMARY']}">
-    <meta name="keywords" content="${view['TAGS']}">
+    <meta name="title" content="${view.title}">
+    <meta name="description" content="${view.summary}">
+    <meta name="keywords" content="${view.tags}">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="${view['TITLE']}">
-    <meta property="og:description" content="${view['SUMMARY']}">
-    <meta property="og:keywords" content="${view['TAGS']}">
-    <meta property="og:image" content="${view['THUMBNAIL_IMG_PATH']}">
+    <meta property="og:title" content="${view.title}">
+    <meta property="og:description" content="${view.summary}">
+    <meta property="og:keywords" content="${view.tags}">
+    <meta property="og:image" content="${view.thumbnailImgPath}">
     <meta property="og:image:width" content="600">
     <meta property="og:image:height" content="315">
-    <meta property="og:url" content="https://www.watcher.kr/story/view/${view['MEMBER_ID']}?id=${view['ID']}">
+    <meta property="og:url" content="https://www.watcher.kr/story/view/${view.memberId}?id=${view.id}">
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="${view['TITLE']}">
-    <meta name="twitter:url" content="https://www.watcher.kr/story/view/${view['MEMBER_ID']}?id=${view['ID']}">
-    <meta name="twitter:image" content="${view['THUMBNAIL_IMG_PATH']}">
-    <meta name="twitter:description" content="${view['SUMMARY']}">
+    <meta name="twitter:title" content="${view.title}">
+    <meta name="twitter:url" content="https://www.watcher.kr/story/view/${view.memberId}?id=${view['id']}">
+    <meta name="twitter:image" content="${view.thumbnailImgPath}">
+    <meta name="twitter:description" content="${view.summary}">
 
 
     <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>

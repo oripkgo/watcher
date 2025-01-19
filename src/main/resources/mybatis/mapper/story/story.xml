@@ -90,7 +90,7 @@
 	</select>
 
 
-	<select id="view" resultType="map" parameterType="storyParam">
+	<select id="view" resultType="storyResp" parameterType="storyParam" >
 		/*story > view*/
 		<include refid="storySelect"/>
 		WHERE 1=1

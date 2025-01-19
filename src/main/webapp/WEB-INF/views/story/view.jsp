@@ -36,7 +36,7 @@
     <div class="section uline2">
         <div class="ani-in sub_layout rline">
             <div class="conts_wrap ani_y delay2">
-                <div id="storyContents">${view['CONTENTS']}</div>
+                <div id="storyContents">${view.contents}</div>
                 <div class="conts_sns">
                     <a href="javascript:;" class="zimm like" id="likeTarget" data-likecnt="0">공감 0</a>
                     <a href="javascript:;" class="sns_btn"></a>
@@ -80,16 +80,16 @@
 
     const type              = 'STORY';
     const storyMemId        = '${storyMemId}';
-    const id                = '${view['ID']}';
-    const title             = '${view['TITLE']}';
-    const nickName          = '${view['NICKNAME']}';
-    const regDate           = '${view['REG_DATE']}';
-    const likeCnt           = '${view['LIKE_CNT']}' * 1;
-    const summary           = '<c:out escapeXml="true" value="${view['SUMMARY']}"/>';
+    const id                = '${view.id}';
+    const title             = '${view.title}';
+    const nickName          = '${view.nickname}';
+    const regDate           = '${view.regDate}';
+    const likeCnt           = '${view.likeCnt}' * 1;
+    const summary           = '<c:out escapeXml="true" value="${view.summary}"/>';
     const commentRegYn      = '${commentRegYn}';
 
     const contents          = $("#storyContents").html();
-    const thumbnail         = window.getServerImg('${fn:replace(view['THUMBNAIL_IMG_PATH'], '\\', '/')}'.replace(/[\\]/g, '/'));
+    const thumbnail         = window.getServerImg('${fn:replace(view.thumbnailImgPath, '\\', '/')}'.replace(/[\\]/g, '/'));
 
     const updateStory = function () {
         location.href = updateUrl + id;

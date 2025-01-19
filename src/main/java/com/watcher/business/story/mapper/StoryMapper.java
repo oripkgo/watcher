@@ -1,6 +1,7 @@
 package com.watcher.business.story.mapper;
 
 import com.watcher.business.story.param.StoryParam;
+import com.watcher.business.story.resp.StoryResp;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 @Mapper
 public interface StoryMapper {
-    public Map<String, Object> view(StoryParam storyParam);
+    public StoryResp view(StoryParam storyParam);
 
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);
 

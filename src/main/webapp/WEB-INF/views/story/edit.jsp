@@ -4,7 +4,7 @@
 
 <form id="story_write_form">
 
-  <input type="hidden"      name="id"                  id="id"                  value="${view['ID']}"             >
+  <input type="hidden"      name="id"                  id="id"                  value="${view.id}"                >
   <input type="hidden"      name="categoryId"          id="categoryId"                                            >
   <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                                      >
   <input type="hidden"      name="contents"            id="contents"                                              >
@@ -51,7 +51,7 @@
             <tr>
               <td colspan="2">
                 <div id="editor" class="editor" style="height: 400px;">
-                  ${view['CONTENTS']}
+                  ${view.contents}
                 </div>
               </td>
             </tr>
@@ -85,13 +85,13 @@
 <script>
 
   const memId = '${storyAdminMemId}';
-  const id = '${view['ID']}';
-  const categoryId = '${view['CATEGORY_ID']}';
-  const memberCategoryId = '${view['MEMBER_CATEGORY_ID']}';
-  const secretYn = '${view['SECRET_YN']}' || 'N';
-  const title = '${view['TITLE']}';
-  const tags = '${view['TAGS']}';
-  const realFileName = '${view['REAL_FILE_NAME']}';
+  const id = '${view.id}';
+  const categoryId = '${view.categoryId}';
+  const memberCategoryId = '${view.memberCategoryId}';
+  const secretYn = '${view.secretYn}' || 'N';
+  const title = '${view.title}';
+  const tags = '${view.tags}';
+  const realFileName = '${view.realFileName}';
   const insertUrl = "/story/insert";
   const imgSaveUrl = "/file/upload/image";
 
