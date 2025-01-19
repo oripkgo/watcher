@@ -5,6 +5,9 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript" src="/resources/task/js/common/utils/share.js"></script>
 
+<link href="/resources/code-block/prism.css" rel="stylesheet" />
+<script src="/resources/code-block/prism.js"></script>
+
 
 <div class="section">
     <div class="ani-in sub_layout">
