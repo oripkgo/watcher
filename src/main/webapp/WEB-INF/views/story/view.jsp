@@ -12,7 +12,7 @@
 <div class="section">
     <div class="ani-in sub_layout">
         <div class="detail_top ani_y delay1">
-            <div class="detail_kind">스토리</div>
+            <div class="detail_kind"><a href="/my-story/${storyAdminId}">스토리</a></div>
             <strong id="title"></strong>
             <div class="detail_memo">
                 <em><a href="/my-story/${storyMemId}" class="hover_line" id="nickName"></a></em>

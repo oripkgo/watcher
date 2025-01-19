@@ -27,13 +27,6 @@ public class ManagementServiceImpl implements ManagementService {
         return managementMapper.getStorySettingInfo(managementParam);
     }
 
-    @Override
-    public Map<String, Object> getStorySettingInfo(String loginId) throws Exception {
-        ManagementParam managementParam = new ManagementParam();
-        managementParam.setLoginId(loginId);
-        return managementMapper.getStorySettingInfo(managementParam);
-    }
-
 
     @Override
     public Map<String, Object> getStorySettingInfo(ManagementParam managementParam) throws Exception {

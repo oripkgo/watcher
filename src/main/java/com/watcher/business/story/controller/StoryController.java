@@ -2,6 +2,7 @@ package com.watcher.business.story.controller;
 
 import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.login.service.SignService;
+import com.watcher.business.management.param.ManagementParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.service.StoryService;
@@ -61,7 +62,9 @@ public class StoryController {
             mv.addObject("modifyAuthorityYn","Y");
         }
 
-        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storyInfo.get("REG_ID").toString());
+        ManagementParam storySettingInfoReq = new ManagementParam();
+        storySettingInfoReq.setId(storyInfo.get("ADMIN_ID").toString());
+        Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storySettingInfoReq);
 
         // 댓글 작성 권한 체크
         mv.addObject("commentRegYn","N");
@@ -73,10 +76,11 @@ public class StoryController {
             }
         }
 
-        mv.addObject("storyMemId"   , storyMemId                            );
-        mv.addObject("view"         , storyInfo                             );
-        mv.addObject("code"         , ResponseCode.SUCCESS_0000.getCode()   );
-        mv.addObject("message"      , ResponseCode.SUCCESS_0000.getMessage());
+        mv.addObject("storyAdminId"     , storyInfo.get("ADMIN_ID").toString()  );
+        mv.addObject("storyMemId"       , storyMemId                            );
+        mv.addObject("view"             , storyInfo                             );
+        mv.addObject("code"             , ResponseCode.SUCCESS_0000.getCode()   );
+        mv.addObject("message"          , ResponseCode.SUCCESS_0000.getMessage());
 
         return mv;
     }
