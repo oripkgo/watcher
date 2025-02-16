@@ -14,6 +14,7 @@ import java.security.AlgorithmParameters;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import java.util.Objects;
@@ -26,6 +27,9 @@ public class AESUtil {
 
     // static 변수에 AES 키 저장
     private static String secretKey;
+
+    private static final int PBKDF2_ITERATIONS = 65536;
+    private static final int KEY_LENGTH = 128;
 
     // 이 메서드는 @Value로 secretKey를 읽어온 후 설정하는 초기화 단계입니다.
     @PostConstruct
@@ -106,10 +110,13 @@ public class AESUtil {
     }
 
     private static SecretKeySpec getSecretKey(byte[] salt) throws Exception {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt, 65536, 256);
-        SecretKey tmp = factory.generateSecret(spec);
-        return new SecretKeySpec(tmp.getEncoded(), "AES");
+        try {
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            KeySpec keySpec = new PBEKeySpec(secretKey.toCharArray(), salt, PBKDF2_ITERATIONS, KEY_LENGTH);
+            return new SecretKeySpec(keyFactory.generateSecret(keySpec).getEncoded(), "AES");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException("Error generating AES key", e);
+        }
     }
 
     private static byte[] generateSaltToByte() {
