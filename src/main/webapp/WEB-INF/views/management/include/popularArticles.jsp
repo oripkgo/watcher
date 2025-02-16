@@ -21,7 +21,7 @@
             resp.list.forEach(function (obj) {
                 let liObj = $("<li></li>");
                 let liHtml = '';
-                liHtml += '<a href="'+window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID'])+'">                          ';
+                liHtml += '<a href="'+window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'])+'">                          ';
                 liHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH']);
                 liHtml += '        <strong>[' + obj['CATEGORY_NM'] + '] ' + obj['TITLE'] + '</strong> ';
                 liHtml += '        <span>' + obj['SUMMARY'] + '</span>                         ';

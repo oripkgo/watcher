@@ -33,7 +33,7 @@ const story = {
 
                     storyHtml += '<span>'+summary+'</span>';
                     storyHtml += '<em>by ' + obj['NICKNAME'] + '</em>';
-                    storyHtml += '<a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '"><img src="' + moreButtonImgPath + '"></a>';
+                    storyHtml += '<a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '"><img src="' + moreButtonImgPath + '"></a>';
                     storyHtml += '</div>';
 
                     $(story).html(storyHtml)

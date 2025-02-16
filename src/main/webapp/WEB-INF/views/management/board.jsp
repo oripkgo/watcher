@@ -198,10 +198,10 @@
 
                 listHtml += '<td class="not-none"><input type="checkbox" class="check"></td>                                                         ';
                 listHtml += '<td>'+secretStatus+'</td>                                                                              ';
-                listHtml += '<td><a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="kind_link">'+obj['CATEGORY_NM']+'</a></td>           ';
-                listHtml += '<td><a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="kind_link">'+(obj['MEMBER_CATEGORY_NM']||"")+'</a></td>           ';
+                listHtml += '<td><a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="kind_link">'+obj['CATEGORY_NM']+'</a></td>           ';
+                listHtml += '<td><a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="kind_link">'+(obj['MEMBER_CATEGORY_NM']||"")+'</a></td>           ';
                 listHtml += '<td>                                                                                                   ';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="subject_link">                                    ';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="subject_link">                                    ';
                 listHtml += '        <strong>'+obj['TITLE']+'</strong>                                                                 ';
                 listHtml += '        <span>'+obj['SUMMARY']+'</span>                                                                   ';
                 listHtml += '    </a>                                                                                               ';
@@ -223,7 +223,7 @@
                 listHtml += '    </div>                                                                                        ';
                 listHtml += '</td>                                                                                             ';
                 listHtml += '<td>                                                                                              ';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '" class="pic_link">                                   ';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="pic_link">                                   ';
                 listHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'],"management-story-pc-image");
                 listHtml += '    </a>                                                                                               ';
                 listHtml += '</td>                                                                                                  ';
@@ -231,7 +231,7 @@
                 listHtml += thisObj.getMobileRecord("td", [
                     {
                         type: "image",
-                        href: window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']),
+                        href: window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']),
                         src: obj['THUMBNAIL_IMG_PATH']
                     },
                     {col: "공개여부", val: secretStatus},

@@ -19,14 +19,15 @@
                 <img src="/resources/img/line.png">
                 <span id="last_time"></span>
 
-                <c:if test="${modifyAuthorityYn eq 'Y'}">
-                    <div class="btn_basic">
+                <div class="btn_basic">
+                    <a href="javascript:;" onclick="moveReferrerPage('${storyParam.referrerPage}')">목록</a>
+                    <c:if test="${modifyAuthorityYn eq 'Y'}">
+                        <img src="/resources/img/line.png">
                         <a href="javascript:;" onclick="updateStory()">수정</a>
                         <img src="/resources/img/line.png">
                         <a href="javascript:;" onclick="deleteStory()">삭제</a>
-                    </div>
-                </c:if>
-
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>
@@ -73,10 +74,12 @@
 
 <script>
     const url               = window.location.href;
-    const listUrl           = '/story/list';
-    const deleteUrl         = "/story/delete";
-    const updateUrl         = "/story/update?id=";
+    const listUrl           = globalObj.getStoryListUrl();
+    const deleteUrl         = globalObj.getStoryDeleteUrl();
+    const updateUrl         = globalObj.getStoryUpdateUrl();
+    const referrerUrl       = '${storyParam.referrerPage}';
     const relatedPostsUrl   = "/story/related/posts";
+
 
     const type              = 'STORY';
     const storyMemId        = '${storyMemId}';
@@ -90,6 +93,22 @@
 
     const contents          = $("#storyContents").html();
     const thumbnail         = window.getServerImg('${fn:replace(view.thumbnailImgPath, '\\', '/')}'.replace(/[\\]/g, '/'));
+
+
+    // 뒤로 가기 url 지정
+    // history.pushState(null, null, referrerUrl);
+    // window.addEventListener('popstate', function(event) {
+    //     debugger;
+    //     window.location.href = referrerUrl;
+    // });
+
+    const moveReferrerPage = function (referrerUrl) {
+        if( referrerUrl ){
+            location.href = referrerUrl
+        }else{
+            window.history.back();
+        }
+    }
 
     const updateStory = function () {
         location.href = updateUrl + id;
@@ -179,7 +198,7 @@
                         }
 
                         relatedPostHtml += '<li>';
-                        relatedPostHtml += '<a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+                        relatedPostHtml += '<a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
                         relatedPostHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH']);
                         relatedPostHtml += '<strong>' + obj['TITLE'] + '</strong>';
                         relatedPostHtml += '<span>' + obj['REG_DATE'].split(" ")[0] + '</span>';

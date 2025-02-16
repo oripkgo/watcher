@@ -136,7 +136,7 @@
                 // let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
                 listHtml += '<div>'+window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])+'</div>';
                 listHtml += '        <strong>'+obj['TITLE']+'</strong>';
                 listHtml += '        <span>';
@@ -194,7 +194,7 @@
                 // let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
                 listHtml += '        <strong>'+obj.TITLE+'</strong>';
 
                 listHtml += '        <span>';

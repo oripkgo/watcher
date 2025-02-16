@@ -112,7 +112,7 @@
                 let listHtml = '';
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['ID'], obj['MEMBER_ID']) + '">';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
                 listHtml += '        <em>' + obj['CATEGORY_NM'] + '</em>';
                 listHtml += '        <strong>' + obj['TITLE'] + '</strong>';
 
@@ -166,6 +166,7 @@
         $("body").append(comm.dom.appendForm("storyEditForm"));
         const form = $("#storyEditForm");
         $(form).attr("action", "/story/write")
+        comm.dom.appendInput(form,'referrerPage', location.pathname+location.search);
         comm.dom.appendInput(form, "editPermId", editPermId);
         $(form).submit();
     }

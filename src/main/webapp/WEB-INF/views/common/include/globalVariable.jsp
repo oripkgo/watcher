@@ -57,6 +57,10 @@
 
         storyUrlList: "/story/list",
 
+        storyUrlDelete : "/story/delete",
+
+        storyUrlUpdate : "/story/update?id=",
+
         storyUrlView: "/story/view",
 
         storyUrlWrite: "/story/write",
@@ -131,8 +135,16 @@
             return listUrl;
         },
 
-        getStoryViewUrl: function (id, memId) {
-            return this.storyUrlView + '/' + memId + '?id=' + id;
+        getStoryDeleteUrl: function () {
+            return this.storyUrlDelete;
+        },
+
+        getStoryUpdateUrl: function (id) {
+            return this.storyUrlUpdate + (id ? id : '');
+        },
+
+        getStoryViewUrl: function (memId, id) {
+            return this.storyUrlView + '/' + memId + (id ? ('?id=' + id) : '');
         },
 
         getStoryWriteUrl: function () {
@@ -157,6 +169,10 @@
 
         getServerImg: function (path) {
             return (path ? /*this.apiHost + */path : "");
+        },
+
+        getManagementBoard : function(){
+            return this.managementBoard;
         },
 
         getImgTagStr: function (src, className) {

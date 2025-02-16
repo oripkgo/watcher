@@ -84,6 +84,7 @@ public class StoryController {
 
         mv.addObject("storyAdminId"     , storyInfo.getAdminId()                );
         mv.addObject("storyMemId"       , storyMemId                            );
+        mv.addObject("storyParam"       , storyParam                            );
         mv.addObject("view"             , storyInfo                             );
         mv.addObject("code"             , ResponseCode.SUCCESS_0000.getCode()   );
         mv.addObject("message"          , ResponseCode.SUCCESS_0000.getMessage());
@@ -161,8 +162,6 @@ public class StoryController {
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
             mav.addObject("view", storyService.getData(storyParam));
         }
-
-
 
         if( !StringUtils.hasText(storyParam.getEditPermId()) ){
             storyParam.setEditPermId(AESUtil.encrypt(memId + "/" + loginId));

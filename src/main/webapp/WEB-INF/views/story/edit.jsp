@@ -82,6 +82,11 @@
   </div>
 </form>
 
+<form id="nextPageForm" method="get">
+  <input type="hidden" name="id" value="">
+  <input type="hidden" name="referrerPage" value="${storyParam.referrerPage}">
+</form>
+
 <script>
 
   const memId = '${storyAdminMemId}';
@@ -127,7 +132,9 @@
       // 성공
       if( res.code == '0000' ){
         comm.message.alert('스토리가 '+(id?'수정':'등록')+'되었습니다.', function(){
-          location.href = window.getStoryViewUrl(res['storyId'], window.memberId);
+          $("#nextPageForm").attr("action", window.getStoryViewUrl(memId))
+          $("#nextPageForm").find("[name='id']").val(res['storyId']);
+          $("#nextPageForm").submit();
         });
       }
     })
