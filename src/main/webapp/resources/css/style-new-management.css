@@ -1,18 +1,18 @@
-.new_manage_head_box{
+.new_manage_head_box {
     display: flex;
     align-items: center;
     border-bottom: 3px solid #333;
 }
 
-.new_manage_title_box{
+.new_manage_title_box {
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 2;
 }
 
-.new_manage_title_box p.new_manage_title{
-    flex:1;
+.new_manage_title_box p.new_manage_title {
+    flex: 1;
     display: block;
     font-size: 22px;
     color: #000;
@@ -24,91 +24,101 @@
     position: relative;
 }
 
-.new_manage_btn_and_search_box{
-    flex:1;
 
-}
-
-.new_btn_right_box{
+.new_btn_right_box {
     display: flex;
     justify-content: flex-end;
 }
 
-.new_manage_btn_and_search_box .search_right_box{
+.new_manage_btn_and_search_box .search_right_box {
     position: static;
 }
 
-.new_manage_btn_and_search_box .btn_tb_wrap{
+.new_manage_btn_and_search_box .btn_tb_wrap {
     position: static;
 }
 
-.new_manage_head_box .btn_tb{
-    margin:10px 10px 10px 10px;
-    display: flex;
+.new_manage_head_box .btn_tb {
+    margin: 10px 10px 10px 10px;
     justify-content: flex-end;
-    flex: 1;
+    align-items: center;
 }
 
-.new_manage_head_box .btn_tb a{
+.new_manage_head_box .btn_tb a {
     font-size: 12px;
+    flex: 1;
+    text-align: center;
 }
 
-.new_manage_btn_box{
-    flex:2;
+.new_manage_btn_box {
+    flex: 2;
     display: flex;
     justify-content: flex-end;
 }
 
 
-.new_manage_head_box .btn_tb_wrap{
+.new_manage_head_box .btn_tb_wrap {
     position: static;
 }
 
 /*게시물 화면 반응형 처리 s */
-.board_list_table .mobile-data, .category_right .mobile-data{
+.board_list_table .mobile-data, .category_right .mobile-data {
     display: none;
 }
+
 /*게시물 화면 반응형 처리 e */
 
-.board_list_table td a span, .board_list_table td a strong{
+.board_list_table td a span, .board_list_table td a strong {
     word-break: break-all;
 }
 
-.articleList li a img{
+.articleList li a img {
     width: 100%;
     height: 162px;
 }
 
 
-.board_list_table .management-story-pc-image{
+.board_list_table .management-story-pc-image {
     width: 100%;
     height: 100px;
 }
 
 
 @media (max-width: 750px) {
-    .articleList li a img{
+
+    .new_manage_head_box .btn_tb {
+        display: flex;
+        flex: 1;
+    }
+
+    .articleList li a img {
         height: 100px;
     }
 
-    .new_manage_title_box p.new_manage_title{
-        font-size: 18px;
-    }
-
-    .new_manage_btn_and_search_box .search_right_box{
-        width:230px;
-    }
-
-    .new_manage_head_box{
+    .new_manage_title_box {
         display: block;
     }
 
-    .new_manage_btn_box{
-        margin-top:15px;
+    .new_manage_title_box p.new_manage_title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .new_manage_btn_and_search_box .search_right_box {
+        width: 100%;
+    }
+
+
+    .new_manage_head_box {
+        display: block;
+    }
+
+    .new_manage_btn_box {
+        margin-top: 15px;
     }
 
     /*게시물 화면 반응형 처리 s */
-    .board_list_table .mobile-data{
+    .board_list_table .mobile-data {
         display: block;
     }
 
@@ -124,20 +134,19 @@
         display: none;
     }
 
-    .board_list_table th:not(.not-none, .mobile-data), .board_list_table td:not(.not-none, .mobile-data){
+    .board_list_table th:not(.not-none, .mobile-data), .board_list_table td:not(.not-none, .mobile-data) {
         display: none;
     }
 
     /*.board_list_table th:not(th:first-child, .mobile-data), .board_list_table td:not(td:first-child, .mobile-data){
         display: none;
     }*/
-
     .mobile-data-row .mobile-data-col {
         display: flex;
     }
 
     .mobile-data-row .mobile-data-col.image {
-        padding:10px;
+        padding: 10px;
     }
 
     .mobile-data-row .mobile-data-col.image a {
@@ -150,14 +159,14 @@
     }
 
     .mobile-data-row .col-name {
-        flex:40%;
-        padding:5px 10px;
+        flex: 40%;
+        padding: 5px 10px;
         /*background-color: #f1f3f4;*/
     }
 
     .mobile-data-row .col-value {
-        flex:60%;
-        padding:5px 10px;
+        flex: 60%;
+        padding: 5px 10px;
         word-break: break-all;
     }
 
@@ -170,7 +179,7 @@
     }
 
     .board_list_table td:nth-child(1) {
-         width: 10px;
+        width: 10px;
         text-align: center;
     }
 

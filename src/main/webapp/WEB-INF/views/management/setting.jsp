@@ -24,7 +24,7 @@
                 <div class="new_btn_right_box">
                   <div class="btn_tb_wrap">
                     <div class="btn_tb">
-                      <a href="javascript:;" class="on" onclick="settingObj.saveSettingInfo('#commentForm')">변경사항 저장</a>
+                      <a href="javascript:;" onclick="settingObj.saveSettingInfo('#commentForm')">변경사항 저장</a>
                     </div>
                   </div>
                 </div>

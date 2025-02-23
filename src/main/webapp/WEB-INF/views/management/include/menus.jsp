@@ -15,6 +15,7 @@
             <a href="${globalVar.managementBoard}">게시글 관리</a>
             <a href="${globalVar.managementCategory}">카테고리 관리</a>
             <a href="${globalVar.managementNotice}">공지관리</a>
+            <a href="${globalVar.managementBoardExternal}">외부 게시글 관리</a>
         </div>
         <a href="javascript:;" class="menu_1st">스토리</a>
         <div class="menu_2st">

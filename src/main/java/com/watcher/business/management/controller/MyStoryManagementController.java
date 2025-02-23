@@ -49,6 +49,32 @@ public class MyStoryManagementController {
         return mv;
     }
 
+
+    @RequestMapping(value = {"/board/external"}, method = RequestMethod.GET)
+    public ModelAndView movePage() throws Exception {
+        ModelAndView mv = new ModelAndView("management/boardExternal");
+        return mv;
+    }
+
+
+    @RequestMapping(value = {"/board/external/storys"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getStorysExternal() throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        return result;
+    }
+
+
+    @RequestMapping(value = {"/board/external/storys"}, method = RequestMethod.DELETE)
+    @ResponseBody
+    public LinkedHashMap<String, Object> deleteStorysExternal() throws Exception {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        return result;
+    }
+
+
     @RequestMapping(value = {"/board/popularity/storys"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularityStorys(

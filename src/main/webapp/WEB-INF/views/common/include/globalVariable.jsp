@@ -13,6 +13,7 @@
     // 나의 관리자 왼쪽 메뉴 리스트
     globalVar.put("managementMain", "/management/index");
     globalVar.put("managementBoard", "/management/board");
+    globalVar.put("managementBoardExternal", "/management/board/external");
     globalVar.put("managementCategory", "/management/category");
     globalVar.put("managementNotice", "/management/notice");
 //    globalVar.put("managementComment"      , "/management/comment"   );
@@ -76,6 +77,8 @@
         managementMain: "/management/index",
 
         managementBoard: "/management/board",
+
+        managementBoardExternal: "/management/board/external",
 
         managementCategory: "/management/category",
 
