@@ -46,7 +46,7 @@
 
 .new_manage_head_box .btn_tb a {
     font-size: 12px;
-    flex: 1;
+    /*flex: 1;*/
     text-align: center;
 }
 
