@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.board.mapper.BoardMapper">
-	<select id="selectTagDatas" resultType="hashmap" parameterType="hashmap">
+	<select id="selectTagDatas" resultType="hashmap" parameterType="boardParam">
 		SELECT
 			GROUP_CONCAT(TAGS) AS TAGS
 		FROM BOARD_TAGS
@@ -12,7 +12,7 @@
 		AND DELETE_YN = 'N'
 	</select>
 
-	<select id="selectLikeYn" resultType="hashmap" parameterType="hashmap">
+	<select id="selectLikeYn" resultType="hashmap" parameterType="boardParam">
 		SELECT
 			(
 				SELECT
@@ -64,7 +64,7 @@
 		FROM DUAL
 	</select>
 
-	<insert id="insertLike" parameterType="hashmap" keyProperty="like_id" useGeneratedKeys="true">
+	<insert id="insertLike" parameterType="boardParam" keyProperty="likeId" useGeneratedKeys="true">
 		INSERT INTO BOARD_LIKE(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -84,7 +84,7 @@
 		)
 	</insert>
 
-	<update id="updateLike" parameterType="hashmap">
+	<update id="updateLike" parameterType="boardParam">
 		UPDATE BOARD_LIKE SET
 			 CANCEL_YN = IF(CANCEL_YN='N','Y','N')
 			,UPT_ID = #{uptId}
@@ -92,7 +92,7 @@
 		WHERE ID=#{likeId}
 	</update>
 
-	<select id="selectCommentCnt" resultType="int" parameterType="hashmap">
+	<select id="selectCommentCnt" resultType="int" parameterType="commentParam">
 		SELECT
 			COUNT(A.ID)
 		FROM COMMENT A
@@ -103,7 +103,7 @@
 	</select>
 
 
-	<select id="selectComment" resultType="hashmap" parameterType="hashmap">
+	<select id="selectComment" resultType="hashmap" parameterType="commentParam">
 		SELECT A.ID
 			 , A.CONTENTS_TYPE
 			 , A.CONTENTS_ID
@@ -128,7 +128,7 @@
 	</select>
 
 
-	<insert id="insertComment" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertComment" parameterType="commentParam" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO COMMENT(
 			 CONTENTS_TYPE
 			,CONTENTS_ID
@@ -150,7 +150,7 @@
 		)
 	</insert>
 
-	<update id="updateComment" parameterType="hashmap">
+	<update id="updateComment" parameterType="commentParam">
 		UPDATE COMMENT SET
 			COMMENT = #{comment},
 			UPT_ID = #{uptId},
@@ -158,7 +158,7 @@
 		WHERE ID=#{commentId}
 	</update>
 
-	<update id="deleteComment" parameterType="hashmap">
+	<update id="deleteComment" parameterType="commentParam">
 		UPDATE COMMENT SET
 			DELETE_YN = 'Y',
 			UPT_ID = #{uptId},
@@ -166,7 +166,7 @@
 		WHERE ID=#{commentId}
 	</update>
 
-	<insert id="insertTag" parameterType="hashmap">
+	<insert id="insertTag" parameterType="boardParam">
 		INSERT INTO BOARD_TAGS
 			(CONTENTS_TYPE, CONTENTS_ID, TAGS, REG_ID, REG_DATE, UPT_ID, UPT_DATE)
 		VALUES
@@ -175,7 +175,7 @@
 			</foreach>
 	</insert>
 
-	<update id="updateTag" parameterType="hashmap">
+	<update id="updateTag" parameterType="boardParam">
 		INSERT INTO BOARD_TAGS(
 		      CONTENTS_TYPE
 		    , CONTENTS_ID
@@ -202,7 +202,7 @@
 		    , UPT_DATE = UPT_DATE
 	</update>
 
-	<update id="deleteTag" parameterType="hashmap">
+	<update id="deleteTag" parameterType="boardParam">
 		UPDATE BOARD_TAGS SET
 			DELETE_YN = 'Y',
 			UPT_ID=#{uptId},

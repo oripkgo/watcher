@@ -15,6 +15,9 @@
 		<typeAlias type="com.watcher.business.management.param.ManagementParam" alias="managementParam"		/>
 		<typeAlias type="com.watcher.business.visitor.param.VisitorParam" alias="visitorParam"		/>
 		<typeAlias type="com.watcher.business.keyword.param.PopularKeywordParam" alias="popularKeywordParam"		/>
+		<typeAlias type="com.watcher.business.board.param.BoardParam" alias="boardParam"		/>
+		<typeAlias type="com.watcher.business.board.param.CommentParam" alias="commentParam"		/>
+
 
 		<!--응답-->
 		<typeAlias type="com.watcher.business.story.resp.StoryResp" alias="storyResp"/>

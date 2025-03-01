@@ -1,5 +1,7 @@
 package com.watcher.business.board.service;
 
+import com.watcher.business.board.param.BoardParam;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public interface BoardService {
 
     public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception;
 
-    public void insertLike(Map<String, Object> param) throws Exception;
+    public void insertLike(BoardParam boardParam) throws Exception;
 
-    public void updateLike(Map<String, Object> param) throws Exception;
+    public void updateLike(BoardParam boardParam) throws Exception;
 }

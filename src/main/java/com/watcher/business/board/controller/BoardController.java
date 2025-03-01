@@ -1,5 +1,6 @@
 package com.watcher.business.board.controller;
 
+import com.watcher.business.board.param.BoardParam;
 import com.watcher.business.board.service.BoardService;
 import com.watcher.business.board.service.NoticeService;
 import com.watcher.business.comm.dto.CommDto;
@@ -279,13 +280,12 @@ public class BoardController {
 	public LinkedHashMap modifyBoardLike(
 			HttpServletRequest request,
 			HttpServletResponse response,
-			@RequestBody Map<String,Object> param
+			@RequestBody BoardParam boardParam
 	) throws Exception {
 		LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-		LinkedHashMap<String, Object> likeParam = new LinkedHashMap<>();
 
-		String contentsType = String.valueOf(param.get("contentsType"));
-		String contentsId = String.valueOf(param.get("contentsId"));
+		String contentsType = boardParam.getContentsType();
+		String contentsId = boardParam.getContentsId();
 
 		String loginId = "";
 		String sessionId = "";
@@ -298,31 +298,25 @@ public class BoardController {
 		}catch (Exception e){}
 
 
-		if( param.containsKey("likeId") && param.get("likeId") != null ){
-			likeParam.put("likeId"	, param.get("likeId")	);
-			likeParam.put("uptId"	, loginId				);
-
-			boardService.updateLike(likeParam);
+		if( StringUtils.hasText(boardParam.getLikeId()) ){
+			boardParam.setUptId(loginId);
+			boardService.updateLike(boardParam);
 		}else{
-			likeParam.put("contentsType"	, param.get("contentsType")	);
-			likeParam.put("contentsId"		, param.get("contentsId")	);
-			likeParam.put("loginId"			, loginId					);
-			likeParam.put("likeType"		, "01"						);
-			likeParam.put("regId"			, loginId					);
-
-			boardService.insertLike(likeParam);
-			result.putAll(likeParam);
+			boardParam.setLikeType("01");
+			boardParam.setRegId(loginId);
+			boardParam.setLoginId(loginId);
+			boardService.insertLike(boardParam);
 		}
 
 		int id = Integer.valueOf(contentsId);
 		if( "STORY".equals(contentsType) ){
-			if( "Y".equals(param.get("likeYn")) ){
+			if( "Y".equals(boardParam.getLikeYn()) ){
 				storyService.updateLikeCountUp(id);
 			}else{
 				storyService.updateLikeCountDown(id);
 			}
 		}else if( "NOTICE".equals(contentsType) ){
-			if( "Y".equals(param.get("likeYn")) ){
+			if( "Y".equals(boardParam.getLikeYn()) ){
 				noticeService.updateLikeCountUp(id);
 			}else{
 				noticeService.updateLikeCountDown(id);
@@ -331,6 +325,7 @@ public class BoardController {
 
 		result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
 		result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+		result.put("boardParam", boardParam);
 
 		return result;
 	}

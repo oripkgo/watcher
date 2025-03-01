@@ -1,6 +1,7 @@
 package com.watcher.business.board.service.implementation;
 
 import com.watcher.business.board.mapper.BoardMapper;
+import com.watcher.business.board.param.BoardParam;
 import com.watcher.business.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,64 @@ public class BoardServiceImpl implements BoardService {
 
     @Autowired
     BoardMapper boardMapper;
+
+
+    // 좋아요 , 공감
+
+
+    @Override
+    public void insertLike(BoardParam boardParam) throws Exception {
+        boardMapper.insertLike(boardParam);
+    }
+
+
+    @Override
+    public void updateLike(BoardParam boardParam) throws Exception {
+        boardMapper.updateLike(boardParam);
+    }
+
+
+    @Override
+    public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception {
+        Map<String, String> result = null;
+
+        BoardParam boardParam = new BoardParam();
+
+        boardParam.setContentsId(contentsId);
+        boardParam.setContentsType(contentsType);
+
+        result = boardMapper.selectTagDatas(boardParam);
+
+        if (result == null) {
+            result = new LinkedHashMap<>();
+            result.put("tags", "");
+
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception {
+        Map<String, String> result = null;
+
+        BoardParam boardParam = new BoardParam();
+        boardParam.setContentsType(contentsType);
+        boardParam.setContentsId(contentsId);
+        boardParam.setLoginId(loginId);
+
+        result = boardMapper.selectLikeYn(boardParam);
+
+        if (result == null) {
+            result = new LinkedHashMap<>();
+        }
+
+        return result;
+    }
+
+
+    // 댓글
 
 
     @Override
@@ -72,50 +131,9 @@ public class BoardServiceImpl implements BoardService {
         return result;
     }
 
-    @Override
-    public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception {
-        LinkedHashMap param = new LinkedHashMap();
-        Map<String, String> result = null;
 
-        param.put("contentsType", contentsType  );
-        param.put("contentsId"  , contentsId    );
 
-        result = boardMapper.selectTagDatas(param);
 
-        if( result == null ){
-            result = new LinkedHashMap<>();
-            result.put("tags","");
 
-        }
 
-        return result;
-    }
-
-    @Override
-    public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception {
-        LinkedHashMap param = new LinkedHashMap();
-        Map<String, String> result = null;
-
-        param.put("contentsType", contentsType  );
-        param.put("contentsId"  , contentsId    );
-        param.put("loginId"     , loginId       );
-
-        result = boardMapper.selectLikeYn(param);
-
-        if( result == null ){
-            result = new LinkedHashMap<>();
-        }
-
-        return result;
-    }
-
-    @Override
-    public void insertLike(Map<String, Object> param) throws Exception {
-        boardMapper.insertLike(param);
-    }
-
-    @Override
-    public void updateLike(Map<String, Object> param) throws Exception {
-        boardMapper.updateLike(param);
-    }
 }

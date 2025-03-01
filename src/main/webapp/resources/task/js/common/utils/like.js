@@ -125,7 +125,7 @@ const LIKE = function(){
                     targetElement.dataset.likeYn
                 );
 
-                changeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['like_id']);
+                changeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['boardParam'].likeId);
                 setImage(targetElement, targetElement.dataset['likeYn']);
             } else {
                 console.log('비로그인 상태에서 좋아요 클릭');
