@@ -46,7 +46,6 @@
 		WHERE A.DELETE_YN = 'N' AND A.SECRET_YN = 'N'
 	</select>
 
-
 	<select id="selectStoryCnt" resultType="int" parameterType="storyParam">
 
 		SELECT
@@ -65,7 +64,6 @@
 		<include refid="conditions"/>
 
 	</select>
-
 
 	<select id="selectStory" resultType="map" parameterType="storyParam">
 		/* story > selectStory */
@@ -88,7 +86,6 @@
 			</otherwise>
 		</choose>
 	</select>
-
 
 	<select id="view" resultType="storyResp" parameterType="storyParam" >
 		/*story > view*/
@@ -182,21 +179,20 @@
 
 		<if test="searchKeyword != null and searchKeyword != ''">
 			AND (
-			A.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
-			OR A.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
-			OR A.ID IN (
-			SELECT
-			CONTENTS_ID
-			FROM BOARD_TAGS
-			WHERE 1=1
-			AND CONTENTS_TYPE = 'STORY'
-			AND DELETE_YN = 'N'
-			AND TAGS = #{searchKeyword}
-			)
+				A.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+				OR A.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
+				OR A.ID IN (
+					SELECT
+						CONTENTS_ID
+					FROM BOARD_TAGS
+					WHERE 1=1
+						AND CONTENTS_TYPE = 'STORY'
+						AND DELETE_YN = 'N'
+						AND TAGS = #{searchKeyword}
+				)
 			)
 		</if>
 	</sql>
-
 
 	<update id="update" parameterType="storyParam">
 
@@ -298,6 +294,118 @@
 		UPDATE STORY SET
 			LIKE_CNT = (LIKE_CNT-1)
 		WHERE ID=#{id}
+	</update>
+
+	<select id="selectStorysExternalCnt" parameterType="storyParam" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM STORY SR
+		INNER JOIN MEMBER MB ON MB.LOGIN_ID = SR.REG_ID
+		LEFT JOIN CATEGORY CG ON CG.ID = SR.CATEGORY_ID
+		LEFT JOIN USER_DEFINE_CATEGORY UDC ON UDC.ID = SR.MEMBER_CATEGORY_ID
+		LEFT JOIN FILE_RESOURCE FR  ON FR.ID = SR.THUMBNAIL_IMG_ID
+		WHERE 1=1
+			AND SR.ADMIN_ID != MB.ID
+			AND MB.ID = #{searchMemId}
+			AND SR.DELETE_YN = 'N'
+		<if test="searchCategoryId != null and searchCategoryId != ''">
+			AND SR.CATEGORY_ID = #{searchCategoryId}
+		</if>
+
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (
+				SR.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+				OR SR.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
+				OR SR.ID IN (
+					SELECT
+						CONTENTS_ID
+					FROM BOARD_TAGS
+					WHERE 1=1
+					AND CONTENTS_TYPE = 'STORY'
+					AND DELETE_YN = 'N'
+					AND TAGS = #{searchKeyword}
+				)
+			)
+		</if>
+	</select>
+
+	<select id="selectStorysExternal" parameterType="storyParam" resultType="storyResp">
+		SELECT
+			(
+				SELECT MM.STORY_TITLE FROM MEMBER_MANAGEMENT MM
+				INNER JOIN MEMBER MB ON MB.LOGIN_ID = MM.LOGIN_ID
+				WHERE MB.ID = SR.ADMIN_ID
+			) BLOG_NAME
+		    , SR.ID
+		    , SR.ADMIN_ID
+		    , MB.ID AS MEMBER_ID
+			, SR.CATEGORY_ID
+			, CG.CATEGORY_NM
+			, SR.MEMBER_CATEGORY_ID
+			, UDC.CATEGORY_NM AS MEMBER_CATEGORY_NM
+			, SR.TITLE
+			, SR.CONTENTS
+			, SR.VIEW_CNT
+			, SR.LIKE_CNT
+			, FR.REAL_FILE_NAME
+			, CONCAT(FR.SAVE_PATH, '', FR.SERVER_FILE_NAME)  AS THUMBNAIL_IMG_PATH
+			, SR.REG_DATE
+			, SR.UPT_DATE
+			, IFNULL((
+				SELECT COUNT(1)
+				FROM COMMENT
+				WHERE CONTENTS_TYPE = 'STORY'
+				AND CONTENTS_ID = SR.ID
+			), 0) AS COMMENT_CNT
+			, (
+				SELECT
+					GROUP_CONCAT(TAGS)
+				FROM BOARD_TAGS
+				WHERE 1=1
+				AND CONTENTS_TYPE = 'STORY'
+				AND CONTENTS_ID = SR.ID
+				AND DELETE_YN = 'N'
+			) AS TAGS
+		FROM STORY SR
+		INNER JOIN MEMBER MB ON MB.LOGIN_ID = SR.REG_ID
+		LEFT JOIN CATEGORY CG ON CG.ID = SR.CATEGORY_ID
+		LEFT JOIN USER_DEFINE_CATEGORY UDC ON UDC.ID = SR.MEMBER_CATEGORY_ID
+		LEFT JOIN FILE_RESOURCE FR  ON FR.ID = SR.THUMBNAIL_IMG_ID
+		WHERE 1=1
+			AND SR.ADMIN_ID != MB.ID
+			AND MB.ID = #{searchMemId}
+			AND SR.DELETE_YN = 'N'
+		<if test="searchCategoryId != null and searchCategoryId != ''">
+			AND SR.CATEGORY_ID = #{searchCategoryId}
+		</if>
+
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (
+				SR.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
+				OR SR.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
+				OR SR.ID IN (
+					SELECT
+						CONTENTS_ID
+					FROM BOARD_TAGS
+					WHERE 1=1
+						AND CONTENTS_TYPE = 'STORY'
+						AND DELETE_YN = 'N'
+						AND TAGS = #{searchKeyword}
+				)
+			)
+		</if>
+
+		ORDER BY REG_DATE DESC
+		LIMIT ${(pageNo-1)*listNo},${listNo}
+	</select>
+
+	<update id="deleteStoryExternal" parameterType="storyParam">
+		UPDATE STORY
+		SET
+			  DELETE_YN = 'Y'
+			, UPT_DATE = NOW()
+			, UPT_ID = #{loginId}
+		WHERE ID = #{id}
 	</update>
 
 </mapper>

@@ -9,8 +9,11 @@ import com.watcher.business.management.param.MemberCategoryParam;
 import com.watcher.business.management.service.ManagementService;
 import com.watcher.business.member.service.MemberService;
 import com.watcher.business.story.param.StoryParam;
+import com.watcher.business.story.resp.StoryResp;
 import com.watcher.business.story.service.StoryService;
 import com.watcher.enums.ResponseCode;
+import com.watcher.util.CookieUtil;
+import com.watcher.util.JwtTokenUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/management")
@@ -59,8 +63,19 @@ public class MyStoryManagementController {
 
     @RequestMapping(value = {"/board/external/storys"}, method = RequestMethod.GET)
     @ResponseBody
-    public LinkedHashMap<String, Object> getStorysExternal() throws Exception {
+    public LinkedHashMap<String, Object> getStorysExternal(StoryParam storyParam) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        String sessionId 	= JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
+        String memId 		= String.valueOf(signService.getSessionUser(sessionId).get("ID"));
+
+        storyParam.setSearchMemId(memId);
+        List<StoryResp> storys = storyService.getListExternal(storyParam);
+
+        result.put("dto"        , storyParam				                );
+        result.put("list"	    , storys				                    );
+        result.put("code"	    , ResponseCode.SUCCESS_0000.getCode()		);
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()	);
 
         return result;
     }
@@ -68,8 +83,21 @@ public class MyStoryManagementController {
 
     @RequestMapping(value = {"/board/external/storys"}, method = RequestMethod.DELETE)
     @ResponseBody
-    public LinkedHashMap<String, Object> deleteStorysExternal() throws Exception {
+    public LinkedHashMap<String, Object> deleteStorysExternal(StoryParam storyParam) throws Exception {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        if( !JwtTokenUtil.verifyToken(CookieUtil.getValue("SESSION_TOKEN")) ){
+            throw new Exception("2102");
+        }
+
+        try{
+            storyService.deleteStoryExternal(storyParam);
+        }catch (Exception e){
+            throw new Exception("2000");
+        }
+
+        result.put("code"	    , ResponseCode.SUCCESS_0000.getCode()		);
+        result.put("message"    , ResponseCode.SUCCESS_0000.getMessage()	);
 
         return result;
     }

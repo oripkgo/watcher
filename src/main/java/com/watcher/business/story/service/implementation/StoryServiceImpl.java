@@ -267,4 +267,14 @@ public class StoryServiceImpl implements StoryService {
 
     }
 
+    @Override
+    public List<StoryResp> getListExternal(StoryParam storyParam) throws Exception {
+        storyParam.setTotalCnt( storyMapper.selectStorysExternalCnt(storyParam) );
+        return storyMapper.selectStorysExternal(storyParam);
+    }
+
+    @Override
+    public void deleteStoryExternal(StoryParam storyParam) throws Exception {
+        int result = storyMapper.deleteStoryExternal(storyParam);
+    }
 }

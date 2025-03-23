@@ -28,4 +28,9 @@ public interface StoryMapper {
 
     public void updateLikeCountDown(int id);
 
+    public int selectStorysExternalCnt(StoryParam storyParam);
+
+    public List<StoryResp> selectStorysExternal(StoryParam storyParam);
+
+    public int deleteStoryExternal(StoryParam storyParam);
 }

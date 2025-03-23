@@ -45,4 +45,8 @@ public interface StoryService {
 
     public List<Map<String, Object>> getFeaturedRelatedPostList(String memId, String targetContent, List<Map<String, Object>> storyList) throws Exception;
 
+    public List<StoryResp> getListExternal(StoryParam storyParam) throws Exception;
+
+    public void deleteStoryExternal(StoryParam storyParam) throws Exception;
+
 }

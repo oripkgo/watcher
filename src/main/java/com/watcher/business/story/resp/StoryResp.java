@@ -31,5 +31,5 @@ public class StoryResp extends StoryDto {
     private String categoryNm;
     private String tags;
     private String commentCnt;
-
+    private String blogName;
 }

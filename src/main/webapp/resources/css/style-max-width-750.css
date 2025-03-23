@@ -192,9 +192,9 @@
     .board_basic th:nth-child(2) {display:none;}
     .board_basic td:nth-child(3) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;display:none;}
     .board_basic th:nth-child(3) {display:none;}
-    .board_basic td:nth-child(4) {padding:10px 30px 20px 10px;}
-    .board_basic td:nth-child(5) {width:60px;}
-    .board_basic th:nth-child(4) {text-align:right;}
+    .board_basic td.category_member {padding:10px 30px 20px 10px;}
+    .board_basic td.story_info {width:60px;}
+    .board_basic th.category_member {text-align:right;}
     .board_basic td {font-size:14px;}
     .board_basic td a strong {font-size:15px;}
     .board_basic td a span {font-size:13px;}

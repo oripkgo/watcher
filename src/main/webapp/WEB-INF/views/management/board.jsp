@@ -199,8 +199,8 @@
                 listHtml += '<td class="not-none"><input type="checkbox" class="check"></td>                                                         ';
                 listHtml += '<td>'+secretStatus+'</td>                                                                              ';
                 listHtml += '<td><a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="kind_link">'+obj['CATEGORY_NM']+'</a></td>           ';
-                listHtml += '<td><a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="kind_link">'+(obj['MEMBER_CATEGORY_NM']||"")+'</a></td>           ';
-                listHtml += '<td>                                                                                                   ';
+                listHtml += '<td class="category_member"><a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="kind_link">'+(obj['MEMBER_CATEGORY_NM']||"")+'</a></td>           ';
+                listHtml += '<td class="story_info">                                                                                                   ';
                 listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="subject_link">                                    ';
                 listHtml += '        <strong>'+obj['TITLE']+'</strong>                                                                 ';
                 listHtml += '        <span>'+obj['SUMMARY']+'</span>                                                                   ';
@@ -222,7 +222,7 @@
                 listHtml += '        <span>댓글 ' + obj['COMMENT_CNT'] + '</span>                                                   ';
                 listHtml += '    </div>                                                                                        ';
                 listHtml += '</td>                                                                                             ';
-                listHtml += '<td>                                                                                              ';
+                listHtml += '<td class="story_image">                                                                                              ';
                 listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '" class="pic_link">                                   ';
                 listHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'],"management-story-pc-image");
                 listHtml += '    </a>                                                                                               ';
@@ -326,7 +326,7 @@
                             <th class="not-none"><input type="checkbox" class="check all"></th>
                             <th>공개여부</th>
                             <th>카테고리</th>
-                            <th>회원 <br>카테고리</th>
+                            <th class="category_member">회원 <br>카테고리</th>
                             <th colspan="2"></th>
                             </tbody>
                             <tbody id="storyList"></tbody>

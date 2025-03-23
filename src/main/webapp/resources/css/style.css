@@ -401,10 +401,10 @@ a.hover_line:hover {
 .board_basic td:nth-child(1) {width:50px;text-align:center;}
 .board_basic td:nth-child(2) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;white-space: normal;}
 .board_basic td:nth-child(3) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;white-space: normal;}
-.board_basic td:nth-child(4) {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;}
-.board_basic td:nth-child(5) {padding:10px 30px 20px 10px;}
-.board_basic td:nth-child(6) {width:100px;}
-.board_basic th:nth-child(5) {text-align:right;}
+.board_basic td.category_member {width:120px;text-align:center;font-size:15px;color:#757575;font-weight:400;}
+.board_basic td.story_info {padding:10px 30px 20px 10px;}
+.board_basic td.story_image {width:100px;}
+.board_basic th.story_info {text-align:right;}
 .board_basic td {border-bottom:1px solid #ddd;font-size:15px;color:#757575;font-weight:400;padding:10px 0px;}
 .board_basic td a strong {display:block;font-size:20px;color:#333;font-weight:600;padding:10px 0px 12px 0px;}
 .board_basic td a span {display:block;font-size:14px;color:#000;font-weight:400;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:2;-webkit-box-orient:vertical;display:-webkit-box;word-wrap:break-word;}
