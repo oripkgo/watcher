@@ -28,7 +28,12 @@ const REQUEST = function () {
         if (headers) {
             for (let key in headers) {
                 xhr.setRequestHeader(key, headers[key]);
+
+                if( key ===  "Content-type"  && headers[key] === 'application/json'){
+                    xhr.setRequestHeader("Accept", "application/json");
+                }
             }
+
         }
 
         xhr.onreadystatechange = function () {
