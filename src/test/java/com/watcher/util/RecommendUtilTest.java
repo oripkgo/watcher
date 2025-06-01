@@ -1,4 +1,4 @@
-package com.watcher;
+package com.watcher.util;
 
 
 import org.jsoup.Jsoup;

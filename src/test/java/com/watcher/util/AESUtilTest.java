@@ -1,4 +1,4 @@
-package com.watcher;
+package com.watcher.util;
 
 import com.watcher.util.AESUtil;
 import org.junit.jupiter.api.DisplayName;
