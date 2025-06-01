@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+//@ActiveProfiles("dev")
 public class RecommendUtilTest {
 
     // 유사도 임계값
