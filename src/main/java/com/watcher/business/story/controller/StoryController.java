@@ -11,7 +11,7 @@ import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
+import com.watcher.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -35,7 +35,7 @@ public class StoryController {
     SignService signService;
 
     @Autowired
-    RedisUtil redisUtil;
+    SessionUtil sessionUtil;
 
     @Autowired
     ManagementService managementService;
@@ -51,7 +51,7 @@ public class StoryController {
         ModelAndView mv = new ModelAndView("story/view");
 
         String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
-        String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+        String loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
         storyService.insertViewsCount(storyParam);
         StoryResp storyInfo = storyService.getData(storyParam);
@@ -106,7 +106,7 @@ public class StoryController {
 
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+        String loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
         storyParam.setRegId(loginId);
         storyParam.setUptId(loginId);
 
@@ -156,8 +156,8 @@ public class StoryController {
         ModelAndView mav = new ModelAndView("story/edit");
 
         String sessionId 	= JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
-        String memId 		= String.valueOf(redisUtil.getSession(sessionId).get("ID"));
-        String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
+        String memId 		= String.valueOf(sessionUtil.getSession(sessionId).get("ID"));
+        String loginId 		= sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
         if( !(storyParam.getId() == null || storyParam.getId().isEmpty()) ){
             mav.addObject("view", storyService.getData(storyParam));

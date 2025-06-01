@@ -10,7 +10,6 @@ import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;

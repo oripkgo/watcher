@@ -23,7 +23,7 @@ public class VisitorController {
     SignService signService;
 
     @Autowired
-    RedisUtil redisUtil;
+    SessionUtil sessionUtil;
 
     @RequestMapping(value = {"/count/inflow/source"}, method = RequestMethod.GET)
     @ResponseBody
@@ -36,7 +36,7 @@ public class VisitorController {
 
         String token        = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId    = signService.getSessionId(signService.validation(token));
-        Object memId        = redisUtil.getSession(sessionId).get("ID");
+        Object memId        = sessionUtil.getSession(sessionId).get("ID");
 
         visitorParam.setMemId(String.valueOf(memId));
 
@@ -58,7 +58,7 @@ public class VisitorController {
 
         String token        = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId    = signService.getSessionId(signService.validation(token));
-        Object memId        = redisUtil.getSession(sessionId).get("ID");
+        Object memId        = sessionUtil.getSession(sessionId).get("ID");
 
         visitorParam.setMemId(String.valueOf(memId));
 
@@ -80,7 +80,7 @@ public class VisitorController {
 
         String token        = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId    = signService.getSessionId(signService.validation(token));
-        Object memId        = redisUtil.getSession(sessionId).get("ID");
+        Object memId        = sessionUtil.getSession(sessionId).get("ID");
 
         visitorParam.setMemId(String.valueOf(memId));
 
@@ -102,7 +102,7 @@ public class VisitorController {
 
         String token        = request.getHeader("Authorization").replace("Bearer ", "");
         String sessionId    = signService.getSessionId(signService.validation(token));
-        Object memId        = redisUtil.getSession(sessionId).get("ID");
+        Object memId        = sessionUtil.getSession(sessionId).get("ID");
 
         visitorParam.setMemId(String.valueOf(memId));
 

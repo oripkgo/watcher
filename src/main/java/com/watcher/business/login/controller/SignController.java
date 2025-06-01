@@ -7,8 +7,7 @@ import com.watcher.enums.MemberType;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
-import org.apache.catalina.manager.util.SessionUtils;
+import com.watcher.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ public class SignController {
 	private MemberService memberService;
 
 	@Autowired
-	private RedisUtil redisUtil;
+	private SessionUtil sessionUtil;
 
 	@Value("${spring.session.timeout}")
 	private int SESSION_TIME;
@@ -83,7 +82,7 @@ public class SignController {
 		String apiToken = JwtTokenUtil.createJWT(sessionId);
 
 		Map<String, Object> userData = signService.handleIn(loginVo, sessionId);
-		redisUtil.setSession(sessionId, userData);
+		sessionUtil.setSession(sessionId, userData);
 		CookieUtil.addCookie("SESSION_TOKEN", apiToken, SESSION_TIME);
 
 		if ( userData != null ){

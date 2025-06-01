@@ -12,7 +12,7 @@ import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
+import com.watcher.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -43,7 +43,7 @@ public class BoardController {
 	SignService signService;
 
 	@Autowired
-	RedisUtil redisUtil;
+	SessionUtil sessionUtil;
 
 	@Autowired
 	ManagementService managementService;
@@ -256,7 +256,7 @@ public class BoardController {
 
 		String token 		= request.getHeader("Authorization").replace("Bearer ", "");
 		String sessionId 	= signService.getSessionId(token);
-		String loginId 		= redisUtil.getSession(sessionId).get("LOGIN_ID");
+		String loginId 		= sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -292,8 +292,8 @@ public class BoardController {
 		String token = request.getHeader("Authorization").replace("Bearer ", "");
 		try{
 			sessionId = signService.getSessionId(token);
-			if( redisUtil.getSession(sessionId) != null ){
-				loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+			if( sessionUtil.getSession(sessionId) != null ){
+				loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 			}
 		}catch (Exception e){}
 
@@ -341,7 +341,7 @@ public class BoardController {
 
 		String token = request.getHeader("Authorization").replace("Bearer ", "");
 		String sessionId = signService.getSessionId(token);
-		String loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+		String loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
 		String contentsType = String.valueOf(param.get("contentsType"));
 		String contentsId = String.valueOf(param.get("contentsId"));
@@ -409,8 +409,8 @@ public class BoardController {
 		String nickName  = "";
 		String profile   = "";
 
-		if( redisUtil.getSession(sessionId) != null ){
-			Map<String, String> userData = redisUtil.getSession(sessionId);
+		if( sessionUtil.getSession(sessionId) != null ){
+			Map<String, String> userData = sessionUtil.getSession(sessionId);
 
 			loginId 	= userData.get("LOGIN_ID");
 			nickName 	= userData.get("NICKNAME");
@@ -464,8 +464,8 @@ public class BoardController {
 		String sessionId = signService.getSessionId(token);
 		String loginId = "";
 
-		if( redisUtil.getSession(sessionId) != null ){
-			loginId = redisUtil.getSession(sessionId).get("LOGIN_ID");
+		if( sessionUtil.getSession(sessionId) != null ){
+			loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 		}
 
 		LinkedHashMap commentParam = new LinkedHashMap();

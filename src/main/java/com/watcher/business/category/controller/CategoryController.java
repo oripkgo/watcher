@@ -4,7 +4,7 @@ import com.watcher.business.category.service.CategoryService;
 import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
-import com.watcher.util.RedisUtil;
+import com.watcher.util.SessionUtil;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class CategoryController {
     SignService signService;
 
     @Autowired
-    RedisUtil redisUtil;
+    SessionUtil sessionUtil;
 
 
     @ResponseBody
@@ -50,7 +50,7 @@ public class CategoryController {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
         LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("memId", redisUtil.getSession(sessionId).get("ID"));
+        param.put("memId", sessionUtil.getSession(sessionId).get("ID"));
         JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
         result.put("memberCategoryList", jsonArray.toString());

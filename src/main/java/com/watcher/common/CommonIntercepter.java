@@ -2,7 +2,7 @@ package com.watcher.common;
 
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
+import com.watcher.util.SessionUtil;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class CommonIntercepter implements HandlerInterceptor {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private SessionUtil sessionUtil;
 
     private static List compareValuesContentType = Arrays.asList(new String[]{
             "application/json",
@@ -53,7 +53,7 @@ public class CommonIntercepter implements HandlerInterceptor {
         // 세션유지 유무 체크
         String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
 
-        Map result = redisUtil.getSession(sessionId);
+        Map result = sessionUtil.getSession(sessionId);
         if( result == null || result.isEmpty() ){
             request.setAttribute("sessionExceededYn","Y");
         }

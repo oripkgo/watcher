@@ -7,7 +7,7 @@ import com.watcher.business.member.service.MemberService;
 import com.watcher.enums.MemberType;
 import com.watcher.util.HttpUtil;
 import com.watcher.util.JwtTokenUtil;
-import com.watcher.util.RedisUtil;
+import com.watcher.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 public class SignServiceImpl implements SignService {
     @Autowired
-    RedisUtil redisUtil;
+    SessionUtil sessionUtil;
 
     @Autowired
     MemberService memberService;
@@ -123,19 +123,19 @@ public class SignServiceImpl implements SignService {
         HttpUtil.requestHttp(logOutUrl, logOutParam, logOutHeaders);
 
         if( sessionId != null ){
-            redisUtil.remove(sessionId);
+            sessionUtil.remove(sessionId);
         }
     }
 
     @Override
     public boolean isSessionUser(String sessionId) throws Exception {
-        Map result = redisUtil.getSession(sessionId);
+        Map result = sessionUtil.getSession(sessionId);
         return result == null || result.isEmpty();
     }
 
     @Override
     public Map<String, String> getSessionUser(String sessionId) throws Exception {
-        Map<String, String> result = redisUtil.getSession(sessionId);
+        Map<String, String> result = sessionUtil.getSession(sessionId);
         return result == null || result.isEmpty() ? new HashMap<String, String>() : result;
     }
 
