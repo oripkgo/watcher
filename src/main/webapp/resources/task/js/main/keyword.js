@@ -41,19 +41,8 @@ const keyword = {
         $("#popularKeywordList").empty();
         list.forEach(function (obj/*, idx*/) {
             let $nodeCopy = $($node).clone(true);
-            let nodeHtml = '';
-
-            if (obj['CATEGORY_IMG_PATH']) {
-                nodeHtml += '<img src="' + obj['CATEGORY_IMG_PATH'] + '">';
-            }
-
-            nodeHtml += '<div>';
-            nodeHtml += '	<strong>' + obj['CATEGORY_NM'] + '</strong>';
-            nodeHtml += '	<span>#' + obj['TAGS'] + '</span>';
-            nodeHtml += '</div>';
-
+            let nodeHtml = '#'+obj['TAGS'];
             $($nodeCopy).attr("href", window.getStoryListUrl(obj['CATEGORY_ID'], obj['TAGS']))
-
             $($nodeCopy).data(obj);
             $($nodeCopy).html(nodeHtml);
 

@@ -215,6 +215,12 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
+    public List<Map<String, Object>> getNewStoryMain(StoryParam storyParam) throws Exception {
+        return storyMapper.getNewStoryMain(storyParam);
+    }
+
+
+    @Override
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam) throws Exception {
         return storyMapper.getPopularStoryMain(storyParam);
     }

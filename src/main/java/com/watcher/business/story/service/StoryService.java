@@ -37,6 +37,8 @@ public interface StoryService {
 
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam) throws Exception;
 
+    public List<Map<String, Object>> getNewStoryMain(StoryParam storyParam) throws Exception;
+
     public void insertViewsCount(StoryParam storyParam) throws Exception;
 
     public void updateLikeCountUp(int id) throws Exception;

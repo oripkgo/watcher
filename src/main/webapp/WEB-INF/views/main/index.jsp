@@ -3,79 +3,92 @@
 
 <form name="mainNoticeForm" id="mainNoticeForm"></form>
 
-<div class="section">
-    <div class="ani-in">
+<section class="hero">
+    <h1>세상의 이야기를 연결하는 블로그 플랫폼</h1>
+    <p>누구나 글을 쓰고, 공유하고, 발견할 수 있는 곳</p>
+    <div class="btn-group">
+        <a href="#">블로그 시작하기</a>
+        <a href="#">인기글 보기</a>
+    </div>
+</section>
 
-        <div class="swiper_product ani_y delay1">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="/resources/img/main_visual01.jpg">
+<!-- 검색창 -->
+<div class="search-bar">
+    <input type="text" placeholder="블로그 글 검색..." id="keyword"/>
+    <button onclick="searchKeyword()">검색</button>
+</div>
+
+<!-- 오늘의 추천 글 -->
+<div class="container">
+    <section class="featured">
+        <img src="https://picsum.photos/600/400?random=1" alt="추천 글">
+        <div class="featured-content">
+            <h2>오늘의 추천 글: AI 시대의 글쓰기</h2>
+            <p>AI와 함께하는 글쓰기, 창작의 새로운 가능성에 대한 이야기입니다.</p>
+            <a href="#">지금 읽기 →</a>
+        </div>
+    </section>
+</div>
+
+<!-- 메인 -->
+<div class="container">
+    <main>
+        <div>
+
+            <!-- 공지사항 -->
+            <section>
+                <h2>📢 공지사항</h2>
+                <div class="posts-grid" id="noticeList">
                 </div>
-            </div>
-            <div class="swiper-pagination"></div>
+            </section>
 
-            <div class="notice_wrap" style="display: none;">
-                <div class="notice_tit">공지사항</div>
-                <div class="notice_area" id="noticeList"></div>
-                <div class="notice_btn">
-                    <a href="javascript:;" class="prev_a"></a>
-                    <a href="javascript:;" class="next_a"></a>
+
+            <!-- 인기글 -->
+            <section>
+                <h2>🔥 인기글</h2>
+                <div class="posts-grid" id="popularStoryList">
                 </div>
-            </div>
+            </section>
 
-        </div>
-    </div>
-</div>
-
-<div class="section bg_grey" id="popularStorys">
-    <div class="ani-in layout">
-
-        <div class="issue_wrap ani_y delay1">
-            <div class="stip"></div>
-            <div class="title_main"><span>issue</span></div>
-
-            <div class="swiper_banner">
-                <div class="swiper-wrapper" id="popularStoryList"></div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="section">
-    <div class="ani-in layout">
-
-        <div class="tab_wrap ani_y delay2">
-            <!--탭메뉴-->
-            <div id="tab_box">
-                <div id="tab_cnt" class="category_tab">
+            <!-- 최신글 -->
+            <section>
+                <h2>🆕 최신 글</h2>
+                <div class="posts-grid" id="newStoryList">
                 </div>
-                <div class="grap" id="tab_parent"></div>
-            </div>
-            <!--//탭메뉴 끝-->
+            </section>
 
         </div>
 
-    </div>
+        <!-- 사이드바 -->
+        <aside class="sidebar">
+            <%--<section>
+                <h3>🌟 추천 블로거</h3>
+                <div class="blogger">
+                    <img src="https://picsum.photos/40/40?random=7" alt="User">
+                    <span>코딩하는길동</span>
+                    <button>팔로우</button>
+                </div>
+                <div class="blogger">
+                    <img src="https://picsum.photos/40/40?random=8" alt="User">
+                    <span>여행하는영희</span>
+                    <button>팔로우</button>
+                </div>
+            </section>--%>
+
+            <section>
+                <h3># 인기 태그</h3>
+                <div class="tags" id="popularKeywordList">
+                    <%--<a href="#">#코딩</a>
+                    <a href="#">#디자인</a>
+                    <a href="#">#여행</a>
+                    <a href="#">#음식</a>
+                    <a href="#">#일상</a>--%>
+                </div>
+            </section>
+        </aside>
+    </main>
 </div>
 
-<div class="section bg_grey2">
-    <div class="ani-in layout">
-        <div class="keyword_wrap ani_y delay2">
-            <div class="keyword_tit">keyword</div>
-            <div class="keyword_search">
-                <input type="text" v-on:keypress="mainObj.keyword.search(this);" name="keyword" id="keyword"
-                       placeholder="나의 감성을 더해줄 이야기를 찾아보세요.">
-                <a href="javascript:;" v-on:click="mainObj.keyword.search(this);"><img
-                        src="/resources/img/btn_search_b.png"></a>
-            </div>
-            <div class="keyword_box_wrap" id="popularKeywordList"></div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript" src="/resources/task/js/main/swiper.js"></script>
 <script type="text/javascript" src="/resources/task/js/main/notice.js"></script>
 <script type="text/javascript" src="/resources/task/js/main/story.js"></script>
 <script type="text/javascript" src="/resources/task/js/main/keyword.js"></script>
@@ -83,10 +96,13 @@
 
 <script type="text/javascript">
 
-    mainSwiper.init();
+   function searchKeyword(){
+        const keyword = $("#keyword").val();
+       location.href="/story/list?searchKeyword="+keyword;
+   }
+
     notice.init();
-    story.init(mainSwiper.banner);
+    story.init();
     keyword.init();
-    mainCategory.init();
 
 </script>

@@ -212,6 +212,25 @@ public class StoryController {
     }
 
 
+    @RequestMapping(value = {"/new/main"}, method = RequestMethod.GET)
+    @ResponseBody
+    public LinkedHashMap<String, Object> getNewStoryMain(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            StoryParam storyParam
+    ) throws Exception {
+
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+        result.put("newStorys"      , storyService.getNewStoryMain(storyParam)      );
+        result.put("dto"            , storyParam                                    );
+        result.put("code"           , ResponseCode.SUCCESS_0000.getCode()           );
+        result.put("message"        , ResponseCode.SUCCESS_0000.getMessage()        );
+
+        return result;
+    }
+
+
     @RequestMapping(value = {"/popular/main"}, method = RequestMethod.GET)
     @ResponseBody
     public LinkedHashMap<String, Object> getPopularStoryMain(

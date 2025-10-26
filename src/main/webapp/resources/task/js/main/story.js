@@ -1,13 +1,13 @@
 
 const storyListUrl = '/story/list/data';
 const popularStoryListUrl = '/story/popular/main';
-const moreButtonImgPath = '/resources/img/btn_more.png';
-const swiperSlide = $('<div class="swiper-slide"></div>')
+const newStoryListUrl = '/story/new/main';
+const listElement = $('<article class="card"></article>')
 
 const story = {
-    init : function(funcSwiperExecution){
-        this.funcSwiperExecution = funcSwiperExecution;
+    init : function(){
         this.getPopularList();
+        this.getNewList();
     },
     getPopularList : function(){
         const storyThis = this;
@@ -17,39 +17,65 @@ const story = {
             headers : {"Content-type":"application/x-www-form-urlencoded"},
         },function(data){
             if( data.code == '0000' && ( data['popularStorys'] && data['popularStorys'].length > 0 ) ){
-                data['popularStorys'].forEach(function(obj){
-                    let story = $(swiperSlide).clone(true);
-                    let storyHtml = '';
+                data['popularStorys'].forEach(function(obj,idx){
+                    let story = $(listElement).clone(true);
 
-                    storyHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'], "main-middel-banner");
-                    storyHtml += '<div class="issue_box">';
-                    storyHtml += '<span class="kind">'+obj['CATEGORY_NM']+'</span>';
-                    storyHtml += '<strong>'+obj['TITLE']+'</strong>';
+                    const contents = obj['SUMMARY'] || $(obj['CONTENTS']).text().trim()
+                    const regName = obj['NICKNAME'];
+                    const views = obj['VIEW_CNT'];
+                    const comments = obj['COMMENT_CNT'];
+                    const img = obj['THUMBNAIL_IMG_PATH']?
+                        $(window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])):
+                        $('<img src="'+('https://picsum.photos/400/250?random='+(new Date().getTime()+idx))+'" alt="인기 스토리">')
 
-                    let summary = obj['SUMMARY'] || '';
-                    if( !(summary.length < 100) ){
-                        summary = summary.substring(0,100)+' ...';
-                    }
+                    $(story).append(img)
+                    $(story).append('<h3>'+obj['TITLE']+'</h3>')
+                    $(story).append('<div class="meta">👤 '+regName+' · 👀 '+views+' · 💬 '+comments+'</div>')
+                    $(story).append('<p class="contents">'+contents+'</p>')
+                    $(story).append('<a href="'+window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'])+'">더보기 →</a>')
 
-                    storyHtml += '<span>'+summary+'</span>';
-                    storyHtml += '<em>by ' + obj['NICKNAME'] + '</em>';
-                    storyHtml += '<a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '"><img src="' + moreButtonImgPath + '"></a>';
-                    storyHtml += '</div>';
+                    $(story).data(obj)
 
-                    $(story).html(storyHtml)
-                    $(story).data(obj);
 
                     $("#popularStoryList").append(story);
                 })
             }
 
-            if( $(".swiper-slide","#popularStoryList").length == 0 ){
-                $("#popularStorys").remove();
-            }else{
-                if( storyThis.funcSwiperExecution ){
-                    storyThis.funcSwiperExecution();
-                }
+        });
+    },
+
+    getNewList : function(){
+        const storyThis = this;
+        comm.request({
+            url: newStoryListUrl,
+            method : "GET",
+            headers : {"Content-type":"application/x-www-form-urlencoded"},
+        },function(data){
+            if( data.code == '0000' && ( data['newStorys'] && data['newStorys'].length > 0 ) ){
+                data['newStorys'].forEach(function(obj,idx){
+                    let story = $(listElement).clone(true);
+
+                    const contents = obj['SUMMARY'] || $(obj['CONTENTS']).text().trim()
+                    const regName = obj['NICKNAME'];
+                    const views = obj['VIEW_CNT'];
+                    const comments = obj['COMMENT_CNT'];
+                    const img = obj['THUMBNAIL_IMG_PATH']?
+                        $(window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])):
+                        $('<img src="'+('https://picsum.photos/400/250?random='+(new Date().getTime()+idx))+'" alt="인기 스토리">')
+
+                    $(story).append(img)
+                    $(story).append('<h3>'+obj['TITLE']+'</h3>')
+                    $(story).append('<div class="meta">👤 '+regName+' · 👀 '+views+' · 💬 '+comments+'</div>')
+                    $(story).append('<p class="contents">'+contents+'</p>')
+                    $(story).append('<a href="'+window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'])+'">더보기 →</a>')
+
+                    $(story).data(obj)
+
+
+                    $("#newStoryList").append(story);
+                })
             }
+
         });
     },
 };

@@ -25,20 +25,15 @@
     <meta property="og:image:height" content="400">
     <meta property="og:url" content="https://www.watcher.kr">
 
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-mystory.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-management.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-board-title.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-1200.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-840.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-750.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-top-btn.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/swiper.css"/>
-    <script type="text/javascript" src="/resources/js/swiper.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/resources/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/login-popup.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/index.css"/>
+
+    <script src="https://use.fontawesome.com/926fe18a63.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/resources/js/tab.js"></script>
     <%@include file="/WEB-INF/views/common/include/globalVariable.jsp"%>
 
     <script type="text/javascript" src="/resources/task/js/common/utils/message.js"></script>
@@ -71,95 +66,5 @@
 <tiles:insertAttribute name="body"   ignore="true"/>
 <tiles:insertAttribute name="footer" ignore="true"/>
 
-<script type="text/javascript">
-
-    var animateQueue = new Array();
-    var ready = true;
-
-
-    jQuery.fn.anchorAnimate = function (settings) {
-        settings = jQuery.extend({
-            speed: 1000
-        }, settings);
-        return this.each(function () {
-            var caller = this
-            $(caller).click(function (event) {
-                event.preventDefault()
-                var locationHref = window.location.href
-                var elementClick = $(caller).attr("href")
-
-                var destination = $(elementClick).offset().top - 0;
-                $("html:not(:animated),body:not(:animated)").animate({scrollTop: destination}, settings.speed, function () {
-                    // window.location.hash = elementClick
-                });
-                return false;
-            })
-        })
-    }
-
-    function triggerJqueryFadeIn() {
-        const $this = this;
-        $('.ani-in').each(function () {
-            let object_top = $(this).offset().top;
-            let window_bottom = $(window).scrollTop() + $(window).height() - 200;
-            if (window_bottom > object_top) {
-                $(this).addClass('action');
-            }
-        });
-        triggerJqueryFadeInQueue($this);
-    }
-
-    function triggerJqueryFadeInQueue($this) {
-        if (animateQueue.length != 0 && ready) {
-            ready = false;
-            $this = animateQueue.shift();
-            $($this).addClass('action');
-        }
-    }
-
-    function handleTopBtn(btnId, bottomId) {
-        const topButton = document.getElementById(btnId);
-        const bottomElement = document.getElementById(bottomId);
-        const scrollToTop = function () {
-            $("html, body").animate({scrollTop: 0}, '500');
-        }
-
-        const isScrollTop = function(){
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                return false;
-            }
-            return true;
-        }
-
-        if( isScrollTop() ){
-            topButton.style.display = "none";
-        }else{
-            topButton.style.display = "block";
-        }
-
-        window.onscroll = function() {
-            // Display the top button when scrolled down
-            if( isScrollTop() ){
-                topButton.style.display = "none";
-            }else{
-                topButton.style.display = "block";
-            }
-        }
-
-        topButton.addEventListener('click', function (event) {
-            scrollToTop();
-        });
-
-    }
-
-    //스크롤 페이드인
-    $(document).ready(function () {
-        triggerJqueryFadeIn()
-        $(window).scroll(triggerJqueryFadeIn);
-
-        handleTopBtn('to_top', 'bottomArea');
-    });
-
-</script>
 </body>
 </html>

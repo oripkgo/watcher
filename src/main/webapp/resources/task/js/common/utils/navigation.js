@@ -4,36 +4,39 @@ const NAVIGATION = function () {
     let profileImgUrl = profileImgUrlEmpty;
 
     const generateNotLoginNavigatorHTML = function () {
-        let naviHtml = '<a v-else href="javascript:;" class="btn_start loginStart" onclick="comm.navigation.handleLogin()">시작하기</a>';
+        let naviHtml = '<button id="loginBtn" onclick="comm.navigation.handleLogin()">로그인</button>';
+        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector("#loginBtn"));
+    }
 
-        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector(".loginStart"));
+    const generateProfileContainer = function(){
+        return (new DOMParser().parseFromString('<div class="profile-container"></div>', 'text/html').querySelector(".profile-container"));
     }
 
     const generateLoginProfileHTML = function () {
         let naviHtml = '';
-        naviHtml += '<a href="javascript:;" class="member_set logout" onclick="comm.navigation.handleProfile()">';
-        naviHtml += '<img src="' + profileImgUrl + '">';
-        naviHtml += '</a>';
-        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector(".member_set"));
+
+        naviHtml += '<div class="profile-wrapper" onClick="comm.navigation.handleProfile()">';
+        naviHtml += '<img class="profile-img" src="' + profileImgUrl + '">';
+        naviHtml += '</div>';
+        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector(".profile-wrapper"));
     }
 
     const generateLoginNavigatorHTML = function (menuList) {
         let naviHtml = '';
-
-        naviHtml += '<div class="member_app logout" style="display: none;">';
+        naviHtml += '<ul class="profile-menu" id="profileMenu">';
 
         if (menuList) {
             for (const menu of menuList) {
                 const name = menu.name;
                 const url = menu.url;
-                naviHtml += '<a href="' + url + '">' + name + '</a>';
+                naviHtml += '<li><a href="' + url + '">' + name + '</a></li>';
             }
         }
 
-        naviHtml += '<a href="javascript:;" id="logout" onclick="comm.navigation.handleLogout()">로그아웃</a>';
-        naviHtml += '</div>';
+        naviHtml += '<li><a href="javascript:;" id="logout" onclick="comm.navigation.handleLogout()">로그아웃</a></li>';
+        naviHtml += '</ul>';
 
-        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector(".member_app"));
+        return (new DOMParser().parseFromString(naviHtml, 'text/html').querySelector(".profile-menu"));
     }
 
     const emptyTarget = function (target) {
@@ -52,8 +55,20 @@ const NAVIGATION = function () {
 
         if (this.signObj.isLogin()) {
             naviThis.setProfileUrl(this.signObj.getSession().memProfileImg);
-            targetArea.appendChild(generateLoginProfileHTML())
-            targetArea.appendChild(generateLoginNavigatorHTML(menuList))
+
+            const profileContainer = generateProfileContainer();
+            profileContainer.appendChild(generateLoginProfileHTML())
+            profileContainer.appendChild(generateLoginNavigatorHTML(menuList))
+            targetArea.appendChild(profileContainer)
+
+            $(document).on("click", function (e) {
+                if (!$(e.target).closest(".profile-wrapper, .profile-menu").length) {
+                    if ($(".profile-menu").is(":visible")) {
+                        $(".profile-menu").slideUp("fast");
+                    }
+                }
+            });
+
         } else {
             targetArea.appendChild(generateNotLoginNavigatorHTML())
         }
@@ -73,7 +88,7 @@ const NAVIGATION = function () {
     }
 
     const handleProfile = function () {
-        $(".member_app").slideToggle("fast");
+        $(".profile-menu").slideToggle("fast");
     }
 
     const setProfileUrl = function (imgUrl) {
@@ -90,7 +105,7 @@ const NAVIGATION = function () {
 
         handleProfile: handleProfile,
 
-        setProfileUrl: setProfileUrl
+        setProfileUrl: setProfileUrl,
 
     }
 

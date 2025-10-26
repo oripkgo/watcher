@@ -1,0 +1,137 @@
+/* ✅ 팝업 배경 (반투명 + blur 효과) */
+#backbg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 10001;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+/* ✅ 팝업 본체 (Glass 스타일 + 모던 쉐도우) */
+.pop_wrap {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 480px;
+    max-width: 90%;
+    min-height: 360px;
+    padding: 36px 28px 50px;
+    z-index: 10002;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease-in-out;
+    animation: popupShow 0.3s ease-out forwards;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* ✅ 팝업 등장 애니메이션 */
+@keyframes popupShow {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -55%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* ✅ 닫기 버튼 (심플 X 버튼) */
+.btn_close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    z-index: 99;
+}
+.btn_close::before,
+.btn_close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 22px;
+    height: 2px;
+    background: #666;
+    transform-origin: center;
+}
+.btn_close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.btn_close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ✅ 팝업 제목 */
+.pop_tit {
+    display: block;
+    font-size: 28px;
+    color: #222;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 12px;
+    letter-spacing: -0.3px;
+}
+
+/* ✅ 버튼 영역 (중앙정렬 + 여백 간격) */
+.btn_pop {
+    text-align: center;
+    padding: 50px 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn_pop a {
+    display: inline-block;
+    margin: 0 auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn_pop a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ✅ 팝업 컨테이너 (중앙 정렬용) */
+.pop_open {
+    position: relative;
+    width: 900px;
+    margin: 0 auto;
+}
+
+/* ✅ 페이드인 효과 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ✅ 반응형 */
+@media (max-width: 480px) {
+    .pop_wrap {
+        width: 90%;
+        padding: 24px 20px 36px;
+    }
+    .pop_tit {
+        font-size: 22px;
+    }
+    .btn_close {
+        top: 12px;
+        right: 12px;
+        width: 28px;
+        height: 28px;
+    }
+}

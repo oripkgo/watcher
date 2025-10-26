@@ -9,31 +9,21 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="head_wrap">
-    <div class="logo">
-        <a href="/main">WATCHER</a>
-    </div>
-    <div class="menu_wrap">
-        <a href="/story/list">STORY</a>
-        <a href="/notice/list">NOTICE</a>
-    </div>
-    <div class="top_navi">
-        
+<header>
+    <div class="logo" onclick="location.href='/main'">Watcher</div>
 
-        <!--      <a v-if="loginInfo.isLogin" href="javascript:;" class="member_set logout">
-                <img v-if="loginInfo.memProfileImg" :src="loginInfo.memProfileImg">
-                <img v-else src="@/img/member_ico_b.png">
-              </a>
-              <a v-else href="javascript:;" class="btn_start loginStart">시작하기</a>-->
-    </div>
+    <nav class="nav">
+        <ul class="menu">
+            <li><a href="/notice/list">공지사항</a></li>
+            <li><a href="/story/list">스토리</a></li>
+        </ul>
+    </nav>
 
-</div>
-<div class="head_tip"></div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="auth top_navi" id="auth"></div>
 
-<div class="quick_wrap">
-    <a id="to_top" href="#none;">▲</a>
-<%--    <a href="javascript:;" id="to_top"><img src="/resources/img/btn_top.png"></a>--%>
-</div>
+</header>
+
 
 <script>
 
@@ -41,6 +31,82 @@
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
     //window.signNaverSuccess = SIGN_NAVER_SUCCESS;
+
+
+    function toggleMenu() {
+        const menu = document.querySelector('.menu');
+
+        if (menu.classList.contains('open')) {
+            // 닫기: max-height 0으로
+            menu.style.maxHeight = menu.scrollHeight + 'px'; // 먼저 설정
+            requestAnimationFrame(() => {
+                menu.style.maxHeight = null;
+                menu.classList.remove('open');
+            });
+        } else {
+            // 열기: max-height 값 지정
+            menu.style.maxHeight = menu.scrollHeight + 'px';
+            menu.classList.add('open');
+
+            // 애니메이션 후 auto로 설정 (안해도 되지만 깔끔)
+            menu.addEventListener('transitionend', function handler() {
+                menu.style.maxHeight = 'none';
+                menu.removeEventListener('transitionend', handler);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const authDiv = document.getElementById('auth');
+
+        // 로그인 버튼 클릭 시
+        authDiv.addEventListener('click', (e) => {
+            if (e.target.id === 'loginBtn') {
+                authDiv.innerHTML = `
+                <div class="profile-container">
+                  <div class="profile-wrapper">
+                    <img src="https://i.pravatar.cc/100" alt="프로필 이미지" class="profile-img" id="profileImg" />
+                  </div>
+                  <ul class="profile-menu" id="profileMenu">
+                    <li><a href="#">내 스토리</a></li>
+                    <li><a href="#">스토리 관리하기</a></li>
+                    <li><a href="#">글쓰기</a></li>
+                    <li><a href="#" id="logoutBtn">로그아웃</a></li>
+                  </ul>
+                </div>
+                `;
+
+                const profileImg = document.getElementById('profileImg');
+                const profileMenu = document.getElementById('profileMenu');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                profileImg.addEventListener('click', () => {
+                    profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
+                });
+
+                // 화면 어딘가 클릭 시 프로필 메뉴 닫기
+                document.addEventListener('click', (evt) => {
+                    if (!evt.target.closest('.profile-container')) {
+                        profileMenu.style.display = 'none';
+                    }
+                });
+
+                logoutBtn.addEventListener('click', (evt) => {
+                    evt.preventDefault();
+                    authDiv.innerHTML = `<button id="loginBtn">로그인</button>`;
+                });
+            }
+        });
+    });
+</script>
+
+
+
+<script>
+
+
     comm.token.init(function () {
         comm.visitor.save(window.nowStoryMemId, window.refererUrl);
         // 세션시간 초과 && 클라이언트에서 로그인상태인 경우

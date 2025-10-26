@@ -6,33 +6,25 @@ const notice = {
         this.list();
     },
 
-    isHide : function(regDt){
-        let result = false;
-        let regDate = new Date(regDt);
-        let toDay = new Date();
-
-        var dateDif = (toDay.getTime() - regDate.getTime()) / (1000*60*60*24) ;
-
-        if( dateDif > 14) {
-            result = true;
-        }
-
-        return result;
-    },
-
     list : function(){
         const noticeObj = this;
         comm.paging.getList(formTargetId, noticeListUrl, function (data) {
-            let node = $('<a href="javascript:;" style="display:none;"></a>')
+            let node = $('<article class="card"></article>')
             if (data.code == '0000' && (data.list && data.list.length > 0)) {
-                if( noticeObj.isHide(data.list[0]['REG_DATE']) ){
-                    return;
-                }
 
-                data.list.forEach(function (obj/*, idx*/) {
+                data.list.forEach(function (obj, idx) {
                     let copyNode = $(node).clone(true);
-                    $(copyNode).text(obj['TITLE']);
-                    $(copyNode).attr("href", window.getNoticeViewUrl(obj['ID']));
+
+                    const contents = $(obj['CONTENTS']).text().trim()
+                    const regName = obj['NICKNAME'];
+                    const views = obj['VIEW_CNT'];
+                    const comments = obj['COMMENT_CNT'];
+
+                    $(copyNode).append('<img src="https://picsum.photos/400/250?random='+idx+'" alt="공지사항">')
+                    $(copyNode).append('<h3>'+obj['TITLE']+'</h3>')
+                    $(copyNode).append('<div class="meta">👤 '+regName+' · 👀 '+views+' · 💬 '+comments+'</div>')
+                    $(copyNode).append('<p class="contents">'+contents+'</p>')
+                    $(copyNode).append('<a href="'+window.getNoticeViewUrl(obj['ID'])+'">더보기 →</a>')
 
                     $(copyNode).data(obj)
 
@@ -56,6 +48,6 @@ const notice = {
                     }
                 })
             }
-        }, 1, 5);
+        }, 1, 6);
     }
 };
