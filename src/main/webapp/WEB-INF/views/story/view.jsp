@@ -98,7 +98,6 @@
     // 뒤로 가기 url 지정
     // history.pushState(null, null, referrerUrl);
     // window.addEventListener('popstate', function(event) {
-    //     debugger;
     //     window.location.href = referrerUrl;
     // });
 

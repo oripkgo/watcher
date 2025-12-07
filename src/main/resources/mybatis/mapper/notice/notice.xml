@@ -40,7 +40,28 @@
 		<if test="!(id==null or id=='')">
 			AND A.ID = #{id}
 		</if>
+	</select>
 
+	<select id="viewPrev" resultType="map" parameterType="int">
+		/*Notice > list*/
+		<include refid="notice_select"/>
+		<![CDATA[
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		AND A.ID < #{currentId}
+		LIMIT 1
+		]]>
+	</select>
+
+	<select id="viewNext" resultType="map" parameterType="int">
+		/*Notice > list*/
+		<include refid="notice_select"/>
+		<![CDATA[
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		AND A.ID > #{currentId}
+		LIMIT 1
+		]]>
 	</select>
 	
 	<sql id="notice_select">

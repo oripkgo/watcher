@@ -51,7 +51,18 @@ public class NoticeServiceImpl implements NoticeService {
     @Transactional
     @Override
     public Map<String, Object> getData(NoticeParam noticeParam) throws Exception {
-        return noticeMapper.view(noticeParam);
+
+        Map<String, Object> result = new HashMap<>();
+
+        Map<String,Object> view = noticeMapper.view(noticeParam);
+        Map<String,Object> prev = noticeMapper.viewPrev(Integer.valueOf(noticeParam.getId()));
+        Map<String,Object> next = noticeMapper.viewNext(Integer.valueOf(noticeParam.getId()));
+
+        result.put("current", view);
+        result.put("prev", prev);
+        result.put("next", next);
+
+        return result;
     }
 
 

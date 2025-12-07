@@ -10,6 +10,8 @@ import java.util.Map;
 @Mapper
 public interface NoticeMapper {
 	public Map<String,Object> view(NoticeParam noticeParam);
+	public Map<String,Object> viewPrev(Integer currentId);
+	public Map<String,Object> viewNext(Integer currentId);
 	public List<Map<String,Object>> selectNotice(NoticeParam noticeParam);
 	public int selectNoticeCnt(NoticeParam noticeParam);
 	public int insert(NoticeParam noticeParam);
