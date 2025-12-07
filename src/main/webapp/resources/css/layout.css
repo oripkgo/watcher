@@ -243,6 +243,7 @@ footer {
     color: var(--text-bright-color);
     background-color: #2B5566;
     background-color: var(--dark-main-color);
+    border-top: 1px solid #ddd;
 }
 
 
