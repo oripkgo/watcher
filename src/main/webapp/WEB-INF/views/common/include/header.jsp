@@ -30,6 +30,7 @@
     const sessionExceededYn = '${sessionExceededYn}';
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
+
     //window.signNaverSuccess = SIGN_NAVER_SUCCESS;
 
 
@@ -56,52 +57,7 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        const authDiv = document.getElementById('auth');
-
-        // 로그인 버튼 클릭 시
-        authDiv.addEventListener('click', (e) => {
-            if (e.target.id === 'loginBtn') {
-                authDiv.innerHTML = `
-                <div class="profile-container">
-                  <div class="profile-wrapper">
-                    <img src="https://i.pravatar.cc/100" alt="프로필 이미지" class="profile-img" id="profileImg" />
-                  </div>
-                  <ul class="profile-menu" id="profileMenu">
-                    <li><a href="#">내 스토리</a></li>
-                    <li><a href="#">스토리 관리하기</a></li>
-                    <li><a href="#">글쓰기</a></li>
-                    <li><a href="#" id="logoutBtn">로그아웃</a></li>
-                  </ul>
-                </div>
-                `;
-
-                const profileImg = document.getElementById('profileImg');
-                const profileMenu = document.getElementById('profileMenu');
-                const logoutBtn = document.getElementById('logoutBtn');
-
-                profileImg.addEventListener('click', () => {
-                    profileMenu.style.display = profileMenu.style.display === 'block' ? 'none' : 'block';
-                });
-
-                // 화면 어딘가 클릭 시 프로필 메뉴 닫기
-                document.addEventListener('click', (evt) => {
-                    if (!evt.target.closest('.profile-container')) {
-                        profileMenu.style.display = 'none';
-                    }
-                });
-
-                logoutBtn.addEventListener('click', (evt) => {
-                    evt.preventDefault();
-                    authDiv.innerHTML = `<button id="loginBtn">로그인</button>`;
-                });
-            }
-        });
-    });
 </script>
-
 
 
 <script>
@@ -119,7 +75,10 @@
             [
                 {url: "/my-story/" + window.memberId, name: "내 스토리"},
                 {url: "/management/index", name: "관리"},
-                {url: window.storyUrlWrite + '?referrerPage='+encodeURIComponent(globalObj.getManagementBoard()), name: "글쓰기"},
+                {
+                    url: window.storyUrlWrite + '?referrerPage=' + encodeURIComponent(globalObj.getManagementBoard()),
+                    name: "글쓰기"
+                },
             ],
             comm.sign
         );
