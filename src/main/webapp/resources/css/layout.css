@@ -387,3 +387,172 @@ footer .container {
 .footD a:hover {
     background-color: rgba(0,0,0,0.3);
 }
+
+
+
+
+/* =========================
+   댓글 영역
+========================= */
+
+.story-comments {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid #ddd;
+}
+
+.comments-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+/* 댓글 작성 폼 */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 90px;
+    resize: vertical;
+    padding: 12px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.comment-form button {
+    align-self: flex-end;
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #495057;
+}
+
+/* 댓글 목록 */
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comment-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.comment-avatar img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.comment-body {
+    flex: 1;
+}
+
+.comment-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 6px;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-content {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.5;
+}
+
+.comment-actions {
+    margin-top: 6px;
+    font-size: 0.85rem;
+}
+
+.comment-actions a {
+    margin-right: 10px;
+    color: #666;
+    text-decoration: none;
+}
+
+.comment-actions a:hover {
+    text-decoration: underline;
+}
+
+.comment-edit textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    font-size: 0.95rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+}
+
+.comment-edit-actions {
+    margin-top: 8px;
+    text-align: right;
+}
+
+.comment-edit-actions button {
+    margin-left: 6px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+
+/* =========================
+   게시글 좋아요
+========================= */
+
+.story-like {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 10px;
+    background-color: #f1f3f5;
+    color: #333;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.story-like i {
+    color: #adb5bd;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.story-like.liked {
+    background-color: #fff0f3;
+    border-color: #ffccd5;
+}
+
+.story-like.liked i {
+    color: #e63946;
+    transform: scale(1.15);
+}
+
+.story-like span {
+    font-weight: bold;
+}

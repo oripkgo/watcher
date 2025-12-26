@@ -76,8 +76,7 @@ const COMMENT = function(){
             target.textContent = "수정 취소";
 
             commentModifyButton.addEventListener("click", function () {
-                const thisObj = this;
-                param.comment = COMMENT_DOM.replaceLineBreakWithBrReturnValue(COMMENT_ELEMENT.textArea.getUpdate(thisObj.parentElement));
+                param.comment = COMMENT_DOM.replaceLineBreakWithBrReturnValue(COMMENT_ELEMENT.textArea.getUpdate(writeWrap));
 
                 REQUEST.send(commentUpdateApiUrl, "PUT", param, function (resp) {
                     if (resp.code === '0000') {
@@ -199,6 +198,16 @@ const COMMENT = function(){
         })
     }
 
+    const scrollToCommentTarget = (target) => {
+        if (!target) return;
+
+        const y = target.getBoundingClientRect().top + window.pageYOffset;
+
+        window.scrollTo({
+            top: y - 20, // 여백 살짝 (선택)
+            behavior: 'smooth'
+        });
+    }
 
     return {
 
@@ -223,6 +232,7 @@ const COMMENT = function(){
         render: function (tagId) {
             const commentThis = this;
             const targetElement = document.getElementById(tagId);
+            let isRender = true;
 
             COMMENT_DOM.replaceCommentRoot(
                 targetElement,
@@ -250,8 +260,8 @@ const COMMENT = function(){
                 });
             }
 
-            COMMENT_LIST.get(COMMENT_ELEMENT.getListForm(), function (resp) {
 
+            COMMENT_LIST.get(COMMENT_ELEMENT.getListForm(), function (resp) {
                 renderCount(resp.comment['cnt']);
                 renderList(resp.comment['list']);
 
@@ -262,6 +272,12 @@ const COMMENT = function(){
                     addEventUpdate(element);
                     addEventDeclaration(element);
                 }
+
+                if( !isRender ){
+                    COMMENT_ELEMENT.getRoot().scrollIntoView({  block: 'start'  })
+                }
+
+                isRender = false;
 
             })
         },

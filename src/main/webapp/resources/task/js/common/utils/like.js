@@ -1,8 +1,8 @@
-const LIKE = function(){
+const LIKE = function () {
 
-    const boardLikeApiUrl   = '/board/like';
-    const likeYImgUrl       = "/resources/img/icon_heart_on.png";
-    const likeNImgUrl       = "/resources/img/zim_ico.png";
+    const boardLikeApiUrl = '/board/like';
+    const likeYImgUrl = "/resources/img/icon_heart_on.png";
+    const likeNImgUrl = "/resources/img/zim_ico.png";
 
     const init = function (id, type, loginYn, notLoginStatusProcessingFunc) {
         const result = getBoardLike(id, type);
@@ -48,6 +48,7 @@ const LIKE = function(){
             param.likeYn = likeYn;
         }
 
+
         REQUEST.send(boardLikeApiUrl, "POST", param, function (resp) {
             result = resp;
         }, null, {'Content-type': "application/json"}, false);
@@ -74,10 +75,9 @@ const LIKE = function(){
         }
     }
 
-    const changeElementDataSet = function (targetObj, likeYn, likeId) {
-        if (likeYn == 'Y') {
+    const changeElementDataSet = function (targetObj, liked, likeId) {
+        if (liked) {
             let likeCnt = (targetObj.dataset['likeCnt'] * 1) + 1;
-            targetObj.innerText = ('공감 ' + likeCnt);
             targetObj.dataset['likeCnt'] = likeCnt;
 
             targetObj.dataset['likeId'] = likeId;
@@ -90,7 +90,6 @@ const LIKE = function(){
                 likeCnt = 0;
             }
 
-            targetObj.innerText = ('공감 ' + likeCnt);
             targetObj.dataset['likeCnt'] = likeCnt;
             delete targetObj.dataset['likeId'];
         }
@@ -107,40 +106,48 @@ const LIKE = function(){
 
     const render = function (tagId) {
         const likeThis = this;
-        const targetElement = document.getElementById(tagId);
+        const likeBtn = document.getElementById(tagId);
+        if (!likeBtn) return;
 
-        setElementDataSet(targetElement, likeThis);
+        const likeCountEl = likeBtn.querySelector('.likeCount');
+        if (!likeCountEl) return;
 
-        setImage(targetElement, likeThis['likeYn']);
+        setElementDataSet(likeBtn, likeThis);
 
-        targetElement.addEventListener("click", function () {
-            // const $this = this;
-            if (likeThis['loginYn'] == 'Y') {
-                targetElement.dataset['likeYn'] = (targetElement.dataset['likeYn'] == 'Y' ? 'N' : 'Y');
+        let liked = likeThis['likeYn'] === 'Y';
 
-                const resp = updateBoardLike(
-                    targetElement.dataset.contentsId,
-                    targetElement.dataset.contentsType,
-                    targetElement.dataset.likeId,
-                    targetElement.dataset.likeYn
-                );
+        likeBtn.classList.toggle('liked', liked);
+        likeCountEl.textContent = parseInt(likeBtn.dataset.likeCnt, 10) || 0;
 
-                changeElementDataSet(targetElement, targetElement.dataset['likeYn'], resp['boardParam'].likeId);
-                setImage(targetElement, targetElement.dataset['likeYn']);
-            } else {
+        likeBtn.addEventListener('click', () => {
+            if (likeThis['loginYn'] !== 'Y') {
                 console.log('비로그인 상태에서 좋아요 클릭');
                 if (likeThis.notLoginStatusProcessingFunc) {
                     likeThis.notLoginStatusProcessingFunc();
                 }
+                return;
             }
+
+            liked = !liked;
+            const resp = updateBoardLike(
+                likeBtn.dataset.contentsId,
+                likeBtn.dataset.contentsType,
+                likeBtn.dataset.likeId,
+                liked ? 'Y' : 'N'
+            );
+
+            changeElementDataSet(likeBtn, liked, resp['boardParam'].likeId);
+            likeBtn.classList.toggle('liked', liked);
+            likeCountEl.textContent = likeBtn.dataset['likeCnt'];
         });
+
     }
 
     return {
 
-        init : init,
+        init: init,
 
-        render : render
+        render: render
 
     }
 

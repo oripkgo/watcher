@@ -20,10 +20,9 @@ public class ManagementServiceImpl implements ManagementService {
     MemberMapper memberMapper;
 
     @Override
-    public Map<String, Object> getStorySettingInfo(String contentType, String contentId) throws Exception {
+    public Map<String, Object> getStorySettingInfo(String loginId) throws Exception {
         ManagementParam managementParam = new ManagementParam();
-        managementParam.setSearchContentType(contentType);
-        managementParam.setSearchContentId(contentId);
+        managementParam.setLoginId(loginId);
         return managementMapper.getStorySettingInfo(managementParam);
     }
 

@@ -425,7 +425,7 @@ public class BoardController {
 		// 댓글 입력 권한 체크
 		String type = param.get("contentsType").toString();
 		String id 	= param.get("contentsId").toString();
-		Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(type, id);
+		Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(loginId);
 		if( "02".equals(storySettingInfo.get("COMMENT_PERM_STATUS")) ){
 			if( !Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId)){
 				throw new Exception("2202");

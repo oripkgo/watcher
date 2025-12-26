@@ -16,6 +16,11 @@
             ${view.current['CONTENTS']}
         </section>
         <section class="story-actions">
+            <span class="story-like" id="likeTarget">
+                <i class="fa fa-heart"></i>
+                <span class="likeCount" data-likecnt="0"></span>
+            </span>
+
             <button class="share-btn" id="shareToggle">
                 <i class="fa fa-share-alt"></i> 공유
             </button>
@@ -43,6 +48,10 @@
                 <div class="nav-title">${view.next['TITLE']}</div>
             </a>
         </nav>
+
+
+        <section class="story-comments" id="commentTarget"></section>
+
     </main>
 </div>
 
@@ -98,11 +107,10 @@
         $("#nickname").text(nickName);
         $("#last_time").text(regDate);
         $("#likeTarget").data('likecnt', likeCnt);
-        $("#likeTarget").text('공감 ' + likeCnt);
 
         comm.boardView.init(id, type);
-        // comm.boardView.like.render('likeTarget');
-        // comm.boardView.comment.render('commentTarget');
+        comm.boardView.like.render('likeTarget');
+        comm.boardView.comment.render('commentTarget');
 
     })
 

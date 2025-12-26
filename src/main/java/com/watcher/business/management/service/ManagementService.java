@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface ManagementService {
 
-    public Map<String, Object> getStorySettingInfo(String contentType, String contentId) throws Exception;
+    public Map<String, Object> getStorySettingInfo(String loginId) throws Exception;
 
     public Map<String, Object> getStorySettingInfo(ManagementParam managementParam) throws Exception;
 

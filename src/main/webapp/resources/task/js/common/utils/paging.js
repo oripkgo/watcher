@@ -32,6 +32,37 @@ const PAGING = function () {
         }
     }
 
+    function normalizeFormData(formObj) {
+        // form 요소인 경우
+        if (formObj instanceof HTMLFormElement) {
+            const formData = new FormData(formObj);
+            const json = {};
+
+            for (const [key, value] of formData.entries()) {
+                // 같은 name이 여러 개인 경우 (checkbox 등)
+                if (json[key] !== undefined) {
+                    if (Array.isArray(json[key])) {
+                        json[key].push(value);
+                    } else {
+                        json[key] = [json[key], value];
+                    }
+                } else {
+                    json[key] = value;
+                }
+            }
+            return json;
+        }
+
+        // plain object인 경우
+        if (formObj && typeof formObj === 'object') {
+            return formObj;
+        }
+
+        // 그 외
+        return {};
+    }
+
+
     function renderPagination({
           pageNo,         // 현재 페이지
           listNo,         // 페이지당 목록수
@@ -39,7 +70,8 @@ const PAGING = function () {
           totalCnt,       // 전체 데이터 수
           url,
           callback,
-          formObj
+          formObj,
+          scrollTopYn
       }) {
         const totalPage = Math.ceil(totalCnt / listNo);
         const pagination = document.querySelector(".pagination");
@@ -86,7 +118,7 @@ const PAGING = function () {
                     newPage,
                     listNo,
                     pagigRange,
-                    true
+                    scrollTopYn
                 );
             });
         });
@@ -107,11 +139,13 @@ const PAGING = function () {
         let _listNo = listNo ? Number(listNo) : 20;
         let _pagigRange = pagigRange ? Number(pagigRange) : 10;
 
+        const formData = normalizeFormData(formObj);
+
         const payload = {
             pageNo: _pageNo,
             listNo: _listNo,
             pagigRange: _pagigRange,
-            ...formObj,
+            ...formData,
         };
 
         REQUEST.send(url, "GET", payload, function (data) {
@@ -137,12 +171,15 @@ const PAGING = function () {
                 totalCnt: data?.dto?.totalCnt || 0,
                 url,
                 callback,
-                formObj
+                formObj: formData,
+                scrollTopYn
             });
 
             // 3) 스크롤 맨 위로
-            if (scrollTopYn)
+            if (scrollTopYn){
                 window.scrollTo({top: 0, behavior: "smooth"});
+            }
+
         });
     };
 

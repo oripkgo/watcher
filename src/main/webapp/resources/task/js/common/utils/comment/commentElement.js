@@ -16,25 +16,31 @@ const elementClassUpdateContents = 'contents';
 const elementClassUpdateWriteArea = 'commentWriteArea';
 const elementClassUpdateTextArea = 'commentInputUpdate';
 const elementClassUpdateConfirmButton = 'commentInputUpdateConfirm';
+const elementClassUpdateCancelButton = 'commentInputUpdateCancel';
 
 const COMMENT_ELEMENT = {
     getRootArea: function (loginYn) {
-        let frameHtmlModelStr = '<div class="conts_review" id="' + elementIdRoot + '">';
-        frameHtmlModelStr += '<strong class="conts_tit" id="' + elementIdCount + '" data-cnt="0">댓글<em>0</em></strong>';
-        frameHtmlModelStr += '<div class="write_wrap" id="' + elementIdInsertWriteArea + '">';
 
-        if (loginYn == 'Y') {
-            frameHtmlModelStr += '<textarea placeholder="댓글 입력" name="comment" id="' + elementIdInsertTextArea + '"></textarea>';
-            frameHtmlModelStr += '<a href="javascript:;" id="' + elementIdInsertButton + '">확인</a>';
-        } else {
-            frameHtmlModelStr += '<textarea placeholder="로그인하고 댓글을 입력해보세요!" disabled></textarea>';
-            frameHtmlModelStr += '<a href="javascript:;">확인</a>';
-        }
+        let frameHtmlModelStr = `
+        <section class="story-comments" id="${elementIdRoot}">
+            <h2 class="comments-title" data-cnt="0" id="${elementIdCount}">댓글 <em>0</em></h2>
 
-        frameHtmlModelStr += '</div>';
-        frameHtmlModelStr += '<ul class="reviewList" id="' + elementIdListArea + '"></ul>';
-        frameHtmlModelStr += '<div class="pagging_wrap"></div>';
-        frameHtmlModelStr += '</div>';
+            <!-- 댓글 작성 -->
+            <form class="comment-form" id="${elementIdInsertWriteArea}">
+                <textarea
+                    id="${elementIdInsertTextArea}"
+                    placeholder="${loginYn === 'Y' ? "댓글을 입력하세요" : "로그인하고 댓글을 입력해보세요!"}"
+                    required
+                    ${loginYn !== 'Y' ? "disabled" : ""}
+                ></textarea>
+                <button type="button" id="${elementIdInsertButton}">등록</button>
+            </form>
+            <!-- 댓글 목록 -->
+            <ul class="comment-list" id="${elementIdListArea}"></ul>
+            <div class="pagination"></div>
+        </section>
+        `;
+
 
         return (new DOMParser().parseFromString(frameHtmlModelStr, 'text/html').getElementById(elementIdRoot));
     },
@@ -50,29 +56,36 @@ const COMMENT_ELEMENT = {
     },
 
     getCommentShell: function () {
-        let listElementHtml = '';
+        let listElementHtml = `
+            <li class="comment-item ${elementClassListData}">
+                <div class="comment-avatar">
+                    <img class="profile" src="${profileEmptyImgUrl}" alt="avatar">
+                </div>
+                <div class="comment-body">
+                    <div class="comment-meta">
+                        <span class="comment-author"></span>
+                        <span class="comment-date"></span>
+                    </div>
+                    <div class="comment-content ${elementClassUpdateContents}">
+                    </div>
+                    
+                    <div class="comment-edit ${elementClassUpdateWriteArea}" style="display: none;">
+                        <textarea name="comment_modify" class="comment-edit-input ${elementClassUpdateTextArea}"></textarea>
+                        <div class="comment-edit-actions">
+                            <button type="button" class="comment-edit-save ${elementClassUpdateConfirmButton}">확인</button>
+                            <button type="button" class="comment-edit-cancel ${elementClassUpdateCancelButton}">취소</button>
+                        </div>
+                    </div>
+                    
+                    <div class="comment-actions">
+                        <a href="javascript:void(0)" class="declaration ${elementClassDeclarationButton}">신고</a>
+                        <a href="javascript:void(0)" class="update ${elementClassUpdateButton}">수정</a>
+                        <a href="javascript:void(0)" class="delete ${elementClassDeleteButton}">삭제</a>
+                    </div>
+                </div>
+            </li>
+        `;
 
-        listElementHtml += '<li class="' + elementClassListData + '">';
-        listElementHtml += '    <div class="member_re"><img class="profile" src="' + profileEmptyImgUrl + '"></div>';
-        listElementHtml += '    <div class="review_info">';
-        listElementHtml += '        <em class="writer"></em>';
-        listElementHtml += '        <img src="' + commentButtonDivisionImgUrl + '">';
-        listElementHtml += '            <span class="writer_time"></span>';
-        listElementHtml += '            <img src="' + commentButtonDivisionImgUrl + '" class="declaration_line">';
-        listElementHtml += '                <span class="accuse ' + elementClassDeclarationButton + '">신고</span>';
-        listElementHtml += '            <img src="' + commentButtonDivisionImgUrl + '" class="update_line">';
-        listElementHtml += '                 <span class="accuse ' + elementClassUpdateButton + '">수정</span>';
-        listElementHtml += '            <img src="' + commentButtonDivisionImgUrl + '" class="delete_line">';
-        listElementHtml += '                 <span class="accuse ' + elementClassDeleteButton + '">삭제</span>';
-        listElementHtml += '                <strong class="' + elementClassUpdateContents + '"></strong>';
-        listElementHtml += '                <div class="write_wrap ' + elementClassUpdateWriteArea + '" style="display: none;">';
-        listElementHtml += '                     <textarea placeholder="입력" name="comment_modify" class="' + elementClassUpdateTextArea + '"></textarea>';
-        listElementHtml += '                     <a href="javascript:;" class="' + elementClassUpdateConfirmButton + '">확인</a>';
-        listElementHtml += '                </div>';
-        // listElementHtml += '                <a href="javascript:;" class="see_replies">답글보기</a>';
-        // listElementHtml += '                <a href="javascript:;" class="Write_a_reply">답글달기</a>';
-        listElementHtml += '    </div>';
-        listElementHtml += '</li>';
 
         return (new DOMParser().parseFromString(listElementHtml, 'text/html').querySelector("." + elementClassListData));
 
@@ -89,25 +102,19 @@ const COMMENT_ELEMENT = {
             commentElement.querySelector(".profile").setAttribute("src", profile);
         }
 
-        commentElement.querySelector(".writer").innerHTML = nickName;
-        commentElement.querySelector(".writer_time").innerHTML = regDate;
-        commentElement.querySelector(".contents").innerHTML = comment;
+        commentElement.querySelector(".comment-author").innerHTML = nickName;
+        commentElement.querySelector(".comment-date").innerHTML = regDate;
+        commentElement.querySelector(".comment-content").innerHTML = comment;
         commentElement.querySelector("[name='comment_modify']").value = (comment||"").replace(/<br>/g,"\n");
 
-        commentElement.querySelector(".declaration_line").style.display = 'none';
         commentElement.querySelector(".declaration").style.display = 'none';
-        commentElement.querySelector(".update_line").style.display = 'none';
         commentElement.querySelector(".update").style.display = 'none';
-        commentElement.querySelector(".delete_line").style.display = 'none';
         commentElement.querySelector(".delete").style.display = 'none';
 
         if (window.loginId == regId) {
-            commentElement.querySelector(".update_line").style.display = 'inline';
             commentElement.querySelector(".update").style.display = 'inline';
-            commentElement.querySelector(".delete_line").style.display = 'inline';
             commentElement.querySelector(".delete").style.display = 'inline';
         } else {
-            commentElement.querySelector(".declaration_line").style.display = 'inline';
             commentElement.querySelector(".declaration").style.display = 'inline';
         }
 
