@@ -27,8 +27,6 @@
 
     <link rel="stylesheet" type="text/css" href="/resources/css/layout.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/login-popup.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/notice-list.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/notice-detail.css"/>
 
     <script src="https://use.fontawesome.com/926fe18a63.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>

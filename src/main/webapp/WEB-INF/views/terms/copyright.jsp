@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" type="text/css" href="/resources/css/terms.css"/>
+
 <div class="section uline2">
     <div class="ani-in manage_layout">
 

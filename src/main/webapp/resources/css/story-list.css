@@ -1,0 +1,277 @@
+
+.page-title {
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    border-bottom: 3px solid #000;
+
+}
+
+.story-list-box {
+    flex-direction: row;
+    margin:100px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.story-list {
+}
+
+.story-card {
+    flex: 1 1 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    cursor:pointer;
+    margin:5px;
+}
+
+
+.story-card:hover {
+    transform: translateY(-4px);
+    background-color: #f1f3f5; /* 밝은 회색 계열 배경 */
+}
+
+
+
+.story-thumbnail {
+    width: 150px;
+    object-fit: cover;
+}
+
+.story-content {
+    padding: 1rem;
+    flex: 1;
+}
+
+.story-title {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #333;
+}
+
+.story-summary {
+    margin: 0.5rem 0;
+    color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 두 줄 제한 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    /* 추가: 내용이 없을 때도 2줄 정도의 높이(약 3em)를 확보 */
+    min-height: 3em;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+
+.story-meta {
+    font-size: 0.875rem;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.search-area {
+    text-align: center;
+    display: flex;
+    margin-bottom:20px;
+}
+
+.search-message  {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 4;
+}
+
+
+.search-message p {
+    font-size: 1.25rem;
+    color: #444;
+}
+
+.search-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-group select,
+.search-group input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.search-button {
+    background-color: #495057;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #343a40;
+}
+
+.search-button i.fa-search {
+    pointer-events: none;
+}
+
+
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    background-color: #f1f3f5;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.category-tab:hover {
+    background-color: #dee2e6;
+}
+
+.category-tab.active {
+    background-color: #343a40;
+    color: white;
+    border-color: #343a40;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #f1f3f5;
+}
+
+.page-btn.active {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
+
+.page-btn.prev,
+.page-btn.next {
+    font-weight: bold;
+}
+
+
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .search-message  {
+        margin-bottom:10px;
+    }
+
+    .search-area  {
+        display: block;
+    }
+
+    #searchCategory  {
+        width: 100%;
+    }
+
+
+    .search-box  {
+        display: flex;
+        width: 100%;
+    }
+
+
+    .search-box input  {
+        flex:5;
+    }
+
+    .search-box button  {
+        margin-left:5px;
+    }
+
+
+    .story-card img {
+        width: auto;
+        height: auto;
+    }
+
+
+    .story-title {
+        font-size:14px;
+    }
+
+
+    .story-summary {
+        font-size:12px;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;        /* 원하는 줄 수 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .story-meta {
+        font-size:12px;
+    }
+
+
+
+
+    /*.multi-ellipsis {*/
+    /*    display: -webkit-box;*/
+    /*    -webkit-line-clamp: 2;        !* 원하는 줄 수 *!*/
+    /*    -webkit-box-orient: vertical;*/
+    /*    overflow: hidden;*/
+    /*    text-overflow: ellipsis;*/
+    /*}*/
+
+
+
+
+
+
+
+
+}

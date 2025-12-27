@@ -1,0 +1,89 @@
+/* =========================
+   약관 및 정책 페이지 (Common Layout)
+========================= */
+
+/* 배경 및 레이아웃 */
+.manage_layout {
+    width: 100%;
+    padding: 40px 20px;
+    background-color: #f8f9fa; /* 연한 회색 배경으로 가독성 향상 */
+    border-radius: 8px;
+}
+
+.manage_conts {
+    background: #ffffff;
+    padding: 40px;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 제목 스타일 */
+.terms_top {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2B5566; /* 푸터와 통일감 있는 메인 컬러 */
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #2B5566;
+    text-align: center;
+}
+
+/* 본문 영역 */
+.private {
+    line-height: 1.8;
+    color: #495057;
+    font-size: 1rem;
+}
+
+/* 조항별 제목 (제1조, 제2조 등) */
+.private strong {
+    display: block;
+    font-size: 1.15rem;
+    color: #343a40;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 4px solid #343a40;
+}
+
+/* 하위 항목 리스트 (1), 1) 등 */
+.private div {
+    margin: 10px 0 10px 15px;
+    padding: 10px 20px;
+    background-color: #f1f3f5;
+    border-radius: 6px;
+}
+
+/* 텍스트 강조 및 줄바꿈 간격 */
+.private br {
+    content: "";
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* 반응형 대응 */
+@media (max-width: 768px) {
+    .manage_conts {
+        padding: 20px;
+    }
+
+    .terms_top {
+        font-size: 1.5rem;
+    }
+
+    .private {
+        font-size: 0.95rem;
+    }
+}
+
+/* =========================
+   섹션 구분선 (uline2)
+========================= */
+.section.uline2 {
+    border-top: 1px solid #dee2e6;
+    margin-top: 20px;
+}
