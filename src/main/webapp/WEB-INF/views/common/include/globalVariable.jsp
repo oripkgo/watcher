@@ -146,8 +146,8 @@
             return this.storyUrlUpdate + (id ? id : '');
         },
 
-        getStoryViewUrl: function (memId, id) {
-            return this.storyUrlView + '/' + memId + (id ? ('?id=' + id) : '');
+        getStoryViewUrl: function (memId, id, categoryId) {
+            return this.storyUrlView + '/' + memId + (id ? ('?id=' + id) : '') + (categoryId ? '&searchCategoryId=' + categoryId : '');
         },
 
         getStoryWriteUrl: function () {

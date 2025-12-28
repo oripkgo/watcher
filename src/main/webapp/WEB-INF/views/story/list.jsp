@@ -21,7 +21,7 @@
 
             <form name="searchForm" id="searchForm">
                 <div class="search-group">
-                    <select id="seachCategory">
+                    <select id="searchCategory">
                         <option value="">카테고리</option>
                     </select>
 
@@ -39,10 +39,8 @@
 
         <section class="category-tabs category_tab_area"></section>
 
-        <section class="story-list-box tab_parent">
-        </section>
-
-
+        <section class="story-list-box"></section>
+        <nav class="pagination"></nav>
     </main>
 </div>
 
@@ -57,45 +55,31 @@
             const id = obj['ID'];
             const nm = obj['CATEGORY_NM'];
 
-            $('#seachCategory').append('<option value="'+id+'">'+nm+'</option>')
-
-            if( idx == 0 ){
-                $('.category_tab_area').append(`<button class="category-tab active" data-category="\${id}">\${nm}</button>`);
-            }else{
-                $('.category_tab_area').append(`<button class="category-tab" data-category="\${id}">\${nm}</button>`);
-            }
-
-            $(".tab_parent").replaceWith(drawTabList(id));
-
-            // 기본 목록
-            defaultList(id, null);
-        })
+            $('#searchCategory').append('<option value="'+id+'">'+nm+'</option>')
+            $('.category_tab_area').append(`<button class="category-tab \${idx == 0?'active':''}" data-category="\${id}" onclick="searchTab(this)">\${nm}</button>`);
+        });
     }
 
+    const searchTab = function(tab){
+        $(".category-tab").removeClass("active")
+        $(tab).addClass("active")
+        defaultList({categoryId : tab.dataset.category});
+    }
 
     const initKeywordSearch = function(){
         $("#searchBtn").on("click", function () {
-            let id = $("#seachCategory").val();
+            const id = $("#searchCategory").val();
+            const keyword = $("#keyword").val();
 
             if (!id) {
-                comm.message.alert("카테고리를 선택해주세요.",function(){
-                    $("#seachCategory").focus();
+                comm.message.alert("카테고리를 선택해주세요.", function () {
+                    $("#searchCategory").focus();
                 });
                 return;
-
-                // if (CATEGORY_LIST.length > 0) {
-                //     id = CATEGORY_LIST[0]['ID'];
-                // }
             }
 
-            comm.dom.appendInput($('#defaultListForm' + id), 'searchKeyword', $("#searchForm").find("#keyword").val());
-
-            $("#defaultList"+id).empty();
-
             // 기본 목록
-            defaultList(id, function(){
-                $(".tab_"+id).click();
-            });
+            defaultList({id, keyword});
         })
 
         $("#keyword").on("keypress", function (e) {
@@ -108,6 +92,8 @@
 
 
     const recommendedList = function(id){
+        const categoryId = id;
+
         comm.request({
             form: $("#RecommendedListForm" + id)
             , url: listUrl
@@ -122,7 +108,7 @@
                 // let listNum = ((data.vo.pageNo - 1) * data.vo.listNo) + (i + 1);
 
                 listHtml += '<li>';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
+                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'], categoryId) + '">';
                 listHtml += '<div>'+window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])+'</div>';
                 listHtml += '        <strong>'+obj['TITLE']+'</strong>';
                 listHtml += '        <span>';
@@ -170,10 +156,14 @@
         });
     }
 
-    const defaultList = function(id, callback){
-        comm.paging.getList('#defaultListForm'+id, listUrl,function(data){
-            comm.paging.emptyList("#defaultList"+id);
+    const defaultList = function ({categoryId, keyword}, callback) {
 
+        comm.paging.getList({
+            SortByRecommendationYn: "NN",
+            searchCategoryId: categoryId,
+            searchKeyword: keyword|| ''
+        }, listUrl, function (data) {
+            $(".story-list-box").empty();
             for (let i = 0; i < data.list.length; i++) {
                 let obj = data.list[i];
 
@@ -182,10 +172,10 @@
                 }
 
                 const summary = obj.SUMMARY.length < 100 ? obj.SUMMARY : (obj.SUMMARY || '').substring(0, 100) + ' ...'
-                const image = obj['THUMBNAIL_IMG_PATH'] ? window.getImgTagStr(obj['THUMBNAIL_IMG_PATH']) : '<img src="https://i.pravatar.cc/102" alt="썸네일" class="story-thumbnail" />';
+                const image = window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'], "story-thumbnail");
 
                 let listHtml = `
-                    <div class="story-card" onclick="location.href='\${window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'])}'">
+                    <div class="story-card" onclick="location.href='\${window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID'], categoryId)}'">
                         <div class="story-content">
                             <h2 class="story-title">\${obj.TITLE}</h2>
                             <p class="story-summary">\${summary}</p>
@@ -202,13 +192,13 @@
                 listHtml = $(listHtml);
                 $(listHtml).data(obj);
 
-                $("#defaultList"+id).append(listHtml);
+                $(".story-list-box").append(listHtml);
             }
 
-            if( callback ){
+            if (callback) {
                 callback();
             }
-        });
+        }, null, null, null, true);
     }
 
 
@@ -225,25 +215,13 @@
         return $("#"+tabId, target);
     }
 
-    const drawTabList = function(id){
-        let div = $('<div></div>')
-        let defaultListForm = comm.dom.appendForm('defaultListForm'+id);
-
-        comm.dom.appendInput(defaultListForm, "SortByRecommendationYn", "NN", true);
-        comm.dom.appendInput(defaultListForm, "searchCategoryId", id, true);
-        $(defaultListForm).append(`<section class="story-list-box tab_parent" id="defaultList\${id}"></section`);
-        $(defaultListForm).append('<nav class="pagination"></nav>');
-        $(div).append(defaultListForm);
-
-        return $(div).html();
-    }
-
-
     $(document).on("ready", function(){
         initCategory();
         initKeywordSearch();
+        defaultList({categoryId: CATEGORY_LIST[0]["ID"]});
+
         if( SEARCH_CATEGORY_ID && SEARCH_KEYWORD ){
-            $("#seachCategory").val(SEARCH_CATEGORY_ID);
+            $("#searchCategory").val(SEARCH_CATEGORY_ID);
             $("#keyword").val(SEARCH_KEYWORD);
             $("#searchBtn").click();
         }

@@ -33,7 +33,7 @@ public interface StoryService {
 
     public List<Map<String, Object>> getList(StoryParam storyParam) throws Exception;
 
-    public StoryResp getData(StoryParam storyParam) throws Exception;
+    public Map<String, Object> getData(StoryParam storyParam) throws Exception;
 
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam) throws Exception;
 

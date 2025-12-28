@@ -556,3 +556,39 @@ footer .container {
 .story-like span {
     font-weight: bold;
 }
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.page-btn:hover {
+    background-color: #f1f3f5;
+}
+
+.page-btn.active {
+    background-color: #343a40;
+    color: #fff;
+    border-color: #343a40;
+}
+
+.page-btn.prev,
+.page-btn.next {
+    font-weight: bold;
+}

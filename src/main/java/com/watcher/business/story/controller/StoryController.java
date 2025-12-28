@@ -54,9 +54,9 @@ public class StoryController {
         String loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
         storyService.insertViewsCount(storyParam);
-        StoryResp storyInfo = storyService.getData(storyParam);
+        Map<String, Object> storyInfos = storyService.getData(storyParam);
 
-
+        StoryResp storyInfo = (StoryResp) storyInfos.get("current");
         ManagementParam storySettingInfoReq = new ManagementParam();
         storySettingInfoReq.setId(storyInfo.getAdminId());
         Map<String, Object> storySettingInfo = managementService.getStorySettingInfo(storySettingInfoReq);
@@ -85,7 +85,7 @@ public class StoryController {
         mv.addObject("storyAdminId"     , storyInfo.getAdminId()                );
         mv.addObject("storyMemId"       , storyMemId                            );
         mv.addObject("storyParam"       , storyParam                            );
-        mv.addObject("view"             , storyInfo                             );
+        mv.addObject("view"             , storyInfos                            );
         mv.addObject("code"             , ResponseCode.SUCCESS_0000.getCode()   );
         mv.addObject("message"          , ResponseCode.SUCCESS_0000.getMessage());
 

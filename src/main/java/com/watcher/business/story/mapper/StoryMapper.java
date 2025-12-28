@@ -12,6 +12,10 @@ import java.util.Map;
 public interface StoryMapper {
     public StoryResp view(StoryParam storyParam);
 
+    public StoryResp viewPrev(StoryParam storyParam);
+
+    public StoryResp viewNext(StoryParam storyParam);
+
     public List<Map<String, Object>> getNewStoryMain(StoryParam storyParam);
 
     public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);

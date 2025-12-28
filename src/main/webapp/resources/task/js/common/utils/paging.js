@@ -177,7 +177,7 @@ const PAGING = function () {
 
             // 3) 스크롤 맨 위로
             if (scrollTopYn){
-                window.scrollTo({top: 0, behavior: "smooth"});
+                window.scrollTo({top: 0});
             }
 
         });

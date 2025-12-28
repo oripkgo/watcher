@@ -33,20 +33,13 @@
     <meta name="twitter:description" content="${view.summary}">
 
 
-    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-mystory.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-management.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-board-title.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-1200.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-840.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-max-width-750.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/style-new-top-btn.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/swiper.css"/>
-    <script type="text/javascript" src="/resources/js/swiper.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/layout.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/css/login-popup.css"/>
+
+    <script src="https://use.fontawesome.com/926fe18a63.js"></script>
     <script type="text/javascript" src="/resources/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/resources/js/tab.js"></script>
     <%@include file="/WEB-INF/views/common/include/globalVariable.jsp"%>
 
     <script type="text/javascript" src="/resources/task/js/common/utils/message.js"></script>

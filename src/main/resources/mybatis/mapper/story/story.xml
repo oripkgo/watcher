@@ -102,6 +102,32 @@
 		</if>
 	</select>
 
+	<select id="viewPrev" resultType="storyResp" parameterType="storyParam" >
+		/*story > view*/
+		<include refid="storySelect"/>
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<include refid="conditions"/>
+		<![CDATA[
+		AND A.ID < #{id}
+		ORDER BY A.ID DESC
+		LIMIT 1
+		]]>
+	</select>
+
+	<select id="viewNext" resultType="storyResp" parameterType="storyParam" >
+		/*story > view*/
+		<include refid="storySelect"/>
+		WHERE 1=1
+		AND A.DELETE_YN = 'N'
+		<include refid="conditions"/>
+		<![CDATA[
+		AND A.ID > #{id}
+		ORDER BY A.ID DESC
+		LIMIT 1
+		]]>
+	</select>
+
 	<sql id="storySelect">
 		SELECT
 			A.ID,

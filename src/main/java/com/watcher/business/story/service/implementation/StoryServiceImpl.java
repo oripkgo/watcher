@@ -209,8 +209,18 @@ public class StoryServiceImpl implements StoryService {
 
 
     @Override
-    public StoryResp getData(StoryParam storyParam) throws Exception {
-        return storyMapper.view(storyParam);
+    public Map<String, Object> getData(StoryParam storyParam) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        StoryResp view = storyMapper.view(storyParam);
+        StoryResp prev = storyMapper.viewPrev(storyParam);
+        StoryResp next = storyMapper.viewNext(storyParam);
+
+        result.put("current", view);
+        result.put("prev", prev);
+        result.put("next", next);
+
+        return result;
     }
 
 
