@@ -17,57 +17,75 @@
 .story-list {
 }
 
+/* 스토리 카드 수정 */
 .story-card {
     flex: 1 1 500px;
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 0;             /* 내부 패딩 제거 (이미지를 끝까지 채우기 위함) */
+    border: 1px solid #eee;
     display: flex;
     background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
-    cursor:pointer;
-    margin:5px;
+    border-radius: 12px;    /* 모서리를 조금 더 부드럽게 */
+    overflow: hidden;       /* 내부 이미지가 튀어나오지 않게 함 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    margin: 10px;
+    height: 180px;          /* 카드의 높이를 일정하게 고정 */
 }
-
 
 .story-card:hover {
     transform: translateY(-4px);
-    background-color: #f1f3f5; /* 밝은 회색 계열 배경 */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    background-color: #fcfcfc;
 }
 
+/* 텍스트 컨텐츠 영역 */
+.story-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 상단 제목과 하단 메타정보 분리 */
+}
 
+/* 이미지 영역 (가로/높이 100% 핵심) */
+.story-image {
+    width: 180px;           /* 카드 높이와 동일하게 설정하여 정사각형 유지 */
+    height: 100%;           /* 부모(story-card) 높이 100% 채움 */
+    flex-shrink: 0;         /* 텍스트가 길어져도 이미지 크기 유지 */
+    background-color: #f8f9fa;
+}
 
 .story-thumbnail {
-    width: 150px;
-    object-fit: cover;
+    width: 100% !important;  /* 가로 100% */
+    height: 100% !important; /* 세로 100% */
+    object-fit: cover;       /* 비율을 유지하며 빈 공간 없이 꽉 채움 */
+    display: block;
 }
 
-.story-content {
-    padding: 1rem;
-    flex: 1;
-}
-
+/* 제목 말줄임표 처리 */
 .story-title {
     margin: 0;
-    font-size: 1.25rem;
-    color: #333;
-}
-
-.story-summary {
-    margin: 0.5rem 0;
-    color: #555;
+    font-size: 1.2rem;
+    color: #222;
+    font-weight: 700;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* 두 줄 제한 */
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
 
-    /* 추가: 내용이 없을 때도 2줄 정도의 높이(약 3em)를 확보 */
-    min-height: 3em;
-    line-height: 1.5;
-    margin-bottom: 15px;
+/* 요약문 스타일 */
+.story-summary {
+    margin: 8px 0;
     color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: auto; /* 고정 높이 제거 */
 }
 
 
@@ -194,32 +212,61 @@
     }
 
 
-    .story-card img {
-        width: 110px;
-        height: auto;
+    .story-list-box {
+        margin: 20px 0;
+    }
+
+    .story-card {
+        flex-direction: row;    /* 다시 좌우 배치로 변경 */
+        height: 120px;          /* 카드의 전체 높이를 줄여서 한 화면에 여러 개 보이게 함 */
+        padding: 12px;          /* 내부 여백 추가 */
+        align-items: center;    /* 이미지와 텍스트 수직 중앙 정렬 */
+        gap: 15px;              /* 이미지와 텍스트 사이 간격 */
+        margin:10px 0px;
+    }
+
+    /* 이미지 영역: 너무 크지 않게 고정 */
+    .story-image {
+        width: 90px;            /* 사진 크기를 90px로 제한 */
+        height: 90px;           /* 정사각형 유지 */
+        flex-shrink: 0;         /* 이미지 크기 고정 */
+        border-radius: 8px;     /* 이미지 모서리만 살짝 굴림 */
+        order: 2;               /* 사진을 오른쪽으로 보내고 싶다면 2, 왼쪽은 1 */
+    }
+
+    .story-thumbnail {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+    }
+
+    /* 텍스트 컨텐츠 영역 */
+    .story-content {
+        padding: 0;
+        flex: 1;
+        overflow: hidden;       /* 텍스트 넘침 방지 */
+        order: 1;
     }
 
     .story-title {
-        font-size:14px;
+        font-size: 1rem;
+        margin-bottom: 4px;
+        line-height: 1.3;
+        -webkit-line-clamp: 1;  /* 모바일 제목은 한 줄로 깔끔하게 */
     }
 
-
     .story-summary {
-        font-size:12px;
-
-        display: -webkit-box;
-        -webkit-line-clamp: 2;        /* 원하는 줄 수 */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        -webkit-line-clamp: 2;  /* 설명은 두 줄까지 */
+        min-height: auto;
     }
 
     .story-meta {
-        font-size:12px;
+        font-size: 0.75rem;
+        justify-content: flex-start;
+        gap: 10px;
     }
-
-
-
 
     /*.multi-ellipsis {*/
     /*    display: -webkit-box;*/

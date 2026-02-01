@@ -184,7 +184,9 @@
                                 <span class="date">\${obj.REG_DATE}</span>
                             </div>
                         </div>
-                        \${image}
+                        <div class="story-image">
+                            \${image}
+                        </div>
                     </div>
 
                 `;
