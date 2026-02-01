@@ -1,0 +1,313 @@
+.editor-container {
+    margin: 50px auto;
+    border-radius: 20px;
+    max-width: 900px;
+    background: #fff;
+    padding: 50px 40px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #222;
+}
+
+.back-btn-container {
+    margin-bottom: 30px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #444, #222);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    user-select: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #000, #333);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    transform: scale(1.05);
+}
+
+.back-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* 아이콘 스타일 */
+.back-btn::before {
+    content: '←';
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1;
+    color: #fff;
+    display: inline-block;
+    transform: translateX(-2px);
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover::before {
+    transform: translateX(-6px);
+}
+
+
+.editor-container h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: 1.2px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+}
+
+.form-group {
+    margin-bottom: 35px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 18px 22px;
+    font-size: 18px;
+    border: 1.8px solid #bbb;
+    border-radius: 14px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: #222;
+    background-color: #fff;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+input[type="text"]::placeholder,
+textarea::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    border-color: #000;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 520px;
+    line-height: 1.8;
+    font-size: 17px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 커스텀 체크박스 그룹 스타일 */
+.custom-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #222;
+    cursor: pointer;
+}
+
+/* 실제 체크박스는 숨김 */
+.custom-checkbox {
+    display: none;
+}
+
+/* 사용자 정의 체크박스 박스 */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-custom {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid #333;
+    display: inline-block;
+    position: relative;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.checkbox-label:hover .checkbox-custom {
+    background-color: #f2f2f2;
+}
+
+/* 체크되었을 때 스타일 */
+.custom-checkbox:checked + .checkbox-label .checkbox-custom {
+    background-color: #222;
+    border-color: #222;
+}
+
+.custom-checkbox:checked + .checkbox-label .checkbox-custom::after {
+    content: '✔';
+    position: absolute;
+    top: 1px;
+    left: 4px;
+    font-size: 14px;
+    color: #fff;
+}
+
+
+.thumbnail-box {
+    border: 1.5px dashed #999;
+    border-radius: 16px;
+    padding: 50px;
+    text-align: center;
+    background-color: #fafafa;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    color: #555;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.03);
+}
+
+.thumbnail-box.dragover {
+    background-color: #e0e0e0;
+    border-color: #333;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    color: #222;
+}
+
+.thumbnail-box:hover {
+    background-color: #f5f5f5;
+}
+
+#thumbnail-preview img {
+    max-width: 100%;
+    max-height: 320px;
+    border-radius: 16px;
+    margin-top: 20px;
+    border: 1.5px solid #ccc;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+    object-fit: contain;
+}
+
+.tag-input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px;
+}
+
+.tag-chip {
+    background: linear-gradient(135deg, #444, #222);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.tag-chip span {
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.tag-chip span:hover {
+    color: #ff4d4d;
+}
+
+.confirm-btn-area{
+    display: flex;
+    justify-content: end;
+}
+
+
+.submit-btn {
+    display: block;
+    padding: 14px 40px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    background-color: #000;
+}
+
+.category-select {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1.8px solid #bbb;
+    background-color: #fff;
+    color: #999;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 8L0 0h12L6 8z' fill='%23666'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px 8px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.category-select:focus {
+    border-color: #000;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    outline: none;
+}
+
+.category-select option {
+    padding: 10px;
+    background: #fff;
+    color: #999;
+    font-size: 15px;
+}
+
+.category-select option[disabled] {
+    color: #999;
+}
+
+
+/* 반응형 */
+@media (max-width: 600px) {
+    .editor-container {
+        padding: 30px 20px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 16px 0;
+        font-size: 18px;
+        border-radius: 40px;
+    }
+}

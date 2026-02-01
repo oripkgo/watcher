@@ -1,86 +1,100 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link rel="stylesheet" type="text/css" href="/resources/css/story-edit.css"/>
 
 <jsp:include page="../common/include/tinymceEditor.jsp"/>
 
-<form id="story_write_form">
 
-  <input type="hidden"      name="id"                  id="id"                  value="${view.id}"                >
-  <input type="hidden"      name="categoryId"          id="categoryId"                                            >
-  <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                                      >
-  <input type="hidden"      name="contents"            id="contents"                                              >
-  <input type="hidden"      name="editPermId"          id="editPermId"          value="${storyParam.editPermId}"  >
+<div class="container">
+  <main>
+    <div class="editor-container">
 
-  <div class="section uline2">
-    <div class="ani-in manage_layout">
+      <div class="back-btn-container">
+        <button type="button" class="back-btn" onclick="history.back()">이전으로 돌아가기</button>
+      </div>
 
-      <div class="manage_conts">
+      <form id="story_write_form">
 
-        <div class="story_tb">
+        <input type="hidden"      name="id"                  id="id"                  value="${view.id}"                >
+        <input type="hidden"      name="categoryId"          id="categoryId"                                            >
+        <input type="hidden"      name="memberCategoryId"    id="memberCategoryId"                                      >
+        <input type="hidden"      name="contents"            id="contents"                                              >
+        <input type="hidden"      name="editPermId"          id="editPermId"          value="${storyParam.editPermId}"  >
+        <input type="hidden"      name="tags"                id="tags"                                                  >
+        <input type="hidden"      name="summary"             id="summary"                                               >
 
-          <table>
-            <tbody>
-            <tr>
-              <th>카테고리</th>
-              <td class="story_top">
-                <select id="story_category">
-                  <option value="">선택</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>회원 카테고리</th>
-              <td class="story_top">
-                <select id="story_category_member">
-                  <option value="">선택</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>공개여부</th>
-              <td class="story_top">
-                <select id="secretYn" name="secretYn">
-                  <option value="N">공개</option>
-                  <option value="Y">비공개</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <th>제목</th>
-              <td><input type="text" name="title" id="title" placeholder="제목을 입력하세요"></td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <div id="editor" class="editor" style="height: 400px;">
-                  ${view.contents}
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th class="non">태그</th>
-              <td class="non"><input type="text" name="tags" id="tags" placeholder="태그를 입력하세요 (ex:태그1,태그2,태그3)"></td>
-            </tr>
-            <tr>
-              <th class="non">첨부파일1</th>
-              <td class="non story_thumbnailImg">
-                <label for="thumbnailImgPathParam" class="input-file-button">썸네일 이미지</label>
-                <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam" accept="image/gif, image/jpeg, image/png">
-                <input type="text" disabled name="thumbnailImgPathParam_text" id="thumbnailImgPathParam_text" placeholder="썸네일 이미지를 선택하세요">
-              </td>
-            </tr>
-            </tbody></table>
+
+        <!-- 카테고리 선택 -->
+        <div class="form-group">
+          <select id="story_category" class="category-select" required>
+            <option value="">선택</option>
+          </select>
+        </div>
+
+        <!-- 회원 카테고리 선택 -->
+        <div class="form-group">
+          <select id="story_category_member" class="category-select">
+            <option value="">선택</option>
+          </select>
+        </div>
+
+        <!-- 공개 여부 -->
+        <div class="form-group">
+          <select id="secretYn" name="secretYn" class="category-select" required>
+            <option value="N">공개</option>
+            <option value="Y">비공개</option>
+          </select>
+        </div>
+
+
+        <!-- 제목 -->
+        <div class="form-group">
+          <input type="text" id="title" name="title" placeholder="스토리 제목을 입력하세요" required />
+        </div>
+
+        <!-- 본문 -->
+        <div class="form-group">
+          <div id="editor" class="editor" style="height: 400px;">
+            ${view.contents}
+          </div>
+        </div>
+
+        <!-- 태그 -->
+        <div class="form-group">
+          <input type="text" id="tagInput" placeholder="태그 입력 후 Enter" />
+          <div class="tag-input" id="tagList"></div>
+        </div>
+
+        <!-- 썸네일 -->
+        <div class="form-group">
+          <div class="custom-checkbox-group">
+            <input type="checkbox" id="enableThumbnail" class="custom-checkbox" />
+            <label for="enableThumbnail" class="checkbox-label">
+              <span class="checkbox-custom"></span>
+              대표 이미지 추가하기
+            </label>
+          </div>
 
         </div>
 
-        <div class="not_btn">
-          <a href="javascript:;" class="on write_confirm">작성완료</a>
-          <a href="javascript:;" class="write_cancel">작성취소</a>
+
+        <!-- 썸네일 업로드 박스 -->
+        <div class="form-group">
+          <div class="thumbnail-box" id="thumbnailBox" style="display:none;">
+            클릭 또는 드래그하여 이미지 업로드
+            <input type="file" name="thumbnailImgPathParam" id="thumbnailImgPathParam" accept="image/*" style="display: none;" />
+            <div id="thumbnail-preview"></div>
+          </div>
         </div>
 
-      </div><!-------------//manage_conts------------->
-
+        <!-- 버튼 -->
+        <div class="confirm-btn-area">
+          <button type="button" class="submit-btn" onclick="insertStory()">스토리 게시</button>
+        </div>
+      </form>
     </div>
-  </div>
-</form>
+  </main>
+</div>
+
 
 <form id="nextPageForm" method="get">
   <input type="hidden" name="id" value="">
@@ -100,7 +114,7 @@
   const insertUrl = "/story/insert";
   const imgSaveUrl = "/file/upload/image";
 
-  const insertStory = function(){
+  function insertStory(){
     if($("#story_category").val() == ''){
       comm.message.alert("카테고리를 선택해주세요.");
       return;
@@ -111,18 +125,29 @@
       return;
     }
 
+    const editorContent = tinymce.get('editor').getContent();
+    const editorText = tinymce.get('editor').getContent({format: 'text'});
+
     $("#categoryId").val($("#story_category").val());
     $("#memberCategoryId").val($("#story_category_member").val());
+    $("#summary").val(String(editorText).substring(0,200));
 
-    comm.dom.appendInput('#story_write_form', 'summary' ,String($(".ql-editor","#editor").text()).substring(0,200)  );
 
-    changeImagePathToS3Path($(editerId).find("img"));
-    $("#contents").val($(editerId).html());
+    // 이미지 경로 처리 (S3 변환)
+    // 에디터 내용을 가상 DOM으로 만들어 이미지 처리 루프 실행
+    const $tempDiv = $('<div>').html(editorContent);
+    changeImagePathToS3Path($tempDiv.find("img"));
 
+    // 변환된 HTML을 hidden input에 넣기
+    $("#contents").val($tempDiv.html());
+
+    // 5. 태그 세팅
+    $("#tags").val(Array.from(tagsSet).join(','));
 
     var form = $('#story_write_form')[0]
     var formData = new FormData(form);
 
+    debugger;
     comm.request({
       url: insertUrl,
       data : formData,
@@ -228,6 +253,96 @@
     })
   }
 
+
+  // 썸네일 미리보기 및 드래그 앤 드롭 처리
+  const enableThumbnailCheckbox = document.getElementById('enableThumbnail');
+  const thumbnailInput = document.getElementById('thumbnailImgPathParam');
+  const thumbnailBox = document.getElementById('thumbnailBox');
+  const preview = document.getElementById('thumbnail-preview');
+
+  enableThumbnailCheckbox.addEventListener('change', () => {
+    if (enableThumbnailCheckbox.checked) {
+      thumbnailBox.style.display = 'block';
+    } else {
+      thumbnailBox.style.display = 'none';
+      // 선택된 이미지 초기화
+      thumbnailInput.value = '';
+      preview.innerHTML = '';
+    }
+  });
+
+  function showThumbnail(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      preview.innerHTML = `<img src="\${e.target.result}" alt="썸네일 미리보기">`;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  thumbnailInput.addEventListener('change', function () {
+    const file = this.files[0];
+    showThumbnail(file);
+  });
+
+  // 드래그 앤 드롭
+  ['dragenter', 'dragover'].forEach(eventName => {
+    thumbnailBox.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      thumbnailBox.classList.add('dragover');
+    });
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    thumbnailBox.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      thumbnailBox.classList.remove('dragover');
+    });
+  });
+
+  thumbnailBox.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      thumbnailInput.files = e.dataTransfer.files;
+      showThumbnail(file);
+    }
+  });
+
+  thumbnailBox.addEventListener('click', () => {
+    thumbnailInput.click();
+  });
+
+  // 태그 입력
+  const tagInput = document.getElementById('tagInput');
+  const tagList = document.getElementById('tagList');
+  const tagsSet = new Set();
+
+  tagInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && this.value.trim() !== '') {
+      e.preventDefault();
+      const value = this.value.trim();
+      if (!tagsSet.has(value)) {
+        tagsSet.add(value);
+        const chip = document.createElement('div');
+        chip.className = 'tag-chip';
+        chip.innerHTML = `\${value}<span onclick="this.parentElement.remove(); tagsSet.delete('\${value}')">×</span>`;
+        tagList.appendChild(chip);
+        this.value = '';
+      }
+    }
+  });
+
+
+  // document.getElementById('story_write_form').addEventListener('submit', function (e) {
+  //   e.preventDefault();
+  //   // 서버 연동은 여기에 추가
+  //   insertStory();
+  // });
+
+
+
   initEdit();
   setCategoryOptions();
   setValue();
@@ -245,4 +360,6 @@
     $("#thumbnailImgPathParam_text").val(realFileName);
 
   })
+
 </script>
+

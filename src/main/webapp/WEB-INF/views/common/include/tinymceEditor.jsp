@@ -25,7 +25,7 @@
         height: 500,
         skin: 'material-outline',
         content_css: 'material-outline',
-        icons: 'material',
+        // icons: 'material',
         plugins: 'code image link lists',
         toolbar: 'undo redo | styles fontsize | bold italic underline forecolor backcolor | link image | align | bullist numlist ',
         menubar: false,
