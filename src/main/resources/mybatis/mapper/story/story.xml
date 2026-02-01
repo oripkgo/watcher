@@ -213,14 +213,13 @@
 			AND (
 				A.TITLE LIKE CONCAT('%',#{searchKeyword},'%')
 				OR A.SUMMARY LIKE CONCAT('%',#{searchKeyword},'%')
-				OR A.ID IN (
-					SELECT
-						CONTENTS_ID
-					FROM BOARD_TAGS
-					WHERE 1=1
-						AND CONTENTS_TYPE = 'STORY'
-						AND DELETE_YN = 'N'
-						AND TAGS = #{searchKeyword}
+				OR EXISTS (
+					SELECT 1
+					FROM BOARD_TAGS BT
+					WHERE BT.CONTENTS_ID = A.ID
+					AND BT.CONTENTS_TYPE = 'STORY'
+					AND BT.DELETE_YN = 'N'
+					AND BT.TAGS = #{searchKeyword}
 				)
 			)
 		</if>
