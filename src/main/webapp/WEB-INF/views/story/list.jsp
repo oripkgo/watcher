@@ -79,7 +79,7 @@
             }
 
             // 기본 목록
-            defaultList({id, keyword});
+            defaultList({categoryId:id, keyword});
         })
 
         $("#keyword").on("keypress", function (e) {
