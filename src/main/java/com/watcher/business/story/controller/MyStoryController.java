@@ -10,124 +10,124 @@ import com.watcher.enums.ResponseCode;
 import com.watcher.util.AESUtil;
 import com.watcher.util.CookieUtil;
 import com.watcher.util.JwtTokenUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/my-story")
 public class MyStoryController {
-    @Autowired
-    CategoryService categoryService;
 
-    @Autowired
-    StoryService storyService;
+  @Autowired
+  CategoryService categoryService;
 
-    @Autowired
-    ManagementService managementService;
+  @Autowired
+  StoryService storyService;
 
-    @Autowired
-    SignService signService;
+  @Autowired
+  ManagementService managementService;
 
-    @RequestMapping(value = {"/{storyAdminId}/{categoryId}"})
-    public ModelAndView getMyStoryCategory(
-            HttpServletRequest request,
-            @PathVariable("storyAdminId") String storyAdminId,
-            @PathVariable("categoryId") String categoryId,
-            StoryParam storyParam
-    ) throws Exception {
-        ModelAndView mv = new ModelAndView("myStory/index");
+  @Autowired
+  SignService signService;
 
-        String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
-        String loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
+  @RequestMapping(value = {"/{storyAdminId}/{categoryId}"})
+  public ModelAndView getMyStoryCategory(
+      HttpServletRequest request,
+      @PathVariable("storyAdminId") String storyAdminId,
+      @PathVariable("categoryId") String categoryId,
+      StoryParam storyParam
+  ) throws Exception {
+    ModelAndView mv = new ModelAndView("myStory/index");
 
-        // story의 세팅된 사용권한 및 정책 조회
-        ManagementParam managementParam = new ManagementParam();
-        managementParam.setId(storyAdminId);
-        Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
+    String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
+    String loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
+    // story의 세팅된 사용권한 및 정책 조회
+    ManagementParam managementParam = new ManagementParam();
+    managementParam.setId(storyAdminId);
+    Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
 
-        mv.addObject("editPermYn" , "N");
-        if(Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils.hasText(loginId)){
-            mv.addObject("editPermYn"   , "Y");
-            mv.addObject("editPermId"   , AESUtil.encrypt(storyAdminId + "/" + loginId));
-        }
-
-
-        storyParam.setListNo(10);
-        storyParam.setCategoryId(categoryId);
-
-        mv.addObject("dto"          , storyParam);
-        mv.addObject("boardTitle"   , storyParam.getCategoryNm());
-        mv.addObject("storyAdminId" , storyAdminId);
-        mv.addObject("storyInfo"    , storyInfo);
-        mv.addObject("noticeListYn" , "Y");
-
-        return mv;
+    mv.addObject("editPermYn", "N");
+    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils
+        .hasText(loginId)) {
+      mv.addObject("editPermYn", "Y");
+      mv.addObject("editPermId", AESUtil.encrypt(storyAdminId + "/" + loginId));
     }
 
+    storyParam.setListNo(10);
+    storyParam.setCategoryId(categoryId);
 
-    @RequestMapping(value = {"/{storyAdminId}"})
-    public ModelAndView getMyStory(
-            HttpServletRequest request,
-            @PathVariable("storyAdminId") String storyAdminId,
-            StoryParam storyParam
-    ) throws Exception {
-        ModelAndView mv = new ModelAndView("myStory/index");
+    mv.addObject("dto", storyParam);
+    mv.addObject("boardTitle", storyParam.getCategoryNm());
+    mv.addObject("storyAdminId", storyAdminId);
+    mv.addObject("storyInfo", storyInfo);
+    mv.addObject("noticeListYn", "Y");
 
-        String sessionId    = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
-        String loginId      = signService.getSessionUser(sessionId).get("LOGIN_ID");
-
-
-        // story의 세팅된 사용권한 및 정책 조회
-        ManagementParam managementParam = new ManagementParam();
-        managementParam.setId(storyAdminId);
-        Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
+    return mv;
+  }
 
 
-        mv.addObject("editPermYn" , "N");
-        if(Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils.hasText(loginId)){
-            mv.addObject("editPermYn"  , "Y");
-            mv.addObject("editPermId"  , AESUtil.encrypt(storyAdminId + "/" + loginId));
-        }
+  @RequestMapping(value = {"/{storyAdminId}"})
+  public ModelAndView getMyStory(
+      HttpServletRequest request,
+      @PathVariable("storyAdminId") String storyAdminId,
+      StoryParam storyParam
+  ) throws Exception {
+    ModelAndView mv = new ModelAndView("myStory/index");
 
+    String sessionId = JwtTokenUtil.getId(CookieUtil.getValue("SESSION_TOKEN"));
+    String loginId = signService.getSessionUser(sessionId).get("LOGIN_ID");
 
-        storyParam.setListNo(10);
+    // story의 세팅된 사용권한 및 정책 조회
+    ManagementParam managementParam = new ManagementParam();
+    managementParam.setId(storyAdminId);
+    Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
 
-        mv.addObject("dto"          , storyParam);
-        mv.addObject("storyAdminId" , storyAdminId);
-        mv.addObject("storyInfo"    , storyInfo);
-        mv.addObject("boardTitle"   , "전체글");
-
-        return mv;
+    mv.addObject("editPermYn", "N");
+    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils
+        .hasText(loginId)) {
+      mv.addObject("editPermYn", "Y");
+      mv.addObject("editPermId", AESUtil.encrypt(storyAdminId + "/" + loginId));
     }
 
-    @RequestMapping(value = {"/{storyAdminId}/list"}, method = RequestMethod.GET)
-    @ResponseBody
-    public LinkedHashMap<String, Object> getMyStorylistData(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            @PathVariable("storyAdminId") String storyAdminId,
-            StoryParam storyParam
-    ) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+    storyParam.setListNo(10);
 
-        storyParam.setListNo(10);
+    mv.addObject("dto", storyParam);
+    mv.addObject("storyAdminId", storyAdminId);
+    mv.addObject("storyInfo", storyInfo);
+    mv.addObject("boardTitle", "전체글");
 
-        storyParam.setSearchAdminId(storyAdminId);
-        result.put("list"   , storyService.getListMyStory(storyParam)       );
-        result.put("dto"    , storyParam                                    );
-        result.put("code"   , ResponseCode.SUCCESS_0000.getCode()           );
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage()        );
+    return mv;
+  }
 
-        return result;
-    }
+  @RequestMapping(value = {"/{storyAdminId}/list"}, method = RequestMethod.GET)
+  @ResponseBody
+  public LinkedHashMap<String, Object> getMyStorylistData(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @PathVariable("storyAdminId") String storyAdminId,
+      StoryParam storyParam
+  ) throws Exception {
+    LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+    storyParam.setListNo(storyParam.getListNo());
+
+    storyParam.setSearchAdminId(storyAdminId);
+    result.put("list", storyService.getListMyStory(storyParam));
+    result.put("dto", storyParam);
+    result.put("code", ResponseCode.SUCCESS_0000.getCode());
+    result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+
+    return result;
+  }
 }

@@ -9,210 +9,222 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="section">
-    <div class="ani-in new_mystory_layout">
-        <div class="new_mystory_title_box ani_y">
-            <a class="new_mystory_title" href="/my-story/${storyAdminId}">${storyInfo['STORY_TITLE']}</a>
-            <a href="javascript:;" class="new_mystory_mobile_menu_btn"></a>
+<link rel="stylesheet" type="text/css" href="/resources/css/my-story.css"/>
+
+
+<div class="layout">
+    <!-- 왼쪽 사이드바 -->
+    <aside class="sidebar">
+        <div class="profile">
+            <h2 onclick="location.href='/my-story/${storyAdminId}'">${storyInfo['STORY_TITLE']}</h2>
+            <img src="${storyInfo['MEM_PROFILE_IMG']}" alt="Profile"/>
         </div>
-    </div>
-</div>
 
+        <!-- 대표 글 -->
+        <%--
+        <div class="category">
+             <h3>내 블로그 대표 글</h3>
+             <p>
+                 안녕하세요! 이 블로그는 제가 살아가면서 배우고 경험한 것들을 공유하는 공간입니다.
+                 기술, 여행, 일상 이야기를 담고 있어요.
+             </p>
+         </div>
+         --%>
 
-<div class="section uline2">
-    <div class="ani-in new_mystory_layout">
-        <div class="new_mystory_contents_box ani_y">
-            <div class="new_mystory_menu_box">
-                <div class="new_mystory_photo">
-                    <img src="${storyInfo['MEM_PROFILE_IMG']}"/>
+        <!-- 카테고리 목록 (PC/태블릿 전용) -->
+        <nav class="categories">
+            <h3>카테고리</h3>
+            <ul class="new_mystory_menu_list">
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main">
+        <!-- 모바일 전용 가로 스크롤 카테고리 -->
+        <nav class="categories-mobile">
+            <ul class="new_mystory_menu_list">
+            </ul>
+        </nav>
+
+        <c:if test="${noticeListYn ne 'Y'}">
+            <!-- 공지사항 -->
+            <section class="notice">
+                <div class="section-header">
+                    <h3>공지사항</h3>
+                    <a href="javascript:;" id="notice_more" class="more-btn">더보기 <i
+                            class="fa fa-angle-right"></i></a>
                 </div>
-                <div class="new_mystory_menu_list">
-                    <ul></ul>
+                <ul class="notice_list">
+                </ul>
+
+                <div class="empty-msg" style="display: none;">
+                    <i class="fa fa-info-circle"></i>
+                    <p>등록된 공지사항이 없습니다.</p>
                 </div>
-            </div>
-            <div class="new_mystory_contents">
-                <div class="new_mystory_notice">
+            </section>
+        </c:if>
 
-                    <c:if test="${noticeListYn ne 'Y'}">
-                        <div class="board_title">
-                            공지사항
-                            <a href="javascript:;" id="notice_more">더보기 <img src="/resources/img/down_arrow.png"></a>
-                        </div>
-                        <ul class="notice_list"></ul>
-                    </c:if>
 
-                </div>
-
-<%--                STORY_REG_PERM_STATUS--%>
-
+        <!-- 게시글 목록 -->
+        <section class="posts">
+            <div class="section-header">
+                <h3>내 게시글</h3>
                 <c:if test="${editPermYn eq 'Y'}">
-                    <div class="new_btn_right_box">
-                        <div class="btn_tb">
-                            <a href="javascript:;" onclick="moveEditPage('${editPermId}');">글쓰기</a>
-                        </div>
-                    </div>
+                    <a href="javascript:;" onclick="moveEditPage('${editPermId}');"
+                       class="more-btn">글쓰기 <i
+                            class="fa fa-angle-right"></i></a>
                 </c:if>
-
-                <div class="new_mystory_list">
-                    <div class="board_title">
-<%--                        {{ boardTitle }}--%>
-                    </div>
-
-                    <form id="myStoryForm">
-                        <input type="hidden" name="searchAdminId" id="searchAdminId">
-                        <input type="hidden" name="searchCategoryId" id="searchCategoryId">
-
-                        <ul class="board_list" id="myStoryList"></ul>
-                        <div class="pagging_wrap"></div>
-                    </form>
-                </div>
             </div>
-        </div>
-    </div>
+            <form id="myStoryForm">
+                <input type="hidden" name="searchAdminId" id="searchAdminId">
+                <input type="hidden" name="searchCategoryId" id="searchCategoryId">
+                <ul id="myStoryList">
+                </ul>
+                <nav class="pagination"></nav>
+            </form>
+        </section>
+    </main>
 </div>
 
 
 <script>
 
-    const memberCategoryList = comm.category.getMemberPublic('${storyAdminId}');
-    const myStorylistDataUrl = '/my-story/${storyAdminId}/list';
-    const noticeListDataUrl = '/notice/list/data?searchMemId=${storyAdminId}';
-    const noticeMoreUrl = '/my-story/${storyAdminId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
-    const paramCategoryName = '${dto['categoryNm']}';
-    const paramCategoryId = '${dto['categoryId']}';
-    const myStoryMemberId = '${storyAdminId}';
-    let noticeShowCnt = 5;
+  const memberCategoryList = comm.category.getMemberPublic('${storyAdminId}');
+  const myStorylistDataUrl = '/my-story/${storyAdminId}/list';
+  const noticeListDataUrl = '/notice/list/data?searchMemId=${storyAdminId}';
+  const noticeMoreUrl = '/my-story/${storyAdminId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
+  const paramCategoryName = '${dto['categoryNm']}';
+  const paramCategoryId = '${dto['categoryId']}';
+  const myStoryMemberId = '${storyAdminId}';
+  let noticeShowCnt = 5;
 
-    const initCategory = function (list) {
-        if (list && list.length > 0) {
-            list.forEach(function (obj) {
-                const li = $('<li></li>');
-                const a = $('<a></a>');
-                $(a).text(obj['CATEGORY_NM']);
-                $(a).attr('href', "/my-story/" + myStoryMemberId + "/" + obj.ID + "?categorynm=" + encodeURIComponent(obj['CATEGORY_NM']));
+  const initCategory = function (list) {
+    if (list && list.length > 0) {
+      list.forEach(function (obj) {
+        const li = $('<li></li>');
+        const a = $('<a></a>');
+        $(a).text(obj['CATEGORY_NM']);
+        $(a).attr('href',
+            "/my-story/" + myStoryMemberId + "/" + obj.ID + "?categorynm=" + encodeURIComponent(
+            obj['CATEGORY_NM']));
 
-                if( paramCategoryName == obj['CATEGORY_NM'] ){
-                    $(a).addClass("on");
-                }
-
-                $(li).append(a)
-                $(".new_mystory_menu_list ul").append(li);
-            })
+        if (paramCategoryName == obj['CATEGORY_NM']) {
+          $(a).addClass("on");
         }
+
+        $(li).append(a)
+        $(".new_mystory_menu_list").append(li);
+      })
     }
+  }
 
-    const initMyStory = function (uid, categId) {
-        comm.dom.appendInput('#myStoryForm', "searchMemberCategoryId", categId);
+  const initMyStory = function (uid, categId) {
+    comm.dom.appendInput('#myStoryForm', "searchMemberCategoryId", categId);
 
-        comm.paging.getList('#myStoryForm', myStorylistDataUrl, function (data) {
-            comm.paging.emptyList("#myStoryList")
+    comm.paging.getList('#myStoryForm', myStorylistDataUrl, function (data) {
+      comm.paging.emptyList("#myStoryList");
 
-            for (let i = 0; i < data.list.length; i++) {
-                let obj = data.list[i];
-                let listHtml = '';
+      // 1. 데이터가 없을 때 표시
+      if (!data.list || data.list.length === 0) {
+        let emptyHtml = `
+        <div class="empty-msg">
+            <i class="fa fa-pencil-square-o"></i>
+            <p>아직 작성된 게시글이 없습니다.</p>
+        </div>`;
+        $("#myStoryList").append(emptyHtml);
+        return;
+      }
 
-                listHtml += '<li>';
-                listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">';
-                listHtml += '        <em>' + obj['CATEGORY_NM'] + '</em>';
-                listHtml += '        <strong>' + obj['TITLE'] + '</strong>';
+      // 2. 리스트 렌더링
+      for (let i = 0; i < data.list.length; i++) {
+        let obj = data.list[i];
+        let viewUrl = window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']);
+        let regDate = comm.date.getPastDate(obj['REG_DATE']);
 
-                listHtml += '        <span>';
-                if (!obj.SUMMARY) {
-                    obj.SUMMARY = '';
-                }
+        // 썸네일 경로가 없을 경우 기본 이미지 처리
+        let thumbImg = obj['THUMBNAIL_IMG_PATH'] ? obj['THUMBNAIL_IMG_PATH']
+            : 'https://placehold.co/100x80?text=No+Image';
 
-                if (obj.SUMMARY.length < 100) {
-                    listHtml += obj.SUMMARY;
-                } else {
-                    listHtml += (obj.SUMMARY || '').substring(0, 100) + ' ...';
-                }
+        let listHtml = '';
+        listHtml += '<li class="post-item">';
+        listHtml += '    <div class="content">';
+        listHtml += '        <a href="' + viewUrl + '">' + obj['TITLE'] + '</a>';
+        listHtml += '        <span>' + regDate + '</span>';
+        listHtml += '    </div>';
+        listHtml += '    <div class="thumb">';
+        listHtml += '        <img src="' + thumbImg
+            + '" alt="썸네일" onerror="this.src=\'https://placehold.co/100x80?text=No+Image\'">';
+        listHtml += '    </div>';
+        listHtml += '</li>';
 
-                listHtml += '</span>';
-                listHtml += window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])
-                listHtml += '    </a>';
-                listHtml += '    <div class="story_key">';
+        let $listObj = $(listHtml);
+        $listObj.data(obj); // 오브젝트 데이터 바인딩
 
-                if (obj['TAGS']) {
-                    let tag_arr = obj.TAGS.split(',');
+        comm.paging.renderList("#myStoryList", $listObj);
+      }
+    }, 1, 5, null, true);
+  }
 
-                    tag_arr.forEach(function (tag) {
-                        listHtml += '        <a href="javascript:;">#' + tag.trim() + '</a>';
-                    })
-                }
+  const moveEditPage = function (editPermId) {
+    $("body").append(comm.dom.appendForm("storyEditForm"));
+    const form = $("#storyEditForm");
+    $(form).attr("action", "/story/write")
+    comm.dom.appendInput(form, 'referrerPage', location.pathname + location.search);
+    comm.dom.appendInput(form, "editPermId", editPermId);
+    $(form).submit();
+  }
 
-                listHtml += '    </div>';
-                listHtml += '    <div class="story_key">';
-                // listHtml += '        <a href="javascript:;">#컬처</a>';
-                // listHtml += '        <a href="javascript:;">#영화</a>';
-                // listHtml += '        <a href="javascript:;">#영화컬처</a>';
-                listHtml += '        <span>' + comm.date.getPastDate(obj['REG_DATE']) + '</span>';
-                listHtml += '        <span>공감 ' + obj['LIKE_CNT'] + '</span>';
-                listHtml += '        <em>by ' + obj['NICKNAME'] + '</em>';
-                listHtml += '    </div>';
-                listHtml += '</li>';
-                listHtml += '';
+  const initNotice = function (id) {
+    comm.request({
+      url: noticeListDataUrl
+      , method: "GET"
+      , headers: {"Content-type": "application/x-www-form-urlencoded"}
+    }, function (data) {
 
-                listHtml = $(listHtml);
+      if (data.code == '0000' && (data.list && data.list.length > 0)) {
 
-                $(listHtml).data(obj);
+        $(".notice_list").empty();
 
-                comm.paging.renderList("#myStoryList", listHtml);
-            }
+        if (noticeShowCnt > data.list.length) {
+          noticeShowCnt = data.list.length;
+        }
 
-        });
-    }
+        for (let i = 0; i < noticeShowCnt; i++) {
+          const obj = data.list[i];
+          let li = $('<li class="notice-item"></li>');
 
-    const moveEditPage = function(editPermId){
-        $("body").append(comm.dom.appendForm("storyEditForm"));
-        const form = $("#storyEditForm");
-        $(form).attr("action", "/story/write")
-        comm.dom.appendInput(form,'referrerPage', location.pathname+location.search);
-        comm.dom.appendInput(form, "editPermId", editPermId);
-        $(form).submit();
-    }
+          li.append(
+              '<div class="content"><a href="' + window.getNoticeViewUrl(obj.ID, id)
+              + '">' + obj['TITLE'] + '</a><span>' + (obj['UPT_DATE'] || obj['REG_DATE'])
+              + '</span></div>');
 
-    const initNotice = function (id) {
-        comm.request({
-            url: noticeListDataUrl
-            , method: "GET"
-            , headers: {"Content-type": "application/x-www-form-urlencoded"}
-        }, function (data) {
-            if (data.code == '0000' && (data.list && data.list.length > 0)) {
+          // li.append('<div class="thumb"><img src="https://placehold.co/100x80" alt="공지 이미지"></div>');
 
-                $(".notice_list").empty();
+          $(".notice_list").append(li);
+        }
+      } else {
+        $(".empty-msg").show();
+      }
+    });
 
-                if (noticeShowCnt > data.list.length) {
-                    noticeShowCnt = data.list.length;
-                }
+    $("#notice_more").on("click", function () {
+      location.href = noticeMoreUrl;
+    });
+  }
 
-                for (let i = 0; i < noticeShowCnt; i++) {
-                    const obj = data.list[i];
-                    let li = $('<li></li>');
+  $(document).on("ready", function () {
+    // 회원 카테고리 세팅
+    initCategory(memberCategoryList);
 
-                    li.append('<a href="' + window.getNoticeViewUrl(obj.ID, id) + '">' + obj['TITLE'] + '</a>');
-                    li.append('<em>' + (obj['UPT_DATE'] || obj['REG_DATE']) + '</em>');
-                    $(".notice_list").append(li);
-                }
-            }
-        });
+    // 공지사항 세팅
+    initNotice(myStoryMemberId);
 
-        $("#notice_more").on("click", function () {
-            location.href = noticeMoreUrl;
-        });
-    }
+    // 나의 스토리 세팅
+    initMyStory(myStoryMemberId, paramCategoryId);
 
-    $(document).on("ready", function(){
-        // 회원 카테고리 세팅
-        initCategory(memberCategoryList);
-
-        // 공지사항 세팅
-        initNotice(myStoryMemberId);
-
-        // 나의 스토리 세팅
-        initMyStory(myStoryMemberId, paramCategoryId);
-
-        $(".new_mystory_mobile_menu_btn").click(function(){
-            $(".new_mystory_menu_box").toggleClass("on");
-        });
-    })
+    $(".new_mystory_mobile_menu_btn").click(function () {
+      $(".new_mystory_menu_box").toggleClass("on");
+    });
+  })
 </script>

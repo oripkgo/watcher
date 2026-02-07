@@ -1,0 +1,303 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9fafb;
+  color: #333;
+}
+
+.layout {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* 왼쪽 사이드바 */
+.sidebar {
+  width: 280px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.profile h2 {
+  margin-top: 15px;
+  font-size: 20px;
+  cursor: pointer; /* 손가락 모양 커서 */
+}
+
+.profile h2:hover {
+  text-decoration: underline; /* 마우스 올렸을 때 밑줄 (선택 사항) */
+  opacity: 0.8; /* 살짝 흐려지는 효과 (선택 사항) */
+}
+
+.category, .categories {
+  margin-top: 20px;
+}
+
+.category h3, .categories h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 5px;
+}
+
+.category p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.categories ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categories li {
+  margin-bottom: 8px;
+}
+
+.categories a {
+  text-decoration: none;
+  color: #286BB7;
+  font-size: 14px;
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.categories a:hover {
+  background: #f0f6fc;
+}
+
+/* 메인 컨텐츠 */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.notice, .posts {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+
+.notice h3, .posts h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-left: 4px solid #286BB7;
+  padding-left: 10px;
+}
+
+/* 공지사항 / 게시글 공통 목록 */
+.notice ul, .posts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notice-item, .post-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  min-height: 80px; /* 썸네일 높이에 맞춰 최소 높이 설정 */
+}
+
+.notice-item:last-child, .post-item:last-child {
+  border-bottom: none;
+}
+
+/* 썸네일 - PC 기본 */
+.notice-item .thumb,
+.post-item .thumb {
+  width: 100px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.notice-item .thumb img,
+.post-item .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f5f5f5 url("https://placehold.co/100x80?text=No+Image") center/contain no-repeat;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.notice-item .content,
+.post-item .content {
+  flex: 1;
+}
+
+.notice-item .content a,
+.post-item .content a {
+  text-decoration: none;
+  color: #286BB7;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.notice-item .content span,
+.post-item .content span {
+  font-size: 13px;
+  color: #888;
+}
+
+/* 모바일 전용 가로 스크롤 카테고리 */
+.categories-mobile {
+  display: none;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between; /* 제목은 왼쪽, 더보기는 오른쪽 */
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.more-btn {
+  text-decoration: none;
+  font-size: 13px;
+  color: #888;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.more-btn:hover {
+  color: #333; /* 마우스 올리면 진하게 */
+  text-decoration: underline;
+}
+
+/* 데이터가 없을 때 표시할 스타일 */
+.empty-msg {
+  text-align: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.empty-msg i {
+  font-size: 24px;
+  color: #ddd;
+}
+
+/* ---------------- 반응형 ---------------- */
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
+  .layout {
+    padding: 10px;
+  }
+
+  .profile img {
+    width: 90px;
+    height: 90px;
+  }
+
+  .profile h2 {
+    font-size: 18px;
+  }
+
+  .notice h3, .posts h3 {
+    font-size: 16px;
+  }
+
+  /* 모바일용 썸네일 크기 축소 */
+  .notice-item .thumb,
+  .post-item .thumb {
+    width: 80px;
+    height: 60px;
+  }
+
+  /* 기존 sidebar 카테고리 숨김 */
+  .sidebar .categories {
+    display: none;
+  }
+
+  /* 모바일 전용 카테고리 표시 */
+  .categories-mobile {
+    display: block;
+    background: #fff;
+    padding: 10px;
+    margin: 0 0 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .categories-mobile ul {
+    display: flex;
+    flex-wrap: wrap; /* ✅ 여러 줄로 줄바꿈 */
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center; /* 중앙 정렬 (옵션) */
+  }
+
+  .categories-mobile li {
+    flex: 0 0 auto;
+  }
+
+  .categories-mobile a {
+    display: block;
+    padding: 6px 12px;
+    background: #f5f5f5;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #286BB7;
+    font-size: 14px;
+    white-space: nowrap; /* 단어는 줄바꿈 안되게 유지 */
+  }
+
+  .categories-mobile a:hover {
+    background: #eaf2fc;
+  }
+}
