@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 
-	<!-- 별칭 -->
-	<typeAliases>
+  <!-- 별칭 -->
+  <typeAliases>
 
-		<!--요청-->
-		<typeAlias type="com.watcher.business.member.param.MemberParam" alias="memberParam"			/>
-		<typeAlias type="com.watcher.business.board.param.NoticeParam" alias="noticeParam"			/>
-		<typeAlias type="com.watcher.business.category.param.CategoryParam" alias="categoryParam"		/>
-		<typeAlias type="com.watcher.business.management.param.MemberCategoryParam" alias="memberCategoryParam"	/>
-		<typeAlias type="com.watcher.business.story.param.StoryParam" alias="storyParam"			/>
-		<typeAlias type="com.watcher.business.comm.param.FileParam" alias="fileParam"			/>
-		<typeAlias type="com.watcher.business.management.param.ManagementParam" alias="managementParam"		/>
-		<typeAlias type="com.watcher.business.visitor.param.VisitorParam" alias="visitorParam"		/>
-		<typeAlias type="com.watcher.business.keyword.param.PopularKeywordParam" alias="popularKeywordParam"		/>
-		<typeAlias type="com.watcher.business.board.param.BoardParam" alias="boardParam"		/>
-		<typeAlias type="com.watcher.business.board.param.CommentParam" alias="commentParam"		/>
+    <!--요청-->
+    <typeAlias type="com.watcher.business.member.param.MemberParam" alias="memberParam"/>
+    <typeAlias type="com.watcher.business.board.param.NoticeParam" alias="noticeParam"/>
+    <typeAlias type="com.watcher.business.category.param.CategoryParam" alias="categoryParam"/>
+    <typeAlias type="com.watcher.business.management.param.MemberCategoryParam"
+      alias="memberCategoryParam"/>
+    <typeAlias type="com.watcher.business.story.param.StoryParam" alias="storyParam"/>
+    <typeAlias type="com.watcher.business.comm.param.FileParam" alias="fileParam"/>
+    <typeAlias type="com.watcher.business.management.param.ManagementParam"
+      alias="managementParam"/>
+    <typeAlias type="com.watcher.business.visitor.param.VisitorParam" alias="visitorParam"/>
+    <typeAlias type="com.watcher.business.keyword.param.PopularKeywordParam"
+      alias="popularKeywordParam"/>
+    <typeAlias type="com.watcher.business.board.param.BoardParam" alias="boardParam"/>
+    <typeAlias type="com.watcher.business.board.param.CommentParam" alias="commentParam"/>
 
 
-		<!--응답-->
-		<typeAlias type="com.watcher.business.story.resp.StoryResp" alias="storyResp"/>
+    <!--응답-->
+    <typeAlias type="com.watcher.business.story.resp.StoryResp" alias="storyResp"/>
 
-	</typeAliases>
+  </typeAliases>
 
 </configuration>
