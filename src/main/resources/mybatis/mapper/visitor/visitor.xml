@@ -1,148 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.visitor.mapper.VisitorMapper">
-	<select id="selectChartMonthVisitorCntList" resultType="map" parameterType="visitorParam">
-		SELECT
-			A.REG_MONTH_INQUIRY AS VISIT_MONTH,
-			COUNT(A.ID) AS CNT
-		FROM VISITOR_HISTORY A
-				 INNER JOIN (
-			SELECT
-				ID
-			FROM VISITOR_HISTORY
-			WHERE VISIT_STORY_MEM_ID = #{memId}
-			  AND REG_YEAR_INQUIRY = DATE_FORMAT(#{searchDate},'%Y')
-			GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
-		) B ON B.ID = A.ID
-		GROUP BY A.REG_MONTH_INQUIRY
-	</select>
+  <select id="selectChartMonthVisitorCntList" resultType="map" parameterType="visitorParam">
+    SELECT A.REG_MONTH_INQUIRY AS VISIT_MONTH,
+           COUNT(A.ID)         AS CNT
+    FROM VISITOR_HISTORY A
+           INNER JOIN (
+      SELECT ID
+      FROM VISITOR_HISTORY
+      WHERE VISIT_STORY_MEM_ID = #{memId}
+        AND REG_YEAR_INQUIRY = DATE_FORMAT(#{searchDate}, '%Y')
+      GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
+    ) B ON B.ID = A.ID
+    GROUP BY A.REG_MONTH_INQUIRY
+  </select>
 
-	<select id="selectChartDailyVisitorCntList" resultType="map" parameterType="visitorParam">
-		SELECT
-			A.REG_DATE_INQUIRY  AS VISIT_DATE
-			 , COUNT(A.ID) AS CNT
-		FROM VISITOR_HISTORY A
-				 INNER JOIN (
-			SELECT
-				ID
-			FROM VISITOR_HISTORY
-			WHERE VISIT_STORY_MEM_ID = #{memId}
-			  AND REG_MONTH_INQUIRY = DATE_FORMAT(#{searchDate},'%Y%m')
-			GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
-		) B ON B.ID = A.ID
-		GROUP BY REG_DATE_INQUIRY
-	</select>
+  <select id="selectChartDailyVisitorCntList" resultType="map" parameterType="visitorParam">
+    SELECT A.REG_DATE_INQUIRY AS VISIT_DATE
+         , COUNT(A.ID)        AS CNT
+    FROM VISITOR_HISTORY A
+           INNER JOIN (
+      SELECT ID
+      FROM VISITOR_HISTORY
+      WHERE VISIT_STORY_MEM_ID = #{memId}
+        AND REG_MONTH_INQUIRY = DATE_FORMAT(#{searchDate}, '%Y%m')
+      GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
+    ) B ON B.ID = A.ID
+    GROUP BY REG_DATE_INQUIRY
+  </select>
 
-	<select id="selectVisitorInflowSourceCount" resultType="map" parameterType="visitorParam">
-		SELECT
-			(
-			    SELECT
-			    	COUNT(*)
-			    FROM (
-				  SELECT
-					  ID
-				  FROM VISITOR_HISTORY
-				  WHERE VISIT_STORY_MEM_ID IN(#{memId})
-					AND ACCESS_TARGET IN ('naver','daum','yahoo','google','zoom','local')
-				  GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
-			  	) A
-			) AS ALL_CNT,
+  <select id="selectVisitorInflowSourceCount" resultType="map" parameterType="visitorParam">
+    SELECT
+    (
+    SELECT
+    COUNT(*)
+    FROM (
+    SELECT
+    ID
+    FROM VISITOR_HISTORY
+    WHERE VISIT_STORY_MEM_ID IN(#{memId})
+    AND ACCESS_TARGET IN ('naver','daum','yahoo','google','zoom','local')
+    GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
+    ) A
+    ) AS ALL_CNT,
 
-			<foreach item="item" index="index" collection="searchTargetList">
-				(
-					SELECT
-						COUNT(*)
-					FROM (
-					  SELECT
-						  ID
-					  FROM VISITOR_HISTORY
-					  WHERE VISIT_STORY_MEM_ID IN(#{memId})
-						AND ACCESS_TARGET IN (#{item})
-					  GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
-					) A
-				) AS ${item}_CNT,
-			</foreach>
+    <foreach item="item" index="index" collection="searchTargetList">
+      (
+      SELECT
+      COUNT(*)
+      FROM (
+      SELECT
+      ID
+      FROM VISITOR_HISTORY
+      WHERE VISIT_STORY_MEM_ID IN(#{memId})
+      AND ACCESS_TARGET IN (#{item})
+      GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
+      ) A
+      ) AS ${item}_CNT,
+    </foreach>
 
-			(
-			    SELECT
-			        COUNT(*)
-			    FROM (
-				  SELECT
-					  ID
-				  FROM VISITOR_HISTORY
-				  WHERE VISIT_STORY_MEM_ID IN(#{memId})
-					AND ACCESS_TARGET NOT IN
-					<foreach item="item" index="index" collection="searchTargetList"
-							 open="(" separator="," close=")">
-						#{item}
-					</foreach>
-				  GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
-			  	) A
-			) AS ETC_CNT
-		FROM DUAL
-	</select>
+    (
+    SELECT
+    COUNT(*)
+    FROM (
+    SELECT
+    ID
+    FROM VISITOR_HISTORY
+    WHERE VISIT_STORY_MEM_ID IN(#{memId})
+    AND ACCESS_TARGET NOT IN
+    <foreach item="item" index="index" collection="searchTargetList"
+      open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID, ACCESS_TARGET
+    ) A
+    ) AS ETC_CNT
+    FROM DUAL
+  </select>
 
 
-	<select id="selectVisitorCount" resultType="map" parameterType="visitorParam">
-		SELECT
-			(
-				SELECT COUNT(A.ID) FROM (
-					SELECT
-						ID,REG_DATE_INQUIRY
-					FROM VISITOR_HISTORY
-					WHERE VISIT_STORY_MEM_ID = #{memId}
-					  AND REG_DATE_INQUIRY = DATE_FORMAT(NOW(),'%Y%m%d')
-					GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
-				) A
-			) AS TODAY_VISIT_CNT,
-			(
-				SELECT COUNT(B.ID) FROM (
-					SELECT
-						ID,REG_DATE_INQUIRY
-					FROM VISITOR_HISTORY
-					WHERE VISIT_STORY_MEM_ID = #{memId}
-					  AND REG_DATE_INQUIRY = date_format((DATE_ADD(now(), INTERVAL -1 DAY)),'%Y%m%d')
-					GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
-				) B
-			) AS YESTERDAY_VISIT_CNT,
-			(
-				SELECT COUNT(C.ID) FROM (
-					SELECT
-						ID,REG_DATE_INQUIRY
-					FROM VISITOR_HISTORY
-					WHERE VISIT_STORY_MEM_ID = #{memId}
-					GROUP BY REG_DATE_INQUIRY, CLIENT_IP, VISIT_STORY_MEM_ID
-				) C
-			) AS CUMULATIVE_VISIT_CNT,
-			DATE_FORMAT(NOW(),'%Y-%m-%d %H:%i') AS VISIT_STATIS_CRITERIA
-		FROM DUAL
-	</select>
+  <select id="selectVisitorCount" resultType="map" parameterType="visitorParam">
+    SELECT
+      /* 1. 오늘 방문자 수 (중복 IP 제외) */
+      (SELECT COUNT(DISTINCT CLIENT_IP)
+       FROM VISITOR_HISTORY
+       WHERE VISIT_STORY_MEM_ID = #{memId}
+         AND REG_DATE_INQUIRY = DATE_FORMAT(NOW(), '%Y%m%d')
+      )                                    AS TODAY_VISIT_CNT,
 
-	<insert id="insert" parameterType="visitorParam" useGeneratedKeys="true">
-		INSERT INTO VISITOR_HISTORY(
-			 ACCESS_PATH
-			,ACCESS_TARGET
-			,ACC_PAGE_URL
-			,CLIENT_IP
-			,CLIENT_ID
-			,CALL_SERVICE
-			,VISIT_STORY_MEM_ID
-			,REG_MONTH_INQUIRY
-			,REG_DATE_INQUIRY
-			,REG_DATE
-		)
-		VALUES (
-			 #{accessPath}
-			,#{accessTarget}
-			,#{accPageUrl}
-			,#{clientIp}
-			,#{clientId}
-			,#{callService}
-			,#{visitStoryMemId}
-			,#{regMonthInquiry}
-			,#{regDateInquiry}
-			,NOW()
-		)
-	</insert>
+      /* 2. 이번 주 방문자 수 (최근 7일간, 일자별 중복 제외 합산) */
+      (SELECT COUNT(A.CNT)
+       FROM (
+              SELECT COUNT(*) AS CNT
+              FROM VISITOR_HISTORY
+              WHERE VISIT_STORY_MEM_ID = #{memId}
+                AND REG_DATE_INQUIRY BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -6 DAY), '%Y%m%d')
+                AND DATE_FORMAT(NOW(), '%Y%m%d')
+              GROUP BY REG_DATE_INQUIRY, CLIENT_IP
+            ) A
+      )                                    AS WEEKLY_VISIT_CNT,
+
+      /* 3. 한 달 방문자 수 (최근 30일간, 일자별 중복 제외 합산) */
+      (SELECT COUNT(B.CNT)
+       FROM (
+              SELECT COUNT(*) AS CNT
+              FROM VISITOR_HISTORY
+              WHERE VISIT_STORY_MEM_ID = #{memId}
+                AND REG_DATE_INQUIRY BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -29 DAY), '%Y%m%d')
+                AND DATE_FORMAT(NOW(), '%Y%m%d')
+              GROUP BY REG_DATE_INQUIRY, CLIENT_IP
+            ) B
+      )                                    AS MONTHLY_VISIT_CNT,
+
+      /* 4. 전체 누적 방문자 수 */
+      (SELECT COUNT(C.CNT)
+       FROM (
+              SELECT COUNT(*) AS CNT
+              FROM VISITOR_HISTORY
+              WHERE VISIT_STORY_MEM_ID = #{memId}
+              GROUP BY REG_DATE_INQUIRY, CLIENT_IP
+            ) C
+      )                                    AS CUMULATIVE_VISIT_CNT,
+
+      DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i') AS VISIT_STATIS_CRITERIA
+    FROM DUAL
+  </select>
+
+  <insert id="insert" parameterType="visitorParam" useGeneratedKeys="true">
+    INSERT INTO VISITOR_HISTORY( ACCESS_PATH
+                               , ACCESS_TARGET
+                               , ACC_PAGE_URL
+                               , CLIENT_IP
+                               , CLIENT_ID
+                               , CALL_SERVICE
+                               , VISIT_STORY_MEM_ID
+                               , REG_MONTH_INQUIRY
+                               , REG_DATE_INQUIRY
+                               , REG_DATE)
+    VALUES ( #{accessPath}
+           , #{accessTarget}
+           , #{accPageUrl}
+           , #{clientIp}
+           , #{clientId}
+           , #{callService}
+           , #{visitStoryMemId}
+           , #{regMonthInquiry}
+           , #{regDateInquiry}
+           , NOW())
+  </insert>
 </mapper>

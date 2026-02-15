@@ -149,7 +149,6 @@
     var form = $('#story_write_form')[0]
     var formData = new FormData(form);
 
-    debugger;
     comm.request({
       url: insertUrl,
       data: formData,

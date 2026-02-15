@@ -6,28 +6,34 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="manage_menu">
-    <%@include file="profile.jsp"%>
-    <div class="manage_menu_link">
-        <a href="${globalVar.managementMain}" class="menu_1st">홈</a>
-        <a href="javascript:;" class="menu_1st">콘텐츠</a>
-        <div class="menu_2st">
-            <a href="${globalVar.managementBoard}">게시글 관리</a>
-            <a href="${globalVar.managementCategory}">카테고리 관리</a>
-            <a href="${globalVar.managementNotice}">공지관리</a>
-            <a href="${globalVar.managementBoardExternal}">외부 게시글 관리</a>
-        </div>
-        <a href="javascript:;" class="menu_1st">스토리</a>
-        <div class="menu_2st">
-            <a href="${globalVar.managementSetting}">설정</a>
-        </div>
-        <a href="javascript:;" class="menu_1st">통계</a>
-        <div class="menu_2st">
-            <a href="${globalVar.managementStatistics}">방문 통계</a>
-        </div>
+
+
+<aside class="sidebar">
+    <div class="profile" onclick="location.href='${globalVar.managementMain}'">
+        <img src="https://i.pravatar.cc/100" alt="프로필">
+        <h2 class="mystory_title"></h2>
     </div>
-</div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ 메뉴</button>
+    <ul class="menu-area" id="menu">
+        <li><a href="${globalVar.managementBoard}">게시글 관리</a></li>
+        <li><a href="${globalVar.managementCategory}">카테고리 관리</a></li>
+        <li><a href="${globalVar.managementNotice}">공지관리</a></li>
+        <li><a href="${globalVar.managementBoardExternal}">외부 게시글 관리</a></li> <!-- ✅ 추가된 메뉴 -->
+        <li><a href="${globalVar.managementSetting}">설정</a></li>
+        <li><a href="${globalVar.managementStatistics}">방문 통계</a></li>
+    </ul>
+</aside>
+
 
 <script>
-    $("[href='"+location.pathname+"']").addClass("on");
+  if (window.loginYn) {
+    $("img", ".profile").attr("src", window.memProfileImg)
+  }
+
+  $(".mystory_title").text(window.storyTitle);
+
+  // 메뉴 토글
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('active');
+  }
 </script>
