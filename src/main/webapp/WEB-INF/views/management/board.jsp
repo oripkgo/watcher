@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link rel="stylesheet" type="text/css" href="/resources/css/managerment-board.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/management-board.css"/>
 
 <form id="managementBoardForm">
     <div class="layout">

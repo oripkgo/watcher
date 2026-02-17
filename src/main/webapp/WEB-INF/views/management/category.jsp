@@ -7,395 +7,296 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<link rel="stylesheet" type="text/css" href="/resources/css/management-category.css"/>
 
-<%@include file="include/header.jsp" %>
 <form id="managementCategoryForm">
-    <div class="section uline2">
-        <div class="ani-in manage_layout">
-            <div class="manage_conts">
-                <%@include file="include/menus.jsp" %>
-                <div class="manage_box_wrap">
+    <div class="layout">
+        <!-- 사이드바 -->
+        <%@include file="include/menus.jsp" %>
 
-                    <div class="new_manage_head_box">
-                        <div class="new_manage_title_box">
-                            <p class="new_manage_title">
-                                카테고리
-                            </p>
-                        </div>
-                        <div class="new_manage_btn_box">
-                            <div class="new_btn_right_box">
-                                <div class="btn_tb_wrap">
-                                    <div class="btn_tb">
-                                        <a href="javascript:;" onclick="categoryObj.insertCategory();">카테고리 추가</a>
-                                        <a href="javascript:;" onclick="categoryObj.deleteCategory();">카테고리 삭제</a>
-                                        <a href="javascript:;" onclick="categoryObj.saveCategory();">카테고리 저장</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- 메인 -->
+        <main class="main">
+            <!-- 등록/수정 -->
+            <div class="category-form">
+                <h3 id="form-title">카테고리 추가</h3>
+                <input type="hidden" id="editing-row">
 
-                    <div class="category_wrap" id="fieldsObj">
-                        <div class="category_left">
-                            <a href="javascript:;" class="category_list">카테고리 목록</a>
-                        </div>
 
-                        <div class="category_right">
-                            <table>
-                                <tr class="mobile-data">
-                                    <th>카테고리 목록</th>
-                                    <td><select class="not_disabled" id="categoryMemberList">
-                                        <option value="" selected>선택</option>
-                                    </select></td>
-                                </tr>
-                                <tr>
-                                    <th>카테고리명</th>
-                                    <td><input type="text" id="categoryNm" name="categoryNm" checkYn="Y" title="카테고리명">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>주제</th>
-                                    <td>
-                                        <select id="defalutCategId" name="defalutCategId" class="categorySelect"
-                                                checkYn="Y" title="카테고리 주제">
-                                            <option value="" selected>선택</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>공개여부</th>
-                                    <td>
-                                        <input type="radio" name="showYn" id="showYn01" value="Y" checked><label
-                                            for="showYn01">공개</label>&nbsp;&nbsp;
-                                        <input type="radio" name="showYn" id="showYn02" value="N"><label for="showYn02">비공개</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>카테고리 소개</th>
-                                    <td><textarea id="categoryComents" name="categoryComents"></textarea></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div><!-------------//manage_box_wrap------------->
+                <div class="form-group">
+                    <label>카테고리 명</label>
+                    <input type="text" id="cat-name" name="categoryNm" placeholder="카테고리 이름 입력">
+                </div>
+                <div class="form-group">
+                    <label>주제</label>
+                    <select id="cat-topic" name="defalutCategId"
+                            class="categorySelect"
+                            title="카테고리 주제">
+                        <option value="" selected>선택</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label>공개 여부</label>
+                    <select id="cat-visibility" name="showYn">
+                        <option value="Y">공개</option>
+                        <option value="N">비공개</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>카테고리 소개</label>
+                    <textarea id="cat-desc" name="categoryComents" rows="3"
+                              placeholder="카테고리 소개 입력"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="add-btn" onclick="addCategory()">등록</button>
+                    <button type="button" id="update-btn" style="display:none;"
+                            onclick="updateCategory()">수정
+                    </button>
+                    <button type="button" id="cancel-btn" style="display:none;"
+                            onclick="cancelEdit()">취소
+                    </button>
+                </div>
             </div>
-        </div>
+
+            <!-- 목록 -->
+            <div class="categories">
+                <h3>전체 카테고리 목록</h3>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>카테고리 명</th>
+                        <th>주제</th>
+                        <th>공개 여부</th>
+                        <th>소개</th>
+                        <th>관리</th>
+                    </tr>
+                    </thead>
+                    <tbody id="category-table">
+                    <tr id="row-1">
+                        <td>개발</td>
+                        <td>웹/앱 개발</td>
+                        <td>공개</td>
+                        <td class="desc">개발 관련 글 모음</td>
+                        <td class="actions">
+                            <button onclick="editCategory(this)">수정</button>
+                            <button onclick="deleteCategory(this)">삭제</button>
+                        </td>
+                    </tr>
+                    <tr id="row-2">
+                        <td>여행</td>
+                        <td>국내/해외 여행기</td>
+                        <td>비공개</td>
+                        <td class="desc">여행 기록과 사진 및 다양한 여행 팁과 정보를 공유하는 공간입니다.</td>
+                        <td class="actions">
+                            <button type="button" onclick="editCategory(this)">수정</button>
+                            <button type="button" onclick="deleteCategory(this)">삭제</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
 </form>
 
 <script>
-    const categoryInsertUrl = "/management/category";
-    const categListSpaceNm = "category_left";
-    const categoryMemberListIdNm = "categoryMemberList";
-    const categListNm = "category_1st";
-    const categSelectNm = "categorySelect";
-    const formId = '#managementCategoryForm';
+  const categoryInsertUrl = "/management/category";
+  const categListSpaceNm = "category_left";
+  const categoryMemberListIdNm = "categoryMemberList";
+  const categListNm = "category_1st";
+  const categSelectNm = "categorySelect";
+  const formId = '#managementCategoryForm';
 
-    const CATEGORY_LIST = comm.category.get();
-    const MEMBER_CATEGORY_LIST = comm.category.getMember();
-    let thisObj;
+  const CATEGORY_LIST = comm.category.get();
+  const MEMBER_CATEGORY_LIST = comm.category.getMember();
+  const CATEGORY_MAP = {};
+  let thisObj;
 
-    const categoryObj = {
-        init: function () {
-            thisObj = this;
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('active');
+  }
 
-            thisObj.initCategory();
-            thisObj.initFields();
-        },
+  function saveCategory(categoryParams, callback) {
 
-        getCategoryTagObj: function () {
-            return $('<a href="javascript:;" class="' + categListNm + '"></a>');
-        },
+    let param = {};
+    param.paramJson = JSON.stringify([categoryParams]);
 
-        getSelectCategoryOptionObj: function () {
-            return $('<option></option>');
-        },
+    comm.request({
+      url: categoryInsertUrl,
+      method: "POST",
+      data: JSON.stringify(param)
+    }, function (resp) {
+      // 수정 성공
+      if (resp.code == '0000') {
+        if (callback) {
+          callback(JSON.parse(resp['insertIds']))
+        }
+      }
+    })
+  }
 
-        setCategorySelectElement: function () {
-            CATEGORY_LIST.forEach(function (obj) {
-                const option = thisObj.getSelectCategoryOptionObj();
+  function addCategory() {
+    const name = document.getElementById('cat-name').value.trim();
+    const topic = document.getElementById('cat-topic').value.trim();
+    const visibility = document.getElementById('cat-visibility').value;
+    const desc = document.getElementById('cat-desc').value.trim();
 
-                $(option).text(obj.CATEGORY_NM);
-                $(option).attr("value", obj.ID);
-
-                $(option).data(obj);
-                $("." + categSelectNm).append(option);
-            })
-        },
-
-        setCategoryMemberList: function () {
-            MEMBER_CATEGORY_LIST.forEach(function (obj) {
-                let category = thisObj.getCategoryTagObj();
-                $(category).text(obj.CATEGORY_NM);
-                $(category).attr("id", "mem_category_" + obj.ID);
-                $(category).data(Object.assign({}, obj));
-                $("." + categListSpaceNm).append(category);
-
-                let categoryOption = thisObj.getSelectCategoryOptionObj();
-                $(categoryOption).text(obj.CATEGORY_NM);
-                $(categoryOption).attr("value", obj.ID);
-                $("#" + categoryMemberListIdNm).append(categoryOption);
-            })
-        },
-
-        makeEventClick: function (target, callback) {
-            $(target).off("click").on("click", callback)
-        },
-
-        setCategoryInfoInField: function (data) {
-            $("#categoryNm").val(data.CATEGORY_NM);
-            $("#categoryComents").val(data.CATEGORY_COMENTS);
-            $("#defalutCategId").val(data.DEFALUT_CATEG_ID);
-            $("[name='showYn'][value='" + (data.SHOW_YN || "Y") + "']").prop("checked", true);
-        },
-
-        applyCategoryMemberSelectEvents: function () {
-            const thisObj = this;
-            $("#" + categoryMemberListIdNm).on("change", function () {
-                if ($("option:selected", this).val() == "") {
-                    if (thisObj.checkCategorySelect()) {
-                        return;
-                    }
-
-                    thisObj.disableFields();
-                    return;
-                }
-
-                $("#mem_category_" + $(this).val()).click();
-
-                // const thisData = $("option:selected",this).data();
-                // thisObj.enableFields();
-                // thisObj.setCategoryInfoInField(thisData);
-            })
-        },
-
-        checkCategorySelect: function () {
-            if ($("." + categListNm + ".on", "." + categListSpaceNm).length > 0) {
-                const result = comm.validation(formId);
-                if (result.checkVal) {
-                    comm.message.alert(result.message, function () {
-                        $(result.failTarget).focus();
-                        let categorySelectEleId = $("." + categListNm + ".on", "." + categListSpaceNm).attr("id").replace("mem_category_", "");
-                        $("#" + categoryMemberListIdNm).val(categorySelectEleId);
-                    })
-
-                    return true;
-                }
-            }
-
-            return false;
-        },
-
-        applyCategoryMemberListEvents: function () {
-            const thisObj = this;
-            $("." + categListNm, "." + categListSpaceNm).off("click").on("click", function () {
-                if (thisObj.checkCategorySelect()) {
-                    return;
-                }
-
-                const thisData = $(this).data();
-                thisObj.enableFields();
-                thisObj.setCategoryInfoInField(thisData);
-
-                $("." + categListNm, "." + categListSpaceNm).removeClass("on");
-                $(this).addClass("on");
-            })
-        },
-
-        initCategory: function () {
-            thisObj.setCategorySelectElement();
-            thisObj.setCategoryMemberList();
-            thisObj.applyCategoryMemberListEvents();
-            thisObj.applyCategoryMemberSelectEvents();
-        },
-
-        applyEventCategoryInfoFields: function () {
-            $("#categoryNm").on("keyup", function () {
-                $("." + categListNm + ".on", "." + categListSpaceNm).text($(this).val());
-                $("#" + categoryMemberListIdNm).find("option:selected").text($(this).val())
-            })
-
-            $("select, input, textarea", "#fieldsObj").on("blur", function () {
-                let category_nm = $("#categoryNm").val();
-                let category_coments = $("#categoryComents").val();
-                let defalut_categ_id = $("#defalutCategId").val();
-                let show_yn = $("[name='showYn']:checked").val();
-
-                if ($("." + categListNm + ".on", "." + categListSpaceNm).length == 0) {
-                    return;
-                }
-
-                const data = $("." + categListNm + ".on", "." + categListSpaceNm).data();
-                data.CATEGORY_NM = category_nm;
-                data.CATEGORY_COMENTS = category_coments;
-                data.DEFALUT_CATEG_ID = defalut_categ_id;
-                data.SHOW_YN = show_yn;
-
-                $("." + categListNm + ".on", "." + categListSpaceNm).data(data);
-            })
-        },
-
-        initFields: function () {
-            thisObj.disableFields();
-            thisObj.applyEventCategoryInfoFields();
-        },
-
-        disableFields: function () {
-            $("#categoryComents, #categoryNm, #defalutCategId", "#fieldsObj").val("");
-            $("[name='showYn'][value='Y']").prop("checked", true);
-            $("select, input, textarea", "#fieldsObj").not(".not_disabled").prop("disabled", true);
-            $(".category_1st.on").removeClass("on");
-            $("#" + categoryMemberListIdNm).val("");
-        },
-
-        enableFields: function () {
-            $("select, input, textarea", "#fieldsObj").not(".not_disabled").prop("disabled", false);
-        },
-
-        insertCategory: function () {
-            if ($("." + categListNm + ".on", "." + categListSpaceNm).length > 0) {
-                const result = comm.validation(formId);
-                if (result.checkVal) {
-                    comm.message.alert(result.message, function () {
-                        $(result.failTarget).focus();
-                    })
-
-                    return;
-                }
-            }
-
-            let obj = thisObj.getCategoryTagObj();
-
-            const tagId = comm.generateUUID();
-            $(obj).attr("id", "mem_category_" + tagId);
-            $(obj).data()['TAG_ID'] = "mem_category_" + tagId;
-            $(obj).data()['DELETE_YN'] = "N";
-            $("#fieldsObj .category_left").append(obj)
-            thisObj.applyCategoryMemberListEvents();
-            $(obj).click();
-
-            let categoryOption = thisObj.getSelectCategoryOptionObj();
-            $(categoryOption).attr("value", tagId);
-            $("#" + categoryMemberListIdNm).append(categoryOption);
-            $("#" + categoryMemberListIdNm).val(tagId);
-
-            $("#categoryNm").focus();
-        },
-
-        deleteCategory: function () {
-            if ($("." + categListNm + ".on", "." + categListSpaceNm).length <= 0) {
-                comm.message.alert("선택된 카테고리가 없습니다.");
-                return;
-            }
-
-            if ($('.category_1st').length == 1) {
-                comm.message.alert("카테고리 더이상 삭제할수 없습니다.");
-                return;
-            }
-
-            comm.message.confirm("선택한 카테고리를 삭제하시겠습니까?", function (result) {
-                if (result) {
-                    const target = $("." + categListNm + ".on", "." + categListSpaceNm);
-
-                    if (!$(target).data()['ID']) {
-                        $(target).remove();
-                    } else {
-                        $(target).data()["DELETE_YN"] = "Y";
-                        $(target).hide();
-                    }
-
-                    $("#" + categoryMemberListIdNm).find("[value='" + $(target).data()['ID'] + "']").remove();
-                    thisObj.disableFields();
-                }
-            });
-        },
-
-        getIdx: function (obj) {
-            return $("#fieldsObj .category_left").find(".category_1st").index(obj);
-        },
-
-        setIdToNewCategory: function (newIds) {
-            const ids = newIds;
-            const ids_keys = Object.keys(ids);
-
-            for (let i = 0; i < ids_keys.length; i++) {
-                const key = ids_keys[i];
-                const val = ids[ids_keys[i]];
-                $("#" + key).data()["ID"] = val;
-            }
-        },
-
-        saveCategory: function () {
-            if (thisObj.isCategoryListCheck()) {
-                return;
-            }
-
-            comm.message.confirm("카테고리를 저장하시겠습니까?", function (result) {
-                if (result) {
-                    let jsonArr = [];
-
-                    $("." + categListNm, "." + categListSpaceNm).each(function () {
-                        const categObj = $(this).data();
-                        jsonArr.push(categObj);
-                    })
-
-                    let param = {};
-                    param.paramJson = JSON.stringify(jsonArr);
-
-                    comm.request({
-                        url: categoryInsertUrl,
-                        method: "POST",
-                        data: JSON.stringify(param)
-                    }, function (resp) {
-                        // 수정 성공
-                        if (resp.code == '0000') {
-                            thisObj.setIdToNewCategory(JSON.parse(resp['insertIds']));
-
-                            comm.message.alert("카테고리가 저장되었습니다.", function () {
-                                thisObj.disableFields();
-                            });
-                        }
-                    })
-                }
-            });
-        },
-
-        isCategoryListCheck: function () {
-            let checkVal = false;
-            $('.category_1st').each(function () {
-                const clickTargetObj = $(this);
-                const data = $(clickTargetObj).data();
-
-                if (checkVal)
-                    return;
-
-                if ((!data['CATEGORY_NM']) || !(data['DEFALUT_CATEG_ID'])) {
-                    checkVal = true;
-
-                    $("." + categListNm, "." + categListSpaceNm).removeClass("on")
-                    $(clickTargetObj).addClass("on");
-                    thisObj.setCategoryInfoInField($("." + categListNm + ".on", "." + categListSpaceNm).data());
-
-                    if (!(data['CATEGORY_NM'])) {
-                        comm.message.alert("카테고리 이름을 입력해주세요.");
-                        $("#categoryNm").focus();
-                        return;
-                    }
-
-                    if (!(data['DEFALUT_CATEG_ID'])) {
-                        comm.message.alert("카테고리 주제를 선택해주세요.");
-                        $("#defalutCategId").focus();
-                        return;
-                    }
-                }
-            })
-
-            return checkVal;
-        },
+    if (!name) {
+      comm.message.alert("카테고리명을 입력하세요.")
+      return;
     }
 
-    $(document).on("ready", function () {
-        categoryObj.init();
+    const tagId = comm.generateUUID();
+    const insertParams = {
+      "TAG_ID": tagId,
+      "DEFALUT_CATEG_ID": topic,
+      "SHOW_YN": visibility,
+      "CATEGORY_COMENTS": desc,
+      "CATEGORY_NM": name,
+      "DELETE_YN": "N",
+    }
+
+    saveCategory(insertParams, function (insertIds) {
+      insertParams['ID'] = insertIds[insertParams.TAG_ID];
+      MEMBER_CATEGORY_LIST.push(insertParams);
+      setCategoryMemberList();
+      clearForm();
+
     })
 
+  }
+
+  function editCategory(btn) {
+
+    const categoryId = $(btn).parents("tr").data().ID
+    const target = getCategory(categoryId);
+
+    const row = btn.closest('tr');
+    document.getElementById('form-title').innerText = "카테고리 수정";
+    document.getElementById('cat-name').value = target.CATEGORY_NM;
+    document.getElementById('cat-topic').value = target.DEFALUT_CATEG_ID;
+    document.getElementById('cat-visibility').value = target.SHOW_YN;
+    document.getElementById('cat-desc').value = target.CATEGORY_COMENTS;
+    document.getElementById('editing-row').value = target.ID;
+
+    // 버튼 상태 변경
+    document.getElementById('add-btn').style.display = "none";
+    document.getElementById('update-btn').style.display = "inline-block";
+    document.getElementById('cancel-btn').style.display = "inline-block";
+  }
+
+  function updateCategory() {
+    const rowId = document.getElementById('editing-row').value;
+    const row = getCategory(rowId);
+
+    row.CATEGORY_NM = document.getElementById('cat-name').value;
+    row.DEFALUT_CATEG_ID = document.getElementById('cat-topic').value;
+    row.SHOW_YN = document.getElementById('cat-visibility').value;
+    row.CATEGORY_COMENTS = document.getElementById('cat-desc').value;
+
+    saveCategory(row, function () {
+      setCategoryMemberList();
+      cancelEdit();
+    })
+
+  }
+
+  function getCategory(categoryId) {
+    const target = MEMBER_CATEGORY_LIST.find(item => String(item.ID) === String(categoryId));
+    return target;
+  }
+
+  function deleteCategory(btn) {
+
+    comm.message.confirm("정말 삭제하시겠습니까?", function (isOk) {
+
+      if (isOk) {
+        const categoryId = $(btn).parents("tr").data().ID
+        const target = getCategory(categoryId);
+
+        if (target) {
+          target.DELETE_YN = "Y";
+        }
+
+        saveCategory(target, function (insertIds) {
+          const index = MEMBER_CATEGORY_LIST.findIndex(item => item.ID === categoryId);
+          if (index !== -1) {
+            MEMBER_CATEGORY_LIST.splice(index, 1); // index 위치에서 1개의 요소 제거
+          }
+
+          setCategoryMemberList();
+        });
+      }
+
+    })
+
+  }
+
+  function cancelEdit() {
+    clearForm();
+    document.getElementById('form-title').innerText = "카테고리 추가";
+    document.getElementById('add-btn').style.display = "inline-block";
+    document.getElementById('update-btn').style.display = "none";
+    document.getElementById('cancel-btn').style.display = "none";
+  }
+
+  function clearForm() {
+    document.getElementById('cat-name').value = "";
+    document.getElementById('cat-topic').value = "";
+    document.getElementById('cat-visibility').value = "Y";
+    document.getElementById('cat-desc').value = "";
+    document.getElementById('editing-row').value = "";
+  }
+
+  function setCategorySelectElement() {
+    CATEGORY_LIST.forEach(function (obj) {
+      const option = $("<option></option>");
+
+      $(option).text(obj.CATEGORY_NM);
+      $(option).attr("value", obj.ID);
+
+      $(option).data(obj);
+      $("." + categSelectNm).append(option);
+
+      CATEGORY_MAP[obj.ID] = obj.CATEGORY_NM;
+    })
+  }
+
+  function setCategoryMemberList() {
+    $("#category-table").empty();
+    MEMBER_CATEGORY_LIST.forEach(function (obj) {
+      const tr = $("<tr id='row-" + obj.ID + "'></tr>");
+      const categoryId = obj.ID;
+      const categoryName = obj.CATEGORY_NM;
+      const categoryShowYn = obj.SHOW_YN === 'Y' ? '공개' : '비공개';
+      const categoryType = CATEGORY_MAP[obj.DEFALUT_CATEG_ID];
+      const categoryDesc = obj.CATEGORY_COMENTS;
+
+      $(tr).append(`
+            <td>\${categoryName}</td>
+            <td>\${categoryType}</td>
+            <td>\${categoryShowYn}</td>
+            <td class="desc">\${categoryDesc}</td>
+            <td class="actions">
+                <button type="button" onclick="editCategory(this)">수정</button>
+                <button type="button" onclick="deleteCategory(this)">삭제</button>
+            </td>
+        `)
+
+      $(tr).data(obj);
+      $("#category-table").append(tr)
+
+    })
+  }
+
+  function initCategory() {
+    setCategorySelectElement();
+    setCategoryMemberList();
+  }
+
+  initCategory();
+
+
 </script>
+
+

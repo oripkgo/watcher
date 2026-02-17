@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link rel="stylesheet" type="text/css" href="/resources/css/managerment-main.css"/>
+<link rel="stylesheet" type="text/css" href="/resources/css/management-main.css"/>
 
 <div class="layout">
     <!-- 사이드바 -->

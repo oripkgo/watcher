@@ -1,0 +1,239 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f6f9;
+  color: #333;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------------- 사이드바 ---------------- */
+.sidebar {
+  width: 260px;
+  background: #fff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.profile h2 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.menu-area {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-area li {
+  margin-bottom: 12px;
+}
+
+.menu-area a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 12px;
+  display: block;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.menu-area a:hover {
+  background: #f0f6fc;
+  color: #286BB7;
+}
+
+.menu-toggle {
+  display: none;
+  background: #286BB7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ---------------- 메인 ---------------- */
+.main {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.category-form, .categories {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.category-form h3, .categories h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-left: 4px solid #286BB7;
+  padding-left: 10px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.form-actions button {
+  margin-left: 6px;
+  background: #286BB7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-actions button:hover {
+  background: #1d4f91;
+}
+
+/* 목록 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+th {
+  background: #f9fafc;
+  font-weight: bold;
+}
+
+td.desc {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions button {
+  flex: 1;
+  margin-right: 6px;
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.actions button:hover {
+  background: #f0f6fc;
+  color: #286BB7;
+}
+
+/* 반응형 */
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu-area {
+    display: none;
+  }
+
+  .menu-area.active {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  table, thead, tbody, tr, th, td {
+    display: block;
+    width: 100%;
+  }
+
+  tr {
+    margin-bottom: 12px;
+    border-bottom: 2px solid #eee;
+  }
+
+  th {
+    display: none;
+  }
+
+  td {
+    border: none;
+    padding: 8px 0;
+  }
+
+  td.desc {
+    white-space: normal;
+    max-width: 100%;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  .actions {
+    display: flex;
+    gap: 6px;
+  }
+}
