@@ -65,7 +65,13 @@
         plugins: {legend: {display: false}},
         scales: {
           x: {ticks: {maxRotation: 0}},
-          y: {beginAtZero: true}
+          y: {
+            beginAtZero: true,
+            suggestedMax: 5,
+            ticks: {
+              stepSize: 1 // 눈금 간격을 1단위로 고정
+            }
+          }
         }
       }
     };
