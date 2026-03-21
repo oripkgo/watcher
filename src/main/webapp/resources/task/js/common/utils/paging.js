@@ -139,6 +139,10 @@ const PAGING = function () {
     let _listNo = listNo ? Number(listNo) : 20;
     let _pagigRange = pagigRange ? Number(pagigRange) : 10;
 
+    if (typeof formObj === 'string') {
+      formObj = document.querySelector(formObj)
+    }
+
     const formData = normalizeFormData(formObj);
 
     const payload = {

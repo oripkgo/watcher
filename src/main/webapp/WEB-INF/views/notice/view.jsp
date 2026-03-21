@@ -8,8 +8,25 @@
         <section class="story-header">
             <h1 class="story-title" id="title"></h1>
             <div class="story-meta">
-                <span class="date" id="last_time"></span>
-                <span class="author" id="nickname"></span>
+                <div>
+                    <span class="date" id="last_time"></span>
+                    <span class="author" id="nickname"></span>
+
+                </div>
+
+
+                <div class="admin-actions-top">
+                    <button type="button" class="btn-list-sm"
+                            onclick="moveReferrerPage('${noticeParam.referrerPage}')">목록
+                    </button>
+                    <c:if test="${modifyAuthorityYn eq 'Y'}">
+                        <button type="button" class="btn-edit-sm" onclick="moveEdit()">수정
+                        </button>
+                        <button type="button" class="btn-delete-sm" onclick="deleteNotice()">삭제
+                        </button>
+                    </c:if>
+                </div>
+
             </div>
         </section>
 
@@ -57,109 +74,108 @@
 </div>
 
 <script>
-    const id = '${view.current.ID}';
-    const prevId = '${view.prev.ID}'
-    const nextId = '${view.next.ID}'
-    const type = 'NOTICE';
-    const noticeDeleteApiUrl = "/notice/delete";
+  const id = '${view.current.ID}';
+  const prevId = '${view.prev.ID}'
+  const nextId = '${view.next.ID}'
+  const type = 'NOTICE';
+  const noticeDeleteApiUrl = "/notice/delete";
 
-    const title = '${view.current['TITLE']}';
-    const nickName = '${view.current['NICKNAME']}';
-    const likeCnt = '${view.current['LIKE_CNT']}';
-    const regDate = '${view.current['REG_DATE']}';
+  const title = '${view.current['TITLE']}';
+  const nickName = '${view.current['NICKNAME']}';
+  const likeCnt = '${view.current['LIKE_CNT']}';
+  const regDate = '${view.current['REG_DATE']}';
 
-    const moveEdit = function () {
-        window.location.href = window.getNoticeUpdateUrl(id);
+  const moveEdit = function () {
+    window.location.href = window.getNoticeUpdateUrl(id);
+  }
+
+  const goPrev = function () {
+    if (!prevId) {
+      return;
     }
 
-    const goPrev = function(){
-        if( !prevId ){
-            return;
-        }
+    location.href = window.getNoticeViewUrl('${view.prev.ID}');
+  }
 
-        location.href = window.getNoticeViewUrl('${view.prev.ID}');
+  const goNext = function () {
+    if (!nextId) {
+      return;
     }
+    location.href = window.getNoticeViewUrl('${view.next.ID}');
+  }
 
-    const goNext = function(){
-        if( !nextId ){
-            return;
-        }
-        location.href = window.getNoticeViewUrl('${view.next.ID}');
-    }
-
-
-    const deleteNotice = function () {
-        comm.message.confirm("공지사항을 삭제하시겠습니까?", function (result) {
-            if (result) {
-                const param = {id: id};
-                comm.request({url: noticeDeleteApiUrl, method: "DELETE", data: param}, function (resp) {
-                    // 수정 성공
-                    if (resp.code == '0000') {
-                        location.href = window.getNoticeListUrl(window.memberId);
-                    }
-                })
-            }
+  const deleteNotice = function () {
+    comm.message.confirm("공지사항을 삭제하시겠습니까?", function (result) {
+      if (result) {
+        const param = {id: id};
+        comm.request({url: noticeDeleteApiUrl, method: "DELETE", data: param}, function (resp) {
+          // 수정 성공
+          if (resp.code == '0000') {
+            location.href = window.getNoticeListUrl(window.memberId);
+          }
         })
-    }
-
-    $(document).on("ready", function () {
-
-        $("#title").text(title);
-        $("#nickname").text(nickName);
-        $("#last_time").text(regDate);
-        $("#likeTarget").data('likecnt', likeCnt);
-
-        comm.boardView.init(id, type);
-        comm.boardView.like.render('likeTarget');
-        comm.boardView.comment.render('commentTarget');
-
+      }
     })
+  }
 
-    document.addEventListener('DOMContentLoaded', () => {
+  $(document).on("ready", function () {
 
-        const shareToggle = document.getElementById('shareToggle');
-        const shareTitle = '${view.current["TITLE"]}'.trim();
-        const shareText = `${view.current["CONTENTS"]}`
-            .replace(/<[^>]*>?/gm, '')  // HTML 제거
-            .substring(0, 80);
+    $("#title").text(title);
+    $("#nickname").text(nickName);
+    $("#last_time").text(regDate);
+    $("#likeTarget").data('likecnt', likeCnt);
 
-        const currentUrl = window.location.href;
+    comm.boardView.init(id, type);
+    comm.boardView.like.render('likeTarget');
+    comm.boardView.comment.render('commentTarget');
 
-        shareToggle.addEventListener('click', async () => {
-            // 1) Web Share API 지원하면 시도
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: shareTitle,
-                        text: shareText,
-                        url: currentUrl
-                    });
-                    return; // 성공 → 종료
-                } catch (err) {
-                    console.warn("Web Share 사용 실패:", err);
-                    // 실패 시 → fallback (URL 복사)
-                }
-            }
+  })
 
-            // 2) 지원하지 않으면 URL 복사 fallback
-            try {
-                await navigator.clipboard.writeText(currentUrl);
-                alert("현재 링크가 복사되었습니다!");
-            } catch (err) {
-                console.error("Clipboard 실패:", err);
+  document.addEventListener('DOMContentLoaded', () => {
 
-                // 아주 구형 브라우저용 fallback
-                const temp = document.createElement("input");
-                temp.value = currentUrl;
-                document.body.appendChild(temp);
-                temp.select();
-                document.execCommand("copy");
-                document.body.removeChild(temp);
+    const shareToggle = document.getElementById('shareToggle');
+    const shareTitle = '${view.current["TITLE"]}'.trim();
+    const shareText = `${view.current["CONTENTS"]}`
+    .replace(/<[^>]*>?/gm, '')  // HTML 제거
+    .substring(0, 80);
 
-                alert("현재 링크가 복사되었습니다!");
-            }
-        });
+    const currentUrl = window.location.href;
 
+    shareToggle.addEventListener('click', async () => {
+      // 1) Web Share API 지원하면 시도
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: shareTitle,
+            text: shareText,
+            url: currentUrl
+          });
+          return; // 성공 → 종료
+        } catch (err) {
+          console.warn("Web Share 사용 실패:", err);
+          // 실패 시 → fallback (URL 복사)
+        }
+      }
+
+      // 2) 지원하지 않으면 URL 복사 fallback
+      try {
+        await navigator.clipboard.writeText(currentUrl);
+        alert("현재 링크가 복사되었습니다!");
+      } catch (err) {
+        console.error("Clipboard 실패:", err);
+
+        // 아주 구형 브라우저용 fallback
+        const temp = document.createElement("input");
+        temp.value = currentUrl;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+
+        alert("현재 링크가 복사되었습니다!");
+      }
     });
+
+  });
 
 </script>

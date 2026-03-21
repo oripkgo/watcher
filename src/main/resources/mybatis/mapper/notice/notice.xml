@@ -1,221 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.watcher.business.board.mapper.NoticeMapper">
 
-	<select id="selectNoticeCnt" resultType="int" parameterType="noticeParam">
+  <select id="selectNoticeCnt" resultType="int" parameterType="noticeParam">
 
-		SELECT
-			COUNT(*)
-		FROM NOTICE A
-		LEFT JOIN MEMBER D ON 1=1
-		AND D.LOGIN_ID = A.REG_ID
-		WHERE 1=1
-		AND A.DELETE_YN = 'N'
+    SELECT
+    COUNT(*)
+    FROM NOTICE A
+    LEFT JOIN MEMBER D ON 1=1
+    AND D.LOGIN_ID = A.REG_ID
+    WHERE 1=1
+    AND A.DELETE_YN = 'N'
 
-		<include refid="conditions"/>
+    <include refid="conditions"/>
 
-	</select>
-
-
-	<select id="selectNotice" resultType="map" parameterType="noticeParam">
-		/*Notice > list*/
-		<include refid="notice_select"/>
-		WHERE 1=1
-		AND A.DELETE_YN = 'N'
-
-		<include refid="conditions"/>
-
-		ORDER BY A.REG_DATE DESC
-		LIMIT ${(pageNo-1)*listNo},${listNo}
-
-	</select>
+  </select>
 
 
-	<select id="view" resultType="map" parameterType="noticeParam">
-		/*Notice > list*/
-		<include refid="notice_select"/>
-		WHERE 1=1
-		AND A.DELETE_YN = 'N'
-		<if test="!(id==null or id=='')">
-			AND A.ID = #{id}
-		</if>
-	</select>
+  <select id="selectNotice" resultType="map" parameterType="noticeParam">
+    /*Notice > list*/
+    <include refid="notice_select"/>
+    WHERE 1=1
+    AND A.DELETE_YN = 'N'
 
-	<select id="viewPrev" resultType="map" parameterType="int">
-		/*Notice > list*/
-		<include refid="notice_select"/>
-		<![CDATA[
+    <include refid="conditions"/>
+
+    ORDER BY A.REG_DATE DESC
+    LIMIT ${(pageNo-1)*listNo},${listNo}
+
+  </select>
+
+
+  <select id="view" resultType="map" parameterType="noticeParam">
+    /*Notice > list*/
+    <include refid="notice_select"/>
+    WHERE 1=1
+    AND A.DELETE_YN = 'N'
+    <if test="!(id==null or id=='')">
+      AND A.ID = #{id}
+    </if>
+  </select>
+
+  <select id="viewPrev" resultType="map" parameterType="int">
+    /*Notice > list*/
+    <include refid="notice_select"/>
+    <![CDATA[
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 		AND A.ID < #{currentId}
 		LIMIT 1
 		]]>
-	</select>
+  </select>
 
-	<select id="viewNext" resultType="map" parameterType="int">
-		/*Notice > list*/
-		<include refid="notice_select"/>
-		<![CDATA[
+  <select id="viewNext" resultType="map" parameterType="int">
+    /*Notice > list*/
+    <include refid="notice_select"/>
+    <![CDATA[
 		WHERE 1=1
 		AND A.DELETE_YN = 'N'
 		AND A.ID > #{currentId}
 		LIMIT 1
 		]]>
-	</select>
-	
-	<sql id="notice_select">
-		SELECT
-			  A.ID
-			 ,A.TITLE
-			 ,A.CONTENTS
-			 ,A.THUMBNAIL_IMG_PATH
-		     ,A.SECRET_YN
-		     ,A.ADMIN_ID
-			 ,A.REG_ID
-			 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
-			 ,A.UPT_ID
-			 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
-			 ,A.VIEW_CNT
-			 ,(
-				SELECT
-					GROUP_CONCAT(C.TAGS)
-				FROM BOARD_TAGS C
-				WHERE 1=1
-				AND C.CONTENTS_TYPE='NOTICE'
-				AND C.CONTENTS_ID = A.ID
-				AND C.DELETE_YN = 'N'
-			) AS TAGS
-			 ,A.LIKE_CNT
-			 ,A.COMMENT_CNT
-		     ,D.NICKNAME
-		FROM NOTICE A
-		LEFT JOIN MEMBER D ON 1=1
-			AND D.LOGIN_ID = A.REG_ID
-	</sql>
+  </select>
 
-	<sql id="conditions">
-		<choose>
-			<when test="searchSecretYn == 'ALL'">
-				AND A.SECRET_YN IN ('Y','N')
-			</when>
-			<when test="searchSecretYn == 'YY'">
-				AND A.SECRET_YN IN ('Y')
-			</when>
-			<otherwise>
-				AND A.SECRET_YN IN ('N')
-			</otherwise>
-		</choose>
+  <sql id="notice_select">
+    SELECT A.ID
+         , A.TITLE
+         , A.CONTENTS
+         , A.THUMBNAIL_IMG_PATH
+         , A.SECRET_YN
+         , A.ADMIN_ID
+         , A.REG_ID
+         , DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+         , A.UPT_ID
+         , DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+         , A.VIEW_CNT
+         , (
+      SELECT GROUP_CONCAT(C.TAGS)
+      FROM BOARD_TAGS C
+      WHERE 1 = 1
+        AND C.CONTENTS_TYPE = 'NOTICE'
+        AND C.CONTENTS_ID = A.ID
+        AND C.DELETE_YN = 'N'
+    )                                                   AS TAGS
+         , A.LIKE_CNT
+         , A.COMMENT_CNT
+         , D.NICKNAME
+    FROM NOTICE A
+           LEFT JOIN MEMBER D ON 1 = 1
+      AND D.LOGIN_ID = A.REG_ID
+  </sql>
 
-		AND EXISTS (
-		<choose>
-			<when test="searchMemId != null and searchMemId != ''">
-				SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
-			</when>
-			<otherwise>
-				SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
-			</otherwise>
-		</choose>
-		)
-		<if test="searchKeyword != null and searchKeyword != ''">
-			<choose>
-				<when test="searchId == '01'">
-					AND A.TITLE LIKE '%${searchKeyword}%'
-				</when>
-				<when test="searchId == '02'">
-					AND A.CONTENTS LIKE '%${searchKeyword}%'
-				</when>
-				<otherwise>
-					AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
-				</otherwise>
-			</choose>
-		</if>
-	</sql>
+  <sql id="conditions">
+    <choose>
+      <when test="searchSecretYn == 'ALL'">
+        AND A.SECRET_YN IN ('Y','N')
+      </when>
+      <when test="searchSecretYn == 'YY'">
+        AND A.SECRET_YN IN ('Y')
+      </when>
+      <otherwise>
+        AND A.SECRET_YN IN ('N')
+      </otherwise>
+    </choose>
 
-	<insert id="insert" parameterType="noticeParam" useGeneratedKeys="true" keyProperty="id">
+    AND EXISTS (
+    <choose>
+      <when test="searchMemId != null and searchMemId != ''">
+        SELECT LOGIN_ID FROM MEMBER WHERE ID = #{searchMemId} AND LOGIN_ID = A.REG_ID
+      </when>
+      <otherwise>
+        SELECT LOGIN_ID FROM MEMBER_DETAIL WHERE LEVEL = #{searchLevel} AND LOGIN_ID = A.REG_ID
+      </otherwise>
+    </choose>
+    )
+    <if test="searchKeyword != null and searchKeyword != ''">
+      <choose>
+        <when test="searchId == '01'">
+          AND A.TITLE LIKE '%${searchKeyword}%'
+        </when>
+        <when test="searchId == '02'">
+          AND A.CONTENTS LIKE '%${searchKeyword}%'
+        </when>
+        <otherwise>
+          AND (A.TITLE LIKE '%${searchKeyword}%' OR A.CONTENTS LIKE '%${searchKeyword}%')
+        </otherwise>
+      </choose>
+    </if>
+  </sql>
 
-		INSERT INTO NOTICE(
-			 TITLE
-			,CONTENTS
-			,THUMBNAIL_IMG_PATH
-			,DELETE_YN
-			,SECRET_YN
-			,ADMIN_ID
-			,REG_ID
-			,REG_DATE
-			,UPT_ID
-			,UPT_DATE
-		)
-		VALUES (
-			 #{title}
-			,#{contents}
-			,#{thumbnailImgPath}
-			,'N'
-			,'N'
-			,IFNULL(#{adminId}, (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{regId}))
-			,#{regId}
-			,NOW()
-			,#{uptId}
-			,NOW()
-		)
-	</insert>
+  <insert id="insert" parameterType="noticeParam" useGeneratedKeys="true" keyProperty="id">
 
-	<update id="update" parameterType="noticeParam">
+    INSERT INTO NOTICE( TITLE
+                      , CONTENTS
+                      , THUMBNAIL_IMG_PATH
+                      , DELETE_YN
+                      , SECRET_YN
+                      , ADMIN_ID
+                      , REG_ID
+                      , REG_DATE
+                      , UPT_ID
+                      , UPT_DATE)
+    VALUES ( #{title}
+           , #{contents}
+           , #{thumbnailImgPath}
+           , 'N'
+           , #{secretYn}
+           , IFNULL(#{adminId}, (SELECT ID FROM MEMBER WHERE LOGIN_ID = #{regId}))
+           , #{regId}
+           , NOW()
+           , #{uptId}
+           , NOW())
+  </insert>
 
-		UPDATE NOTICE SET
-		<if test="title != null and title != ''">
-			TITLE = #{title} ,
-		</if>
-		<if test="contents != null and contents != ''">
-			CONTENTS = #{contents} ,
-		</if>
-		<if test="thumbnailImgPath != null and thumbnailImgPath != ''">
-			THUMBNAIL_IMG_PATH = #{thumbnailImgPath} ,
-		</if>
-		<if test="deleteYn != null and deleteYn != ''">
-			DELETE_YN = #{deleteYn} ,
-		</if>
-		<if test="secretYn != null and secretYn != ''">
-			SECRET_YN = #{secretYn} ,
-		</if>
+  <update id="update" parameterType="noticeParam">
 
-		UPT_ID = #{uptId},
-		UPT_DATE = NOW()
-		WHERE 1=1
+    UPDATE NOTICE SET
+    <if test="title != null and title != ''">
+      TITLE = #{title} ,
+    </if>
+    <if test="contents != null and contents != ''">
+      CONTENTS = #{contents} ,
+    </if>
+    <if test="thumbnailImgPath != null and thumbnailImgPath != ''">
+      THUMBNAIL_IMG_PATH = #{thumbnailImgPath} ,
+    </if>
+    <if test="deleteYn != null and deleteYn != ''">
+      DELETE_YN = #{deleteYn} ,
+    </if>
+    <if test="secretYn != null and secretYn != ''">
+      SECRET_YN = #{secretYn} ,
+    </if>
 
-		<choose>
-			<when test="idList != null">
-				AND ID IN
-				<foreach collection="idList" item="item" open="(" close=")" separator=",">
-					#{item}
-				</foreach>
-			</when>
-			<otherwise>
-				AND ID=#{id}
-			</otherwise>
-		</choose>
+    UPT_ID = #{uptId},
+    UPT_DATE = NOW()
+    WHERE 1=1
 
-		AND REG_ID=#{regId}
-	</update>
+    <choose>
+      <when test="idList != null">
+        AND ID IN
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
+      </when>
+      <otherwise>
+        AND ID=#{id}
+      </otherwise>
+    </choose>
+
+    AND REG_ID=#{regId}
+  </update>
 
 
-	<update id="updateViewCountUp" parameterType="int">
-		UPDATE NOTICE SET
-			VIEW_CNT = (VIEW_CNT+1)
-		WHERE ID=#{id}
-	</update>
+  <update id="updateViewCountUp" parameterType="int">
+    UPDATE NOTICE
+    SET VIEW_CNT = (VIEW_CNT + 1)
+    WHERE ID = #{id}
+  </update>
 
-	<update id="updateLikeCountUp" parameterType="int">
-		UPDATE NOTICE SET
-			LIKE_CNT = (LIKE_CNT+1)
-		WHERE ID=#{id}
-	</update>
+  <update id="updateLikeCountUp" parameterType="int">
+    UPDATE NOTICE
+    SET LIKE_CNT = (LIKE_CNT + 1)
+    WHERE ID = #{id}
+  </update>
 
-	<update id="updateLikeCountDown" parameterType="int">
-		UPDATE NOTICE SET
-			LIKE_CNT = (LIKE_CNT-1)
-		WHERE ID=#{id}
-	</update>
+  <update id="updateLikeCountDown" parameterType="int">
+    UPDATE NOTICE
+    SET LIKE_CNT = (LIKE_CNT - 1)
+    WHERE ID = #{id}
+  </update>
 
 
 </mapper>

@@ -47,7 +47,7 @@
             <div class="posts">
                 <h3>전체 게시글</h3>
                 <ul class="post-list storyList">
-                    <li class="post-item">
+                    <%--<li class="post-item">
                         <input type="checkbox">
                         <div class="post-info">
                             <a href="#">React 블로그 만들기</a>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="post-thumb"></div>
-                    </li>
+                    </li>--%>
                 </ul>
                 <nav class="pagination"></nav>
             </div>
@@ -132,9 +132,7 @@
             if (resp.code == '0000') {
               $(thisObj.getSelCheckBoxObjs()).each(function (idx, checkObj) {
                 const trObj = $(checkObj).parents("li");
-                $(".post-meta", trObj).text(
-                    $(".post-meta", trObj).text().replace("비공개", "공개")
-                );
+                $(".post-meta .post-status", trObj).text("공개");
 
               })
 
@@ -159,10 +157,10 @@
             if (resp.code == '0000') {
               $(thisObj.getSelCheckBoxObjs()).each(function (idx, checkObj) {
                 const trObj = $(checkObj).parents("li");
-                $(".post-meta", trObj).text(
-                    $(".post-meta", trObj).text().replace("공개", "비공개")
-                );
+                $(".post-meta .post-status", trObj).text("비공개");
               })
+
+              thisObj.changeCheckBoxOff();
             }
           })
         }
@@ -271,7 +269,7 @@
 
       for (let i = 0; i < data.list.length; i++) {
         let obj = data.list[i];
-        let secretStatus = obj['SECRET_YN'] == 'Y' ? "비공개" : "공개";
+        let secretStatus = obj['SECRET_YN'] == 'Y' ? '비공개' : "공개";
 
         // 조회수나 숫자 포맷팅 (아까 배운 toLocaleString 활용 가능)
         let viewCnt = obj['VIEW_CNT'] ? Number(obj['VIEW_CNT']).toLocaleString() : '0';
@@ -285,7 +283,7 @@
         listHtml += '    <a href="' + window.getStoryViewUrl(obj['MEMBER_ID'], obj['ID']) + '">'
             + obj['TITLE'] + '</a>';
         listHtml += '    <div class="post-meta">';
-        listHtml += secretStatus + ' · ';
+        listHtml += '<span class="post-status">' + secretStatus + '</span>  · ';
         listHtml += obj['CATEGORY_NM'] + ' · ';
         listHtml += (obj['MEMBER_CATEGORY_NM'] || "일반") + ' · ';
         listHtml += '조회수 ' + viewCnt + ' · ';

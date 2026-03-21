@@ -2,41 +2,43 @@ package com.watcher.business.story.mapper;
 
 import com.watcher.business.story.param.StoryParam;
 import com.watcher.business.story.resp.StoryResp;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Map;
+import org.apache.ibatis.annotations.Mapper;
 
 
 @Mapper
 public interface StoryMapper {
-    public StoryResp view(StoryParam storyParam);
 
-    public StoryResp viewPrev(StoryParam storyParam);
+  public StoryResp view(StoryParam storyParam);
 
-    public StoryResp viewNext(StoryParam storyParam);
+  public StoryResp viewPrev(StoryParam storyParam);
 
-    public List<Map<String, Object>> getNewStoryMain(StoryParam storyParam);
+  public StoryResp viewNext(StoryParam storyParam);
 
-    public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);
+  public List<Map<String, Object>> getNewStoryMain(StoryParam storyParam);
 
-    public List<Map<String, Object>> selectStory(StoryParam storyParam);
+  public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);
 
-    public int selectStoryCnt(StoryParam storyParam);
+  public List<Map<String, Object>> selectStory(StoryParam storyParam);
 
-    public void insert(StoryParam storyParam);
+  public int selectStoryCnt(StoryParam storyParam);
 
-    public void update(StoryParam storyParam);
+  public void insert(StoryParam storyParam);
 
-    public void updateViewCountUp(int id);
+  public void update(StoryParam storyParam);
 
-    public void updateLikeCountUp(int id);
+  public void updateViewCountUp(int id);
 
-    public void updateLikeCountDown(int id);
+  public void updateLikeCountUp(int id);
 
-    public int selectStorysExternalCnt(StoryParam storyParam);
+  public void updateLikeCountDown(int id);
 
-    public List<StoryResp> selectStorysExternal(StoryParam storyParam);
+  public int selectStorysExternalCnt(StoryParam storyParam);
 
-    public int deleteStoryExternal(StoryParam storyParam);
+  public List<StoryResp> selectStorysExternal(StoryParam storyParam);
+
+  public int deleteStoryExternal(StoryParam storyParam);
+
+  public void updateMemberCategoryToNull(StoryParam storyParam);
 }

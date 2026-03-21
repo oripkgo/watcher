@@ -29,8 +29,9 @@ public class StoryParam extends StoryDto {
   private String isOneYearData;
   private String paramJson;
   private String token;
-  private List idList;
-  private MultipartFile thumbnailImgPathParam;
   private String referrerPage;
+  private List idList;
+  private List memberCategoryIdList;
+  private MultipartFile thumbnailImgPathParam;
 
 }

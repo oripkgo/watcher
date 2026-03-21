@@ -5,76 +5,83 @@ import com.watcher.business.comm.dto.CommDto;
 import com.watcher.business.login.service.SignService;
 import com.watcher.enums.ResponseCode;
 import com.watcher.util.SessionUtil;
+import java.util.LinkedHashMap;
+import javax.servlet.http.HttpServletRequest;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.LinkedHashMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value = "/category")
 public class CategoryController {
-    @Autowired
-    CategoryService categoryService;
 
-    @Autowired
-    SignService signService;
+  @Autowired
+  CategoryService categoryService;
 
-    @Autowired
-    SessionUtil sessionUtil;
+  @Autowired
+  SignService signService;
 
-
-    @ResponseBody
-    @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getListCategory(@ModelAttribute("vo") CommDto commDto) throws Exception {
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
-
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategory());
-
-        result.put("categoryList", jsonArray.toString());
-        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
-
-        return result;
-    }
+  @Autowired
+  SessionUtil sessionUtil;
 
 
-    @ResponseBody
-    @RequestMapping(value = {"/list/member"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getListCategoryMember(HttpServletRequest request) throws Exception {
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        String sessionId = signService.getSessionId(token);
+  @ResponseBody
+  @RequestMapping(value = {"/list"}, method = RequestMethod.GET)
+  public LinkedHashMap<String, Object> getListCategory(@ModelAttribute("vo") CommDto commDto)
+      throws Exception {
+    LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+    JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategory());
 
-        LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("memId", sessionUtil.getSession(sessionId).get("ID"));
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
+    result.put("categoryList", jsonArray.toString());
+    result.put("code", ResponseCode.SUCCESS_0000.getCode());
+    result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
-        result.put("memberCategoryList", jsonArray.toString());
-        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+    return result;
+  }
 
-        return result;
-    }
 
-    @ResponseBody
-    @RequestMapping(value = {"/list/member/public"}, method = RequestMethod.GET)
-    public LinkedHashMap<String, Object> getCategoryListMemberPublic(@RequestParam("memId") String memId) throws Exception {
+  @ResponseBody
+  @RequestMapping(value = {"/list/member"}, method = RequestMethod.GET)
+  public LinkedHashMap<String, Object> getListCategoryMember(HttpServletRequest request)
+      throws Exception {
+    String token = request.getHeader("Authorization").replace("Bearer ", "");
+    String sessionId = signService.getSessionId(token);
 
-        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+    LinkedHashMap<String, Object> result = new LinkedHashMap<>();
 
-        LinkedHashMap<String, Object> param = new LinkedHashMap<>();
-        param.put("memId", memId);
-        param.put("showYn", "Y");
-        JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
+    LinkedHashMap<String, Object> param = new LinkedHashMap<>();
+    param.put("memId", sessionUtil.getSession(sessionId).get("ID"));
+    JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
 
-        result.put("memberCategoryList", jsonArray.toString());
-        result.put("code"	, ResponseCode.SUCCESS_0000.getCode());
-        result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+    result.put("memberCategoryList", jsonArray.toString());
+    result.put("code", ResponseCode.SUCCESS_0000.getCode());
+    result.put("message", ResponseCode.SUCCESS_0000.getMessage());
 
-        return result;
-    }
+    return result;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = {"/list/member/public"}, method = RequestMethod.GET)
+  public LinkedHashMap<String, Object> getCategoryListMemberPublic(
+      @RequestParam("memId") String memId) throws Exception {
+
+    LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+
+    LinkedHashMap<String, Object> param = new LinkedHashMap<>();
+    param.put("memId", memId);
+    param.put("showYn", "Y");
+    JSONArray jsonArray = new JSONArray().putAll(categoryService.getListCategoryMember(param));
+
+    result.put("memberCategoryList", jsonArray.toString());
+    result.put("code", ResponseCode.SUCCESS_0000.getCode());
+    result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+
+    return result;
+  }
 }

@@ -72,6 +72,7 @@
                     </tr>
                     </thead>
                     <tbody id="category-table">
+                    <%--
                     <tr id="row-1">
                         <td>개발</td>
                         <td>웹/앱 개발</td>
@@ -92,6 +93,7 @@
                             <button type="button" onclick="deleteCategory(this)">삭제</button>
                         </td>
                     </tr>
+                    --%>
                     </tbody>
                 </table>
             </div>

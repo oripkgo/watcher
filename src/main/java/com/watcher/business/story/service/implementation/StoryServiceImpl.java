@@ -210,6 +210,10 @@ public class StoryServiceImpl implements StoryService {
     return storyMapper.selectStory(storyParam);
   }
 
+  @Override
+  public StoryResp getView(StoryParam storyParam) throws Exception {
+    return storyMapper.view(storyParam);
+  }
 
   @Override
   public Map<String, Object> getData(StoryParam storyParam) throws Exception {

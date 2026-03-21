@@ -10,6 +10,8 @@ public interface NoticeService {
 
     public List<Map<String,Object>> getListNotice(NoticeParam noticeParam) throws Exception;
 
+    public Map<String, Object> getView(NoticeParam noticeParam) throws Exception;
+
     public Map<String, Object> getData(NoticeParam noticeParam) throws Exception;
 
     public void insertViewsCount(NoticeParam noticeParam) throws Exception;

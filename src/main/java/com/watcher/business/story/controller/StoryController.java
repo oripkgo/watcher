@@ -72,7 +72,7 @@ public class StoryController {
     // 게시물 수정권한 여부
     mv.addObject("modifyAuthorityYn", "N");
     if (
-        Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId) ||
+        StringUtils.hasText(loginId) && Objects.equals(storySettingInfo.get("LOGIN_ID"), loginId) ||
             Objects.equals(storyInfo.getRegId(), loginId)
     ) {
       mv.addObject("modifyAuthorityYn", "Y");
@@ -165,7 +165,7 @@ public class StoryController {
     String loginId = sessionUtil.getSession(sessionId).get("LOGIN_ID");
 
     if (!(storyParam.getId() == null || storyParam.getId().isEmpty())) {
-      mav.addObject("view", storyService.getData(storyParam));
+      mav.addObject("view", storyService.getView(storyParam));
     }
 
     if (!StringUtils.hasText(storyParam.getEditPermId())) {
