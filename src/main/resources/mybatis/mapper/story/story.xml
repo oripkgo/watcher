@@ -432,6 +432,17 @@
     WHERE ID = #{id}
   </update>
 
+  <update id="deleteStoryListExternal" parameterType="map">
+    UPDATE STORY
+    SET DELETE_YN = 'Y'
+    , UPT_DATE = NOW()
+    , UPT_ID = #{loginId}
+    WHERE ID IN
+    <foreach collection="idList" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+
 
   <update id="updateMemberCategoryToNull" parameterType="storyParam">
     UPDATE STORY SET

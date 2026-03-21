@@ -1,5 +1,7 @@
 package com.watcher.business.story.service.implementation;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.watcher.business.board.mapper.BoardMapper;
 import com.watcher.business.comm.param.FileParam;
 import com.watcher.business.comm.service.FileService;
@@ -298,6 +300,18 @@ public class StoryServiceImpl implements StoryService {
 
   @Override
   public void deleteStoryExternal(StoryParam storyParam) throws Exception {
-    int result = storyMapper.deleteStoryExternal(storyParam);
+
+    String loginId = storyParam.getRegId();
+    List idList = null;
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    String jsonStr = storyParam.getParamJson();
+    if (jsonStr != null && !jsonStr.isEmpty()) {
+      idList = objectMapper.readValue(jsonStr, new TypeReference<List<String>>() {
+      });
+    }
+
+    int result = storyMapper.deleteStoryListExternal(loginId, idList);
   }
 }

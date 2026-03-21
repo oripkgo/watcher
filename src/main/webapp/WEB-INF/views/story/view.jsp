@@ -9,7 +9,8 @@
             <h1 class="story-title">${view.current.title}</h1>
             <div class="story-meta">
                 <div>
-                    <span class="author">by ${view.current.nickname}</span>
+                    <span class="author"> <a
+                            href="/my-story/${storyAdminId}">by ${view.current.nickname}</a> </span>
                     <span class="date">${view.current.regDate}</span>
                 </div>
                 <div class="admin-actions-top">

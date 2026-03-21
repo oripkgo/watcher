@@ -5,6 +5,7 @@ import com.watcher.business.story.resp.StoryResp;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 @Mapper
@@ -39,6 +40,9 @@ public interface StoryMapper {
   public List<StoryResp> selectStorysExternal(StoryParam storyParam);
 
   public int deleteStoryExternal(StoryParam storyParam);
+
+  public int deleteStoryListExternal(@Param("loginId") String loginId,
+      @Param("idList") List<String> idList);
 
   public void updateMemberCategoryToNull(StoryParam storyParam);
 }
