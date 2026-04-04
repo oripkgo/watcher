@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<link rel="stylesheet" type="text/css" href="/resources/css/management-common.css"/>
 <link rel="stylesheet" type="text/css" href="/resources/css/management-board.css"/>
 
 
@@ -65,7 +66,6 @@
 
     $(selObj).empty();
     $(selObj).append('<option value="">카테고리</option>')
-
 
     CATEGORY_LIST.forEach(function (obj) {
       const id = obj['ID'];

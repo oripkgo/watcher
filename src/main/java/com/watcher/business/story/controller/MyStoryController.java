@@ -58,7 +58,7 @@ public class MyStoryController {
     Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
 
     mv.addObject("editPermYn", "N");
-    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils
+    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "01") && StringUtils
         .hasText(loginId)) {
       mv.addObject("editPermYn", "Y");
       mv.addObject("editPermId", AESUtil.encrypt(storyAdminId + "/" + loginId));
@@ -94,7 +94,7 @@ public class MyStoryController {
     Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
 
     mv.addObject("editPermYn", "N");
-    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "02") && StringUtils
+    if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "01") && StringUtils
         .hasText(loginId)) {
       mv.addObject("editPermYn", "Y");
       mv.addObject("editPermId", AESUtil.encrypt(storyAdminId + "/" + loginId));

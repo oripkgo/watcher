@@ -9,18 +9,25 @@
             <h1 class="story-title">${view.current.title}</h1>
             <div class="story-meta">
                 <div>
-                    <span class="author"> <a
-                            href="/my-story/${storyAdminId}">by ${view.current.nickname}</a> </span>
+                    <span class="author"> by ${view.current.nickname}</span>
                     <span class="date">${view.current.regDate}</span>
                 </div>
                 <div class="admin-actions-top">
+                    <a href="/my-story/${storyAdminId}" class="btn-story-go">
+                        <i class="fa fa-home"></i> 스토리가기
+                    </a>
+
                     <button type="button" class="btn-list-sm"
-                            onclick="moveReferrerPage('${storyParam.referrerPage}')">목록
+                            onclick="moveReferrerPage('${storyParam.referrerPage}')">
+                        <i class="fa fa-list"></i> 목록
                     </button>
+
                     <c:if test="${modifyAuthorityYn eq 'Y'}">
-                        <button type="button" class="btn-edit-sm" onclick="updateStory()">수정
+                        <button type="button" class="btn-edit-sm" onclick="updateStory()">
+                            <i class="fa fa-pencil"></i> 수정
                         </button>
-                        <button type="button" class="btn-delete-sm" onclick="deleteStory()">삭제
+                        <button type="button" class="btn-delete-sm" onclick="deleteStory()">
+                            <i class="fa fa-trash"></i> 삭제
                         </button>
                     </c:if>
                 </div>

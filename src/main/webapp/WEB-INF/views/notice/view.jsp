@@ -11,18 +11,20 @@
                 <div>
                     <span class="date" id="last_time"></span>
                     <span class="author" id="nickname"></span>
-
                 </div>
 
 
                 <div class="admin-actions-top">
                     <button type="button" class="btn-list-sm"
-                            onclick="moveReferrerPage('${noticeParam.referrerPage}')">목록
+                            onclick="moveReferrerPage('${noticeParam.referrerPage}')">
+                        <i class="fa fa-list"></i> 목록
                     </button>
                     <c:if test="${modifyAuthorityYn eq 'Y'}">
-                        <button type="button" class="btn-edit-sm" onclick="moveEdit()">수정
+                        <button type="button" class="btn-edit-sm" onclick="moveEdit()">
+                            <i class="fa fa-pencil"></i> 수정
                         </button>
-                        <button type="button" class="btn-delete-sm" onclick="deleteNotice()">삭제
+                        <button type="button" class="btn-delete-sm" onclick="deleteNotice()">
+                            <i class="fa fa-trash"></i> 삭제
                         </button>
                     </c:if>
                 </div>
@@ -84,6 +86,14 @@
   const nickName = '${view.current['NICKNAME']}';
   const likeCnt = '${view.current['LIKE_CNT']}';
   const regDate = '${view.current['REG_DATE']}';
+
+  const moveReferrerPage = function (referrerUrl) {
+    if (referrerUrl) {
+      location.href = referrerUrl
+    } else {
+      window.history.back();
+    }
+  }
 
   const moveEdit = function () {
     window.location.href = window.getNoticeUpdateUrl(id);
