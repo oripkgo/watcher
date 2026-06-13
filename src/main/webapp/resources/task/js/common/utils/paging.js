@@ -74,7 +74,9 @@ const PAGING = function () {
   }) {
     const totalPage = Math.ceil(totalCnt / listNo);
     const pagination = document.querySelector(".pagination");
-    pagination.innerHTML = "";
+    if (pagination) {
+      pagination.innerHTML = "";
+    }
 
     if (totalPage <= 0) {
       return;
