@@ -148,20 +148,15 @@
            B.ID                                         AS MEMBER_ID,
            B.NICKNAME,
            E.CATEGORY_NM,
+           A.COMMENT_CNT,
            (
-             SELECT GROUP_CONCAT(TAGS)
+             SELECT GROUP_CONCAT(TAGS ORDER BY ID DESC)
              FROM BOARD_TAGS
              WHERE 1 = 1
                AND CONTENTS_TYPE = 'STORY'
                AND CONTENTS_ID = A.ID
                AND DELETE_YN = 'N'
-           )                                            AS TAGS,
-           IFNULL((
-                    SELECT COUNT(1)
-                    FROM COMMENT
-                    WHERE CONTENTS_TYPE = 'STORY'
-                      AND CONTENTS_ID = A.ID
-                  ), 0)                                 AS COMMENT_CNT
+           )                                            AS TAGS
     FROM STORY A
            LEFT JOIN MEMBER B ON 1 = 1
       AND B.LOGIN_ID = A.REG_ID
@@ -304,21 +299,35 @@
 
   <update id="updateViewCountUp" parameterType="int">
     UPDATE STORY
-    SET VIEW_CNT = (VIEW_CNT + 1)
+    SET VIEW_CNT = GREATEST(VIEW_CNT + 1, 0)
     WHERE ID = #{id}
   </update>
 
   <update id="updateLikeCountUp" parameterType="int">
     UPDATE STORY
-    SET LIKE_CNT = (LIKE_CNT + 1)
+    SET LIKE_CNT = GREATEST(LIKE_CNT + 1, 0)
     WHERE ID = #{id}
   </update>
 
   <update id="updateLikeCountDown" parameterType="int">
     UPDATE STORY
-    SET LIKE_CNT = (LIKE_CNT - 1)
+    SET LIKE_CNT = GREATEST(LIKE_CNT - 1, 0)
     WHERE ID = #{id}
   </update>
+
+
+  <update id="updateCommentCountUp" parameterType="int">
+    UPDATE STORY
+    SET COMMENT_CNT = GREATEST(COMMENT_CNT + 1, 0)
+    WHERE ID = #{id}
+  </update>
+
+  <update id="updateCommentCountDown" parameterType="int">
+    UPDATE STORY
+    SET COMMENT_CNT = GREATEST(COMMENT_CNT - 1, 0)
+    WHERE ID = #{id}
+  </update>
+
 
   <select id="selectStorysExternalCnt" parameterType="storyParam" resultType="int">
     SELECT
@@ -462,5 +471,38 @@
       </otherwise>
     </choose>
   </update>
+
+
+  <select id="getRecommendStoryMain" resultType="storyResp" parameterType="storyParam">
+    SELECT A.ID,
+           A.TITLE,
+           A.SUMMARY,
+           A.CONTENTS,
+           A.VIEW_CNT,
+           A.LIKE_CNT,
+           A.COMMENT_CNT,
+           A.ADMIN_ID,
+           B.NICKNAME,
+           B.ID                                        AS MEMBER_ID,
+           C.REAL_FILE_NAME,
+           CONCAT(C.SAVE_PATH, '', C.SERVER_FILE_NAME) AS THUMBNAIL_IMG_PATH,
+           D.CATEGORY_NM,
+      /*
+         [최신 알고리즘 점수 공식]
+         - 기본 반응 점수: (좋아요x3 + 댓글x5 + 조회수x1)
+         - 시간 감점: DATEDIFF(현재시간, 작성일) * 2 점 차감
+         -> 작성된 지 하루(1일) 지날 때마다 반응 점수가 2점씩 깎입니다.
+      */
+           ((A.LIKE_CNT * 3) + (A.COMMENT_CNT * 5) + (A.VIEW_CNT * 1)) -
+           (DATEDIFF(NOW(), A.REG_DATE) * 2)           AS FINAL_SCORE
+    FROM STORY A
+           LEFT JOIN MEMBER B ON B.LOGIN_ID = A.REG_ID
+           LEFT JOIN FILE_RESOURCE C ON C.ID = A.THUMBNAIL_IMG_ID
+           LEFT JOIN CATEGORY D ON D.ID = A.CATEGORY_ID
+    WHERE A.DELETE_YN = 'N'
+      AND A.SECRET_YN = 'N'
+    ORDER BY FINAL_SCORE DESC,
+             A.ID DESC LIMIT 1
+  </select>
 
 </mapper>

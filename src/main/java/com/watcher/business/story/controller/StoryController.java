@@ -235,6 +235,25 @@ public class StoryController {
   }
 
 
+  @RequestMapping(value = {"/recommend/main"}, method = RequestMethod.GET)
+  @ResponseBody
+  public LinkedHashMap<String, Object> getRecommendStoryMain(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      StoryParam storyParam
+  ) throws Exception {
+
+    LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+    StoryResp story = storyService.getRecommendStoryMain(storyParam);
+    result.put("recommendStory", story);
+    result.put("dto", storyParam);
+    result.put("code", ResponseCode.SUCCESS_0000.getCode());
+    result.put("message", ResponseCode.SUCCESS_0000.getMessage());
+
+    return result;
+  }
+
+
   @RequestMapping(value = {"/popular/main"}, method = RequestMethod.GET)
   @ResponseBody
   public LinkedHashMap<String, Object> getPopularStoryMain(

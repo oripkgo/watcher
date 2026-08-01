@@ -3,137 +3,143 @@ package com.watcher.business.board.service.implementation;
 import com.watcher.business.board.mapper.BoardMapper;
 import com.watcher.business.board.param.BoardParam;
 import com.watcher.business.board.service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.watcher.business.story.mapper.StoryMapper;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
-    @Autowired
-    BoardMapper boardMapper;
+  @Autowired
+  BoardMapper boardMapper;
+
+  @Autowired
+  StoryMapper storyMapper;
 
 
-    // 좋아요 , 공감
+  @Override
+  public void insertLike(BoardParam boardParam) throws Exception {
+    boardMapper.insertLike(boardParam);
+  }
 
 
-    @Override
-    public void insertLike(BoardParam boardParam) throws Exception {
-        boardMapper.insertLike(boardParam);
+  @Override
+  public void updateLike(BoardParam boardParam) throws Exception {
+    boardMapper.updateLike(boardParam);
+  }
+
+
+  @Override
+  public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception {
+    Map<String, String> result = null;
+
+    BoardParam boardParam = new BoardParam();
+
+    boardParam.setContentsId(contentsId);
+    boardParam.setContentsType(contentsType);
+
+    result = boardMapper.selectTagDatas(boardParam);
+
+    if (result == null) {
+      result = new LinkedHashMap<>();
+      result.put("tags", "");
+
     }
 
+    return result;
+  }
 
-    @Override
-    public void updateLike(BoardParam boardParam) throws Exception {
-        boardMapper.updateLike(boardParam);
+
+  @Override
+  public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId)
+      throws Exception {
+    Map<String, String> result = null;
+
+    BoardParam boardParam = new BoardParam();
+    boardParam.setContentsType(contentsType);
+    boardParam.setContentsId(contentsId);
+    boardParam.setLoginId(loginId);
+
+    result = boardMapper.selectLikeYn(boardParam);
+
+    if (result == null) {
+      result = new LinkedHashMap<>();
     }
 
+    return result;
+  }
 
-    @Override
-    public Map<String, String> getTagDatas(String contentsType, String contentsId) throws Exception {
-        Map<String, String> result = null;
+  // 댓글
 
-        BoardParam boardParam = new BoardParam();
 
-        boardParam.setContentsId(contentsId);
-        boardParam.setContentsType(contentsType);
+  @Override
+  public int getCommentListCnt(LinkedHashMap param) throws Exception {
+    return boardMapper.selectCommentCnt(param);
+  }
 
-        result = boardMapper.selectTagDatas(boardParam);
+  @Override
+  public Map<String, Object> getCommentList(LinkedHashMap param) throws Exception {
+    Map<String, Object> result = new LinkedHashMap<>();
 
-        if (result == null) {
-            result = new LinkedHashMap<>();
-            result.put("tags", "");
-
-        }
-
-        return result;
+    List<Map<String, String>> list = boardMapper.selectComment(param);
+    if (result == null) {
+      list = new ArrayList<>();
     }
 
+    result.put("list", list);
 
-    @Override
-    public Map<String, String> getLikeYn(String contentsType, String contentsId, String loginId) throws Exception {
-        Map<String, String> result = null;
+    return result;
+  }
 
-        BoardParam boardParam = new BoardParam();
-        boardParam.setContentsType(contentsType);
-        boardParam.setContentsId(contentsId);
-        boardParam.setLoginId(loginId);
+  @Override
+  public Map<String, Object> getCommentInfo(LinkedHashMap param) throws Exception {
+    Map<String, Object> result = new LinkedHashMap<>();
 
-        result = boardMapper.selectLikeYn(boardParam);
+    result.put("cnt", getCommentListCnt(param));
+    result.putAll(getCommentList(param));
 
-        if (result == null) {
-            result = new LinkedHashMap<>();
-        }
+    return result;
+  }
 
-        return result;
-    }
+  @Override
+  public Map<String, String> insertComment(LinkedHashMap param) throws Exception {
+    LinkedHashMap result = new LinkedHashMap();
+    boardMapper.insertComment(param);
+    result.putAll(param);
 
+    storyMapper.updateCommentCountUp(Integer.valueOf(param.get("contentsId").toString()));
 
-    // 댓글
+    return result;
+  }
 
+  @Override
+  public Map<String, String> updateComment(LinkedHashMap param) throws Exception {
+    LinkedHashMap result = new LinkedHashMap();
+    boardMapper.updateComment(param);
 
-    @Override
-    public int getCommentListCnt(LinkedHashMap param) throws Exception {
-        return boardMapper.selectCommentCnt(param);
-    }
+    return result;
+  }
 
-    @Override
-    public Map<String, Object> getCommentList(LinkedHashMap param) throws Exception {
-        Map<String, Object> result = new LinkedHashMap<>();
+  @Override
+  public Map<String, String> deleteComment(LinkedHashMap param) throws Exception {
+    LinkedHashMap result = new LinkedHashMap();
 
-        List<Map<String,String>> list = boardMapper.selectComment(param);
-        if( result == null ){
-            list = new ArrayList<>();
-        }
+    int commentId = Integer.valueOf(param.get("commentId").toString());
 
-        result.put("list", list);
+    Map<String, Object> comment = boardMapper.selectCommentOne(commentId);
 
-        return result;
-    }
+    boardMapper.deleteComment(param);
 
-    @Override
-    public Map<String, Object> getCommentInfo(LinkedHashMap param) throws Exception {
-        Map<String, Object> result = new LinkedHashMap<>();
+    int storyId = Integer.parseInt(comment.get("CONTENTS_ID").toString());
+    storyMapper.updateCommentCountDown(storyId);
 
-        result.put("cnt", getCommentListCnt(param));
-        result.putAll(getCommentList(param));
-
-        return result;
-    }
-
-    @Override
-    public Map<String, String> insertComment(LinkedHashMap param) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-        boardMapper.insertComment(param);
-        result.putAll(param);
-
-        return result;
-    }
-
-    @Override
-    public Map<String, String> updateComment(LinkedHashMap param) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-        boardMapper.updateComment(param);
-
-        return result;
-    }
-
-    @Override
-    public Map<String, String> deleteComment(LinkedHashMap param) throws Exception {
-        LinkedHashMap result = new LinkedHashMap();
-        boardMapper.deleteComment(param);
-
-        return result;
-    }
-
-
-
-
+    return result;
+  }
 
 
 }
