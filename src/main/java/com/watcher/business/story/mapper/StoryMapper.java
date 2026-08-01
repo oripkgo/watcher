@@ -21,6 +21,8 @@ public interface StoryMapper {
 
   public List<Map<String, Object>> getPopularStoryMain(StoryParam storyParam);
 
+  public StoryResp getRecommendStoryMain(StoryParam storyParam);
+
   public List<Map<String, Object>> selectStory(StoryParam storyParam);
 
   public int selectStoryCnt(StoryParam storyParam);
@@ -34,6 +36,10 @@ public interface StoryMapper {
   public void updateLikeCountUp(int id);
 
   public void updateLikeCountDown(int id);
+
+  public void updateCommentCountUp(int id);
+
+  public void updateCommentCountDown(int id);
 
   public int selectStorysExternalCnt(StoryParam storyParam);
 

@@ -314,4 +314,10 @@ public class StoryServiceImpl implements StoryService {
 
     int result = storyMapper.deleteStoryListExternal(loginId, idList);
   }
+
+  @Override
+  public StoryResp getRecommendStoryMain(StoryParam storyParam) throws Exception {
+    StoryResp story = storyMapper.getRecommendStoryMain(storyParam);
+    return story;
+  }
 }
