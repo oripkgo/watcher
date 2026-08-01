@@ -54,4 +54,8 @@ public interface StoryService {
 
   public void deleteStoryExternal(StoryParam storyParam) throws Exception;
 
+
+  public StoryResp getRecommendStoryMain(StoryParam storyParam) throws Exception;
+
+
 }

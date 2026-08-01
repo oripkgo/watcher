@@ -280,6 +280,16 @@
     reader.readAsDataURL(file);
   }
 
+  function setTag(value) {
+    if (!tagsSet.has(value)) {
+      tagsSet.add(value);
+      const chip = document.createElement('div');
+      chip.className = 'tag-chip';
+      chip.innerHTML = `\${value}<span onclick="this.parentElement.remove(); tagsSet.delete('\${value}')">×</span>`;
+      tagList.prepend(chip);
+    }
+  }
+
   thumbnailInput.addEventListener('change', function () {
     const file = this.files[0];
     showThumbnail(file);
@@ -322,14 +332,8 @@
     if (e.key === 'Enter' && this.value.trim() !== '') {
       e.preventDefault();
       const value = this.value.trim();
-      if (!tagsSet.has(value)) {
-        tagsSet.add(value);
-        const chip = document.createElement('div');
-        chip.className = 'tag-chip';
-        chip.innerHTML = `\${value}<span onclick="this.parentElement.remove(); tagsSet.delete('\${value}')">×</span>`;
-        tagList.appendChild(chip);
-        this.value = '';
-      }
+      setTag(value);
+      this.value = '';
     }
   });
 
@@ -352,7 +356,15 @@
     $("#secretYn").val(secretYn);
     $("#title").val(title);
     // $("#editor").html(contents);
-    $("#tags").val(tags);
+
+    if (tags) {
+      for (const tag of tags.split(',')) {
+        if (tag) {
+          setTag(tag)
+        }
+      }
+    }
+
     $("#thumbnailImgPathParam_text").val(realFileName);
 
   })
