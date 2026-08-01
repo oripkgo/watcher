@@ -17,22 +17,21 @@
 </form>
 
 <script>
-    const noticeListUrl = '${noticeListUrl}';
-    const searchMemId = '${dto.searchMemId}';
-    const listNo = ${dto.listNo};
-    const pageNoRange = ${dto.pagigRange};
+  const noticeListUrl = '${noticeListUrl}';
+  const searchMemId = '${dto.searchMemId}';
+  const listNo = ${dto.listNo};
+  const pageNoRange = ${dto.pagigRange};
 
-    const search = function () {
-        comm.paging.getList('#noticeForm', noticeListUrl, listCallback, 1, listNo, pageNoRange);
-    }
+  const search = function () {
+    comm.paging.getList('#noticeForm', noticeListUrl, listCallback, 1, listNo, pageNoRange);
+  }
 
+  const listCallback = function (data) {
+    $("#dataList").empty();
 
-    const listCallback = function (data) {
-        $("#dataList").empty();
-
-        for (let i = 0; i < data.list.length; i++) {
-            let obj = data.list[i];
-            let listEle = $(`
+    for (let i = 0; i < data.list.length; i++) {
+      let obj = data.list[i];
+      let listEle = $(`
 
              <article class="notice-card" tabindex="0" role="button">
                  <div class="notice-content">
@@ -52,35 +51,35 @@
 
             `);
 
+      $(listEle).find(".notice-title").html(obj['TITLE'])
+      $(listEle).find(".notice-summary").html(obj['TITLE'])
+      $(listEle).find(".notice-date").html(obj['REG_DATE'].substring(2))
+      $(listEle).find(".author-name").html(obj['NICKNAME'])
+      $(listEle).find(".author-avatar").attr("src",
+          "https://i.pravatar.cc/" + (obj['ID'] * 1) + "?img=8")
+      $(listEle).off("click").on("click", function () {
+        location.href = window.getNoticeViewUrl(obj.ID);
+      });
 
-            $(listEle).find(".notice-title").html(obj['TITLE'])
-            $(listEle).find(".notice-summary").html(obj['TITLE'])
-            $(listEle).find(".notice-date").html(obj['REG_DATE'].substring(2))
-            $(listEle).find(".author-name").html(obj['NICKNAME'])
-            $(listEle).find(".author-avatar").attr("src", "https://i.pravatar.cc/" + (obj['REG_ID']*1) + "?img=8")
-            $(listEle).off("click").on("click", function () {
-                location.href = window.getNoticeViewUrl(obj.ID);
-            });
-
-            comm.paging.renderList("#dataList", listEle)
-        }
+      comm.paging.renderList("#dataList", listEle)
     }
+  }
 
-    $(document).on("ready", function () {
-        $("#search").on("click", function () {
-            $("#dataList").empty();
-            search();
-        });
+  $(document).on("ready", function () {
+    $("#search").on("click", function () {
+      $("#dataList").empty();
+      search();
+    });
 
-        $("#searchKeyword").on("keypress", function (e) {
-            if (e.keyCode == 13) {
-                $("#dataList").empty();
-                search();
-                return false;
-            }
-        });
-
+    $("#searchKeyword").on("keypress", function (e) {
+      if (e.keyCode == 13) {
+        $("#dataList").empty();
         search();
-    })
+        return false;
+      }
+    });
+
+    search();
+  })
 
 </script>
