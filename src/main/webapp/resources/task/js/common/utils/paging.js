@@ -99,32 +99,36 @@ const PAGING = function () {
     }
 
     // -------- 페이지 버튼 생성 --------
-    for (let i = startPage; i <= endPage; i++) {
-      pagination.insertAdjacentHTML(
-          "beforeend",
-          `<button class="page-btn ${i === pageNo ? "active" : ""}" 
-                     data-page="${i}">
-                ${i}
-             </button>`
-      );
+    if( pagination ){
+      for (let i = startPage; i <= endPage; i++) {
+        pagination.insertAdjacentHTML(
+            "beforeend",
+            `<button class="page-btn ${i === pageNo ? "active" : ""}" 
+                       data-page="${i}">
+                  ${i}
+               </button>`
+        );
+      }
+
+      // -------- 클릭 이벤트 --------
+      pagination.querySelectorAll(".page-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const newPage = Number(this.dataset.page);
+
+          getList(
+              formObj,
+              url,
+              callback,
+              newPage,
+              listNo,
+              pagigRange,
+              scrollTopYn
+          );
+        });
+      });
+
     }
 
-    // -------- 클릭 이벤트 --------
-    pagination.querySelectorAll(".page-btn").forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const newPage = Number(this.dataset.page);
-
-        getList(
-            formObj,
-            url,
-            callback,
-            newPage,
-            listNo,
-            pagigRange,
-            scrollTopYn
-        );
-      });
-    });
   }
 
   const getList = function (
