@@ -73,6 +73,7 @@ const COMMENT = function () {
       let writeWrap = COMMENT_ELEMENT.area.getUpdate(parent);
       let contents = COMMENT_ELEMENT.area.getContents(parent);
       let commentModifyButton = COMMENT_ELEMENT.button.getUpdateConfirm(parent);
+      let commentCancelButton = COMMENT_ELEMENT.button.getUpdateCancel(parent);
 
       writeWrap.style.display = 'block';
       contents.style.display = 'none';
@@ -92,6 +93,13 @@ const COMMENT = function () {
           }
         }, null, {'Content-type': "application/json"})
       });
+
+      commentCancelButton.addEventListener("click", function () {
+        writeWrap.style.display = 'none';
+        contents.style.display = 'block';
+        target.textContent = "수정";
+      });
+
     }
   }
 
@@ -192,8 +200,8 @@ const COMMENT = function () {
   const addEventUpdate = function (element) {
     // 수정 이벤트 적용
     COMMENT_ELEMENT.button.getUpdate(element).addEventListener("click",
-        function () {
-          const obj = this;
+        function (e) {
+          const obj = e.currentTarget;
           updateComment(
               COMMENT_DOM.getDataSet(obj, "id"),
               COMMENT_DOM.getDataSet(obj, "regId")
