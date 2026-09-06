@@ -1,8 +1,8 @@
 package com.watcher.config;
 
-import javax.sql.DataSource;
-
 import com.watcher.common.CommonIntercepter;
+import java.io.File;
+import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,8 +24,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-
-import java.io.File;
 
 @Configuration
 @MapperScan(basePackages="com.watcher.business.*.mapper")
@@ -143,8 +141,18 @@ public class WatcherConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(commonIntercepter)
-				.excludePathPatterns("/comm/token")
-				.addPathPatterns("/**");
+				.addPathPatterns("/**")
+				.excludePathPatterns(
+						"/comm/token",
+						"/error",           // 에러 페이지 무한 포워딩 방지
+						"/resources/**",    // 정적 자원 제외
+						"/static/**",
+						"/css/**",
+						"/js/**",
+						"/images/**",
+						"/favicon.ico",
+						""
+				);
 	}
 
 

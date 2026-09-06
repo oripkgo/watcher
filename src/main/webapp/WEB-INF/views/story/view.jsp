@@ -34,7 +34,7 @@
             </div>
         </section>
 
-        <section class="story-content">
+        <section class="story-content" id="storyContents">
             ${view.current.contents}
         </section>
 
@@ -95,25 +95,19 @@
   const type = 'STORY';
   const storyMemId = '${storyMemId}';
   const id = '${view.current.id}';
-  const title = '${view.current.title}';
-  const nickName = '${view.current.nickname}';
+  const title = '<c:out value="${view.current.title}" />';
+  const nickName = '<c:out value="${view.current.nickname}" />';
   const regDate = '${view.current.regDate}';
   const likeCnt = '${view.current.likeCnt}' * 1;
   const commentRegYn = '${commentRegYn}';
 
   const contents = $("#storyContents").html();
-  const thumbnail = window.getServerImg(
-      '${fn:replace(view.current.thumbnailImgPath, '\\', '/')}'.replace(/[\\]/g, '/'));
-
-  // 뒤로 가기 url 지정
-  // history.pushState(null, null, referrerUrl);
-  // window.addEventListener('popstate', function(event) {
-  //     window.location.href = referrerUrl;
-  // });
+  const rawImgPath = '<c:out value="${view.current.thumbnailImgPath}" />';
+  const thumbnail = window.getServerImg(rawImgPath.replace(/\\/g, '/'));
 
   const moveReferrerPage = function (referrerUrl) {
     if (referrerUrl) {
-      location.href = referrerUrl
+      location.href = referrerUrl;
     } else {
       window.history.back();
     }
@@ -161,23 +155,22 @@
     $("#likeTarget").data('likecnt', likeCnt);
 
     comm.boardView.init(id, type);
-    // comm.boardView.tags.render('tagsTarget');
     comm.boardView.like.render('likeTarget');
     comm.boardView.comment.render('commentTarget');
 
     if (commentRegYn == 'N') {
       comm.boardView.comment.disabled();
     }
-
   }
 
   const initShare = function () {
     const currentUrl = window.location.href;
     const shareToggle = document.getElementById('shareToggle');
-    const shareTitle = '${view.current["title"]}';
-    const shareText = `${view.current["contents"]}`
-    .replace(/<[^>]*>?/gm, '')  // HTML 제거
-    .substring(0, 80);
+    const shareTitle = '<c:out value="${view.current.title}" />';
+
+    // 백틱(`) 대신 이미 렌더링된 HTML 텍스트를 DOM에서 추출하여 안전하게 생성
+    const rawText = $("#storyContents").text() || "";
+    const shareText = rawText.replace(/\s+/g, ' ').trim().substring(0, 80);
 
     shareToggle.addEventListener('click', async () => {
       // 1) Web Share API 지원하면 시도
@@ -215,9 +208,8 @@
     });
   }
 
-  $(document).on("ready", function () {
+  $(document).ready(function () {
     initView();
     initShare();
-  })
-
+  });
 </script>

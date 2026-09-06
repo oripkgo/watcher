@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" type="text/css" href="/resources/css/story-edit.css"/>
-<jsp:include page="../common/include/tinymceEditor.jsp"/>
 
+<!-- Toast UI Editor CDN -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 <div class="container">
     <main>
@@ -14,8 +17,7 @@
             <form id="notice_write_form">
                 <input type="hidden" name="id" id="id">
                 <input type="hidden" name="contents" id="contents">
-                <input type="hidden" name="editPermId" id="editPermId"
-                       value="${noticeParam.editPermId}">
+                <input type="hidden" name="editPermId" id="editPermId" value="${noticeParam.editPermId}">
                 <input type="hidden" name="summary" id="summary">
 
                 <!-- 공개 여부 -->
@@ -26,17 +28,14 @@
                     </select>
                 </div>
 
-
                 <!-- 제목 -->
                 <div class="form-group">
                     <input type="text" name="title" id="title" placeholder="제목을 입력하세요">
                 </div>
 
-                <!-- 본문 -->
+                <!-- 본문 (Toast UI Editor 영역) -->
                 <div class="form-group">
-                    <div id="editor" class="editor" style="height: 400px;">
-                        ${view['CONTENTS']}
-                    </div>
+                    <div id="editor"></div>
                 </div>
 
                 <!-- 버튼 -->
@@ -48,46 +47,54 @@
     </main>
 </div>
 
+<!-- 본문 HTML Escape 방지용 안전 영역 -->
+<textarea id="initialContentHolder" style="display:none;"><c:out value="${view['CONTENTS']}" escapeXml="false"/></textarea>
 
 <script>
+  let editor;
 
   const type = 'NOTICE';
   const id = '${view['ID']}';
-  const title = '${view['TITLE']}';
-  const thumbnail = '${view['THUMBNAIL_IMG_PATH']}';
-  const secretYn = '${view['SECRET_YN']}';
+  const title = '<c:out value="${view['TITLE']}"/>';
+  const secretYn = '${view['SECRET_YN']}' || 'N';
   const insertUrl = "/notice/insert";
   const imgSaveUrl = "/file/upload/image";
 
-  const initEditer = function () {
-    webEdit.init();
-  }
+  const initEditor = function () {
+    editor = new toastui.Editor({
+      el: document.querySelector('#editor'),
+      height: '400px',
+      initialEditType: 'wysiwyg',
+      previewStyle: 'vertical'
+    });
 
-  const changeImagePathToS3Path = function (imgs) {
-    $(imgs).each(function () {
+    const initialContent = $("#initialContentHolder").val() || '';
+    if (initialContent.trim() !== '') {
+      editor.setHTML(initialContent);
+    }
+  };
+
+  const changeImagePathToS3Path = function ($imgs) {
+    $imgs.each(function () {
       const img = this;
       const src = $(img).attr("src");
-      if (
-          // src.indexOf('watcher-bucket.s3.ap-northeast-2.amazonaws.com') > -1 ||
-          !src.startsWith('data:image')
-      ) {
+      if (!src || !src.startsWith('data:image')) {
         return;
       }
 
       const param = {
         id: src,
         base64Img: src,
-      }
+      };
 
       comm.request({url: imgSaveUrl, method: "POST", data: JSON.stringify(param), async: false},
           function (resp) {
-            // 수정 성공
             if (resp.code == '0000') {
               $(img).attr("src", resp.path);
             }
-          })
-    })
-  }
+          });
+    });
+  };
 
   const insert = function () {
     if ($("#title").val() == '') {
@@ -95,64 +102,43 @@
       return;
     }
 
-    webEdit.save();
-
     $("#id").val(id);
 
-    const editorContent = tinymce.get('editor').getContent();
-    const editorText = tinymce.get('editor').getContent({format: 'text'});
+    const editorContent = editor.getHTML();
+    const editorText = editorContent.replace(/<[^>]*>?/g, '');
 
-    changeImagePathToS3Path($(editerId).find("img"));
-    $("#contents").val($(editerId).html());
+    const $tempDiv = $('<div>').html(editorContent);
+    changeImagePathToS3Path($tempDiv.find("img"));
+
+    $("#contents").val($tempDiv.html());
     $("#summary").val(String(editorText).substring(0, 200));
 
     comm.dom.appendInput('#notice_write_form', 'regId', window.loginId);
     comm.dom.appendInput('#notice_write_form', 'uptId', window.loginId);
-
-    // 이미지 경로 처리 (S3 변환)
-    // 에디터 내용을 가상 DOM으로 만들어 이미지 처리 루프 실행
-    const $tempDiv = $('<div>').html(editorContent);
-    changeImagePathToS3Path($tempDiv.find("img"));
-
-    // 변환된 HTML을 hidden input에 넣기
-    $("#contents").val($tempDiv.html());
 
     const formData = new FormData($('#notice_write_form').get(0));
 
     comm.request({
       url: insertUrl,
       data: formData,
-      // headers : {"Content-type":"application/x-www-form-urlencoded"},
       processData: false,
       contentType: false,
     }, function (res) {
-      // 성공
       if (res.code == '0000') {
-        if (id) {
-          comm.message.alert('공지가 수정되었습니다.', function () {
-            location.href = window.managementNotice;
-          });
-        } else {
-          comm.message.alert('공지가 등록되었습니다.', function () {
-            location.href = window.managementNotice;
-          });
-        }
+        const msg = id ? '공지가 수정되었습니다.' : '공지가 등록되었습니다.';
+        comm.message.alert(msg, function () {
+          location.href = window.managementNotice;
+        });
       }
-    })
-  }
+    });
+  };
 
-  $(document).on("ready", function () {
+  $(document).ready(function () {
+    initEditor();
+
     if (id) {
       $("#title").val(title);
-      $("#attachFiles_text").val(thumbnail)
       $("#secretYn").val(secretYn);
     }
-
-    initEditer();
-
-    $("#attachFiles").on("change", function () {
-      $("#attachFiles_text").val(this.value);
-    });
-  })
-
+  });
 </script>

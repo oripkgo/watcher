@@ -143,8 +143,8 @@ const COMMENT_ELEMENT = {
             return document.getElementById(elementIdInsertWriteArea);
         },
 
-        getUpdate: function () {
-            return document.querySelector('.' + elementClassUpdateWriteArea);
+        getUpdate: function (parent) {
+            return (parent||document).querySelector('.' + elementClassUpdateWriteArea);
         },
 
         getContents: function (target) {
@@ -167,6 +167,10 @@ const COMMENT_ELEMENT = {
 
         getUpdateConfirm: function (targetElement) {
             return targetElement.querySelector("." + elementClassUpdateConfirmButton)
+        },
+
+        getUpdateCancel: function (targetElement) {
+            return targetElement.querySelector("." + elementClassUpdateCancelButton)
         },
 
         getDelete: function (targetElement) {

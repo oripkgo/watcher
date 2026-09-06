@@ -514,18 +514,36 @@ footer .container {
   resize: vertical;
 }
 
+/* 댓글 수정 영역 내 버튼 스타일 */
 .comment-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
   margin-top: 8px;
-  text-align: right;
 }
 
+/* 확인 / 취소 버튼 공통 스타일 */
 .comment-edit-actions button {
-  margin-left: 6px;
-  padding: 6px 12px;
-  font-size: 0.85rem;
+  padding: 6px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
+/* 확인(저장) 버튼 강조 스타일 (필요 시) */
+.comment-edit-actions button.commentInputUpdateConfirm {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+.comment-edit-actions button:hover {
+  opacity: 0.8;
+}
 
 /* =========================
    게시글 좋아요
