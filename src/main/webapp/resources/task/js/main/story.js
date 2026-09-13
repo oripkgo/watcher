@@ -60,8 +60,7 @@ const story = {
           const comments = obj['COMMENT_CNT'];
           const img = obj['THUMBNAIL_IMG_PATH'] ?
               $(window.getImgTagStr(obj['THUMBNAIL_IMG_PATH'])) :
-              $('<img src="' + ('https://picsum.photos/400/250?random='
-                  + (new Date().getTime() + idx)) + '" alt="인기 스토리">')
+              $(`<img src="https://picsum.photos/400/250?random=${obj['ID']+new Date().getTime()}" alt="인기 스토리">`);
 
           $(story).append(img)
           $(story).append('<h3>' + obj['TITLE'] + '</h3>')
