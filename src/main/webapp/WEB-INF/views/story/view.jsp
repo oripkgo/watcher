@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" type="text/css" href="/resources/css/story-detail.css"/>
+<!-- Toast UI Editor CSS 및 Viewer JS 추가 -->
+<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-viewer.min.js"></script>
 
 <div class="container">
     <main class="story-detail-container">
@@ -34,7 +37,7 @@
             </div>
         </section>
 
-        <section class="story-content" id="storyContents">
+        <section class="story-content toastui-editor-contents" id="storyContents">
             ${view.current.contents}
         </section>
 
