@@ -70,7 +70,7 @@
   <select id="selectStory" resultType="map" parameterType="storyParam">
     /* story > selectStory */
 
-    <include refid="storySelect"/>
+    <include refid="storySelectList"/>
 
     WHERE 1=1
     AND A.DELETE_YN = 'N'
@@ -102,7 +102,7 @@
 
   <select id="viewPrev" resultType="storyResp" parameterType="storyParam">
     /*story > view*/
-    <include refid="storySelect"/>
+    <include refid="storySelectList"/>
     WHERE 1=1
     AND A.DELETE_YN = 'N'
     <include refid="conditions"/>
@@ -115,7 +115,7 @@
 
   <select id="viewNext" resultType="storyResp" parameterType="storyParam">
     /*story > view*/
-    <include refid="storySelect"/>
+    <include refid="storySelectList"/>
     WHERE 1=1
     AND A.DELETE_YN = 'N'
     <include refid="conditions"/>
@@ -134,6 +134,47 @@
            G.CATEGORY_NM                                AS MEMBER_CATEGORY_NM,
            A.TITLE,
            A.CONTENTS,
+           D.REAL_FILE_NAME,
+           CONCAT(D.SAVE_PATH, '', D.SERVER_FILE_NAME)  AS THUMBNAIL_IMG_PATH,
+           A.SUMMARY,
+           A.SECRET_YN,
+           A.LIKE_CNT,
+           A.VIEW_CNT,
+           A.COMMENT_CNT,
+           A.REG_ID,
+           DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE,
+           A.UPT_ID,
+           DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE,
+           B.ID                                         AS MEMBER_ID,
+           B.NICKNAME,
+           E.CATEGORY_NM,
+           A.COMMENT_CNT,
+           (
+             SELECT GROUP_CONCAT(TAGS ORDER BY ID DESC)
+             FROM BOARD_TAGS
+             WHERE 1 = 1
+               AND CONTENTS_TYPE = 'STORY'
+               AND CONTENTS_ID = A.ID
+               AND DELETE_YN = 'N'
+           )                                            AS TAGS
+    FROM STORY A
+           LEFT JOIN MEMBER B ON 1 = 1
+      AND B.LOGIN_ID = A.REG_ID
+           LEFT JOIN FILE_RESOURCE D ON 1 = 1
+      AND D.ID = A.THUMBNAIL_IMG_ID
+           LEFT JOIN CATEGORY E ON 1 = 1
+      AND E.ID = A.CATEGORY_ID
+           LEFT JOIN USER_DEFINE_CATEGORY G ON G.ID = A.MEMBER_CATEGORY_ID
+  </sql>
+
+
+  <sql id="storySelectList">
+    SELECT A.ID,
+           A.ADMIN_ID,
+           A.CATEGORY_ID,
+           A.MEMBER_CATEGORY_ID,
+           G.CATEGORY_NM                                AS MEMBER_CATEGORY_NM,
+           A.TITLE,
            D.REAL_FILE_NAME,
            CONCAT(D.SAVE_PATH, '', D.SERVER_FILE_NAME)  AS THUMBNAIL_IMG_PATH,
            A.SUMMARY,
