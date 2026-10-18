@@ -7,6 +7,8 @@ const SIGN = function () {
     const handleLoginSuccess = function (obj) {
         let param = {}
 
+        param.keepLogin = SIGN_POPUP.isKeepLoginChecked();
+
         if (obj.type == 'naver') {
             param.type = obj.type;
             param.id = obj.id;
@@ -102,7 +104,11 @@ const SIGN = function () {
                 return false;
             }
 
-            sessionData['expiry'] = new Date().getTime() + (30 * 60 * 1000);
+            // 저장해 둔 세션 유지 시간(초)을 가져오고, 없으면 기본 1800초 적용
+            const sessionTimeSeconds = sessionData['sessionTimeSeconds'] || 1800;
+
+            // 활동이 감지될 때마다 해당 시간만큼 만료 기한을 연장 (슬라이딩 세션 방식)
+            sessionData['expiry'] = new Date().getTime() + (sessionTimeSeconds * 1000);
             localStorage.setItem("sessionData", JSON.stringify(sessionData));
 
             return true;

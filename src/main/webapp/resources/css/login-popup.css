@@ -119,6 +119,32 @@
     to { opacity: 1; }
 }
 
+/* ✅ 로그인 상태 유지 체크박스 영역 스타일 */
+.login_keep_wrap {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 4px;
+}
+
+.login_keep_label {
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+}
+
+.login_keep_chk {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #222; /* 체크 시 포인트 색상 (전체 톤과 맞춤) */
+}
+
 /* ✅ 반응형 */
 @media (max-width: 480px) {
     .pop_wrap {
