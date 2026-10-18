@@ -20,5 +20,6 @@ public class SignParam extends CommDto {
     private String birth;
     private String nickname;
     private String profile;
+    private Boolean keepLogin;
 
 }

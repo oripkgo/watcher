@@ -83,10 +83,17 @@ public class SignController {
     Map<String, Object> result = new HashMap<>();
     String sessionId = request.getSession().getId();
     String apiToken = JwtTokenUtil.createJWT(sessionId);
+    Boolean keepLogin = loginVo.getKeepLogin();
+
+    // 1. 로그인 유지 여부에 따른 세션 유효 시간 설정 (체크 시 30일, 아닐 경우 기본 SESSION_TIME)
+    boolean isKeep = (keepLogin != null && keepLogin);
+    int dynamicSessionTime = isKeep ? (30 * 24 * 60 * 60) : SESSION_TIME;
 
     Map<String, Object> userData = signService.handleIn(loginVo, sessionId);
-    sessionUtil.setSession(sessionId, userData);
-    CookieUtil.addCookie("SESSION_TOKEN", apiToken, SESSION_TIME);
+
+    // 2. 고정된 SESSION_TIME 대신 동적으로 계산된 dynamicSessionTime 적용
+    sessionUtil.setSession(sessionId, userData, dynamicSessionTime);
+    CookieUtil.addCookie("SESSION_TOKEN", apiToken, dynamicSessionTime);
 
     if (userData != null) {
       String memberType = MemberType.fromCode(userData.get("MEM_TYPE").toString()).getName();
@@ -102,6 +109,8 @@ public class SignController {
       result.put("apiToken", apiToken);
     }
 
+    // 3. 프론트엔드로 실제 적용된 유효 시간 전달
+    result.put("dynamicSessionTime", dynamicSessionTime);
     result.put("sessionId", sessionId);
     result.put("code", ResponseCode.SUCCESS_0000.getCode());
     result.put("message", ResponseCode.SUCCESS_0000.getMessage());
