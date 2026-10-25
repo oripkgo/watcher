@@ -109,6 +109,10 @@
   margin-bottom: 2rem;
 }
 
+.story-content {
+  overflow-y: auto;
+}
+
 .story-content p {
   margin-bottom: 1.5rem;
   color: #444;
