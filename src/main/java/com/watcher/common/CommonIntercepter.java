@@ -46,20 +46,27 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     // 2. 쿠키 및 세션 Null Safe 체크
     String sessionCookie = CookieUtil.getValue("SESSION_TOKEN");
-    if (StringUtils.hasText(sessionCookie)) {
-      String sessionId = JwtTokenUtil.getId(sessionCookie);
-      if (StringUtils.hasText(sessionId)) {
-        Map<String, String> result = sessionUtil.getSession(sessionId);
-        if (result == null || result.isEmpty()) {
+    try{
+      if (StringUtils.hasText(sessionCookie)) {
+
+        String sessionId = JwtTokenUtil.getId(sessionCookie);
+        if (StringUtils.hasText(sessionId)) {
+          Map<String, String> result = sessionUtil.getSession(sessionId);
+          if (result == null || result.isEmpty()) {
+            request.setAttribute("sessionExceededYn", "Y");
+          }
+        } else {
           request.setAttribute("sessionExceededYn", "Y");
         }
       } else {
+        // 쿠키가 없어도 NPE 없이 속성 설정 후 안전하게 통과
         request.setAttribute("sessionExceededYn", "Y");
       }
-    } else {
-      // 쿠키가 없어도 NPE 없이 속성 설정 후 안전하게 통과
+
+    }catch (Exception e){
       request.setAttribute("sessionExceededYn", "Y");
     }
+
 
     // 3. Content-type 및 Authorization 헤더 Null Safe 체크
     String contentType = request.getHeader("Content-type");
