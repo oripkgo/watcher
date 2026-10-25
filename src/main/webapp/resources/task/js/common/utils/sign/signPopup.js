@@ -17,12 +17,16 @@ const SIGN_POPUP = function () {
             loginHtml += '	<div class="btn_pop">';
             loginHtml += '		<a href="javascript:;" id="'+kakaoButtonId+'"><img src="' + btnImgUrlKakao + '"/></a>';
             loginHtml += '		<a href="javascript:;" id="'+naverButtonId+'"><img src="' + btnImgUrlNaver + '"/></a>';
-            loginHtml += '	</div>';
-            // ▼ 로그인 상태 유지 체크박스 추가 영역
-            loginHtml += '  <div class="login_keep_wrap" style="text-align:center; margin-top:15px;">';
-            loginHtml += '      <label><input type="checkbox" id="'+keepLoginCheckboxId+'" /> 로그인 상태 유지</label>';
-            loginHtml += '  </div>';
+
+            // ▼ 로그인 상태 유지 체크박스 영역 (클래스 구조 개선)
+            loginHtml += '      <div class="login_keep_wrap">';
+            loginHtml += '          <label class="login_keep_label">';
+            loginHtml += '              <input type="checkbox" id="'+keepLoginCheckboxId+'" class="login_keep_chk" /> 로그인 상태 유지';
+            loginHtml += '          </label>';
+            loginHtml += '      </div>';
             // ▲
+
+            loginHtml += '	</div>';
             loginHtml += '</div>';
 
             let existingLoginHtmlObj = document.getElementById(loginPopWrapId);
