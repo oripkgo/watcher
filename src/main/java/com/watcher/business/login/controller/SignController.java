@@ -80,14 +80,15 @@ public class SignController {
   ) throws Exception {
     signService.validation(loginVo);
 
-    Map<String, Object> result = new HashMap<>();
-    String sessionId = request.getSession().getId();
-    String apiToken = JwtTokenUtil.createJWT(sessionId);
-    Boolean keepLogin = loginVo.getKeepLogin();
-
     // 1. 로그인 유지 여부에 따른 세션 유효 시간 설정 (체크 시 30일, 아닐 경우 기본 SESSION_TIME)
+    Boolean keepLogin = loginVo.getKeepLogin();
     boolean isKeep = (keepLogin != null && keepLogin);
     int dynamicSessionTime = isKeep ? (30 * 24 * 60 * 60) : SESSION_TIME;
+
+    Map<String, Object> result = new HashMap<>();
+    String sessionId = request.getSession().getId();
+    String apiToken = JwtTokenUtil.createJWT(sessionId,dynamicSessionTime * 1000L);
+
 
     Map<String, Object> userData = signService.handleIn(loginVo, sessionId);
 
