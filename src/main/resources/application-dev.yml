@@ -72,4 +72,7 @@ enc:
   aes:
     key: Ak8PsEOGROfCvyrAdRYFD0oTbhS8eV
 
+jwt:
+  secret: 8adfc822-6fc2-3506-6f60-2a724fd2126a
+
 

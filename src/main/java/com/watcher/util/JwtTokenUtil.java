@@ -1,42 +1,59 @@
 package com.watcher.util;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+@Component
 public class JwtTokenUtil {
-    private static final String apikey = "8adfc822-6fc2-3506-6f60-2a724fd2126a";
+
+    private static String apikey;
+
+    @Value("${jwt.secret}")
+    public void setApikey(String secretKey) {
+        JwtTokenUtil.apikey = secretKey;
+    }
+
     private static final String issuer = "watcher";
     private static final String subject = "token";
-    private static final long expirationMillis = 3600000; // 1 hour
+    private static final long DEFAULT_EXPIRATION_MILLIS = 3600000; // 1 hour
 
     /**
-     * 토큰생성
+     * 토큰 생성 (동적 유효기간 지원)
      * @param id
+     * @param expirationMillis
      * @return
      */
-    static public String createJWT(String id) {
-
+    public static String createJWT(String id, long expirationMillis) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationMillis);
 
         String token = Jwts.builder()
-                .setId(id)
-                .setSubject(subject)
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(getSignKey())
-                .compact();
+            .setId(id)
+            .setSubject(subject)
+            .setIssuedAt(now)
+            .setExpiration(expiration)
+            .signWith(getSignKey())
+            .compact();
 
         return token;
+    }
+
+    /**
+     * 토큰 생성 (기본 1시간)
+     * @param id
+     * @return
+     */
+    public static String createJWT(String id) {
+        return createJWT(id, DEFAULT_EXPIRATION_MILLIS);
     }
 
     /**
@@ -46,9 +63,9 @@ public class JwtTokenUtil {
      */
     static public Jws<Claims> parseJwt(String jwt) {
         Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJws(jwt);
+            .setSigningKey(getSignKey())
+            .build()
+            .parseClaimsJws(jwt);
 
         return claims;
     }
@@ -76,31 +93,31 @@ public class JwtTokenUtil {
         }
     }
 
-    //JWT의 exp(만료 시간)를 연장하기
-    public static String extendExpirationTime(String token) throws Exception{
+    // JWT의 exp(만료 시간)를 연장하기 (기본 1시간 기준 또는 필요에 따라 오버로딩 활용)
+    public static String extendExpirationTime(String token) throws Exception {
         String id = "";
-        try{
+        try {
             Jws<Claims> claimsJws = parseJwt(token);
             Claims claims = claimsJws.getBody();
             id = claims.getId();
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new SignatureException("api 토큰검증 실패");
         }
 
-        // JWT 재생성
-        return createJWT(id);
+        // JWT 재생성 (기본 1시간)
+        return createJWT(id, DEFAULT_EXPIRATION_MILLIS);
     }
 
-    static private Key getSignKey(){
+    static private Key getSignKey() {
         return Keys.hmacShaKeyFor(apikey.getBytes(StandardCharsets.UTF_8));
     }
 
-    static public String getId(String token){
-        if( token == null || token.isEmpty() ){
+    static public String getId(String token) {
+        if (token == null || token.isEmpty()) {
             return "";
         }
         Jws<Claims> claimsJws = parseJwt(token);
         Claims claims = claimsJws.getBody();
-        return  claims.getId();
+        return claims.getId();
     }
 }
