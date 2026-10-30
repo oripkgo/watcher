@@ -144,6 +144,7 @@ public class WatcherConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				.excludePathPatterns(
 						"/comm/token",
+						"/comm/refresh-token",
 						"/error",           // 에러 페이지 무한 포워딩 방지
 						"/resources/**",    // 정적 자원 제외
 						"/static/**",

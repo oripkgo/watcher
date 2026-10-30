@@ -1,11 +1,11 @@
 
 const TOKEN = function(){
 
-    const tokenApiUrl = "/comm/token";
+    const tokenApiUrl = "/comm/refresh-token";
 
     const init = function (callback) {
 
-        REQUEST.send(tokenApiUrl, "GET", {
+        REQUEST.send(tokenApiUrl, "POST", {
             token: (localStorage.getItem("apiToken") || "")
         }, function (resp) {
             if (resp.code == '0000') {
@@ -16,7 +16,7 @@ const TOKEN = function(){
                     callback();
                 }
             }
-        }, null, null, false)
+        }, null, {'Content-type': "application/json"}, false)
     }
 
     return {
