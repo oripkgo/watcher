@@ -93,25 +93,35 @@ const SIGN = function () {
         },
 
         isLogin: function () {
-            if (!localStorage.getItem("sessionData")) {
-                return false;
-            }
+            try {
+                const rawData = localStorage.getItem("sessionData");
+                if (!rawData) {
+                    return false;
+                }
 
-            const sessionData = JSON.parse(localStorage.getItem("sessionData"));
+                const sessionData = JSON.parse(rawData);
+                const now = Date.now();
 
-            if (!sessionData['expiry'] || (new Date().getTime() > sessionData['expiry'])) {
+                // 만료 시간이 없거나 현재 시간이 만료 시간을 지났다면 세션 파기
+                if (!sessionData['expiry'] || now > sessionData['expiry']) {
+                    localStorage.removeItem("sessionData");
+                    return false;
+                }
+
+                // 저장된 세션 유지 시간(초)을 가져오고, 없으면 기본 1800초(30분) 적용
+                const sessionTimeSeconds = sessionData['sessionTimeSeconds'] || 1800;
+
+                // 슬라이딩 세션 방식: 활동이 감지될 때마다 만료 기한 연장
+                sessionData['expiry'] = now + (sessionTimeSeconds * 1000);
+                localStorage.setItem("sessionData", JSON.stringify(sessionData));
+
+                return true;
+            } catch (error) {
+                // JSON 파싱 에러 등 예외 발생 시 안전하게 세션 초기화
+                console.error("Session verification error:", error);
                 localStorage.removeItem("sessionData");
                 return false;
             }
-
-            // 저장해 둔 세션 유지 시간(초)을 가져오고, 없으면 기본 1800초 적용
-            const sessionTimeSeconds = sessionData['sessionTimeSeconds'] || 1800;
-
-            // 활동이 감지될 때마다 해당 시간만큼 만료 기한을 연장 (슬라이딩 세션 방식)
-            sessionData['expiry'] = new Date().getTime() + (sessionTimeSeconds * 1000);
-            localStorage.setItem("sessionData", JSON.stringify(sessionData));
-
-            return true;
         },
 
         in: function () {
