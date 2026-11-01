@@ -115,7 +115,7 @@ public class VisitorController {
 
     @RequestMapping(value = {"/insert"}, method = RequestMethod.POST)
     @ResponseBody
-    public LinkedHashMap<String, Object> insertvisitor(
+    public LinkedHashMap<String, Object> insertVisitor(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody VisitorParam visitorParam
