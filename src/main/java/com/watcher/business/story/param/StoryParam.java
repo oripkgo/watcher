@@ -17,6 +17,7 @@ public class StoryParam extends StoryDto {
   private String searchKeyword;
   private String searchCategoryId;
   private String searchMemberCategoryId;
+  private String targetMemberCategoryId;
   private String searchMemId;
   private String searchAdminId;
   private String searchSecretYn;
