@@ -24,6 +24,7 @@ public class StoryParam extends StoryDto {
   private String editPermId;
   private String limitNum;
   private String categoryNm;
+  private String memberCategoryName;
   private String tagsId;
   private String tags;
   private String isOneYearData;

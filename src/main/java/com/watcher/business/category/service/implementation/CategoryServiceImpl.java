@@ -56,6 +56,11 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
 
+  @Override
+  public Map<String, Object> getCategoryMember(LinkedHashMap param) throws Exception {
+    return categoryMapper.selectCategoryMember(param);
+  }
+
   @Transactional
   @Override
   public String insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {

@@ -11,6 +11,7 @@ import java.util.Map;
 public interface CategoryMapper {
 	public List<Map<String, String>> selectListCategory(Map<String,Object> param);
 	public List<Map<String, String>> selectListCategoryMember(Map<String,Object> param);
+	public Map<String, String> selectCategoryMember(Map<String,Object> param);
 	public void insert(MemberCategoryParam memberCategoryParam);
 	public void update(MemberCategoryParam memberCategoryParam);
 }

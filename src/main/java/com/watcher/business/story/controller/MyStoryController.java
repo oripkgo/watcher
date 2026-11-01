@@ -40,11 +40,11 @@ public class MyStoryController {
   @Autowired
   SignService signService;
 
-  @RequestMapping(value = {"/{storyAdminId}/{categoryId}"})
+  @RequestMapping(value = {"/{storyAdminId}/{memberCategoryId}"})
   public ModelAndView getMyStoryCategory(
       HttpServletRequest request,
       @PathVariable("storyAdminId") String storyAdminId,
-      @PathVariable("categoryId") String categoryId,
+      @PathVariable("memberCategoryId") String memberCategoryId,
       StoryParam storyParam
   ) throws Exception {
     ModelAndView mv = new ModelAndView("myStory/index");
@@ -57,6 +57,10 @@ public class MyStoryController {
     managementParam.setId(storyAdminId);
     Map<String, Object> storyInfo = managementService.getStorySettingInfo(managementParam);
 
+    LinkedHashMap categoryMemberParam = new LinkedHashMap();
+    categoryMemberParam.put("id", memberCategoryId);
+    Map<String, Object> userCategory = categoryService.getCategoryMember(categoryMemberParam);
+
     mv.addObject("editPermYn", "N");
     if (Objects.equals(storyInfo.get("STORY_REG_PERM_STATUS"), "01") && StringUtils
         .hasText(loginId)) {
@@ -65,7 +69,8 @@ public class MyStoryController {
     }
 
     storyParam.setListNo(10);
-    storyParam.setCategoryId(categoryId);
+    storyParam.setMemberCategoryId(memberCategoryId);
+    storyParam.setCategoryId(userCategory.get("DEFALUT_CATEG_ID").toString());
 
     mv.addObject("dto", storyParam);
     mv.addObject("boardTitle", storyParam.getCategoryNm());
