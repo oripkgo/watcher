@@ -131,8 +131,8 @@
 
   const memId = '${storyAdminMemId}';
   const id = '${view.id}';
-  const categoryId = '${view.categoryId}';
-  const memberCategoryId = '${view.memberCategoryId}';
+  const categoryId = '${view.categoryId}' || '${storyParam.searchCategoryId}';
+  const memberCategoryId = '${view.memberCategoryId}' || '${storyParam.searchMemberCategoryId}';
   const secretYn = '${view.secretYn}' || 'N';
   const title = '<c:out value="${view.title}"/>';
   const tags = '<c:out value="${view.tags}"/>';

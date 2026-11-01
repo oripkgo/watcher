@@ -94,7 +94,8 @@
   const myStorylistDataUrl = '/my-story/${storyAdminId}/list';
   const noticeListDataUrl = '/notice/list/data?searchMemId=${storyAdminId}';
   const noticeMoreUrl = '/my-story/${storyAdminId}/notice/list?mystorytitle=${storyInfo['STORY_TITLE']}';
-  const paramCategoryName = '${dto['categoryNm']}';
+  const paramMemberCategoryName = '${dto['memberCategoryName']}';
+  const paramMemberCategoryId = '${dto['memberCategoryId']}';
   const paramCategoryId = '${dto['categoryId']}';
   const myStoryMemberId = '${storyAdminId}';
   let noticeShowCnt = 5;
@@ -104,12 +105,13 @@
       list.forEach(function (obj) {
         const li = $('<li></li>');
         const a = $('<a></a>');
+
         $(a).text(obj['CATEGORY_NM']);
         $(a).attr('href',
-            "/my-story/" + myStoryMemberId + "/" + obj.ID + "?categorynm=" + encodeURIComponent(
+            "/my-story/" + myStoryMemberId + "/" + obj.ID + "?memberCategoryName=" + encodeURIComponent(
             obj['CATEGORY_NM']));
 
-        if (paramCategoryName == obj['CATEGORY_NM']) {
+        if (paramMemberCategoryName == obj['CATEGORY_NM']) {
           $(a).addClass("on");
         }
 
@@ -170,8 +172,12 @@
     $("body").append(comm.dom.appendForm("storyEditForm"));
     const form = $("#storyEditForm");
     $(form).attr("action", "/story/write")
+
     comm.dom.appendInput(form, 'referrerPage', location.pathname + location.search);
     comm.dom.appendInput(form, "editPermId", editPermId);
+    comm.dom.appendInput(form, "searchMemberCategoryId", paramMemberCategoryId);
+    comm.dom.appendInput(form, "searchCategoryId", paramCategoryId);
+
     $(form).submit();
   }
 
@@ -221,7 +227,7 @@
     initNotice(myStoryMemberId);
 
     // 나의 스토리 세팅
-    initMyStory(myStoryMemberId, paramCategoryId);
+    initMyStory(myStoryMemberId, paramMemberCategoryId);
 
     $(".new_mystory_mobile_menu_btn").click(function () {
       $(".new_mystory_menu_box").toggleClass("on");
