@@ -52,7 +52,19 @@ public class MyStoryManagementController {
 
 
   @RequestMapping(value = {"/{pageName}"}, method = RequestMethod.GET)
-  public ModelAndView movePage(@PathVariable("pageName") String pageName) throws Exception {
+  public ModelAndView movePage(
+      HttpServletRequest request,
+      @PathVariable("pageName") String pageName
+  ) throws Exception {
+
+    if (!"pcOnly".equals(pageName)) {
+      String userAgent = request.getHeader("User-Agent");
+      if (userAgent != null && userAgent.matches(".*(iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia).*")) {
+        // 모바일 접속인 경우 안내 페이지로 리다이렉트 (무한 루프 방지됨)
+        return new ModelAndView("redirect:/management/pcOnly");
+      }
+    }
+
     ModelAndView mv = new ModelAndView("management/" + pageName);
     return mv;
   }
