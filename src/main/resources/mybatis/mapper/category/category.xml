@@ -59,6 +59,30 @@
 		</if>
 	</select>
 
+
+	<select id="selectCategoryMember" resultType="map" parameterType="categoryParam">
+		/* category > selectCategoryMember */
+		SELECT
+			A.ID
+				 ,A.REG_ID
+				 ,DATE_FORMAT(A.REG_DATE, '%Y.%m.%d %H:%i:%s') AS REG_DATE
+				 ,A.UPT_ID
+				 ,DATE_FORMAT(A.UPT_DATE, '%Y.%m.%d %H:%i:%s') AS UPT_DATE
+				 ,A.DEFALUT_CATEG_ID
+				 ,A.LOGIN_ID
+				 ,A.CATEGORY_NM
+				 ,A.CATEGORY_COMENTS
+				 ,A.CATEGORY_IMG_PATH
+				 ,A.SHOW_YN
+				 ,A.DELETE_YN
+				 ,'member' AS CATEGORY_TYPE
+		FROM USER_DEFINE_CATEGORY A
+		WHERE 1=1
+			AND A.DELETE_YN = 'N'
+			AND A.ID = #{id}
+	</select>
+
+
 	<insert id="insert" parameterType="MemberCategoryParam" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		/* category > insert */
 		INSERT INTO USER_DEFINE_CATEGORY(
