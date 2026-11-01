@@ -51,4 +51,6 @@ public interface StoryMapper {
       @Param("idList") List<String> idList);
 
   public void updateMemberCategoryToNull(StoryParam storyParam);
+  
+  public void updateMemberCategory(StoryParam storyParam);
 }
