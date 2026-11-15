@@ -13,5 +13,7 @@ public interface CategoryService {
 
     public List<Map<String, Object>> getListCategoryMember(LinkedHashMap param) throws Exception;
 
+    public Map<String, Object> getCategoryMember(LinkedHashMap param) throws Exception;
+
     public String insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception;
 }

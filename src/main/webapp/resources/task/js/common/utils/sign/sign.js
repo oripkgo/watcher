@@ -93,25 +93,21 @@ const SIGN = function () {
         },
 
         isLogin: function () {
-            if (!localStorage.getItem("sessionData")) {
-                return false;
-            }
+            try {
 
-            const sessionData = JSON.parse(localStorage.getItem("sessionData"));
+                if (window?.sessionExceededYn === 'Y') {
+                    localStorage.removeItem("sessionData");
+                    return false;
+                }
 
-            if (!sessionData['expiry'] || (new Date().getTime() > sessionData['expiry'])) {
+                return true;
+
+            } catch (error) {
+                // JSON 파싱 에러 등 예외 발생 시 안전하게 세션 초기화
+                console.error("Session verification error:", error);
                 localStorage.removeItem("sessionData");
                 return false;
             }
-
-            // 저장해 둔 세션 유지 시간(초)을 가져오고, 없으면 기본 1800초 적용
-            const sessionTimeSeconds = sessionData['sessionTimeSeconds'] || 1800;
-
-            // 활동이 감지될 때마다 해당 시간만큼 만료 기한을 연장 (슬라이딩 세션 방식)
-            sessionData['expiry'] = new Date().getTime() + (sessionTimeSeconds * 1000);
-            localStorage.setItem("sessionData", JSON.stringify(sessionData));
-
-            return true;
         },
 
         in: function () {

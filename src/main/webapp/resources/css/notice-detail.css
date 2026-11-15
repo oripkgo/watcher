@@ -112,6 +112,7 @@
   margin-bottom: 1.5rem;
   color: #444;
   white-space: pre-line;
+  overflow-y: auto;
 }
 
 /* 공유 버튼 */

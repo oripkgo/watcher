@@ -13,13 +13,13 @@
     <div class="logo" onclick="location.href='/main'">Watcher</div>
 
     <nav class="nav">
-        <ul class="menu">
+        <ul class="header-menu">
             <li><a href="/notice/list">공지사항</a></li>
             <li><a href="/story/list">스토리</a></li>
         </ul>
     </nav>
 
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="hamburger" onclick="toggleMenuHeader()">☰</div>
     <div class="auth top_navi" id="auth"></div>
 
 </header>
@@ -27,15 +27,16 @@
 
 <script>
 
-    const sessionExceededYn = '${sessionExceededYn}';
+    window.sessionExceededYn = '${sessionExceededYn}';
+
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
 
     //window.signNaverSuccess = SIGN_NAVER_SUCCESS;
 
 
-    function toggleMenu() {
-        const menu = document.querySelector('.menu');
+    function toggleMenuHeader() {
+        const menu = document.querySelector('.header-menu');
 
         if (menu.classList.contains('open')) {
             // 닫기: max-height 0으로

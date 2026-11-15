@@ -56,6 +56,11 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
 
+  @Override
+  public Map<String, Object> getCategoryMember(LinkedHashMap param) throws Exception {
+    return categoryMapper.selectCategoryMember(param);
+  }
+
   @Transactional
   @Override
   public String insertOrUpdate(MemberCategoryParam memberCategoryParam) throws Exception {
@@ -91,6 +96,12 @@ public class CategoryServiceImpl implements CategoryService {
         // 삭제 상태('Y')인 경우 리스트에 ID 추가
         if ("Y".equals(deleteYn)) {
           deletedIds.add(currentId);
+        }else{
+          StoryParam storyParam = new StoryParam();
+          storyParam.setTargetMemberCategoryId(currentId);
+          storyParam.setCategoryId(InsertOrUpdateParam.getDefalutCategId());
+          storyParam.setUptId(InsertOrUpdateParam.getUptId());
+          storyMapper.updateMemberCategory(storyParam);
         }
       }
     }

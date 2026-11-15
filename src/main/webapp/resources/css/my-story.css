@@ -229,6 +229,14 @@ body {
   }
 }
 
+/* PC/태블릿 및 모바일 카테고리 공통 활성화(on) 스타일 */
+.categories a.on,
+.categories-mobile a.on {
+  background: #286BB7 !important; /* 활성화 배경색 (원하시는 색상으로 변경 가능) */
+  color: #fff !important;         /* 활성화 텍스트 색상 */
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
   body {
     font-size: 14px;

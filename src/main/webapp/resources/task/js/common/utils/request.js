@@ -63,7 +63,7 @@ const REQUEST = function () {
         if (method == 'GET' || method == 'DELETE') {
             xhr.send();
         } else {
-            if ((headers['Content-type'] && headers['Content-type'].indexOf('application/json') > -1) && (typeof data !== 'string')) {
+            if ((headers?.['Content-type']?.includes('application/json')) && (typeof data !== 'string')) {
                 data = JSON.stringify(data);
             }
 

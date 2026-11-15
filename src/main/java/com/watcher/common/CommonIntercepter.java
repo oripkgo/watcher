@@ -6,7 +6,6 @@ import com.watcher.util.SessionUtil;
 import io.jsonwebtoken.security.SignatureException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
@@ -46,27 +45,22 @@ public class CommonIntercepter implements HandlerInterceptor {
 
     // 2. 쿠키 및 세션 Null Safe 체크
     String sessionCookie = CookieUtil.getValue("SESSION_TOKEN");
-    try{
+    try {
       if (StringUtils.hasText(sessionCookie)) {
 
-        String sessionId = JwtTokenUtil.getId(sessionCookie);
-        if (StringUtils.hasText(sessionId)) {
-          Map<String, String> result = sessionUtil.getSession(sessionId);
-          if (result == null || result.isEmpty()) {
-            request.setAttribute("sessionExceededYn", "Y");
-          }
-        } else {
+        if (!JwtTokenUtil.verifyToken(sessionCookie)) {
           request.setAttribute("sessionExceededYn", "Y");
         }
+
+        request.setAttribute("sessionExceededYn", "N");
       } else {
         // 쿠키가 없어도 NPE 없이 속성 설정 후 안전하게 통과
         request.setAttribute("sessionExceededYn", "Y");
       }
 
-    }catch (Exception e){
+    } catch (Exception e) {
       request.setAttribute("sessionExceededYn", "Y");
     }
-
 
     // 3. Content-type 및 Authorization 헤더 Null Safe 체크
     String contentType = request.getHeader("Content-type");

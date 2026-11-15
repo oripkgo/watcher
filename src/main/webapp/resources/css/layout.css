@@ -37,18 +37,18 @@ header {
   justify-content: center;
 }
 
-.menu {
+.header-menu {
   list-style: none;
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.menu li {
+.header-menu li {
   margin-right: 20px;
 }
 
-.menu li a {
+.header-menu li a {
   color: white;
   text-decoration: none;
   font-weight: 600;
@@ -57,7 +57,7 @@ header {
   display: inline-block;
 }
 
-.menu li a:hover {
+.header-menu li a:hover {
   text-decoration: underline;
 }
 
@@ -206,7 +206,7 @@ article.card:hover {
     justify-content: center;
   }
 
-  .menu {
+  .header-menu {
     flex-direction: column;
     overflow: hidden;
     max-height: 0;
@@ -216,13 +216,13 @@ article.card:hover {
     padding: 0; /* 초기에는 여백 없음 */
   }
 
-  .menu.open {
+  .header-menu.open {
     max-height: 300px;
     padding-top: 16px;
     padding-bottom: 16px;
   }
 
-  .menu li {
+  .header-menu li {
     text-align: left;
     margin-left: 20px; /* 기존 20px → 10px으로 줄임 */
     margin-bottom: 5px; /* 메뉴 아이템 간 세로 간격도 조절 가능 */
