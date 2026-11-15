@@ -37,11 +37,11 @@
     globalVar.put("activate", environment.getProperty("spring.config.activate.on-profile"));
 
     request.setAttribute("globalVar", globalVar);
+
 %>
 
 <script type="text/javascript">
     const globalObj = {
-
         serverActivate: '${globalVar.activate}',
 
         apiHost: window.location.origin,

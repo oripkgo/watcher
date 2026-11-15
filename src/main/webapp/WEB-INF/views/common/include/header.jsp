@@ -9,6 +9,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <header>
     <div class="logo" onclick="location.href='/main'">Watcher</div>
 
@@ -27,7 +28,7 @@
 
 <script>
 
-    window.sessionExceededYn = '${sessionExceededYn}';
+    window.sessionExceededYn = '${sessionScope.sessionExceededYn}'
 
     const token = window.loginNaverToken;
     const callbackUrl = window.loginNaverCallback;
@@ -63,11 +64,10 @@
 
 <script>
 
-
     comm.token.init(function () {
         comm.visitor.save(window.nowStoryMemId, window.refererUrl);
         // 세션시간 초과 && 클라이언트에서 로그인상태인 경우
-        if (comm.sign.isLogin() && sessionExceededYn == 'Y') {
+        if (comm.sign.isLogin() && window.sessionExceededYn === 'Y') {
             comm.sign.out();
         }
 
