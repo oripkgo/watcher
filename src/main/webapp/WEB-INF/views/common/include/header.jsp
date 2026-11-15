@@ -66,10 +66,6 @@
 
     comm.token.init(function () {
         comm.visitor.save(window.nowStoryMemId, window.refererUrl);
-        // 세션시간 초과 && 클라이언트에서 로그인상태인 경우
-        if (comm.sign.isLogin() && window.sessionExceededYn === 'Y') {
-            comm.sign.out();
-        }
 
         comm.navigation.init(
             document.querySelector(".top_navi"),
